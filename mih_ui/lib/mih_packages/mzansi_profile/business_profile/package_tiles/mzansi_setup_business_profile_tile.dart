@@ -24,7 +24,7 @@ class _MzansiSetupBusinessProfileTileState
         context.read<MzansiProfileProvider>();
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           'businessProfileSetup',
           extra: profileProvider.user,
         );

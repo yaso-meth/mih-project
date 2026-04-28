@@ -18,7 +18,7 @@ class _MihMineSweeperTileState extends State<MihMineSweeperTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           "mihMinesweeper",
         );
       },

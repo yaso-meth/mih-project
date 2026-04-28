@@ -18,7 +18,7 @@ class _MzansiDirectoryTileState extends State<MzansiDirectoryTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           "mzansiDirectory",
         );
         // Navigator.of(context).pushNamed(

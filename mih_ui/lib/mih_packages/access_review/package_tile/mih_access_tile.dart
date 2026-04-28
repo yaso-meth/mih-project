@@ -20,7 +20,7 @@ class _MihAccessTileState extends State<MihAccessTile> {
     return MihPackageTile(
       authenticateUser: true,
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           "mihAccess",
         );
         // Navigator.of(context).pushNamed(

@@ -25,7 +25,7 @@ class _PatientProfileTileState extends State<PatientProfileTile> {
         PatientManagerProvider patManProvider =
             context.read<PatientManagerProvider>();
         patManProvider.setPersonalMode(true);
-        context.goNamed("patientProfile");
+        context.pushNamed("patientProfile");
       },
       packageName: "Patient Profile",
       packageIcon: Icon(

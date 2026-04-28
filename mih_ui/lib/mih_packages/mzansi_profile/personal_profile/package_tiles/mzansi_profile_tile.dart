@@ -20,7 +20,7 @@ class _MzansiProfileTileState extends State<MzansiProfileTile> {
     // ImageProvider logo = MzansiInnovationHub.of(context)!.theme.logoImage();
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           'mzansiProfileManage',
         );
       },

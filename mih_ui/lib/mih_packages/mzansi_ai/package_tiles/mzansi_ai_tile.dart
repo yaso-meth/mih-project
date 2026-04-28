@@ -19,7 +19,7 @@ class _MzansiAiTileState extends State<MzansiAiTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           'mzansiAi',
         );
         // Navigator.of(context).pushNamed(

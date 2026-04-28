@@ -19,7 +19,7 @@ class _MzansiBusinessProfileTileState extends State<MzansiBusinessProfileTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           "businessProfileManage",
         );
         // Navigator.of(context).pushNamed(

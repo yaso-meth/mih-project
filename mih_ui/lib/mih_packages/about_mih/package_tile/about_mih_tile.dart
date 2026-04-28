@@ -18,7 +18,7 @@ class _AboutMihTileState extends State<AboutMihTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           "aboutMih",
         );
         // Navigator.of(context).pushNamed(
