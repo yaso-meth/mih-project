@@ -4,6 +4,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/components/mih_edit_personal_profile_window.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   }
 
   List<ProfileLink> getTempLinks() {
+    // return [];
     return [
       ProfileLink(
         idprofile_links: 1,
@@ -242,36 +244,46 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                     ),
                   ),
                   const SizedBox(height: 15.0),
-                  // Stack(
-                  //   children: [
-                  //     MihProfileLinks(
-                  //       // links: mzansiProfileProvider.personalLinks,
-                  //       links: getTempLinks(),
-                  //       buttonSize: 80,
-                  //       paddingOn: false,
-                  //     ),
-                  //     Positioned(
-                  //       top: 5,
-                  //       left: 5,
-                  //       child: MihButton(
-                  //         onPressed: () {
-                  //           editProfileWindow(width);
-                  //         },
-                  //         buttonColor: MihColors.green(
-                  //             MzansiInnovationHub.of(context)!.theme.mode ==
-                  //                 "Dark"),
-                  //         width: 35,
-                  //         height: 35,
-                  //         child: Icon(
-                  //           Icons.link,
-                  //           color: MihColors.primary(
-                  //               MzansiInnovationHub.of(context)!.theme.mode ==
-                  //                   "Dark"),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  MihProfileLinks(
+                    // links: mzansiProfileProvider.personalLinks,
+                    links: getTempLinks(),
+                  ),
+                  const SizedBox(height: 5.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MihButton(
+                        onPressed: () {
+                          editProfileWindow(width);
+                        },
+                        buttonColor: MihColors.green(),
+                        // width: mzansiProfileProvider.personalLinks.isNotEmpty ? 50 : null,
+                        width: getTempLinks().isNotEmpty ? 50 : null,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: MihColors.primary(),
+                            ),
+                            // if (mzansiProfileProvider.personalLinks.isEmpty)
+                            if (getTempLinks().isEmpty)
+                              Text(
+                                "Add Links",
+                                style: TextStyle(
+                                  color: MihColors.primary(),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
                 ],
               ),
             ),

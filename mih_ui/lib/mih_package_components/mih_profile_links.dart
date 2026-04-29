@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,11 +8,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MihProfileLinks extends StatefulWidget {
   final List<ProfileLink> links;
-  final bool? paddingOn;
+  final double? buttonSize;
   const MihProfileLinks({
     super.key,
     required this.links,
-    this.paddingOn,
+    this.buttonSize,
   });
 
   @override
@@ -76,11 +75,12 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
         break;
       default:
         iconData = FontAwesomeIcons.link;
-        btnColor = MihColors.primary();
+        btnColor = MihColors.secondary();
+        iconColor = Colors.black;
     }
     return MihButton(
-      width: 80,
-      height: 80,
+      width: widget.buttonSize ?? 70,
+      height: widget.buttonSize ?? 70,
       onPressed: () {
         launchSocialUrl(Uri.parse(link.web_link));
       },
@@ -115,39 +115,37 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {
-        return Padding(
-          padding: widget.paddingOn == null || widget.paddingOn!
-              ? MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-                  ? EdgeInsets.symmetric(horizontal: width * 0.2)
-                  : EdgeInsets.symmetric(horizontal: width * 0)
-              : EdgeInsetsGeometry.all(0),
-          child: widget.links.isEmpty
-              ? SizedBox(
-                  height: 35,
-                  child: Text(
-                    "No Profile Links",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: MihColors.primary(),
-                    ),
-                  ),
-                )
-              : Wrap(
-                  alignment: WrapAlignment.center,
-                  runSpacing: 10,
-                  spacing: 10,
-                  children: widget.links.map(
-                    (link) {
-                      return displayLinkButton(link);
-                    },
-                  ).toList(),
-                ),
+        // return widget.links.isEmpty
+        //     ? SizedBox(
+        //         height: 35,
+        //         child: Text(
+        //           "No Links Added",
+        //           textAlign: TextAlign.center,
+        //           style: TextStyle(
+        //             fontSize: 25,
+        //             fontWeight: FontWeight.bold,
+        //             color: MihColors.secondary(),
+        //           ),
+        //         ),
+        //       )
+        //     :
+        return Column(
+          children: [
+            Wrap(
+              alignment: WrapAlignment.center,
+              runSpacing: 10,
+              spacing: 10,
+              children: widget.links.map(
+                (link) {
+                  return displayLinkButton(link);
+                },
+              ).toList(),
+            ),
+          ],
         );
       },
     );
