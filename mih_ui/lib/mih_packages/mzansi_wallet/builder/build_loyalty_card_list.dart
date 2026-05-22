@@ -353,7 +353,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       case "checkers":
         return const Color(0xFF00a6a3);
       case "clicks":
-        return const Color(0xFF005caf);
+        return const Color(0xFF005baa);
       case "cotton:on":
         return const Color(0xFFffffff);
       case "dis-chem":

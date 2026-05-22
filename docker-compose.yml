@@ -212,6 +212,9 @@ services:
       - "127.0.0.1:11434:11434"
     volumes:
       - ./mih_ai/ollama/ollama:/root/.ollama
+      - ./mih_ai/Modelfile:/root/.ollama/Modelfile
+      - ./mih_ai/init-ollama.sh:/root/init-ollama.sh
+    entrypoint: ["/bin/bash", "/root/init-ollama.sh"]
     pull_policy: always
     tty: true
     restart: always
