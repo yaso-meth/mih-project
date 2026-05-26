@@ -1,5 +1,5 @@
 from sqlalchemy import DateTime, Column, Integer, String, DECIMAL, text
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 Base = declarative_base()
 
 class User(Base):
@@ -118,4 +118,22 @@ class MineSweeperLeaderboard(Base):
             f"game_time='{self.game_time}', "
             f"game_score='{self.game_score}' "
             f"played_date='{self.played_date}')>"
+        )
+
+class ProfileLink(Base):
+    __tablename__ = 'profile_links'
+    __table_args__ = {'schema': 'app_data'}
+    idprofile_links: Mapped[int] = mapped_column(Integer, primary_key=True) 
+    app_id: Mapped[str] = mapped_column(String(128), nullable=False, unique=True)
+    site_name: Mapped[str] = mapped_column(String(128), nullable=False)
+    custom_name: Mapped[str] = mapped_column(String(128), nullable=False)
+    destination: Mapped[str] = mapped_column(String(512), nullable=False)
+    business_id: Mapped[str] = mapped_column(String(128), nullable=False)
+    order: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    def __repr__(self):
+        return (
+            f"<ProfileLink(idprofile_links={self.idprofile_links}, app_id='{self.app_id}', "
+            f"site_name='{self.site_name}', custom_name='{self.custom_name}', destination='{self.destination}', business_id='{self.business_id}', "
+            f"order='{self.order}')>"
         )

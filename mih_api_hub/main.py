@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Depends, HTTPException
-from pydantic import BaseModel
-# from .routers import docOffices, patients, patients_files, patients_notes, users, fileStorage, medicine
+from fastapi import FastAPI, Request 
+from fastapi.responses import JSONResponse
+
 import routers.docOffices as docOffices
 import routers.appointments as appointments
 import routers.patients as patients
@@ -21,18 +21,13 @@ import routers.mzansi_directory as mzansi_directory
 import routers.user_consent as user_consent
 import routers.icd10_codes as icd10_codes
 import routers.mine_sweeper_leaderboard as mine_sweeper_leaderboard
+import routers.profile_links as profile_links
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware import Middleware
 from supertokens_python import get_all_cors_headers
 from supertokens_python.framework.fastapi import get_middleware
 
 from supertokens_python import init, InputAppInfo, SupertokensConfig
-from supertokens_python.recipe import emailpassword, session, dashboard, emailverification
-
-
-from supertokens_python.recipe.session.framework.fastapi import verify_session
-from supertokens_python.recipe.emailverification import EmailVerificationClaim
-from supertokens_python.recipe.session import SessionContainer
+from supertokens_python.recipe import emailpassword, session, dashboard
 
 import os
 from dotenv import load_dotenv
@@ -109,33 +104,18 @@ app.include_router(user_consent.router)
 app.include_router(icd10_codes.router)
 app.include_router(appointments.router)
 app.include_router(mine_sweeper_leaderboard.router)
+app.include_router(profile_links.router)
 
 # Check if server is up
 @app.get("/", tags=["Server Check"])
 def check_server():
-    return serverRunning()
-
-# # Check if server is up
-# @app.get("/session")
-# def read_root():
-#     async def like_comment(session: SessionContainer = Depends(verify_session())):
-#         user_id = session.get_user_id()
-
-#         return {"Session id": user_id}
-
-# @app.post('/get_user_info_api') 
-# async def get_user_info_api(session: SessionContainer = Depends(verify_session())):
-#     user_id = session.get_user_id()
-
-#     thirdparty_user = await get_user_by_id_thirdparty(user_id)
-#     if thirdparty_user is None:
-#         passwordless_user = await get_user_by_id_passwordless(user_id)
-#         if passwordless_user is not None:
-#             print(passwordless_user)
-#     else:
-#         print(thirdparty_user)
-
-def serverRunning():
     return {"Status": "Server is Up and Running. whats good in the hood"}
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    print(f"Global Error Log: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "An internal server error occurred."},
+    )
 
