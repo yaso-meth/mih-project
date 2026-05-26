@@ -19,7 +19,7 @@ class _MzansiCalendarTileState extends State<MzansiCalendarTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           "mihCalendar",
         );
         // Navigator.of(context).pushNamed(
@@ -29,7 +29,7 @@ class _MzansiCalendarTileState extends State<MzansiCalendarTile> {
       },
       packageName: "Calendar",
       packageIcon: Icon(
-        MihIcons.calendar,
+        MihIcons.mihCalendar,
         color: MihColors.secondary(),
         // size: widget.packageSize,
       ),

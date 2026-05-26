@@ -20,7 +20,7 @@ class _MihWalletTileState extends State<MihWalletTile> {
     return MihPackageTile(
       // authenticateUser: true,
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           'mzansiWallet',
         );
         // Navigator.of(context).pushNamed(

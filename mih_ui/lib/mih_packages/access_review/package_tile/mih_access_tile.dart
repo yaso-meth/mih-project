@@ -20,7 +20,7 @@ class _MihAccessTileState extends State<MihAccessTile> {
     return MihPackageTile(
       authenticateUser: true,
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           "mihAccess",
         );
         // Navigator.of(context).pushNamed(
@@ -30,7 +30,7 @@ class _MihAccessTileState extends State<MihAccessTile> {
       },
       packageName: "Access Controls",
       packageIcon: Icon(
-        MihIcons.accessControl,
+        MihIcons.mihAccessControls,
         color: MihColors.secondary(),
         // size: widget.packageSize,
       ),

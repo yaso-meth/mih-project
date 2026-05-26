@@ -18,13 +18,13 @@ class _MihMineSweeperTileState extends State<MihMineSweeperTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           "mihMinesweeper",
         );
       },
       packageName: "Minesweeper",
       packageIcon: Icon(
-        MihIcons.mineSweeper,
+        MihIcons.mihMinesweeper,
         color: MihColors.secondary(),
         // size: widget.packageSize,
       ),

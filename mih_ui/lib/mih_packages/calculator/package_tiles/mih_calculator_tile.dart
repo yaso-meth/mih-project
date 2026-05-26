@@ -19,13 +19,13 @@ class _MihCalculatorTileState extends State<MihCalculatorTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           "mihCalculator",
         );
       },
       packageName: "Calculator",
       packageIcon: Icon(
-        MihIcons.calculator,
+        MihIcons.mihCalculator,
         color: MihColors.secondary(),
         // size: widget.packageSize,
       ),

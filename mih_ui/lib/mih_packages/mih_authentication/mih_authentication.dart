@@ -75,7 +75,7 @@ class _MihAuthenticationState extends State<MihAuthentication> {
         iconColor: MihColors.secondary(),
         iconSize: 45,
         onTap: () {
-          context.goNamed("aboutMih", extra: true);
+          context.pushNamed("aboutMih", extra: true);
         },
       ),
     );

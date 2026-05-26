@@ -22,7 +22,7 @@ class _PatManagerTileState extends State<PatManagerTile> {
     return MihPackageTile(
       authenticateUser: true,
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           'patientManager',
         );
         // Navigator.of(context).pushNamed(
