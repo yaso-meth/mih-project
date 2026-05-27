@@ -137,6 +137,34 @@ async def read_all_users(username: str, session: SessionContainer = Depends(veri
     return {"available": available}
 
 # Get List of all files
+@router.get("/user/username/{username}", tags=["MIH Users"])
+async def read_users_by_username(username: str,
+                                 # session: SessionContainer = Depends(verify_session()),
+                                 ):
+    db = mih_database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    # query = "SELECT * FROM users where username = %s"
+    query = "SELECT * FROM users WHERE LOWER(username) = LOWER(%s)"
+    cursor.execute(query, (username,))
+    items = [
+        {
+            "idUser": item[0],
+            "email": item[1],
+            "fname": item[2],
+            "lname": item[3],
+            "type": item[4],
+            "app_id": item[5],
+            "username": item[6],
+            "pro_pic_path": item[7],
+            "purpose": item[8],
+        }
+        for item in cursor.fetchall()
+    ]
+    cursor.close()
+    db.close()
+    return items[0]
+
+# Get List of all files
 @router.get("/user/{app_id}", tags=["MIH Users"])
 async def read_users_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())):
     db = mih_database.dbConnection.dbAppDataConnect()

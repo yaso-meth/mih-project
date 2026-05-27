@@ -24,72 +24,142 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
     IconData iconData;
     Color btnColor;
     Color iconColor = Colors.white;
-    switch (link.destination.toLowerCase()) {
+    switch (link.site_name.toLowerCase()) {
       case "youtube":
-        iconData = FontAwesomeIcons.youtube;
+        // iconData = FontAwesomeIcons.youtube;
+        iconData = MihIcons.youtube;
         btnColor = const Color(0xFFFF0000);
         break;
       case "tiktok":
-        iconData = FontAwesomeIcons.tiktok;
+        iconData = MihIcons.tiktok;
         btnColor = const Color(0xFF000000);
         break;
       case "twitch":
-        iconData = FontAwesomeIcons.twitch;
+        iconData = MihIcons.twitch;
         btnColor = const Color(0xFF6441a5);
         break;
       case "threads":
-        iconData = FontAwesomeIcons.threads;
+        iconData = MihIcons.threads;
         btnColor = const Color(0xFF000000);
         break;
       case "whatsapp":
-        iconData = FontAwesomeIcons.whatsapp;
+        iconData = MihIcons.whatsapp;
         btnColor = const Color(0xFF25D366);
         break;
       case "instagram":
-        iconData = FontAwesomeIcons.instagram;
+        iconData = MihIcons.instagram;
         btnColor = const Color(0xFFF56040);
         break;
       case "x":
-        iconData = FontAwesomeIcons.xTwitter;
+        iconData = MihIcons.x;
         btnColor = const Color(0xFF000000);
         break;
       case "linkedin":
-        iconData = FontAwesomeIcons.linkedin;
+        iconData = MihIcons.linkedin;
         btnColor = const Color(0xFF0a66c2);
         break;
       case "facebook":
-        iconData = FontAwesomeIcons.facebook;
+        iconData = MihIcons.facebook;
         btnColor = const Color(0xFF4267B2);
         break;
       case "reddit":
-        iconData = FontAwesomeIcons.reddit;
+        iconData = MihIcons.reddit;
         btnColor = const Color(0xFFFF4500);
         break;
       case "discord":
-        iconData = FontAwesomeIcons.discord;
+        iconData = MihIcons.discord;
         btnColor = const Color(0xFF5865F2);
         break;
       case "git":
-        iconData = FontAwesomeIcons.git;
-        btnColor = const Color(0xFF73A952);
+        iconData = MihIcons.git;
+        btnColor = const Color(0xFFf14e32);
+        break;
+      case "telegram":
+        iconData = MihIcons.telegram;
+        btnColor = const Color(0xFF0088cc);
+        break;
+      case "pinterest":
+        iconData = MihIcons.pinterest;
+        btnColor = const Color(0xFFe60023);
+        break;
+      case "snapchat":
+        iconData = MihIcons.snapchat;
+        btnColor = const Color(0xFFfffc00);
+        iconColor = Colors.black;
+        break;
+      case "messenger":
+        iconData = MihIcons.messenger;
+        btnColor = const Color(0xFF0084ff);
+        break;
+      case "medium":
+        iconData = MihIcons.medium;
+        btnColor = const Color(0xFF000000);
+        break;
+      case "substack":
+        iconData = MihIcons.substack;
+        btnColor = const Color(0xFFFF7731);
+        break;
+      case "spotify":
+        iconData = MihIcons.spotify;
+        btnColor = const Color(0xFF1db954);
+        iconColor = Colors.black;
+        break;
+      case "yt music":
+        iconData = MihIcons.youtubeMusic;
+        btnColor = const Color(0xFFFF0000);
+        iconColor = Colors.white;
+        break;
+      case "apple music":
+        iconData = MihIcons.appleMusic;
+        btnColor = const Color(0xFFff4e6b);
+        break;
+      case "patreon":
+        iconData = MihIcons.patreon;
+        btnColor = const Color(0xFF000000);
+        break;
+      case "loolio":
+        iconData = MihIcons.loolio;
+        btnColor = const Color(0xFF24244a);
+        iconColor = const Color(0xFF5fc343);
+        break;
+      case "wechat":
+        iconData = MihIcons.wechat;
+        btnColor = const Color(0xFFff4e6b);
         break;
       default:
-        iconData = FontAwesomeIcons.link;
+        // iconData = FontAwesomeIcons.link;
+        iconData = MihIcons.link;
         btnColor = MihColors.secondary();
-        iconColor = Colors.black;
+        iconColor = MihColors.primary();
     }
-    return MihButton(
-      width: widget.buttonSize ?? 70,
-      height: widget.buttonSize ?? 70,
-      onPressed: () {
-        launchSocialUrl(Uri.parse(link.web_link));
-      },
-      buttonColor: btnColor,
-      child: FaIcon(
-        iconData,
-        color: iconColor,
-        size: 40,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        MihButton(
+          width: widget.buttonSize ?? 70,
+          height: widget.buttonSize ?? 70,
+          onPressed: () {
+            launchSocialUrl(Uri.parse(link.destination));
+          },
+          buttonColor: btnColor,
+          child: Icon(
+            iconData,
+            color: iconColor,
+            size: 50,
+          ),
+        ),
+        const SizedBox(height: 2),
+        if (link.custom_name.isNotEmpty)
+          Text(
+            link.custom_name,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        // link.custom_name.isNotEmpty
+        //     ? Text(link.custom_name)
+        //     : Text(link.site_name),
+      ],
     );
     // return MihPackageTile(
     //   onTap: () {
@@ -137,6 +207,7 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
           children: [
             Wrap(
               alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
               runSpacing: 10,
               spacing: 10,
               children: widget.links.map(

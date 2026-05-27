@@ -155,10 +155,23 @@ services:
       MYSQL_DATABASE: ${SUPERTOKENS_DB}
     networks:
       - mih-network
-    ports:
-      - "127.0.0.1:3306:3306"
+    # ports:
+    #   - "127.0.0.1:3306:3306"
     volumes:
       - ./mih_db:/var/lib/mysql
+  #============== Adminer ====================================================================
+  mih-adminer:
+    image: adminer:latest
+    container_name: mih-adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: mih-db
+    ports:
+      - "127.0.0.1:8082:8080"
+    networks:
+      - mih-network
+    depends_on:
+      - mih-db
   #============== PHP My Admin ====================================================================
   # phpmyadmin:
   #   platform: linux/amd64

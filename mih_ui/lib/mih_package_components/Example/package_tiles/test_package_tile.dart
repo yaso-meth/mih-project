@@ -18,7 +18,7 @@ class _TestPackageTileState extends State<TestPackageTile> {
   Widget build(BuildContext context) {
     return MihPackageTile(
       onTap: () {
-        context.pushNamed(
+        context.goNamed(
           'testPackage',
         );
         // Navigator.of(context).pushNamed(

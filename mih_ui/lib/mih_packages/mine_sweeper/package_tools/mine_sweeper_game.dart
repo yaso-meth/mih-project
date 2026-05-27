@@ -596,7 +596,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                               children: [
                                 const SizedBox(height: 50),
                                 Icon(
-                                  MihIcons.mineSweeper,
+                                  MihIcons.mihMinesweeper,
                                   size: 165,
                                   color: MihColors.secondary(),
                                 ),
@@ -780,7 +780,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
             _timer != null && !kIsWeb && (Platform.isAndroid || Platform.isIOS)
                 ? MihBannerAd()
                 : SizedBox(),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
           ],
         );
       },

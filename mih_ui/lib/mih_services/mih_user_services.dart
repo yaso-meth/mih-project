@@ -113,6 +113,25 @@ class MihUserServices {
     }
   }
 
+  Future<AppUser?> getMIHUserDetailsByUsername(
+    String username,
+    BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/username/$username"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
   Future<AppUser?> getMyUserDetails(
     MzansiProfileProvider profileProvider,
   ) async {

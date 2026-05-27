@@ -17,7 +17,8 @@ class MzansiAiProvider extends ChangeNotifier {
   }) {
     ollamaProvider = OllamaProvider(
       baseUrl: "${AppEnviroment.baseAiUrl}/api",
-      model: AppEnviroment.getEnv() == "Prod" ? "qwen3.5:9b" : "qwen3.5:0.8b",
+      model:
+          AppEnviroment.getEnv() == "Prod" ? "mzansiai:latest" : "qwen3.5:0.8b",
       think: false,
       // systemPrompt: "---INSTRUCTION START---\n"
       //     // "Respond concisely. Do not include any <think> tags or internal monologues./n"

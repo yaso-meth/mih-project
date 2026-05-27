@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 
 class MzansiDirectoryProvider extends ChangeNotifier {
   int toolIndex;
@@ -20,6 +21,8 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   AppUser? selectedUser;
   String searchTerm;
   String businessTypeFilter;
+  List<ProfileLink> personalLinks = [];
+  List<ProfileLink> businessLinks = [];
 
   MzansiDirectoryProvider({
     this.toolIndex = 0,
@@ -114,6 +117,16 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setBusinessTypeFilter({required String businessTypeFilter}) {
     this.businessTypeFilter = businessTypeFilter;
+    notifyListeners();
+  }
+
+  void setPersonalLinks({required List<ProfileLink> personalLinks}) {
+    this.personalLinks = personalLinks;
+    notifyListeners();
+  }
+
+  void setBusinessLinks({required List<ProfileLink> businessLinks}) {
+    this.businessLinks = businessLinks;
     notifyListeners();
   }
 }

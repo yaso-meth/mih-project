@@ -77,7 +77,8 @@ class MihGoRouter {
         "${MihGoRouterPaths.mihAuthentication}/${MihGoRouterPaths.forgotPassword}",
         MihGoRouterPaths.resetPassword,
         "/${MihGoRouterPaths.aboutMih}",
-        MihGoRouterPaths.businessProfileView,
+        "/${MihGoRouterPaths.businessProfileView}",
+        "/${MihGoRouterPaths.mzansiProfileView}",
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
@@ -86,8 +87,9 @@ class MihGoRouter {
       }
       if (isUserSignedIn &&
           unauthenticatedPaths.contains(state.fullPath) &&
-          state.fullPath != MihGoRouterPaths.aboutMih &&
-          state.fullPath != MihGoRouterPaths.businessProfileView) {
+          state.fullPath != "/${MihGoRouterPaths.aboutMih}" &&
+          state.fullPath != "/${MihGoRouterPaths.mzansiProfileView}" &&
+          state.fullPath != "/${MihGoRouterPaths.businessProfileView}") {
         return MihGoRouterPaths.mihHome;
       }
       return null; // Stay on current route
@@ -162,15 +164,20 @@ class MihGoRouter {
             path: MihGoRouterPaths.mzansiProfileView,
             builder: (BuildContext context, GoRouterState state) {
               KenLogger.success("MihGoRouter: mzansiProfileView");
+              String? username = state.uri.queryParameters['username'];
+              KenLogger.success("username: username");
+              KenLogger.success("MihGoRouter: mzansiProfileView");
               MzansiDirectoryProvider directoryProvider =
                   context.read<MzansiDirectoryProvider>();
-              if (directoryProvider.selectedUser == null) {
+              if (directoryProvider.selectedUser == null && username == null) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   context.go(MihGoRouterPaths.mihHome);
                 });
                 return const SizedBox.shrink();
               }
-              return MzansiProfileView();
+              return MzansiProfileView(
+                username: username,
+              );
             },
           ),
           // ========================== Mzansi Profile Business ==================================
@@ -186,9 +193,9 @@ class MihGoRouter {
             name: "businessProfileView",
             path: MihGoRouterPaths.businessProfileView,
             builder: (BuildContext context, GoRouterState state) {
-              KenLogger.success("MihGoRouter: businessProfileView");
+              // KenLogger.success("MihGoRouter: businessProfileView");
               String? businessId = state.uri.queryParameters['business_id'];
-              KenLogger.success("businessId: $businessId");
+              // KenLogger.success("businessId: $businessId");
               MzansiDirectoryProvider directoryProvider =
                   context.read<MzansiDirectoryProvider>();
               if (directoryProvider.selectedBusiness == null &&

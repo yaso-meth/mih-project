@@ -40,7 +40,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
           extra: true,
         );
       } else {
-        KenLogger.success("Business found: ${biz.Name}");
+        // KenLogger.success("Business found: ${biz.Name}");
         directoryProvider.setSelectedBusiness(business: biz);
       }
     }

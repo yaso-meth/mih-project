@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
@@ -10,9 +9,10 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:provider/provider.dart';
@@ -20,26 +20,27 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
-class MihBusinessQrCode extends StatefulWidget {
-  final Business? business;
-  const MihBusinessQrCode({
+class MihPersonalQrCode extends StatefulWidget {
+  final AppUser? user;
+  const MihPersonalQrCode({
     super.key,
-    required this.business,
+    required this.user,
   });
 
   @override
-  State<MihBusinessQrCode> createState() => _MihBusinessQrCodeState();
+  State<MihPersonalQrCode> createState() => _MihPersonalQrCodeState();
 }
 
-class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
+class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
+  late AppUser user;
   late Future<String> futureImageUrl;
-  late Business business;
   PlatformFile? file;
-  late String qrCodedata;
   int qrSize = 500;
-  bool _isUserSignedIn = false;
   ScreenshotController screenshotController = ScreenshotController();
-  Uint8List? businessQRImageFile;
+  Uint8List? personalQRImageFile;
+  bool _isUserSignedIn = false;
+  final String _qrCodedata =
+      "${AppEnviroment.baseAppUrl}/mzansi-profile/view?username=";
 
   Future<void> _checkUserSession() async {
     final doesSessionExist = await SuperTokens.doesSessionExist();
@@ -55,15 +56,14 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     String bgColor =
         MihColors.secondary().toARGB32().toRadixString(16).substring(2, 8);
     // KenLogger.warning(bgColor);
-    String encodedData =
-        Uri.encodeComponent("$qrCodedata${business.business_id}");
-
-    return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x${qrSize}&bgcolor=$bgColor&color=$color";
+    String encodedData = Uri.encodeComponent("$_qrCodedata${user.username}");
+    return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x$qrSize&bgcolor=$bgColor&color=$color";
   }
 
   Future<void> saveImage(Uint8List imageBytes) async {
     final String filename =
-        "${business.Name}_QR_Code_${DateTime.now().millisecondsSinceEpoch}";
+        "${user.username}_QR_Code_${DateTime.now().millisecondsSinceEpoch}";
+    // "${user.username}_QR_Code_${DateTime.now().millisecondsSinceEpoch}.png";
     if (kIsWeb) {
       await FileSaver.instance.saveFile(
         name: filename,
@@ -78,7 +78,6 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
         dialogTitle: 'Please select where to save your QR Code:',
         fileName: filename,
       );
-
       if (outputFile != null) {
         final file = File(outputFile);
         await file.writeAsBytes(imageBytes);
@@ -99,13 +98,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
       await screenshotController.capture().then((image) {
         // KenLogger.success("Image Captured: $image");
         setState(() {
-          businessQRImageFile = image;
+          personalQRImageFile = image;
         });
       }).catchError((onError) {
         KenLogger.error(onError);
       });
       // KenLogger.success("QR Code Image Captured : $businessQRImageFile");
-      saveImage(businessQRImageFile!);
+      saveImage(personalQRImageFile!);
     } else {
       showSignInRequiredAlert();
     }
@@ -173,7 +172,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     );
   }
 
-  Widget displayBusinessQRCode(double profilePictureWidth) {
+  Widget displayPersonalQRCode(double profilePictureWidth) {
     return Screenshot(
       controller: screenshotController,
       child: Material(
@@ -230,7 +229,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   ),
                   FittedBox(
                     child: Text(
-                      business.Name,
+                      user.username,
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -240,7 +239,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   ),
                   FittedBox(
                     child: Text(
-                      business.type,
+                      "${user.fname} ${user.lname}",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -309,35 +308,34 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
     MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
-    if (widget.business != null) {
-      business = widget.business!;
+    if (widget.user != null) {
+      user = widget.user!;
     } else {
-      business = profileProvider.business!;
+      user = profileProvider.user!;
     }
     _checkUserSession();
-    futureImageUrl = MihFileApi.getMinioFileUrl(business.logo_path);
-    qrCodedata =
-        "${AppEnviroment.baseAppUrl}/business-profile/view?business_id=";
+    futureImageUrl = MihFileApi.getMinioFileUrl(user.pro_pic_path);
   }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return MihPackageToolBody(
-      backgroundColor: MihColors.primary(),
-      borderOn: false,
-      innerHorizontalPadding: 10,
-      bodyItem: getBody(screenSize, context),
-    );
+    return Consumer(builder: (
+      BuildContext context,
+      MzansiDirectoryProvider directoryProvider,
+      Widget? child,
+    ) {
+      return MihPackageToolBody(
+        backgroundColor: MihColors.primary(),
+        borderOn: false,
+        innerHorizontalPadding: 10,
+        bodyItem: getBody(screenSize, context),
+      );
+    });
   }
 
   Widget getBody(Size screenSize, BuildContext context) {
@@ -357,7 +355,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                           horizontal: screenSize.width * 0), //.075),
               child: Padding(
                 padding: const EdgeInsets.only(top: 10.0),
-                child: displayBusinessQRCode(profilePictureWidth),
+                child: displayPersonalQRCode(profilePictureWidth),
               ),
             ),
           ),
@@ -389,7 +387,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                     Icons.share_rounded,
                     color: MihColors.primary(),
                   ),
-                  label: "Share Business",
+                  label: "Share Profile",
                   labelBackgroundColor: MihColors.green(),
                   labelStyle: TextStyle(
                     color: MihColors.primary(),
@@ -399,8 +397,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   onTap: () {
                     shareMIHLink(
                       context,
-                      "Check out ${business.Name} on the MIH app's Mzansi Directory",
-                      "$qrCodedata${business.business_id}",
+                      "Check out ${user.username} on the MIH app's Mzansi Directory",
+                      "$_qrCodedata${user.username}",
                     );
                   },
                 ),

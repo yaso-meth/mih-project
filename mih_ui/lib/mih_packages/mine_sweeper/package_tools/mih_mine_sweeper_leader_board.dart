@@ -130,7 +130,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
                         children: [
                           const SizedBox(height: 50),
                           Icon(
-                            MihIcons.mineSweeper,
+                            MihIcons.mihMinesweeper,
                             size: 165,
                             color: MihColors.secondary(),
                           ),
