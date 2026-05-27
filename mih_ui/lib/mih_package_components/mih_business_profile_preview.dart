@@ -56,7 +56,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                   )
                 : widget.imageFile == null
                     ? Icon(
-                        MihIcons.iDontKnow,
+                        MihIcons.mihIDontKnow,
                         size: profilePictureWidth,
                         color: MihColors.secondary(),
                       )

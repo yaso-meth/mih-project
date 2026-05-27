@@ -38,7 +38,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
               )
             : widget.imageFile == null
                 ? Icon(
-                    MihIcons.iDontKnow,
+                    MihIcons.mihIDontKnow,
                     size: profilePictureWidth,
                     color: MihColors.secondary(),
                   )

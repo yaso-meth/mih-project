@@ -46,7 +46,7 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
         children: [
           const SizedBox(height: 50),
           Icon(
-            MihIcons.iDontKnow,
+            MihIcons.mihIDontKnow,
             size: 165,
             color: MihColors.secondary(),
           ),

@@ -143,7 +143,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
                         children: [
                           const SizedBox(height: 50),
                           Icon(
-                            MihIcons.iDontKnow,
+                            MihIcons.mihIDontKnow,
                             size: 165,
                             color: MihColors.secondary(),
                           ),

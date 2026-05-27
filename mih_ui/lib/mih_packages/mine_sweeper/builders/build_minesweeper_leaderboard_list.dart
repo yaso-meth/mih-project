@@ -81,7 +81,7 @@ class _BuildMinesweeperLeaderboardListState
                               )
                             : imageFile == null
                                 ? Icon(
-                                    MihIcons.iDontKnow,
+                                    MihIcons.mihIDontKnow,
                                     size: 80,
                                     color: MihColors.secondary(),
                                   )

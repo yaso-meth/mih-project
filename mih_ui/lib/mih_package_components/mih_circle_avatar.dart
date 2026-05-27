@@ -111,7 +111,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
             Visibility(
               visible: imagePreview == null,
               child: Icon(
-                MihIcons.iDontKnow,
+                MihIcons.mihIDontKnow,
                 size: widget.width,
                 color: widget.frameColor,
               ),

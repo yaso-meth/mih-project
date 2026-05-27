@@ -214,7 +214,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                           );
                         } else {
                           return Icon(
-                            MihIcons.iDontKnow,
+                            MihIcons.mihIDontKnow,
                             size: profilePictureWidth,
                             color: MihColors.primary(),
                           );

@@ -21,8 +21,6 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   AppUser? selectedUser;
   String searchTerm;
   String businessTypeFilter;
-  List<ProfileLink> personalLinks = [];
-  List<ProfileLink> businessLinks = [];
 
   MzansiDirectoryProvider({
     this.toolIndex = 0,
@@ -117,16 +115,6 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setBusinessTypeFilter({required String businessTypeFilter}) {
     this.businessTypeFilter = businessTypeFilter;
-    notifyListeners();
-  }
-
-  void setPersonalLinks({required List<ProfileLink> personalLinks}) {
-    this.personalLinks = personalLinks;
-    notifyListeners();
-  }
-
-  void setBusinessLinks({required List<ProfileLink> businessLinks}) {
-    this.businessLinks = businessLinks;
     notifyListeners();
   }
 }

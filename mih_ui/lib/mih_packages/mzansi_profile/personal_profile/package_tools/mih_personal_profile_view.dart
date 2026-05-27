@@ -96,7 +96,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                                 );
                               } else {
                                 return Icon(
-                                  MihIcons.iDontKnow,
+                                  MihIcons.mihIDontKnow,
                                   size: profilePictureWidth,
                                   color: MihColors.secondary(),
                                 );
@@ -167,10 +167,8 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                             if (asyncSnapshot.connectionState ==
                                     ConnectionState.done &&
                                 asyncSnapshot.hasData) {
-                              directoryProvider.setPersonalLinks(
-                                  personalLinks: asyncSnapshot.data!);
                               return MihProfileLinks(
-                                links: directoryProvider.personalLinks,
+                                links: asyncSnapshot.requireData,
                               );
                             } else {
                               return Wrap(

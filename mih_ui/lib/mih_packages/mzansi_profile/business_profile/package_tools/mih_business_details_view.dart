@@ -90,7 +90,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                                 );
                               } else {
                                 return Icon(
-                                  MihIcons.iDontKnow,
+                                  MihIcons.mihIDontKnow,
                                   size: profilePictureWidth,
                                   color: MihColors.secondary(),
                                 );

@@ -764,7 +764,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
             children: [
               const SizedBox(height: 50),
               Icon(
-                MihIcons.iDontKnow,
+                MihIcons.mihIDontKnow,
                 size: 165,
                 color: MihColors.secondary(),
               ),

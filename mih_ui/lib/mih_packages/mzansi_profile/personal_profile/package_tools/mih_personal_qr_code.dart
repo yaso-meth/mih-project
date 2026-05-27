@@ -213,7 +213,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                           );
                         } else {
                           return Icon(
-                            MihIcons.iDontKnow,
+                            MihIcons.mihIDontKnow,
                             size: profilePictureWidth,
                             color: MihColors.primary(),
                           );

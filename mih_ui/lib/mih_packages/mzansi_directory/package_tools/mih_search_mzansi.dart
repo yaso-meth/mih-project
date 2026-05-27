@@ -314,7 +314,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           children: [
             const SizedBox(height: 50),
             Icon(
-              MihIcons.iDontKnow,
+              MihIcons.mihIDontKnow,
               size: 165,
               color: MihColors.secondary(),
             ),
@@ -499,7 +499,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
           children: [
             const SizedBox(height: 50),
             Icon(
-              MihIcons.iDontKnow,
+              MihIcons.mihIDontKnow,
               size: 165,
               color: MihColors.secondary(),
             ),
