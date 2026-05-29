@@ -3,10 +3,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 
 class MzansiDirectoryProvider extends ChangeNotifier {
   int toolIndex;
+  int personalViewIndex;
+  int businessViewIndex;
   Position? userPosition;
   String userLocation;
   bool personalSearch;
@@ -24,6 +25,8 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   MzansiDirectoryProvider({
     this.toolIndex = 0,
+    this.personalViewIndex = 0,
+    this.businessViewIndex = 0,
     this.personalSearch = true,
     this.userLocation = "Unknown Location",
     this.searchTerm = "",
@@ -32,6 +35,8 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void reset() {
     toolIndex = 0;
+    personalViewIndex = 0;
+    businessViewIndex = 0;
     userPosition = null;
     userLocation = "Unknown Location";
     personalSearch = true;
@@ -47,6 +52,16 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setToolIndex(int index) {
     toolIndex = index;
+    notifyListeners();
+  }
+
+  void setPersonalViewIndex(int index) {
+    personalViewIndex = index;
+    notifyListeners();
+  }
+
+  void setBusinessViewIndex(int index) {
+    businessViewIndex = index;
     notifyListeners();
   }
 

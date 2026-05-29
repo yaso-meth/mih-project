@@ -24,7 +24,6 @@ class MzansiBusinessProfileView extends StatefulWidget {
 }
 
 class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
-  int _selectedIndex = 0;
   late final MihBusinessDetailsView _businessDetailsView;
   late final MihBusinessReviews _businessReviews;
   late final MihBusinessQrCode _businessQrCode;
@@ -57,6 +56,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
+    directoryProvider.setBusinessViewIndex(0);
     _fetchBusinessDetails(directoryProvider);
   }
 
@@ -78,11 +78,9 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
             packageTools: getTools(),
             packageToolBodies: getToolBody(directoryProvider),
             packageToolTitles: getToolTitle(),
-            selectedBodyIndex: _selectedIndex,
+            selectedBodyIndex: directoryProvider.businessViewIndex,
             onIndexChange: (newValue) {
-              setState(() {
-                _selectedIndex = newValue;
-              });
+              directoryProvider.setBusinessViewIndex(newValue);
             },
           );
         }
@@ -114,23 +112,17 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.business)] = () {
-      setState(() {
-        _selectedIndex = 0;
-      });
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(0);
     };
     temp[const Icon(Icons.star_rate_rounded)] = () {
-      setState(() {
-        _selectedIndex = 1;
-      });
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(1);
     };
     temp[const Icon(Icons.qr_code_rounded)] = () {
-      setState(() {
-        _selectedIndex = 2;
-      });
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(2);
     };
     return MihPackageTools(
       tools: temp,
-      selectedIndex: _selectedIndex,
+      selectedIndex: context.watch<MzansiDirectoryProvider>().businessViewIndex,
     );
   }
 

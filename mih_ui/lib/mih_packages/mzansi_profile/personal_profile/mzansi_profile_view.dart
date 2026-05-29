@@ -20,13 +20,13 @@ class MzansiProfileView extends StatefulWidget {
 }
 
 class _MzansiProfileViewState extends State<MzansiProfileView> {
-  int _selectedIndex = 0;
   late final MihPersonalProfileView _personalProfileView;
   late final MihPersonalQrCode _personalQrCode;
 
   void _loadUserData() async {
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
+    directoryProvider.setPersonalViewIndex(0);
     if (widget.username != null) {
       final user = await MihUserServices()
           .getMIHUserDetailsByUsername(widget.username!, context);
@@ -68,11 +68,9 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
             packageTools: getTools(),
             packageToolBodies: getToolBody(),
             packageToolTitles: getToolTitle(),
-            selectedBodyIndex: _selectedIndex,
+            selectedBodyIndex: directoryProvider.personalViewIndex,
             onIndexChange: (newValue) {
-              setState(() {
-                _selectedIndex = newValue;
-              });
+              directoryProvider.setPersonalViewIndex(newValue);
             },
           );
         }
@@ -95,18 +93,14 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.person)] = () {
-      setState(() {
-        _selectedIndex = 0;
-      });
+      context.read<MzansiDirectoryProvider>().setPersonalViewIndex(0);
     };
     temp[const Icon(Icons.qr_code_rounded)] = () {
-      setState(() {
-        _selectedIndex = 1;
-      });
+      context.read<MzansiDirectoryProvider>().setPersonalViewIndex(1);
     };
     return MihPackageTools(
       tools: temp,
-      selectedIndex: _selectedIndex,
+      selectedIndex: context.watch<MzansiDirectoryProvider>().personalViewIndex,
     );
   }
 

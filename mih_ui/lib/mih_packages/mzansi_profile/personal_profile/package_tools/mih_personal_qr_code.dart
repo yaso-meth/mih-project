@@ -56,7 +56,8 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
     String bgColor =
         MihColors.secondary().toARGB32().toRadixString(16).substring(2, 8);
     // KenLogger.warning(bgColor);
-    String encodedData = Uri.encodeComponent("$_qrCodedata${user.username}");
+    String encodedData =
+        Uri.encodeComponent("$_qrCodedata${user.username.toLowerCase()}");
     return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x$qrSize&bgcolor=$bgColor&color=$color";
   }
 
@@ -398,7 +399,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                     shareMIHLink(
                       context,
                       "Check out ${user.username} on the MIH app's Mzansi Directory",
-                      "$_qrCodedata${user.username}",
+                      "$_qrCodedata${user.username.toLowerCase()}",
                     );
                   },
                 ),
