@@ -25,7 +25,7 @@ class MineTile extends StatelessWidget {
 
     if (square.isOpened) {
       if (square.hasBomb) {
-        return const Icon(FontAwesomeIcons.bomb, color: Colors.black);
+        return const Icon(MihIcons.minesweeper, color: Colors.black);
       } else if (square.bombsAround > 0) {
         // Display bomb count
         return Center(

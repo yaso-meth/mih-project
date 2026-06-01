@@ -15,7 +15,7 @@ dependencies:
 
   mih_package_toolkit: ^0.0.6
   cupertino_icons: ^1.0.8
-  font_awesome_flutter: ^10.7.0
+  font_awesome_flutter: ^11.0.0
   # firebase_core: ^4.4.0
   # firebase_core_desktop: ^1.0.2
   syncfusion_flutter_core: ^29.2.10

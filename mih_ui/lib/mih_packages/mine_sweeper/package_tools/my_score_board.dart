@@ -164,7 +164,7 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: Icon(
-                                      FontAwesomeIcons.bomb,
+                                      MihIcons.minesweeper,
                                       size: 20,
                                       color: MihColors.secondary(),
                                     ),

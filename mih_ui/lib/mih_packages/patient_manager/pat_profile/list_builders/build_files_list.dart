@@ -209,25 +209,25 @@ class _BuildFilesListState extends State<BuildFilesList> {
           color: MihColors.red(),
         );
       case ("jpeg"):
-        return Icon(
+        return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
           color: MihColors.green(),
         );
       case ("jpg"):
-        return Icon(
+        return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
           color: MihColors.green(),
         );
       case ("png"):
-        return Icon(
+        return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
           color: MihColors.green(),
         );
       case ("gif"):
-        return Icon(
+        return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
           color: MihColors.orange(),

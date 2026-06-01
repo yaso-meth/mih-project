@@ -160,7 +160,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: Icon(
-                                      FontAwesomeIcons.bomb,
+                                      MihIcons.minesweeper,
                                       size: 20,
                                       color: MihColors.secondary(),
                                     ),
