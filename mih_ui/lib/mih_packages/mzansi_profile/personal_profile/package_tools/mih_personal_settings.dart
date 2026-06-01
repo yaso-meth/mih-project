@@ -1,11 +1,7 @@
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +22,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
         return MihPackageToolBody(
+          backgroundColor: MihColors.primary(),
           borderOn: false,
           innerHorizontalPadding: 10,
           bodyItem: getBody(mzansiProfileProvider),
@@ -44,14 +41,12 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           onPressed: () {
             MihUserServices.deleteAccount(mzansiProfileProvider, context);
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           width: 300,
           child: Text(
             "Delete",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -61,14 +56,12 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           onPressed: () {
             Navigator.pop(context);
           },
-          buttonColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.green(),
           width: 300,
           child: Text(
             "Cancel",
             style: TextStyle(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.primary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -87,8 +80,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
           Center(
             child: FaIcon(
               FontAwesomeIcons.trashCan,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               size: 150,
             ),
           ),
@@ -99,8 +91,7 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
           ),
           const SizedBox(height: 10.0),
@@ -108,14 +99,12 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
             onPressed: () {
               deleteAccountPopUp(mzansiProfileProvider, context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            buttonColor: MihColors.red(),
             width: 300,
             child: Text(
               "Delete Account",
               style: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class MihMineSweeperTile extends StatefulWidget {
   final double packageSize;
@@ -25,16 +22,14 @@ class _MihMineSweeperTileState extends State<MihMineSweeperTile> {
           "mihMinesweeper",
         );
       },
-      appName: "Minesweeper",
-      appIcon: Icon(
-        MihIcons.mineSweeper,
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      packageName: "Minesweeper",
+      packageIcon: Icon(
+        MihIcons.mihMinesweeper,
+        color: MihColors.secondary(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      textColor: MihColors.secondary(),
     );
   }
 }

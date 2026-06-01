@@ -1,13 +1,12 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_qr_code.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
 
 class MzansiProfile extends StatefulWidget {
@@ -22,6 +21,7 @@ class MzansiProfile extends StatefulWidget {
 class _MzansiProfileState extends State<MzansiProfile> {
   bool _isLoadingInitialData = true;
   late final MihPersonalProfile _personalProfile;
+  late final MihPersonalQrCode _personalQrCode;
   late final MihPersonalSettings _personalSettings;
 
   Future<void> _loadInitialData() async {
@@ -35,6 +35,10 @@ class _MzansiProfileState extends State<MzansiProfile> {
         mzansiProfileProvider,
       );
     }
+    await MihProfileLinksServices.getUserProfileLinks(
+      mzansiProfileProvider,
+      mzansiProfileProvider.user!.app_id,
+    );
     setState(() {
       _isLoadingInitialData = false;
     });
@@ -44,6 +48,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
   void initState() {
     super.initState();
     _personalProfile = const MihPersonalProfile();
+    _personalQrCode = const MihPersonalQrCode(user: null);
     _personalSettings = const MihPersonalSettings();
     _loadInitialData();
   }
@@ -61,11 +66,11 @@ class _MzansiProfileState extends State<MzansiProfile> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: profileProvider.personalIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: profileProvider.personalIndex,
           onIndexChange: (newIndex) {
             profileProvider.setPersonalIndex(newIndex);
           },
@@ -77,6 +82,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         // Navigator.of(context).pop();
@@ -93,21 +99,22 @@ class _MzansiProfileState extends State<MzansiProfile> {
     temp[const Icon(Icons.person)] = () {
       context.read<MzansiProfileProvider>().setPersonalIndex(0);
     };
-    // temp[const Icon(Icons.person)] = () {
-    //   context.read<MzansiProfileProvider>().setPersonalIndex(1);
-    // };
-    temp[const Icon(Icons.settings)] = () {
+    temp[const Icon(Icons.qr_code_rounded)] = () {
       context.read<MzansiProfileProvider>().setPersonalIndex(1);
+    };
+    temp[const Icon(Icons.settings)] = () {
+      context.read<MzansiProfileProvider>().setPersonalIndex(2);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MzansiProfileProvider>().personalIndex,
+      selectedIndex: context.watch<MzansiProfileProvider>().personalIndex,
     );
   }
 
   List<Widget> getToolBody() {
     return [
       _personalProfile,
+      _personalQrCode,
       _personalSettings,
     ];
   }
@@ -115,6 +122,7 @@ class _MzansiProfileState extends State<MzansiProfile> {
   List<String> getToolTitle() {
     List<String> toolTitles = [
       "Profile",
+      "Share",
       "Settings",
     ];
     return toolTitles;

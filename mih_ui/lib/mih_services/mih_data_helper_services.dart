@@ -1,3 +1,4 @@
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -23,12 +24,11 @@ class MihDataHelperServices {
   }
 
   Future<void> getBusinessData(MzansiProfileProvider profileProvider) async {
-    AppUser? user = profileProvider.user;
     String logoUrl;
     String signatureUrl;
     Business? responseBusiness = await MihBusinessDetailsServices()
         .getBusinessDetailsByUser(profileProvider);
-    if (responseBusiness != null && user!.type == "business") {
+    if (responseBusiness != null) {
       logoUrl = await MihFileApi.getMinioFileUrl(
         profileProvider.business!.logo_path,
       );
@@ -58,9 +58,7 @@ class MihDataHelperServices {
     if (profileProvider.userConsent == null) {
       await getUserConsentStatus(profileProvider);
     }
-    if (profileProvider.user != null &&
-        profileProvider.user!.type == "business" &&
-        profileProvider.business == null) {
+    if (profileProvider.user != null && profileProvider.business == null) {
       await getBusinessData(profileProvider);
     }
   }

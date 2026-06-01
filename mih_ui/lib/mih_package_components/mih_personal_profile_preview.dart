@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 
 class MihPersonalProfilePreview extends StatefulWidget {
   final AppUser user;
@@ -36,15 +34,13 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
             ? Icon(
                 MihIcons.mihRing,
                 size: profilePictureWidth,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               )
             : widget.imageFile == null
                 ? Icon(
-                    MihIcons.iDontKnow,
+                    MihIcons.mihIDontKnow,
                     size: profilePictureWidth,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   )
                 : MihCircleAvatar(
                     imageFile: widget.imageFile,
@@ -53,10 +49,8 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                     editable: false,
                     fileNameController: TextEditingController(),
                     userSelectedfile: null,
-                    frameColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    backgroundColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    frameColor: MihColors.secondary(),
+                    backgroundColor: MihColors.primary(),
                     onChange: () {},
                   ),
         const SizedBox(width: 15),

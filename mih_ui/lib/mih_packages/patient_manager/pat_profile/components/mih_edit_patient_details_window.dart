@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -84,15 +79,13 @@ class _MihEditPatientDetailsWindowState
             context.pop();
             context.pop();
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -124,22 +117,16 @@ class _MihEditPatientDetailsWindowState
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                   ],
                 ),
-                Divider(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
+                Divider(color: MihColors.secondary()),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: idController,
                   multiLineInput: false,
                   requiredText: true,
@@ -150,10 +137,8 @@ class _MihEditPatientDetailsWindowState
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: fnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -165,10 +150,8 @@ class _MihEditPatientDetailsWindowState
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: lnameController,
                   multiLineInput: false,
                   requiredText: true,
@@ -180,10 +163,8 @@ class _MihEditPatientDetailsWindowState
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: cellController,
                   multiLineInput: false,
                   requiredText: true,
@@ -194,10 +175,8 @@ class _MihEditPatientDetailsWindowState
                 ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: emailController,
                   multiLineInput: false,
                   requiredText: true,
@@ -210,10 +189,8 @@ class _MihEditPatientDetailsWindowState
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   height: 100,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  inputColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  inputColor: MihColors.primary(),
                   controller: addressController,
                   multiLineInput: true,
                   requiredText: true,
@@ -230,23 +207,17 @@ class _MihEditPatientDetailsWindowState
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25.0,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ),
-                Divider(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
+                Divider(color: MihColors.secondary()),
                 const SizedBox(height: 10.0),
                 MihToggle(
                   hintText: "Medical Aid",
                   initialPostion: medAidPosition,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  secondaryFillColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  secondaryFillColor: MihColors.primary(),
                   onChange: (value) {
                     if (value) {
                       setState(() {
@@ -272,12 +243,8 @@ class _MihEditPatientDetailsWindowState
                           MihToggle(
                             hintText: "Main Member",
                             initialPostion: medMainMemberPosition,
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            secondaryFillColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            secondaryFillColor: MihColors.primary(),
                             onChange: (value) {
                               if (value) {
                                 setState(() {
@@ -294,12 +261,8 @@ class _MihEditPatientDetailsWindowState
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: medNoController,
                             multiLineInput: false,
                             requiredText: true,
@@ -314,12 +277,8 @@ class _MihEditPatientDetailsWindowState
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: medAidCodeController,
                             multiLineInput: false,
                             requiredText: true,
@@ -334,12 +293,8 @@ class _MihEditPatientDetailsWindowState
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: medNameController,
                             multiLineInput: false,
                             requiredText: true,
@@ -354,12 +309,8 @@ class _MihEditPatientDetailsWindowState
                           ),
                           const SizedBox(height: 10.0),
                           MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: medSchemeController,
                             multiLineInput: false,
                             requiredText: true,
@@ -388,15 +339,12 @@ class _MihEditPatientDetailsWindowState
                         MihAlertServices().inputErrorAlert(context);
                       }
                     },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.green(),
                     width: 300,
                     child: Text(
                       "Update",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

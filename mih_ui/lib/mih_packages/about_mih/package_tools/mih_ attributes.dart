@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihAttributes extends StatefulWidget {
@@ -33,8 +29,7 @@ class _MihAttributesState extends State<MihAttributes> {
         children: [
           Icon(
             resource,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.secondary(),
             size: 100,
           ),
           const SizedBox(height: 5),
@@ -50,6 +45,7 @@ class _MihAttributesState extends State<MihAttributes> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(),
     );
@@ -71,8 +67,7 @@ class _MihAttributesState extends State<MihAttributes> {
           children: [
             Icon(
               MihIcons.mihLogo,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               size: 165,
             ),
             const SizedBox(

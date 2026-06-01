@@ -1,8 +1,5 @@
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_icd10_code_list.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +22,8 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
     return Column(
       children: [
         MihTextFormField(
-          fillColor: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-          inputColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          fillColor: MihColors.secondary(),
+          inputColor: MihColors.primary(),
           controller: widget.icd10CodeController,
           multiLineInput: false,
           requiredText: true,
@@ -42,15 +37,12 @@ class _ICD10SearchWindowState extends State<ICD10SearchWindow> {
         Text(
           "Search for ICD-10 Codes",
           style: TextStyle(
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.secondary(),
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Divider(
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
+        Divider(color: MihColors.secondary()),
         BuildICD10CodeList(
           icd10CodeController: widget.icd10CodeController,
           icd10codeList: widget.icd10codeList,

@@ -1,10 +1,6 @@
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
@@ -40,10 +36,8 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
               controller: _mihPatientSearchController,
               hintText: "Search Patient ID/ Aid No.",
               prefixIcon: Icons.search,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              hintColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fillColor: MihColors.secondary(),
+              hintColor: MihColors.primary(),
               onPrefixIconTap: () {
                 submitPatientSearch(patientManagerProvider);
               },
@@ -92,10 +86,9 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
         children: [
           const SizedBox(height: 50),
           Icon(
-            MihIcons.iDontKnow,
+            MihIcons.mihIDontKnow,
             size: 165,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.secondary(),
           ),
           const SizedBox(height: 10),
           Text(
@@ -105,8 +98,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
           ),
         ],
@@ -122,8 +114,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
             Icon(
               MihIcons.patientProfile,
               size: 165,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
             const SizedBox(height: 10),
             Text(
@@ -133,8 +124,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
             ),
             const SizedBox(height: 25),
@@ -145,8 +135,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                   children: [
                     TextSpan(
@@ -206,6 +195,7 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getPatientSearch(width),

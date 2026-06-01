@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihImageDisplay extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
@@ -67,9 +67,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
                     // width: widget.width,
                     height: widget.height,
                     decoration: BoxDecoration(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                       borderRadius: BorderRadius.circular(widget.width * 0.1),
                     ),
                     child: Image(image: imagePreview!),
@@ -79,15 +77,13 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
                   width: widget.width,
                   height: widget.height,
                   decoration: BoxDecoration(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                     borderRadius: BorderRadius.circular(widget.width * 0.1),
                   ),
                   child: Icon(
                     Icons.image_not_supported_rounded,
                     size: widget.width * 0.3,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                 ),
           Visibility(
@@ -97,11 +93,9 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
               right: 5,
               child: IconButton.filled(
                 style: IconButton.styleFrom(
-                  backgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.green(),
                 ),
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 onPressed: () async {
                   try {
                     FilePickerResult? result =

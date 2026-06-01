@@ -1,10 +1,7 @@
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class SimpleCalc extends StatefulWidget {
   const SimpleCalc({super.key});
@@ -73,6 +70,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getBody(),
@@ -109,8 +107,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
                 userInput,
                 style: TextStyle(
                   fontSize: 40,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                 ),
               ),
             ),
@@ -124,8 +121,7 @@ class _SimpleCalcState extends State<SimpleCalc> {
               answer,
               style: TextStyle(
                   fontSize: 30,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -160,18 +156,14 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             answer = '0';
                           });
                         },
-                        buttonColor: MihColors.getPurpleColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.purple(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -190,18 +182,14 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput += buttons[index];
                           });
                         },
-                        buttonColor: MihColors.getGreyColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.grey(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -219,18 +207,14 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput += buttons[index];
                           });
                         },
-                        buttonColor: MihColors.getGreyColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.grey(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -259,18 +243,14 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             });
                           }
                         },
-                        buttonColor: MihColors.getGreyColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.grey(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -299,17 +279,13 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             equalPressed();
                           });
                         },
-                        buttonColor: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.red(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Icon(
                           Icons.backspace,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                         ),
                       ),
                     );
@@ -325,18 +301,14 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             userInput = answer;
                           });
                         },
-                        buttonColor: MihColors.getGreenColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.green(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -355,18 +327,14 @@ class _SimpleCalcState extends State<SimpleCalc> {
                             equalPressed();
                           });
                         },
-                        buttonColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.secondary(),
                         width: 50,
                         height: 50,
                         borderRadius: 5,
                         child: Text(
                           buttons[index],
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),

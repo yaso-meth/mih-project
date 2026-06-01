@@ -1,21 +1,13 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/prescip_input.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_files_list.dart';
@@ -158,12 +150,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                     children: [
                       Expanded(
                         child: MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: selectedFileController,
                           hintText: "Selected File",
                           requiredText: true,
@@ -192,15 +180,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                             selectedFileController.text = selectedFile.name;
                           });
                         },
-                        buttonColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        buttonColor: MihColors.secondary(),
                         child: Text(
                           "Attach",
                           style: TextStyle(
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -219,16 +203,12 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                           MihAlertServices().inputErrorAlert(context);
                         }
                       },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.green(),
                       width: 300,
                       child: Text(
                         "Add File",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -305,15 +285,12 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                         MihAlertServices().inputErrorAlert(context);
                       }
                     },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.green(),
                     width: 300,
                     child: Text(
                       "Generate",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -400,19 +377,15 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.attach_file,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
               label: "Attach Document",
-              labelBackgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              labelBackgroundColor: MihColors.green(),
               labelStyle: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              backgroundColor: MihColors.green(),
               onTap: () {
                 uploudFilePopUp(patientManagerProvider, width);
               },
@@ -431,19 +404,15 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.attach_file,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
               label: "Add Document",
-              labelBackgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              labelBackgroundColor: MihColors.green(),
               labelStyle: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              backgroundColor: MihColors.green(),
               onTap: () {
                 uploudFilePopUp(patientManagerProvider, width);
               },
@@ -451,19 +420,15 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.sick_outlined,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
               label: "Generate Medical Certificate",
-              labelBackgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              labelBackgroundColor: MihColors.green(),
               labelStyle: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              backgroundColor: MihColors.green(),
               onTap: () {
                 medCertPopUp(profileProvider, patientManagerProvider);
               },
@@ -471,19 +436,15 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             SpeedDialChild(
               child: Icon(
                 Icons.medication,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
               label: "Generate Prescription",
-              labelBackgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              labelBackgroundColor: MihColors.green(),
               labelStyle: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontWeight: FontWeight.bold,
               ),
-              backgroundColor: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              backgroundColor: MihColors.green(),
               onTap: () {
                 prescritionPopUp(profileProvider, patientManagerProvider);
               },
@@ -504,15 +465,13 @@ class _PatientDocumentsState extends State<PatientDocuments> {
             context.pop();
             context.pop();
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -553,6 +512,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(screenWidth),
     );

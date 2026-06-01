@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -98,15 +94,13 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
             context.pop();
             context.pop();
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -123,22 +117,19 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
       fullscreen: false,
       windowTitle: null,
       onWindowTapClose: null,
-      backgroundColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      backgroundColor: MihColors.secondary(),
       windowBody: Column(
         children: [
           Icon(
             Icons.warning_rounded,
             size: 150,
-            color: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.primary(),
           ),
           Text(
             "Remove Bookmark",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.primary(),
               fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
@@ -147,8 +138,7 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
           Text(
             "Are you sure you want to remove ${widget.business.Name} from your Mzansi Directory?",
             style: TextStyle(
-              color: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.primary(),
               fontSize: 18,
             ),
           ),
@@ -165,13 +155,11 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                 },
-                buttonColor: MihColors.getGreenColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                buttonColor: MihColors.green(),
                 child: Text(
                   "Cancel",
                   style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -184,13 +172,11 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
                   deleteBookmark(
                       widget.bookmarkBusiness!.idbookmarked_businesses);
                 },
-                buttonColor: MihColors.getRedColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                buttonColor: MihColors.red(),
                 child: Text(
                   "Remove Business",
                   style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

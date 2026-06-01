@@ -3,17 +3,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_dropdwn_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calculator_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
@@ -76,8 +69,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
             Icon(
               Icons.currency_exchange,
               size: 150,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
             const SizedBox(height: 20),
             FittedBox(
@@ -87,8 +79,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                 ),
               ),
             ),
@@ -103,9 +94,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ),
@@ -117,9 +106,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ),
@@ -136,9 +123,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ),
@@ -150,9 +135,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ),
@@ -194,8 +177,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 25,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -215,8 +197,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               '$companyName makes no representations or warranties of any kind, express or implied, as to the accuracy, completeness, reliability, or suitability of the information and calculations generated by the Tool. All exchange rates and results are estimates and are subject to change without notice.',
               style: TextStyle(
                 fontSize: 15,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -227,8 +208,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               'The information provided by the Tool should not be construed as financial, investment, trading, or any other form of advice. You should not make any financial decisions based solely on the output of this Tool. We expressly recommend that you seek independent professional advice and verify all data with a qualified financial advisor and/or through alternative, reliable market data sources before executing any foreign exchange transactions.',
               style: TextStyle(
                 fontSize: 15,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -239,8 +219,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
               'By using the Tool, you agree that $companyName, its affiliates, directors, and employees shall not be held liable for any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to, damages for loss of profits, goodwill, use, data, or other intangible losses, resulting from: (i) the use or the inability to use the Tool; (ii) any inaccuracies, errors, or omissions in the Tool\'s calculations or data; or (iii) any reliance placed by you on the information provided by the Tool.',
               style: TextStyle(
                 fontSize: 15,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -255,8 +234,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
       text: TextSpan(
         style: TextStyle(
           fontSize: 15,
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
           fontWeight: FontWeight.normal,
         ),
         children: <TextSpan>[
@@ -287,6 +265,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getBody(screenWidth),
@@ -309,12 +288,8 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                   formKey: _formKey,
                   formFields: <Widget>[
                     MihTextFormField(
-                      fillColor: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
-                      inputColor: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      fillColor: MihColors.secondary(),
+                      inputColor: MihColors.primary(),
                       controller: _fromAmountController,
                       multiLineInput: false,
                       requiredText: true,
@@ -354,9 +329,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: 15,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                         children: [
                           const TextSpan(
@@ -365,9 +338,7 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                             text: "Diclaimer",
                             style: TextStyle(
                               decoration: TextDecoration.underline,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.secondary(),
                               fontWeight: FontWeight.bold,
                             ),
                             recognizer: TapGestureRecognizer()
@@ -398,18 +369,12 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                                 MihAlertServices().inputErrorAlert(context);
                               }
                             },
-                            buttonColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            buttonColor: MihColors.green(),
                             width: 300,
                             child: Text(
                               "Calculate",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -419,18 +384,12 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
                             onPressed: () {
                               clearInput();
                             },
-                            buttonColor: MihColors.getRedColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            buttonColor: MihColors.red(),
                             width: 300,
                             child: Text(
                               "Clear",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),

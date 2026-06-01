@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/access_request.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -103,30 +101,20 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
     TextSpan accessWithColour;
     if (access == "APPROVED") {
       accessWithColour = TextSpan(
-          text: "$access\n",
-          style: TextStyle(
-              color: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
+          text: "$access\n", style: TextStyle(color: MihColors.green()));
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
-          text: "$access\n",
-          style: TextStyle(
-              color: MihColors.getGreyColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
+          text: "$access\n", style: TextStyle(color: MihColors.grey()));
     } else {
-      accessWithColour = TextSpan(
-          text: "$access\n",
-          style: TextStyle(
-              color: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
+      accessWithColour =
+          TextSpan(text: "$access\n", style: TextStyle(color: MihColors.red()));
     }
 
     return ListTile(
       title: Text(
         line1,
         style: TextStyle(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
         ),
       ),
       subtitle: RichText(
@@ -142,7 +130,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       // Text(
       //   subtitle,
       //   style: TextStyle(
-      //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      //     color: MihColors.secondary(),
       //   ),
       // ),
       onTap: () {
@@ -158,7 +146,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       },
       // trailing: Icon(
       //   Icons.arrow_forward,
-      //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      //   color: MihColors.secondary(),
       // ),
     );
   }
@@ -213,8 +201,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                   subtitle,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                     fontSize: popUpBodySize,
                     //fontWeight: FontWeight.bold,
                   ),
@@ -231,15 +218,12 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     onPressed: () {
                       updateAccessAPICall(index, "declined");
                     },
-                    buttonColor: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.red(),
                     width: 300,
                     child: Text(
                       "Decline",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -249,15 +233,12 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
                     onPressed: () {
                       updateAccessAPICall(index, "approved");
                     },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.green(),
                     width: 300,
                     child: Text(
                       "Approve",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -294,8 +275,7 @@ class _BuildPatientsListState extends State<BuildAccessRequestList> {
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, index) {
         return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
         );
       },
       itemCount: widget.accessRequests.length,

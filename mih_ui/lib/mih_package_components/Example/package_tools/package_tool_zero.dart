@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 
 class PackageToolZero extends StatefulWidget {
@@ -18,6 +14,7 @@ class _PackageToolZeroState extends State<PackageToolZero> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(),
     );
@@ -35,8 +32,7 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
           ),
           const SizedBox(height: 20),
@@ -49,13 +45,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                 context,
               );
             },
-            buttonColor: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            buttonColor: MihColors.green(),
             child: Text(
               "Basic Success Alert",
               style: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -73,16 +67,13 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Okay",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -92,16 +83,13 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -111,13 +99,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                 context,
               );
             },
-            buttonColor: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            buttonColor: MihColors.green(),
             child: Text(
               "Advanced Success Alert",
               style: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -130,13 +116,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
               MihAlertServices().warningAlert(
                   "Warning Alert!", "This is a friendly warning mee", context);
             },
-            buttonColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            buttonColor: MihColors.secondary(),
             child: Text(
               "Warning Alert",
               style: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -154,16 +138,13 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Okay",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -173,16 +154,13 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getRedColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.red(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -192,13 +170,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                 context,
               );
             },
-            buttonColor: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            buttonColor: MihColors.secondary(),
             child: Text(
               "Advanced Warning Alert",
               style: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -214,13 +190,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                 context,
               );
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Basic Error Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -238,16 +212,13 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.primary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Okay",
                       style: TextStyle(
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -257,16 +228,13 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                     onPressed: () {
                       context.pop();
                     },
-                    buttonColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.secondary(),
                     width: 300,
                     elevation: 10,
                     child: Text(
                       "Dismiss",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -276,13 +244,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                 context,
               );
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Advanced Error Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -300,13 +266,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
                 context,
               );
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Delete Confirmation Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -318,13 +282,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().internetConnectionAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Internet Connection Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -336,13 +298,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().locationPermissionAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Location Permission Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -354,13 +314,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().inputErrorAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Input Error Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -372,14 +330,12 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().passwordRequirementAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: FittedBox(
               child: Text(
                 "Password Requirement Alert",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -392,13 +348,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().passwordMatchAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Password Match Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -410,13 +364,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().loginErrorAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Login Error Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -428,13 +380,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().emailExistsAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Email Exists Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -446,13 +396,11 @@ class _PackageToolZeroState extends State<PackageToolZero> {
             onPressed: () {
               MihAlertServices().invalidEmailAlert(context);
             },
-            buttonColor: MihColors.getRedColor(
-                MzansiInnovationHub.of(context)!.theme.mode != "Dark"),
+            buttonColor: MihColors.red(),
             child: Text(
               "Invalid Email Alert",
               style: TextStyle(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

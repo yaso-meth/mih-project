@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihBarcodeScanner extends StatefulWidget {
   final TextEditingController cardNumberController;
@@ -107,9 +105,7 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 5,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ),
                 ),
@@ -127,17 +123,13 @@ class _MihBarcodeScannerState extends State<MihBarcodeScanner>
                         _scannerController.stop();
                         context.pop();
                       },
-                      buttonColor: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.red(),
                       width: 100,
                       height: 50,
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),

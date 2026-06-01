@@ -25,6 +25,7 @@ class MzansiProfileProvider extends ChangeNotifier {
   List<AppUser> userSearchResults = [];
   bool hideBusinessUserDetails;
   List<ProfileLink> personalLinks = [];
+  List<ProfileLink> businessLinks = [];
 
   MzansiProfileProvider({
     this.personalHome = true,
@@ -154,6 +155,50 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void setPersonalLinks({required List<ProfileLink> personalLinks}) {
     this.personalLinks = personalLinks;
+    notifyListeners();
+  }
+
+  void setBusinessLinks({required List<ProfileLink> businessLinks}) {
+    this.businessLinks = businessLinks;
+    notifyListeners();
+  }
+
+  void deleteProfileLink({required int linkId}) {
+    personalLinks.removeWhere((link) => link.idprofile_links == linkId);
+    businessLinks.removeWhere((link) => link.idprofile_links == linkId);
+    notifyListeners();
+  }
+
+  void editProfileLink({required ProfileLink updatedLink}) {
+    int personalIndex = personalLinks.indexWhere(
+        (link) => link.idprofile_links == updatedLink.idprofile_links);
+    int businessIndex = businessLinks.indexWhere(
+        (link) => link.idprofile_links == updatedLink.idprofile_links);
+
+    if (personalIndex != -1) {
+      personalLinks[personalIndex] = updatedLink;
+    }
+    if (businessIndex != -1) {
+      businessLinks[businessIndex] = updatedLink;
+    }
+    notifyListeners();
+  }
+
+  void reorderPersonalLinks({required int oldIndex, required int newIndex}) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final ProfileLink link = personalLinks.removeAt(oldIndex);
+    personalLinks.insert(newIndex, link);
+    notifyListeners();
+  }
+
+  void reorderBusinessLinks({required int oldIndex, required int newIndex}) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final ProfileLink link = businessLinks.removeAt(oldIndex);
+    businessLinks.insert(newIndex, link);
     notifyListeners();
   }
 }

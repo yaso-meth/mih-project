@@ -1,8 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tools/appointments.dart';
@@ -30,7 +27,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }
@@ -59,11 +56,11 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: calendarProvider.toolIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: calendarProvider.toolIndex,
           onIndexChange: (newIndex) {
             calendarProvider.setToolIndex(newIndex);
           },
@@ -75,6 +72,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.read<MihCalendarProvider>().resetSelectedDay();
@@ -94,7 +92,7 @@ class _MzansiCalendarState extends State<MzansiCalendar> {
 
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MihCalendarProvider>().toolIndex,
+      selectedIndex: context.watch<MihCalendarProvider>().toolIndex,
     );
   }
 

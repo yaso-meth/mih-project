@@ -1,10 +1,6 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class PackageToolTwo extends StatefulWidget {
   const PackageToolTwo({super.key});
@@ -17,6 +13,7 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(),
     );
@@ -35,8 +32,7 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             ),
           ),
           const SizedBox(height: 10),
@@ -58,8 +54,7 @@ class _PackageToolTwoState extends State<PackageToolTwo> {
               onPressed: () {},
               icon: Icon(
                 MihIcons.mihLogo,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
             ),
           )

@@ -1,19 +1,12 @@
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_claim_statement_generation_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_icd10_code_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_date_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_radio_options.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_objects/icd10_code.dart.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/components/icd10_search_window.dart';
@@ -88,10 +81,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   MihRadioOptions(
                     controller: _docTypeController,
                     hintText: "Document Type",
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    secondaryFillColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fillColor: MihColors.secondary(),
+                    secondaryFillColor: MihColors.primary(),
                     requiredText: true,
                     radioOptions: const ["Claim", "Statement"],
                   ),
@@ -103,16 +94,11 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                   ),
-                  Divider(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark")),
+                  Divider(color: MihColors.secondary()),
                   const SizedBox(height: 10),
                   MihDateField(
                     controller: _serviceDateController,
@@ -126,10 +112,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   MihRadioOptions(
                     controller: _serviceDescController,
                     hintText: "Serviced Description",
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    secondaryFillColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fillColor: MihColors.secondary(),
+                    secondaryFillColor: MihColors.primary(),
                     requiredText: true,
                     radioOptions: const [
                       "Consultation",
@@ -154,16 +138,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                                     'consultation_type_dropdown'),
                                 controller: _serviceDescOptionsController,
                                 hintText: "Consultation Type",
-                                fillColor: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                                secondaryFillColor: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                fillColor: MihColors.secondary(),
+                                secondaryFillColor: MihColors.primary(),
                                 requiredText: true,
                                 radioOptions: const [
                                   "General Consultation",
@@ -184,16 +160,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                               MihTextFormField(
                                 key: const ValueKey(
                                     'procedure_name_field'), // Added key
-                                fillColor: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                                inputColor: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                fillColor: MihColors.secondary(),
+                                inputColor: MihColors.primary(),
                                 controller: _prcedureNameController,
                                 multiLineInput: false,
                                 requiredText: true,
@@ -206,16 +174,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                               MihTextFormField(
                                 key: const ValueKey(
                                     'procedure_additional_info_field'), // Added key
-                                fillColor: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                                inputColor: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                fillColor: MihColors.secondary(),
+                                inputColor: MihColors.primary(),
                                 controller: _proceedureAdditionalInfoController,
                                 multiLineInput: false,
                                 requiredText: true,
@@ -235,16 +195,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                               MihTextFormField(
                                 key: const ValueKey(
                                     'other_service_description_field'), // Added key
-                                fillColor: MihColors.getSecondaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
-                                inputColor: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                fillColor: MihColors.secondary(),
+                                inputColor: MihColors.primary(),
                                 controller: _serviceDescOptionsController,
                                 multiLineInput: false,
                                 requiredText: true,
@@ -272,9 +224,7 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.secondary(),
                             )),
                       ),
                       const SizedBox(height: 4),
@@ -282,12 +232,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                         controller: _icd10CodeController,
                         hintText: "ICD-10 Search",
                         prefixIcon: Icons.search,
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        hintColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        hintColor: MihColors.primary(),
                         onPrefixIconTap: () {
                           MIHIcd10CodeApis.getIcd10Codes(
                                   _icd10CodeController.text, context)
@@ -304,10 +250,8 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   ),
                   const SizedBox(height: 10),
                   MihTextFormField(
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    inputColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fillColor: MihColors.secondary(),
+                    inputColor: MihColors.primary(),
                     controller: _amountController,
                     multiLineInput: false,
                     requiredText: true,
@@ -325,22 +269,15 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       ),
                     ),
                   ),
-                  Divider(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark")),
+                  Divider(color: MihColors.secondary()),
                   const SizedBox(height: 10),
                   MihTextFormField(
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    inputColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fillColor: MihColors.secondary(),
+                    inputColor: MihColors.primary(),
                     controller: _preauthNoController,
                     multiLineInput: false,
                     requiredText: false,
@@ -394,16 +331,12 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                           MihAlertServices().inputErrorAlert(context);
                         }
                       },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.green(),
                       width: 300,
                       child: Text(
                         "Generate",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),

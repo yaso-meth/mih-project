@@ -3,11 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 
@@ -119,23 +115,20 @@ class MihAuthenticationServices {
           fullscreen: false,
           windowTitle: null,
           onWindowTapClose: null,
-          backgroundColor: MihColors.getRedColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          backgroundColor: MihColors.red(),
           windowBody: Column(
             children: [
               Icon(
                 Icons.warning_amber_rounded,
                 size: 100,
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
               ),
               Center(
                 child: Text(
                   "Email Already Exists",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
@@ -145,8 +138,7 @@ class MihAuthenticationServices {
               Text(
                 "Here are some things to keep in mind:",
                 style: TextStyle(
-                  color: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.red(),
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -156,8 +148,7 @@ class MihAuthenticationServices {
                 "1) Are you sure you're using the correct email address associated with your account?\n2) Is your caps lock key on? Passwords are case-sensitive.\n3) If you've forgotten your password, no worries! Click on \"Forgot Password?\" to reset it.",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -167,15 +158,13 @@ class MihAuthenticationServices {
                 onPressed: () {
                   context.pop();
                 },
-                buttonColor: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                buttonColor: MihColors.secondary(),
                 width: 300,
                 elevation: 10,
                 child: Text(
                   "Dismiss",
                   style: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

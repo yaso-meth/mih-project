@@ -1,11 +1,10 @@
 name: mzansi_innovation_hub
 description: ""
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.6+130
-# version: 1.1.1+97 #--- Updated version for upgrader package testing
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+version: 1.2.7+132
 
 environment:
-  sdk: '>=3.5.3 <4.0.0'
+  sdk: ">=3.5.3 <4.0.0"
   # flutter: ">=1.17.0"
 dependencies:
   flutter:
@@ -14,6 +13,7 @@ dependencies:
     sdk: flutter
   flutter_dotenv: ^6.0.0
 
+  mih_package_toolkit: ^0.0.6
   cupertino_icons: ^1.0.8
   font_awesome_flutter: ^10.7.0
   # firebase_core: ^4.4.0
@@ -44,9 +44,9 @@ dependencies:
   flutter_chat_types: ^3.6.2
   uuid: ^4.5.1
   flutter_tts: ^4.2.3
-  flutter_speed_dial: ^7.0.0 
+  flutter_speed_dial: ^7.0.0
   share_plus: ^11.0.0
-  app_settings: ^6.1.1
+  #app_settings: ^6.1.1
   pwa_install: ^0.0.6
   google_mobile_ads: ^6.0.0
   gma_mediation_meta: ^1.4.1
@@ -66,10 +66,13 @@ dependencies:
   cross_file: ^0.3.5+1
   quick_actions: ^1.1.0
 
+dependency_overrides:
+  supertokens_flutter: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-    
+
   build_runner: ^2.4.8
 
   build_web_compilers: ^4.1.5
@@ -90,7 +93,7 @@ flutter:
     - family: MihIcons
       fonts:
         - asset: lib/mih_package_components/assets/fonts/Mih_Icons.ttf
-        
+
 flutter_native_splash:
   color: "#3A4454"
   image: lib/mih_package_components/assets/images/splash_screen/mih_image_splash.png

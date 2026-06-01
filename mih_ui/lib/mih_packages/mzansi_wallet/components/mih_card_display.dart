@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class MihCardDisplay extends StatefulWidget {
   final String shopName;
   final String nickname;
-  final double height;
   const MihCardDisplay({
     super.key,
     required this.shopName,
-    required this.height,
     required this.nickname,
   });
 
@@ -20,142 +19,142 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
     switch (widget.shopName.toLowerCase()) {
       case "apple tree":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/apple_tree-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/apple_tree.png');
       case "best before":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/best_before-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/best_before.png');
       case "checkers":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/checkers-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/checkers.png');
       case "clicks":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/clicks-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/clicks.png');
       case "cotton:on":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/cotton_on-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/cotton_on.png');
       case "dis-chem":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/dischem-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/dischem.png');
       case "pick n pay":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/pick_n_pay-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/pick_n_pay.png');
       case "shoprite":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/shoprite-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/shoprite.png');
       case "spar":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/spar-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/spar.png');
       case "woolworths":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/woolworths-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/woolworths.png');
       case "makro":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/makro-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/makro.png');
       case "fresh stop":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/fresh_stop-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/fresh_stop.png');
       case "panarottis":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/panarottis-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/panarottis.png');
       case "shell":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/shell-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/shell.png');
       case "edgars":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/edgars-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/edgars.png');
       case "jet":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/jet-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/jet.png');
       case "spur":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/spur-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/spur.png');
       case "infinity":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/infinity-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/infinity.png');
       case "eskom":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/eskom-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/eskom.png');
       case "+more":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/plus_more-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/plus_more.png');
       case "bp":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/bp-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/bp.png');
       case "builders warehouse":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/builders-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/builders.png');
       case "exclusive books":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/exclusive_books-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/exclusive_books.png');
       case "pna":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/pna-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/pna.png');
       case "pq clothing":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/pq-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/pq.png');
       case "rage":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/rage-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/rage.png');
       case "sasol":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/sasol-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/sasol.png');
       case "tfg group":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/tfg-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/tfg.png');
       case "toys r us":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/toysrus-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/toys_r_us.png');
       case "leroy merlin":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/leroy_merlin-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/leroy_merlin.png');
       case "signature cosmetics & fragrances":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/signature_cosmetics-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/signature.png');
       case "ok foods":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/ok_food-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/ok_foods.png');
       case "choppies":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/choppies-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/choppies.png');
       case "boxer":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/boxer-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/boxer.png');
       case "carrefour":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/carrefour-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/carrefour.png');
       case "sefalana":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/sefalana-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/sefalana.png');
       case "big save":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/big_save-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/big_save.png');
       case "justrite":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/justrite-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/justrite.png');
       case "naivas":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/naivas-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/naivas.png');
       case "kero":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/kero-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/kero.png');
       case "auchan":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/auchan-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/auchan.png');
       case "woermann brock":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/woermann_brock-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/woermann_brock.png');
       case "continente":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/continente-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/continente.png');
       case "fresmart":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/fresmart-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/fresmart.png');
       case "total energies":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/total_energies-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/total.png');
       case "engen":
         return Image.asset(
-            'lib/mih_package_components/assets/images/loyalty_cards/mini/engen-min.png');
+            'lib/mih_package_components/assets/images/loyalty_cards/engen.png');
       default:
         return null;
     }
@@ -165,16 +164,34 @@ class _MihCardDisplayState extends State<MihCardDisplay> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: displayLoyaltyCard() != null,
-      child: Column(
+      child: Stack(
         children: [
-          displayLoyaltyCard() != null ? displayLoyaltyCard()! : SizedBox(),
-          FittedBox(
-            child: Text(
-              widget.nickname,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+          if (displayLoyaltyCard() != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: displayLoyaltyCard()!,
+            ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            alignment: Alignment.bottomCenter,
+            child: FittedBox(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: widget.nickname.isNotEmpty ? 8.0 : 0.0),
+                decoration: BoxDecoration(
+                  color: MihColors.primary(),
+                  borderRadius: BorderRadius.circular(
+                    15,
+                  ),
+                ),
+                child: Text(
+                  widget.nickname,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           )

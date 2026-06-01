@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_set_up.dart';
 import 'package:provider/provider.dart';
@@ -28,11 +26,11 @@ class _MzansiSetUpBusinessProfileState
   @override
   Widget build(BuildContext context) {
     return MihPackage(
-      appActionButton: getAction(),
-      appTools: getTools(),
-      appBody: getToolBody(),
-      appToolTitles: getToolTitle(),
-      selectedbodyIndex: context.watch<MzansiProfileProvider>().businessIndex,
+      packageActionButton: getAction(),
+      packageTools: getTools(),
+      packageToolBodies: getToolBody(),
+      packageToolTitles: getToolTitle(),
+      selectedBodyIndex: context.watch<MzansiProfileProvider>().businessIndex,
       onIndexChange: (newIndex) {
         context.read<MzansiProfileProvider>().setBusinessIndex(newIndex);
       },
@@ -42,6 +40,7 @@ class _MzansiSetUpBusinessProfileState
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.goNamed(
@@ -60,7 +59,7 @@ class _MzansiSetUpBusinessProfileState
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MzansiProfileProvider>().businessIndex,
+      selectedIndex: context.watch<MzansiProfileProvider>().businessIndex,
     );
   }
 

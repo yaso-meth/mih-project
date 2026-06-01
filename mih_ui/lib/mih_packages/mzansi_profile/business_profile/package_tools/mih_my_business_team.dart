@@ -1,8 +1,5 @@
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_employee_list.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +32,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
     return Center(
       child: Text(
         "",
-        style: TextStyle(
-            fontSize: 25,
-            color: MihColors.getGreyColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark")),
+        style: TextStyle(fontSize: 25, color: MihColors.grey()),
         textAlign: TextAlign.center,
       ),
     );
@@ -56,6 +50,7 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(),
     );

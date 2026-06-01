@@ -1,7 +1,6 @@
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/medicine.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class BuildMedicinesList extends StatefulWidget {
   final TextEditingController contoller;
@@ -33,8 +32,8 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
         return Divider(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(
+              ),
         );
       },
       itemCount: widget.medicines.length,
@@ -44,15 +43,15 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           title: Text(
             widget.medicines[index].name,
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(
+                  ),
             ),
           ),
           subtitle: Text(
             "${widget.medicines[index].unit} - ${widget.medicines[index].form}",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(
+                  ),
             ),
           ),
           onTap: () {
@@ -64,8 +63,8 @@ class _BuildMedicinesListState extends State<BuildMedicinesList> {
           },
           trailing: Icon(
             Icons.arrow_forward,
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.secondary(
+                ),
           ),
         );
       },

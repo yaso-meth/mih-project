@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
@@ -36,7 +33,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }
@@ -74,11 +71,11 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: directoryProvider.toolIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: directoryProvider.toolIndex,
           onIndexChange: (newValue) {
             directoryProvider.setToolIndex(newValue);
           },
@@ -97,6 +94,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         MzansiDirectoryProvider directoryProvider =
@@ -121,7 +119,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MzansiDirectoryProvider>().toolIndex,
+      selectedIndex: context.watch<MzansiDirectoryProvider>().toolIndex,
     );
   }
 

@@ -42,29 +42,29 @@ class MihGoRouterPaths {
   static const String mihAuthentication = '/mih-authentication';
   static const String mihHome = '/';
   static const String notifications = '/notifications';
-  static const String forgotPassword = '/mih-authentication/forgot-password';
-  static const String aboutMih = '/about';
-  static const String mzansiProfileManage = '/mzansi-profile';
-  static const String mzansiProfileView = '/mzansi-profile/view';
-  static const String businessProfileSetup = '/business-profile/set-up';
-  static const String businessProfileManage = '/business-profile/manage';
-  static const String businessProfileView = '/business-profile/view';
-  static const String patientProfile = '/patient-profile';
-  static const String patientProfileSetup = '/patient-profile/set-up';
-  static const String mzansiWallet = '/mzansi-wallet';
-  static const String mzansiDirectory = '/mzansi-directory';
-  static const String mihAccess = '/mih-access';
-  static const String calendar = '/calendar';
-  static const String appointments = '/appointments';
-  static const String patientManager = '/patient-manager';
-  static const String patientManagerPatient = '/patient-manager/patient';
+  static const String forgotPassword = 'forgot-password';
+  static const String aboutMih = 'about';
+  static const String mzansiProfileManage = 'mzansi-profile';
+  static const String mzansiProfileView = 'mzansi-profile/view';
+  static const String businessProfileSetup = 'business-profile/set-up';
+  static const String businessProfileManage = 'business-profile/manage';
+  static const String businessProfileView = 'business-profile/view';
+  static const String patientProfile = 'patient-profile';
+  static const String patientProfileSetup = 'patient-profile/set-up';
+  static const String mzansiWallet = 'mzansi-wallet';
+  static const String mzansiDirectory = 'mzansi-directory';
+  static const String mihAccess = 'mih-access';
+  static const String calendar = 'calendar';
+  static const String appointments = 'appointments';
+  static const String patientManager = 'patient-manager';
+  static const String patientManagerPatient = 'patient-manager/patient';
   static const String fileViewer = '/file-veiwer';
   static const String printPreview = '/file-veiwer/print-preview';
   static const String barcodeScanner = '/scanner';
-  static const String calculator = '/calculator';
-  static const String mzansiAi = '/mzansi-ai';
-  static const String mihMineSweeper = '/mih-minesweeper';
-  static const String packageDevTest = '/package-dev';
+  static const String calculator = 'calculator';
+  static const String mzansiAi = 'mzansi-ai';
+  static const String mihMineSweeper = 'mih-minesweeper';
+  static const String packageDevTest = 'package-dev';
 }
 
 class MihGoRouter {
@@ -74,10 +74,11 @@ class MihGoRouter {
       final bool isUserSignedIn = await SuperTokens.doesSessionExist();
       final unauthenticatedPaths = [
         MihGoRouterPaths.mihAuthentication,
-        MihGoRouterPaths.forgotPassword,
+        "${MihGoRouterPaths.mihAuthentication}/${MihGoRouterPaths.forgotPassword}",
         MihGoRouterPaths.resetPassword,
-        MihGoRouterPaths.aboutMih,
-        MihGoRouterPaths.businessProfileView,
+        "/${MihGoRouterPaths.aboutMih}",
+        "/${MihGoRouterPaths.businessProfileView}",
+        "/${MihGoRouterPaths.mzansiProfileView}",
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
@@ -86,8 +87,9 @@ class MihGoRouter {
       }
       if (isUserSignedIn &&
           unauthenticatedPaths.contains(state.fullPath) &&
-          state.fullPath != MihGoRouterPaths.aboutMih &&
-          state.fullPath != MihGoRouterPaths.businessProfileView) {
+          state.fullPath != "/${MihGoRouterPaths.aboutMih}" &&
+          state.fullPath != "/${MihGoRouterPaths.mzansiProfileView}" &&
+          state.fullPath != "/${MihGoRouterPaths.businessProfileView}") {
         return MihGoRouterPaths.mihHome;
       }
       return null; // Stay on current route
@@ -101,14 +103,16 @@ class MihGoRouter {
           KenLogger.success("MihGoRouter: mihAuthentication");
           return MihAuthentication();
         },
-      ),
-      GoRoute(
-        name: "forgotPassword",
-        path: MihGoRouterPaths.forgotPassword,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: forgotPassword");
-          return const MihAuthForgotPassword();
-        },
+        routes: [
+          GoRoute(
+            name: "forgotPassword",
+            path: MihGoRouterPaths.forgotPassword,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: forgotPassword");
+              return const MihAuthForgotPassword();
+            },
+          ),
+        ],
       ),
       GoRoute(
         name: "resetPassword",
@@ -136,115 +140,213 @@ class MihGoRouter {
             key: UniqueKey(),
           );
         },
-      ),
-      // ========================== About MIH ==================================
-      GoRoute(
-        name: "aboutMih",
-        path: MihGoRouterPaths.aboutMih,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: aboutMih");
-          return AboutMih();
-        },
-      ),
-      // ========================== Mzansi Profile Personal ==================================
-      GoRoute(
-        name: "mzansiProfileManage",
-        path: MihGoRouterPaths.mzansiProfileManage,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mzansiProfileManage");
-          return MzansiProfile();
-        },
-      ),
-      GoRoute(
-        name: "mzansiProfileView",
-        path: MihGoRouterPaths.mzansiProfileView,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mzansiProfileView");
-          MzansiDirectoryProvider directoryProvider =
-              context.read<MzansiDirectoryProvider>();
-          if (directoryProvider.selectedUser == null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.go(MihGoRouterPaths.mihHome);
-            });
-            return const SizedBox.shrink();
-          }
-          return MzansiProfileView();
-        },
-      ),
-      // ========================== Mzansi Profile Business ==================================
-      GoRoute(
-        name: "businessProfileManage",
-        path: MihGoRouterPaths.businessProfileManage,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: businessProfileManage");
-          return BusinesProfile();
-        },
-      ),
-      GoRoute(
-        name: "businessProfileView",
-        path: MihGoRouterPaths.businessProfileView,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: businessProfileView");
-          String? businessId = state.uri.queryParameters['business_id'];
-          KenLogger.success("businessId: $businessId");
-          MzansiDirectoryProvider directoryProvider =
-              context.read<MzansiDirectoryProvider>();
-          if (directoryProvider.selectedBusiness == null &&
-              businessId == null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.go(MihGoRouterPaths.mihHome);
-            });
-            return const SizedBox.shrink();
-          }
-          return MzansiBusinessProfileView(
-            businessId: businessId,
-            fromMzansiDirectory: businessId == null,
-          );
-        },
-      ),
-      GoRoute(
-        name: "businessProfileSetup",
-        path: MihGoRouterPaths.businessProfileSetup,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: businessProfileSetup");
-          return MzansiSetUpBusinessProfile();
-        },
-      ),
-      // ========================== MIH Calculator ==================================
-      GoRoute(
-        name: "mihCalculator",
-        path: MihGoRouterPaths.calculator,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mihCalculator");
-          return MIHCalculator();
-        },
-      ),
-      // ========================== MIH Calculator ==================================
-      GoRoute(
-        name: "mihCalendar",
-        path: MihGoRouterPaths.calendar,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mihCalendar");
-          return MzansiCalendar();
-        },
-      ),
-      // ========================== Mzansi AI ==================================
-      GoRoute(
-        name: "mzansiAi",
-        path: MihGoRouterPaths.mzansiAi,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mzansiAi");
-          return MzansiAi();
-        },
-      ),
-      // ========================== Mzansi Wallet ==================================
-      GoRoute(
-        name: "mzansiWallet",
-        path: MihGoRouterPaths.mzansiWallet,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mzansiWallet");
-          return MihWallet();
-        },
+        routes: [
+          // ========================== About MIH ==================================
+          GoRoute(
+            name: "aboutMih",
+            path: MihGoRouterPaths.aboutMih,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: aboutMih");
+              return AboutMih();
+            },
+          ),
+          // ========================== Mzansi Profile Personal ==================================
+          GoRoute(
+            name: "mzansiProfileManage",
+            path: MihGoRouterPaths.mzansiProfileManage,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mzansiProfileManage");
+              return MzansiProfile();
+            },
+          ),
+          GoRoute(
+            name: "mzansiProfileView",
+            path: MihGoRouterPaths.mzansiProfileView,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mzansiProfileView");
+              return MzansiProfileView(
+                username: null,
+              );
+            },
+          ),
+          GoRoute(
+            name: "mzansiProfileView+username",
+            path: "${MihGoRouterPaths.mzansiProfileView}/:username",
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mzansiProfileView");
+              String? username = state.pathParameters['username'];
+              // String? username = state.uri.queryParameters['username'];
+              KenLogger.success("MihGoRouter: mzansiProfileView");
+              KenLogger.success("username: $username");
+              MzansiDirectoryProvider directoryProvider =
+                  context.read<MzansiDirectoryProvider>();
+              if (directoryProvider.selectedUser == null && username == null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.go(MihGoRouterPaths.mihHome);
+                });
+                return const SizedBox.shrink();
+              }
+              return MzansiProfileView(
+                username: username,
+              );
+            },
+          ),
+          // ========================== Mzansi Profile Business ==================================
+          GoRoute(
+            name: "businessProfileManage",
+            path: MihGoRouterPaths.businessProfileManage,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: businessProfileManage");
+              return BusinesProfile();
+            },
+          ),
+          GoRoute(
+            name: "businessProfileView",
+            path: MihGoRouterPaths.businessProfileView,
+            builder: (BuildContext context, GoRouterState state) {
+              return MzansiBusinessProfileView(
+                businessId: null,
+                fromMzansiDirectory: true,
+              );
+            },
+          ),
+          GoRoute(
+            name: "businessProfileView+business_id",
+            path: "${MihGoRouterPaths.businessProfileView}/:business_id",
+            builder: (BuildContext context, GoRouterState state) {
+              // KenLogger.success("MihGoRouter: businessProfileView");
+              String? businessId = state.pathParameters['business_id'];
+              // KenLogger.success("businessId: $businessId");
+              MzansiDirectoryProvider directoryProvider =
+                  context.read<MzansiDirectoryProvider>();
+              if (directoryProvider.selectedBusiness == null &&
+                  businessId == null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.go(MihGoRouterPaths.mihHome);
+                });
+                return const SizedBox.shrink();
+              }
+              return MzansiBusinessProfileView(
+                businessId: businessId,
+                fromMzansiDirectory: businessId == null,
+              );
+            },
+          ),
+          GoRoute(
+            name: "businessProfileSetup",
+            path: MihGoRouterPaths.businessProfileSetup,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: businessProfileSetup");
+              return MzansiSetUpBusinessProfile();
+            },
+          ),
+          // ========================== MIH Calculator ==================================
+          GoRoute(
+            name: "mihCalculator",
+            path: MihGoRouterPaths.calculator,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mihCalculator");
+              return MIHCalculator();
+            },
+          ),
+          // ========================== MIH Calculator ==================================
+          GoRoute(
+            name: "mihCalendar",
+            path: MihGoRouterPaths.calendar,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mihCalendar");
+              return MzansiCalendar();
+            },
+          ),
+          // ========================== Mzansi AI ==================================
+          GoRoute(
+            name: "mzansiAi",
+            path: MihGoRouterPaths.mzansiAi,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mzansiAi");
+              return MzansiAi();
+            },
+          ),
+          // ========================== Mzansi Wallet ==================================
+          GoRoute(
+            name: "mzansiWallet",
+            path: MihGoRouterPaths.mzansiWallet,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mzansiWallet");
+              return MihWallet();
+            },
+          ),
+          // ========================== MIH Access Controls ==================================
+          GoRoute(
+            name: "mihAccess",
+            path: MihGoRouterPaths.mihAccess,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mihAccess");
+              return MihAccess();
+            },
+          ),
+          // ========================== Test Package ==================================
+          GoRoute(
+            name: "testPackage",
+            path: MihGoRouterPaths.packageDevTest,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: testPackage");
+              return PackageTest();
+            },
+          ),
+          // ========================== Mzansi Directory ==================================
+          GoRoute(
+            name: "mzansiDirectory",
+            path: MihGoRouterPaths.mzansiDirectory,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mzansiDirectory");
+              return MzansiDirectory();
+            },
+          ),
+          // ========================== MIH Minesweeper ==================================
+          GoRoute(
+            name: "mihMinesweeper",
+            path: MihGoRouterPaths.mihMineSweeper,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: mihMineSweeper");
+              return MihMineSweeper();
+            },
+          ),
+          // ========================== Patient Profile ==================================
+          GoRoute(
+            name: "patientProfile",
+            path: MihGoRouterPaths.patientProfile,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: patientProfile");
+              return PatientProfile();
+            },
+          ),
+          GoRoute(
+            name: "patientProfileSetup",
+            path: MihGoRouterPaths.patientProfileSetup,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: patientProfileSetup");
+              return PatientSetUp();
+            },
+          ),
+          GoRoute(
+            name: "patientManager",
+            path: MihGoRouterPaths.patientManager,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: patientManager");
+              return PatManager();
+            },
+          ),
+          GoRoute(
+            name: "patientManagerPatient",
+            path: MihGoRouterPaths.patientManagerPatient,
+            builder: (BuildContext context, GoRouterState state) {
+              KenLogger.success("MihGoRouter: patientManagerPatient");
+              return PatientProfile();
+            },
+          ),
+          // ========================== End ==================================
+        ],
       ),
       GoRoute(
         name: "barcodeScanner",
@@ -262,67 +364,6 @@ class MihGoRouter {
           return MihBarcodeScanner(cardNumberController: args);
         },
       ),
-      // ========================== Test Package ==================================
-      GoRoute(
-        name: "testPackage",
-        path: MihGoRouterPaths.packageDevTest,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: testPackage");
-          return PackageTest();
-        },
-      ),
-      // ========================== MIH Access Controls ==================================
-      GoRoute(
-        name: "mihAccess",
-        path: MihGoRouterPaths.mihAccess,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mihAccess");
-          return MihAccess();
-        },
-      ),
-      // ========================== Patient Profile ==================================
-      GoRoute(
-        name: "patientProfile",
-        path: MihGoRouterPaths.patientProfile,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: patientProfile");
-          return PatientProfile();
-        },
-      ),
-      GoRoute(
-        name: "patientProfileSetup",
-        path: MihGoRouterPaths.patientProfileSetup,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: patientProfileSetup");
-          return PatientSetUp();
-        },
-      ),
-      GoRoute(
-        name: "patientManager",
-        path: MihGoRouterPaths.patientManager,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: patientManager");
-          return PatManager();
-        },
-      ),
-      GoRoute(
-        name: "patientManagerPatient",
-        path: MihGoRouterPaths.patientManagerPatient,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: patientManagerPatient");
-          return PatientProfile();
-        },
-      ),
-      // ========================== Mzansi Directory ==================================
-      GoRoute(
-        name: "mzansiDirectory",
-        path: MihGoRouterPaths.mzansiDirectory,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mzansiDirectory");
-          return MzansiDirectory();
-        },
-      ),
-      // ========================== End ==================================
       GoRoute(
         name: "fileViewer",
         path: MihGoRouterPaths.fileViewer,
@@ -345,15 +386,6 @@ class MihGoRouter {
             return const SizedBox.shrink();
           }
           return MIHPrintPreview(arguments: args);
-        },
-      ),
-      // ========================== MIH Minesweeper ==================================
-      GoRoute(
-        name: "mihMinesweeper",
-        path: MihGoRouterPaths.mihMineSweeper,
-        builder: (BuildContext context, GoRouterState state) {
-          KenLogger.success("MihGoRouter: mihMineSweeper");
-          return MihMineSweeper();
         },
       ),
       // ========================== End ==================================

@@ -1,7 +1,6 @@
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_edit_employee_details_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +36,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
         return ListView.separated(
           separatorBuilder: (BuildContext context, index) {
             return Divider(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             );
           },
           itemCount: mzansiProfileProvider.employeeList!.length,
@@ -58,8 +56,7 @@ class _BuildEmployeeListState extends State<BuildEmployeeList> {
               subtitle: Text(
                 "${mzansiProfileProvider.employeeList![index].username}\n${mzansiProfileProvider.employeeList![index].email}\nAccess: ${mzansiProfileProvider.employeeList![index].access}",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                 ),
               ),
               onTap: () {

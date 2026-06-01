@@ -2,16 +2,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_toggle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
@@ -43,7 +37,7 @@ class _MihEditPersonalProfileWindowState
   bool businessUser = false;
 
   void initializeControllers(MzansiProfileProvider mzansiProfileProvider) {
-    businessUser = mzansiProfileProvider.user!.type == "business";
+    businessUser = mzansiProfileProvider.business != null;
     oldProPicName = mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
         ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
         : "";
@@ -57,7 +51,7 @@ class _MihEditPersonalProfileWindowState
           mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
               ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
               : "";
-      businessUser = mzansiProfileProvider.user!.type == "business";
+      businessUser = mzansiProfileProvider.business != null;
       _controllersInitialized = true;
     }
   }
@@ -141,7 +135,7 @@ class _MihEditPersonalProfileWindowState
   }
 
   void setProfileVariables(MzansiProfileProvider mzansiProfileProvider) {
-    businessUser = mzansiProfileProvider.user!.type == "business";
+    businessUser = mzansiProfileProvider.business != null;
     oldProPicName = mzansiProfileProvider.user!.pro_pic_path.isNotEmpty
         ? mzansiProfileProvider.user!.pro_pic_path.split("/").last
         : "";
@@ -150,11 +144,9 @@ class _MihEditPersonalProfileWindowState
 
   Color getPurposeLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      return MihColors.secondary();
     } else {
-      return MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      return MihColors.red();
     }
   }
 
@@ -168,23 +160,16 @@ class _MihEditPersonalProfileWindowState
       [
         MihButton(
           onPressed: () {
-            if (profileProvider.user!.type.toLowerCase() == "business" &&
-                profileProvider.business == null) {
-              setupBusinessPopUp(profileProvider);
-            } else {
-              context.pop();
-              context.pop();
-            }
+            context.pop();
+            context.pop();
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -211,15 +196,13 @@ class _MihEditPersonalProfileWindowState
               Icon(
                 MihIcons.businessSetup,
                 size: 150,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
               Text(
                 "Setup Business Profile?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -228,8 +211,7 @@ class _MihEditPersonalProfileWindowState
               Text(
                 "It looks like this is the first time activating your business account. Would you like to set up your business now or would you like to do it later?",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -250,17 +232,13 @@ class _MihEditPersonalProfileWindowState
                           extra: profileProvider.user,
                         );
                       },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.green(),
                       elevation: 10,
                       width: 300,
                       child: Text(
                         "Setup Business",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -272,17 +250,13 @@ class _MihEditPersonalProfileWindowState
                         context.pop();
                         context.pop();
                       },
-                      buttonColor: MihColors.getOrangeColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.orange(),
                       elevation: 10,
                       width: 300,
                       child: Text(
                         "Setup Later",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -347,12 +321,8 @@ class _MihEditPersonalProfileWindowState
                             editable: true,
                             fileNameController: proPicController,
                             userSelectedfile: newSelectedProPic,
-                            frameColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            backgroundColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            frameColor: MihColors.secondary(),
+                            backgroundColor: MihColors.primary(),
                             onChange: (selectedImage) {
                               setState(() {
                                 newSelectedProPic = selectedImage;
@@ -364,12 +334,8 @@ class _MihEditPersonalProfileWindowState
                         Visibility(
                           visible: false,
                           child: MihTextFormField(
-                            fillColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            inputColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
                             controller: proPicController,
                             multiLineInput: false,
                             requiredText: true,
@@ -379,12 +345,8 @@ class _MihEditPersonalProfileWindowState
                         ),
                         const SizedBox(height: 10.0),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: usernameController,
                           multiLineInput: false,
                           requiredText: true,
@@ -396,12 +358,8 @@ class _MihEditPersonalProfileWindowState
                         ),
                         const SizedBox(height: 10.0),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: fnameController,
                           multiLineInput: false,
                           requiredText: true,
@@ -412,12 +370,8 @@ class _MihEditPersonalProfileWindowState
                         ),
                         const SizedBox(height: 10.0),
                         MihTextFormField(
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: lnameController,
                           multiLineInput: false,
                           requiredText: true,
@@ -429,12 +383,8 @@ class _MihEditPersonalProfileWindowState
                         const SizedBox(height: 10.0),
                         MihTextFormField(
                           height: 250,
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          inputColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
                           controller: purposeController,
                           multiLineInput: true,
                           requiredText: true,
@@ -474,23 +424,19 @@ class _MihEditPersonalProfileWindowState
                             },
                           ),
                         ),
-                        const SizedBox(height: 10.0),
-                        MihToggle(
-                          hintText: "Activate Business Account",
-                          initialPostion: businessUser,
-                          fillColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          secondaryFillColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          onChange: (value) {
-                            setState(() {
-                              businessUser = value;
-                            });
-                            KenLogger.success("Business User: $businessUser");
-                          },
-                        ),
+                        // const SizedBox(height: 10.0),
+                        // MihToggle(
+                        //   hintText: "Activate Business Account",
+                        //   initialPostion: businessUser,
+                        //   fillColor: MihColors.secondary(),
+                        //   secondaryFillColor: MihColors.primary(),
+                        //   onChange: (value) {
+                        //     setState(() {
+                        //       businessUser = value;
+                        //     });
+                        //     KenLogger.success("Business User: $businessUser");
+                        //   },
+                        // ),
                         const SizedBox(height: 30.0),
                         Center(
                           child: MihButton(
@@ -502,20 +448,14 @@ class _MihEditPersonalProfileWindowState
                                 MihAlertServices().inputErrorAlert(context);
                               }
                             },
-                            buttonColor: MihColors.getGreenColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            buttonColor: MihColors.green(),
                             width: 300,
                             child: Text(
                               mzansiProfileProvider.user!.username.isEmpty
                                   ? "Setup Profile"
                                   : "Update",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -538,8 +478,7 @@ class _MihEditPersonalProfileWindowState
                         MihAlertServices().inputErrorAlert(context);
                       }
                     },
-                    buttonColor: MihColors.getGreenColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    buttonColor: MihColors.green(),
                     width: 100,
                     height: 25,
                     child: Text(
@@ -547,9 +486,7 @@ class _MihEditPersonalProfileWindowState
                           ? "Setup Profile"
                           : "Update",
                       style: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),

@@ -1,8 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +31,7 @@ class _MihWalletState extends State<MihWallet> {
         context.read<MzansiProfileProvider>();
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }
@@ -82,11 +79,11 @@ class _MihWalletState extends State<MihWallet> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: walletProvider.toolIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: walletProvider.toolIndex,
           onIndexChange: (newIndex) {
             walletProvider.setToolIndex(newIndex);
           },
@@ -98,6 +95,7 @@ class _MihWalletState extends State<MihWallet> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.goNamed(
@@ -118,7 +116,7 @@ class _MihWalletState extends State<MihWallet> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MzansiWalletProvider>().toolIndex,
+      selectedIndex: context.watch<MzansiWalletProvider>().toolIndex,
     );
   }
 

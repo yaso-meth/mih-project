@@ -1,8 +1,4 @@
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/mih_policy_tos_ext/policy_and_terms_text.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +14,7 @@ class _MIHTermsOfServiceState extends State<MIHTermsOfService> {
   @override
   Widget build(BuildContext context) {
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(context),
     );
@@ -34,14 +31,12 @@ class _MIHTermsOfServiceState extends State<MIHTermsOfService> {
                 englishOn = !englishOn;
               });
             },
-            buttonColor: MihColors.getGreenColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            buttonColor: MihColors.green(),
             elevation: 10,
             child: Text(
               englishOn ? "Simplified Chinese" : "English",
               style: TextStyle(
-                color: MihColors.getPrimaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.primary(),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

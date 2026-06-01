@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:provider/provider.dart';
 
@@ -54,16 +52,13 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                 ? Icon(
                     MihIcons.mihRing,
                     size: profilePictureWidth,
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   )
                 : widget.imageFile == null
                     ? Icon(
-                        MihIcons.iDontKnow,
+                        MihIcons.mihIDontKnow,
                         size: profilePictureWidth,
-                        color: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.secondary(),
                       )
                     : MihCircleAvatar(
                         imageFile: widget.imageFile,
@@ -72,12 +67,8 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                         editable: false,
                         fileNameController: TextEditingController(),
                         userSelectedfile: null,
-                        frameColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        backgroundColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
                         onChange: () {},
                       ),
             const SizedBox(width: 15),

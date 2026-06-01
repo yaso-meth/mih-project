@@ -1,8 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -30,7 +27,7 @@ class _MzansiAiState extends State<MzansiAi> {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }
@@ -58,11 +55,11 @@ class _MzansiAiState extends State<MzansiAi> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex: context.watch<MzansiAiProvider>().toolIndex,
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex: context.watch<MzansiAiProvider>().toolIndex,
           onIndexChange: (newValue) {
             context.read<MzansiAiProvider>().setToolIndex(newValue);
           },
@@ -74,6 +71,7 @@ class _MzansiAiState extends State<MzansiAi> {
   MihPackageAction getAction() {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.read<MzansiAiProvider>().setStartUpQuestion(null);
@@ -92,7 +90,7 @@ class _MzansiAiState extends State<MzansiAi> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: context.watch<MzansiAiProvider>().toolIndex,
+      selectedIndex: context.watch<MzansiAiProvider>().toolIndex,
     );
   }
 

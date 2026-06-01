@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';

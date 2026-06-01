@@ -1,12 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tiles/test_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/package_tile/mih_access_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calculator/package_tiles/mih_calculator_tile.dart';
@@ -69,7 +67,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     return temp;
   }
 
-  List<Map<String, Widget>> setPersonalPackagesMap() {
+  List<Map<String, Widget>> setPersonalPackagesMap(
+      MzansiProfileProvider profileProvider) {
     List<Map<String, Widget>> temp = [];
     //=============== Mzansi Profile ===============
     temp.add({
@@ -77,6 +76,14 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
         packageSize: packageSize,
       )
     });
+    //=============== Mzansi Profile ===============
+    if (profileProvider.business == null) {
+      temp.add({
+        "Create Business": MzansiSetupBusinessProfileTile(
+          packageSize: packageSize,
+        )
+      });
+    }
     //=============== Mzansi Wallet ===============
     temp.add({
       "Mzansi Wallet": MihWalletTile(
@@ -201,7 +208,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
       personalPackagesMap = setNerUserPersonalPackage();
       autoNavToProfile();
     } else {
-      personalPackagesMap = setPersonalPackagesMap();
+      personalPackagesMap = setPersonalPackagesMap(profileProvider);
     }
     searchPackage();
   }
@@ -213,6 +220,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     final double height = size.height;
 
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(width, height),
     );
@@ -233,10 +241,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                   hintText: "Ask Mzansi",
                   prefixIcon: Icons.search,
                   prefixAltIcon: MihIcons.mzansiAi,
-                  fillColor: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                  hintColor: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  fillColor: MihColors.secondary(),
+                  hintColor: MihColors.primary(),
                   onPrefixIconTap: () {
                     mzansiAiProvider.ollamaProvider.resetChat();
                     if (searchController.text.isNotEmpty) {
@@ -282,9 +288,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                         Icon(
                           MihIcons.mzansiAi,
                           size: 165,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -294,9 +298,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.secondary(),
                           ),
                         ),
                       ],

@@ -1,10 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_links.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
@@ -27,9 +25,9 @@ class MzansiBusinessProfileView extends StatefulWidget {
 }
 
 class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
-  int _selcetedIndex = 0;
   late final MihBusinessDetailsView _businessDetailsView;
   late final MihBusinessReviews _businessReviews;
+  late final MihBusinessLinks _businessLinks;
   late final MihBusinessQrCode _businessQrCode;
 
   Future<void> _fetchBusinessDetails(
@@ -43,7 +41,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
           extra: true,
         );
       } else {
-        KenLogger.success("Business found: ${biz.Name}");
+        // KenLogger.success("Business found: ${biz.Name}");
         directoryProvider.setSelectedBusiness(business: biz);
       }
     }
@@ -53,6 +51,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     _businessQrCode = MihBusinessQrCode(
       business: directoryProvider.selectedBusiness!,
     );
+    _businessLinks = MihBusinessLinks(viewMode: true);
   }
 
   @override
@@ -77,15 +76,13 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
           );
         } else {
           return MihPackage(
-            appActionButton: getAction(),
-            appTools: getTools(),
-            appBody: getToolBody(directoryProvider),
-            appToolTitles: getToolTitle(),
-            selectedbodyIndex: _selcetedIndex,
+            packageActionButton: getAction(directoryProvider),
+            packageTools: getTools(),
+            packageToolBodies: getToolBody(directoryProvider),
+            packageToolTitles: getToolTitle(),
+            selectedBodyIndex: directoryProvider.businessViewIndex,
             onIndexChange: (newValue) {
-              setState(() {
-                _selcetedIndex = newValue;
-              });
+              directoryProvider.setBusinessViewIndex(newValue);
             },
           );
         }
@@ -93,9 +90,10 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     );
   }
 
-  MihPackageAction getAction() {
+  MihPackageAction getAction(MzansiDirectoryProvider directoryProvider) {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         if (!widget.fromMzansiDirectory) {
@@ -108,6 +106,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
         // context.goNamed(
         //   "mzansiDirectory",
         // );
+        directoryProvider.setBusinessViewIndex(0);
         FocusScope.of(context).unfocus();
       },
     );
@@ -116,23 +115,20 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
     temp[const Icon(Icons.business)] = () {
-      setState(() {
-        _selcetedIndex = 0;
-      });
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(0);
     };
     temp[const Icon(Icons.star_rate_rounded)] = () {
-      setState(() {
-        _selcetedIndex = 1;
-      });
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(1);
+    };
+    temp[const Icon(Icons.link)] = () {
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(2);
     };
     temp[const Icon(Icons.qr_code_rounded)] = () {
-      setState(() {
-        _selcetedIndex = 2;
-      });
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(3);
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: _selcetedIndex,
+      selectedIndex: context.watch<MzansiDirectoryProvider>().businessViewIndex,
     );
   }
 
@@ -140,6 +136,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     return [
       _businessDetailsView,
       _businessReviews,
+      _businessLinks,
       _businessQrCode,
     ];
   }
@@ -148,6 +145,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     List<String> toolTitles = [
       "Profile",
       "Reviews",
+      "Links",
       "Share Business",
     ];
     return toolTitles;

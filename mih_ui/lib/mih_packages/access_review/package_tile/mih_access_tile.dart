@@ -1,9 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tile.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 
 class MihAccessTile extends StatefulWidget {
   final double packageSize;
@@ -31,16 +28,14 @@ class _MihAccessTileState extends State<MihAccessTile> {
         //   arguments: widget.signedInUser,
         // );
       },
-      appName: "Access Controls",
-      appIcon: Icon(
-        MihIcons.accessControl,
-        color: MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      packageName: "Access Controls",
+      packageIcon: Icon(
+        MihIcons.mihAccessControls,
+        color: MihColors.secondary(),
         // size: widget.packageSize,
       ),
       iconSize: widget.packageSize,
-      textColor: MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      textColor: MihColors.secondary(),
     );
   }
 }

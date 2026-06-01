@@ -115,7 +115,7 @@ class OllamaProvider extends LlmProvider with ChangeNotifier {
       request: GenerateChatCompletionRequest(
         model: _model,
         messages: allMessages,
-        think: _think,
+        think: _think ?? false,
       ),
     );
     // final stream = _client.generateChatCompletionStream(

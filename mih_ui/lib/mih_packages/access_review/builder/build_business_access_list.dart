@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:provider/provider.dart';
@@ -58,30 +56,20 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     TextSpan accessWithColour;
     if (access == "APPROVED") {
       accessWithColour = TextSpan(
-          text: "$access\n",
-          style: TextStyle(
-              color: MihColors.getGreenColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
+          text: "$access\n", style: TextStyle(color: MihColors.green()));
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
-          text: "$access\n",
-          style: TextStyle(
-              color: MihColors.getGreyColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
+          text: "$access\n", style: TextStyle(color: MihColors.grey()));
     } else {
-      accessWithColour = TextSpan(
-          text: "$access\n",
-          style: TextStyle(
-              color: MihColors.getRedColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark")));
+      accessWithColour =
+          TextSpan(text: "$access\n", style: TextStyle(color: MihColors.red()));
     }
 
     return ListTile(
       title: Text(
         line1,
         style: TextStyle(
-          color: MihColors.getSecondaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.secondary(),
         ),
       ),
       subtitle: RichText(
@@ -96,7 +84,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
       // Text(
       //   subtitle,
       //   style: TextStyle(
-      //     color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      //     color: MihColors.secondary(),
       //   ),
       // ),
       onTap: () {
@@ -104,7 +92,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
       },
       // trailing: Icon(
       //   Icons.arrow_forward,
-      //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+      //   color: MihColors.secondary(),
       // ),
     );
   }
@@ -173,8 +161,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                   subtitle,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                     fontSize: popUpBodySize,
                     //fontWeight: FontWeight.bold,
                   ),
@@ -191,18 +178,14 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                       "Important Notice: Approving Profile Access",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.red(),
                       ),
                     ),
                     Text(
                       "You are about to accept access to your patient's profile. Please be aware of the following important points:",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.red(),
                       ),
                     ),
                     SizedBox(
@@ -211,9 +194,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         "1. Permanent Access: Once you accepts this access request, it will become permanent.",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                       ),
                     ),
@@ -223,9 +204,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         "2. Shared Information: Any updates make to youe patient profile will be visible to all who have access to the profile.",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                       ),
                     ),
@@ -235,9 +214,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         "3. Irreversible Access: Once granted, you cannot revoke access to your patient's profile.",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                       ),
                     ),
@@ -245,9 +222,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                       "By pressing the \"Approve\" button you accept the above terms.",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.red(),
                       ),
                     ),
                   ],
@@ -263,18 +238,14 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                       "Important Notice: Approved Profile Access",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.red(),
                       ),
                     ),
                     Text(
                       "You have accepted access to your patient's profile. Please be aware of the following important points:",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        color: MihColors.getRedColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.red(),
                       ),
                     ),
                     SizedBox(
@@ -283,9 +254,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         "1. Permanent Access: This access is permanent.",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                       ),
                     ),
@@ -295,9 +264,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         "2. Shared Information: Any updates make to youe patient profile will be visible to all who have access to the profile.",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                       ),
                     ),
@@ -307,9 +274,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                         "3. Irreversible Access: You cannot revoke this access to your patient's profile.",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getRedColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.red(),
                         ),
                       ),
                     ),
@@ -355,16 +320,12 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           MihAlertServices().internetConnectionAlert(context);
                         }
                       },
-                      buttonColor: MihColors.getRedColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.red(),
                       width: 300,
                       child: Text(
                         "Decline",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -396,16 +357,12 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                           MihAlertServices().internetConnectionAlert(context);
                         }
                       },
-                      buttonColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      buttonColor: MihColors.green(),
                       width: 300,
                       child: Text(
                         "Approve",
                         style: TextStyle(
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -438,15 +395,13 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
               widget.onSuccessUpate!();
             }
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -488,8 +443,7 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
         return ListView.separated(
           separatorBuilder: (BuildContext context, index) {
             return Divider(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
             );
           },
           itemCount: filterAccessList(accessProvider.accessList!).length,

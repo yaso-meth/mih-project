@@ -3,15 +3,12 @@ import 'dart:async';
 import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/list_builders/build_file_view.dart';
@@ -102,19 +99,15 @@ class _BuildClaimStatementFileListState
       SpeedDialChild(
         child: Icon(
           Icons.download,
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
         label: "Download",
-        labelBackgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        labelBackgroundColor: MihColors.green(),
         labelStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        backgroundColor: MihColors.green(),
         onTap: () {
           if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
             html.window.open(url, 'download');
@@ -128,19 +121,15 @@ class _BuildClaimStatementFileListState
       SpeedDialChild(
         child: Icon(
           Icons.print,
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
         label: "Print",
-        labelBackgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        labelBackgroundColor: MihColors.green(),
         labelStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        backgroundColor: MihColors.green(),
         onTap: () {
           printDocument(url, filePath);
         },
@@ -150,19 +139,15 @@ class _BuildClaimStatementFileListState
       SpeedDialChild(
         child: Icon(
           Icons.fullscreen,
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
         ),
         label: "Full Screen",
-        labelBackgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        labelBackgroundColor: MihColors.green(),
         labelStyle: TextStyle(
-          color: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          color: MihColors.primary(),
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: MihColors.getGreenColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+        backgroundColor: MihColors.green(),
         onTap: () {
           context.pop();
           context.pushNamed(
@@ -178,19 +163,15 @@ class _BuildClaimStatementFileListState
         SpeedDialChild(
           child: Icon(
             Icons.delete,
-            color: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.primary(),
           ),
           label: "Delete Document",
-          labelBackgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          labelBackgroundColor: MihColors.green(),
           labelStyle: TextStyle(
-            color: MihColors.getPrimaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.primary(),
             fontWeight: FontWeight.bold,
           ),
-          backgroundColor: MihColors.getGreenColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          backgroundColor: MihColors.green(),
           onTap: () {
             // deleteFilePopUp(filePath, fileID);
           },
@@ -268,8 +249,7 @@ class _BuildClaimStatementFileListState
           return ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               );
             },
             itemCount: patientManagerProvider.patientClaimsDocuments!.length,
@@ -278,28 +258,25 @@ class _BuildClaimStatementFileListState
                 leading: Icon(
                   Icons.picture_as_pdf,
                   size: 50,
-                  color: MihColors.getRedColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.red(),
                 ),
                 title: Text(
                   patientManagerProvider
                       .patientClaimsDocuments![index].file_name,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                 ),
                 subtitle: Text(
                   patientManagerProvider
                       .patientClaimsDocuments![index].insert_date,
                   style: TextStyle(
-                    color: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.secondary(),
                   ),
                 ),
                 // trailing: Icon(
                 //   Icons.arrow_forward,
-                //   color: MihColors.getSecondaryColor(MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                //   color: MihColors.secondary(),
                 // ),
                 onTap: () async {
                   MihFileViewerProvider fileViewerProvider =
@@ -341,16 +318,12 @@ class _BuildClaimStatementFileListState
                     Icon(
                       MihIcons.mihRing,
                       size: 165,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                     Icon(
                       Icons.file_open_outlined,
                       size: 110,
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.secondary(),
                     ),
                   ],
                 ),
@@ -365,9 +338,7 @@ class _BuildClaimStatementFileListState
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                       ),
                     ),
@@ -383,9 +354,7 @@ class _BuildClaimStatementFileListState
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.secondary(),
                         ),
                         children: [
                           TextSpan(text: "Press "),
@@ -394,9 +363,7 @@ class _BuildClaimStatementFileListState
                             child: Icon(
                               Icons.menu,
                               size: 20,
-                              color: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.secondary(),
                             ),
                           ),
                           TextSpan(text: " to generate the first document"),

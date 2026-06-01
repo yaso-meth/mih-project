@@ -4,21 +4,21 @@ networks:
     driver: bridge
 #============== MIH Containers ====================================================================
 services:
-  #============== Nginx Proxy Manager ====================================================================  
+  #============== Nginx Proxy Manager ====================================================================
   mih-nginx:
     container_name: mih-nginx
-    image: 'jc21/nginx-proxy-manager:latest'
+    image: "jc21/nginx-proxy-manager:latest"
     restart: unless-stopped
     ports:
-      - '80:80'   # Public HTTP
-      - '443:443' # Public HTTPS
-      - '127.0.0.1:81:81'   # Admin Web Port
+      - "80:80" # Public HTTP
+      - "443:443" # Public HTTPS
+      - "127.0.0.1:81:81" # Admin Web Port
     volumes:
       - ./mih_nginx/data:/data
       - ./mih_nginx/letsencrypt:/etc/letsencrypt
     networks:
       - mih-network
-#============== GITEA ====================================================================   
+  #============== GITEA ====================================================================
   mih-gitea:
     image: gitea/gitea:latest
     container_name: mih-gitea
@@ -68,11 +68,11 @@ services:
     depends_on:
       - mih-db
     ports:
-      - '127.0.0.1:3567:3567'
+      - "127.0.0.1:3567:3567"
     environment:
-      REFRESH_TOKEN_VALIDITY: '604800'
-      ACCESS_TOKEN_VALIDITY: '86400'
-      PASSWORD_RESET_TOKEN_LIFETIME: '7200000'
+      REFRESH_TOKEN_VALIDITY: "604800"
+      ACCESS_TOKEN_VALIDITY: "86400"
+      PASSWORD_RESET_TOKEN_LIFETIME: "7200000"
       MYSQL_USER: ${SQL_USER}
       MYSQL_PASSWORD: ${SQL_USER_PW}
       MYSQL_HOST: mih-db
@@ -94,7 +94,7 @@ services:
     image: wordpress
     restart: always
     ports:
-      - '127.0.0.1:8081:80'
+      - "127.0.0.1:8081:80"
     environment:
       WORDPRESS_DB_HOST: mih-wp-db
       WORDPRESS_DB_USER: ${WP_SQL_USER}
@@ -112,7 +112,7 @@ services:
       MARIADB_DATABASE: ${WP_SQL_DB}
       MARIADB_USER: ${WP_SQL_USER}
       MARIADB_PASSWORD: ${WP_SQL_USER_PW}
-      MARIADB_RANDOM_ROOT_PASSWORD: '1'
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
     volumes:
       - ./mih_wp/database:/var/lib/mysql
     networks:
@@ -142,7 +142,7 @@ services:
       - mih-network
     depends_on:
       - mih-db
-  #============== My SQL DB ==================================================================== 
+  #============== My SQL DB ====================================================================
   mih-db:
     platform: linux/amd64
     image: mysql:5.7
@@ -155,11 +155,24 @@ services:
       MYSQL_DATABASE: ${SUPERTOKENS_DB}
     networks:
       - mih-network
-    ports:
-      - '127.0.0.1:3306:3306'
+    # ports:
+    #   - "127.0.0.1:3306:3306"
     volumes:
       - ./mih_db:/var/lib/mysql
-  #============== PHP My Admin ====================================================================        
+  #============== Adminer ====================================================================
+  mih-adminer:
+    image: adminer:latest
+    container_name: mih-adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: mih-db
+    ports:
+      - "127.0.0.1:8082:8080"
+    networks:
+      - mih-network
+    depends_on:
+      - mih-db
+  #============== PHP My Admin ====================================================================
   # phpmyadmin:
   #   platform: linux/amd64
   #   image: phpmyadmin/phpmyadmin
@@ -175,43 +188,46 @@ services:
   #     - 8081:80
   #   depends_on:
   #     - mih-db
-  #============== Minio File Storage ====================================================================  
+  #============== Minio File Storage ====================================================================
   mih-minio:
     platform: linux/amd64
     container_name: mih-minio
     hostname: mih-minio
     image: minio/minio
     ports:
-      - '127.0.0.1:9000:9000'
-      - '127.0.0.1:9001:9001'
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
     volumes:
-      - './mih_minio:/data'
+      - "./mih_minio:/data"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PW}
     networks:
       - mih-network
     command: ["server", "/data", "--console-address", ":9001"]
-  #============== MIH-Monitor Portainer ==================================================================== 
+  #============== MIH-Monitor Portainer ====================================================================
   mih-monitor:
     container_name: mih-monitor
     image: portainer/portainer-ce:2.20.3
     ports:
-      - '127.0.0.1:9444:9443'
+      - "127.0.0.1:9444:9443"
     volumes:
       - ./mih_monitor/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
       - mih-network
-  #============== MIH-AI Ollama ==================================================================== 
+  #============== MIH-AI Ollama ====================================================================
   mih-ai:
     container_name: mih-ai
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.21.2
     ports:
-      - '127.0.0.1:11434:11434'
+      - "127.0.0.1:11434:11434"
     volumes:
       - ./mih_ai/ollama/ollama:/root/.ollama
+      - ./mih_ai/Modelfile:/root/.ollama/Modelfile
+      - ./mih_ai/init-ollama.sh:/root/init-ollama.sh
+    entrypoint: ["/bin/bash", "/root/init-ollama.sh"]
     pull_policy: always
     tty: true
     restart: always
@@ -222,15 +238,15 @@ services:
     networks:
       - mih-network
 # === Added section for NVIDIA GPU acceleration ===
-    # runtime: nvidia
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all # or specify a number of GPUs
-    #           capabilities: [ gpu ]
-#============== Firebaase ====================================================================   
+# runtime: nvidia
+# deploy:
+#   resources:
+#     reservations:
+#       devices:
+#         - driver: nvidia
+#           count: all # or specify a number of GPUs
+#           capabilities: [ gpu ]
+#============== Firebaase ====================================================================
 # firebase:
 #   container_name: MIH-firebase-emulator
 #   build:

@@ -8,19 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_icons.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -56,17 +49,11 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   }
 
   String getQrCodeData(int qrSize) {
-    String color = MihColors.getPrimaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-        .toARGB32()
-        .toRadixString(16)
-        .substring(2, 8);
+    String color =
+        MihColors.primary().toARGB32().toRadixString(16).substring(2, 8);
     // KenLogger.warning(color);
-    String bgColor = MihColors.getSecondaryColor(
-            MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-        .toARGB32()
-        .toRadixString(16)
-        .substring(2, 8);
+    String bgColor =
+        MihColors.secondary().toARGB32().toRadixString(16).substring(2, 8);
     // KenLogger.warning(bgColor);
     String encodedData =
         Uri.encodeComponent("$qrCodedata${business.business_id}");
@@ -76,7 +63,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
 
   Future<void> saveImage(Uint8List imageBytes) async {
     final String filename =
-        "${business.Name}_QR_Code_${DateTime.now().millisecondsSinceEpoch}.png";
+        "${business.Name}_QR_Code_${DateTime.now().millisecondsSinceEpoch}";
     if (kIsWeb) {
       await FileSaver.instance.saveFile(
         name: filename,
@@ -138,15 +125,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
               Icon(
                 MihIcons.mihLogo,
                 size: 100,
-                color: MihColors.getSecondaryColor(
-                    MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                color: MihColors.secondary(),
               ),
               Text(
                 "Let's Get Started",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: MihColors.getPrimaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.primary(),
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -155,8 +140,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
               Text(
                 "Ready to dive in to the world of MIH?\nSign in or create a free MIH account to unlock all the powerful features of the MIH app. It's quick and easy!",
                 style: TextStyle(
-                  color: MihColors.getSecondaryColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  color: MihColors.secondary(),
                   fontSize: 15,
                 ),
               ),
@@ -169,16 +153,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       extra: true,
                     );
                   },
-                  buttonColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  buttonColor: MihColors.green(),
                   elevation: 10,
                   width: 300,
                   child: Text(
                     "Sign In/ Create Account",
                     style: TextStyle(
-                      color: MihColors.getPrimaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      color: MihColors.primary(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -196,16 +177,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     return Screenshot(
       controller: screenshotController,
       child: Material(
-        color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark")
-            .withValues(alpha: 0.6),
+        color: MihColors.secondary().withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(25),
         elevation: 10,
         shadowColor: Colors.black,
         child: Container(
           decoration: BoxDecoration(
-            color: MihColors.getSecondaryColor(
-                MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+            color: MihColors.secondary(),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
@@ -230,30 +208,22 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                             editable: false,
                             fileNameController: TextEditingController(),
                             userSelectedfile: file,
-                            frameColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            backgroundColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            frameColor: MihColors.primary(),
+                            backgroundColor: MihColors.secondary(),
                             onChange: () {},
                           );
                         } else {
                           return Icon(
-                            MihIcons.iDontKnow,
+                            MihIcons.mihIDontKnow,
                             size: profilePictureWidth,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                           );
                         }
                       } else {
                         return Icon(
                           MihIcons.mihRing,
                           size: profilePictureWidth,
-                          color: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          color: MihColors.primary(),
                         );
                       }
                     },
@@ -264,9 +234,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                     ),
                   ),
@@ -276,9 +244,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                     ),
                   ),
@@ -292,9 +258,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            color: MihColors.primary(),
                           ),
                         ),
                       ),
@@ -302,9 +266,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       Icon(
                         MihIcons.mihLogo,
                         size: 20,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                     ],
                   ),
@@ -328,9 +290,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                     ),
                   ),
@@ -365,14 +325,14 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     }
     _checkUserSession();
     futureImageUrl = MihFileApi.getMinioFileUrl(business.logo_path);
-    qrCodedata =
-        "${AppEnviroment.baseAppUrl}/business-profile/view?business_id=";
+    qrCodedata = "${AppEnviroment.baseAppUrl}/business-profile/view/";
   }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
       bodyItem: getBody(screenSize, context),
@@ -410,19 +370,15 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.download_rounded,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                   label: "Download QR Code",
-                  labelBackgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  labelBackgroundColor: MihColors.green(),
                   labelStyle: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.green(),
                   onTap: () {
                     downloadQrCode();
                   },
@@ -430,19 +386,15 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                 SpeedDialChild(
                   child: Icon(
                     Icons.share_rounded,
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                   ),
                   label: "Share Business",
-                  labelBackgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  labelBackgroundColor: MihColors.green(),
                   labelStyle: TextStyle(
-                    color: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    color: MihColors.primary(),
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: MihColors.getGreenColor(
-                      MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                  backgroundColor: MihColors.green(),
                   onTap: () {
                     shareMIHLink(
                       context,

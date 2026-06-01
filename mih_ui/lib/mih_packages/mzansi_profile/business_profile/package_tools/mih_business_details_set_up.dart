@@ -4,16 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_button.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_form.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_text_form_field.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
@@ -174,11 +169,9 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
 
   Color getMissionVisionLimitColor(int limit) {
     if (_counter.value <= limit) {
-      return MihColors.getSecondaryColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      return MihColors.secondary();
     } else {
-      return MihColors.getRedColor(
-          MzansiInnovationHub.of(context)!.theme.mode == "Dark");
+      return MihColors.red();
     }
   }
 
@@ -202,15 +195,13 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
               extra: stayOnPersonalSide,
             );
           },
-          buttonColor: MihColors.getPrimaryColor(
-              MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+          buttonColor: MihColors.primary(),
           elevation: 10,
           width: 300,
           child: Text(
             "Dismiss",
             style: TextStyle(
-              color: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              color: MihColors.secondary(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -279,6 +270,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(screenWidth),
     );
@@ -316,10 +308,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       fontSize: 25,
                     ),
                   ),
-                  Divider(
-                      color: MihColors.getSecondaryColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark")),
+                  Divider(color: MihColors.secondary()),
                   const SizedBox(height: 10.0),
                   MihForm(
                     formKey: _formKey,
@@ -334,12 +323,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                           editable: true,
                           fileNameController: logoFileNameController,
                           userSelectedfile: newSelectedLogoPic,
-                          frameColor: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
-                          backgroundColor: MihColors.getPrimaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          frameColor: MihColors.secondary(),
+                          backgroundColor: MihColors.primary(),
                           onChange: (selectedfile) {
                             setState(() {
                               newSelectedLogoPic = selectedfile;
@@ -349,12 +334,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 20),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: nameController,
                         multiLineInput: false,
                         requiredText: true,
@@ -365,12 +346,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: typeController,
                         multiLineInput: false,
                         requiredText: true,
@@ -382,12 +359,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: emailController,
                         multiLineInput: false,
                         requiredText: true,
@@ -424,21 +397,13 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                             initialSelection: countryCodeController.text,
                             showDropDownButton: false,
                             pickerStyle: PickerStyle.bottomSheet,
-                            dialogBackgroundColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
-                            barrierColor: MihColors.getPrimaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            dialogBackgroundColor: MihColors.primary(),
+                            barrierColor: MihColors.primary(),
                           ),
                           Expanded(
                             child: MihTextFormField(
-                              fillColor: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              inputColor: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              fillColor: MihColors.secondary(),
+                              inputColor: MihColors.primary(),
                               controller: contactController,
                               numberMode: true,
                               multiLineInput: false,
@@ -454,12 +419,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       const SizedBox(height: 10.0),
                       MihTextFormField(
                         height: 250,
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: missionVisionController,
                         multiLineInput: true,
                         requiredText: true,
@@ -501,12 +462,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: websiteController,
                         multiLineInput: false,
                         requiredText: false,
@@ -519,12 +476,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       const SizedBox(height: 10.0),
 
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: regController,
                         multiLineInput: false,
                         requiredText: false,
@@ -536,12 +489,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: practiceNoController,
                         multiLineInput: false,
                         requiredText: false,
@@ -553,12 +502,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
 
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: vatNoController,
                         multiLineInput: false,
                         requiredText: false,
@@ -574,12 +519,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                         children: [
                           Flexible(
                             child: MihTextFormField(
-                              fillColor: MihColors.getSecondaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
-                              inputColor: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              fillColor: MihColors.secondary(),
+                              inputColor: MihColors.primary(),
                               controller: locationController,
                               multiLineInput: false,
                               requiredText: true,
@@ -610,18 +551,12 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                                 Navigator.of(context).pop();
                               });
                             },
-                            buttonColor: MihColors.getSecondaryColor(
-                                MzansiInnovationHub.of(context)!.theme.mode ==
-                                    "Dark"),
+                            buttonColor: MihColors.secondary(),
                             width: 100,
                             child: Text(
                               "Set",
                               style: TextStyle(
-                                color: MihColors.getPrimaryColor(
-                                    MzansiInnovationHub.of(context)!
-                                            .theme
-                                            .mode ==
-                                        "Dark"),
+                                color: MihColors.primary(),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -640,18 +575,11 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                           ),
                         ),
                       ),
-                      Divider(
-                          color: MihColors.getSecondaryColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark")),
+                      Divider(color: MihColors.secondary()),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: titleController,
                         multiLineInput: false,
                         requiredText: true,
@@ -673,12 +601,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       // ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: fnameController,
                         multiLineInput: false,
                         requiredText: true,
@@ -690,12 +614,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: lnameController,
                         multiLineInput: false,
                         requiredText: true,
@@ -707,12 +627,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                       ),
                       const SizedBox(height: 10.0),
                       MihTextFormField(
-                        fillColor: MihColors.getSecondaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
-                        inputColor: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        fillColor: MihColors.secondary(),
+                        inputColor: MihColors.primary(),
                         controller: accessController,
                         multiLineInput: false,
                         requiredText: true,
@@ -761,16 +677,12 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                               MihAlertServices().inputErrorAlert(context);
                             }
                           },
-                          buttonColor: MihColors.getGreenColor(
-                              MzansiInnovationHub.of(context)!.theme.mode ==
-                                  "Dark"),
+                          buttonColor: MihColors.green(),
                           width: 300,
                           child: Text(
                             "Set Up Buasiness",
                             style: TextStyle(
-                              color: MihColors.getPrimaryColor(
-                                  MzansiInnovationHub.of(context)!.theme.mode ==
-                                      "Dark"),
+                              color: MihColors.primary(),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),

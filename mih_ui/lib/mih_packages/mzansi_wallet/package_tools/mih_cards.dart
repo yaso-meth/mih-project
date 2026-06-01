@@ -1,11 +1,7 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_add_card_window.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_floating_menu.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +89,7 @@ class _MihCardsState extends State<MihCards> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(width),
     );
@@ -119,10 +116,8 @@ class _MihCardsState extends State<MihCards> {
                     hintText: "Search Cards",
                     // prefixIcon: Icons.search,
                     prefixIcon: Icons.search,
-                    fillColor: MihColors.getSecondaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-                    hintColor: MihColors.getPrimaryColor(
-                        MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+                    fillColor: MihColors.secondary(),
+                    hintColor: MihColors.primary(),
                     onPrefixIconTap: () {
                       // print("Search Icon Pressed: ${cardSearchController.text}");
                     },
@@ -154,23 +149,15 @@ class _MihCardsState extends State<MihCards> {
                     SpeedDialChild(
                       child: Icon(
                         Icons.add,
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                       ),
                       label: "Add Loyalty Card",
-                      labelBackgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      labelBackgroundColor: MihColors.green(),
                       labelStyle: TextStyle(
-                        color: MihColors.getPrimaryColor(
-                            MzansiInnovationHub.of(context)!.theme.mode ==
-                                "Dark"),
+                        color: MihColors.primary(),
                         fontWeight: FontWeight.bold,
                       ),
-                      backgroundColor: MihColors.getGreenColor(
-                          MzansiInnovationHub.of(context)!.theme.mode ==
-                              "Dark"),
+                      backgroundColor: MihColors.green(),
                       onTap: () {
                         addCardWindow(context, width);
                       },

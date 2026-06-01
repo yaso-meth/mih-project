@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tool_body.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_search_bar.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_single_child_scroll.dart';
-import 'package:mzansi_innovation_hub/mih_config/mih_colors.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 
 class MihContacts extends StatefulWidget {
   const MihContacts({super.key});
@@ -21,6 +17,7 @@ class _MihContactsState extends State<MihContacts> {
     final Size size = MediaQuery.sizeOf(context);
     final double width = size.width;
     return MihPackageToolBody(
+      backgroundColor: MihColors.primary(),
       borderOn: false,
       bodyItem: getBody(width),
     );
@@ -37,10 +34,8 @@ class _MihContactsState extends State<MihContacts> {
               controller: contactSearchController,
               hintText: "Search Contacts",
               prefixIcon: Icons.search,
-              fillColor: MihColors.getSecondaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
-              hintColor: MihColors.getPrimaryColor(
-                  MzansiInnovationHub.of(context)!.theme.mode == "Dark"),
+              fillColor: MihColors.secondary(),
+              hintColor: MihColors.primary(),
               onPrefixIconTap: () {},
               searchFocusNode: searchFocusNode,
             ),

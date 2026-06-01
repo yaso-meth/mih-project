@@ -1,9 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_action.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_package_tools.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_loading_circle.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/package_tools/patient_claim_or_statement.dart';
@@ -43,7 +40,7 @@ class _PatientProfileState extends State<PatientProfile> {
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataOnly(
+      await MihDataHelperServices().loadUserDataWithBusinessesData(
         mzansiProfileProvider,
       );
     }
@@ -107,11 +104,11 @@ class _PatientProfileState extends State<PatientProfile> {
           );
         }
         return MihPackage(
-          appActionButton: getAction(),
-          appTools: getTools(),
-          appBody: getToolBody(),
-          appToolTitles: getToolTitle(),
-          selectedbodyIndex:
+          packageActionButton: getAction(),
+          packageTools: getTools(),
+          packageToolBodies: getToolBody(),
+          packageToolTitles: getToolTitle(),
+          selectedBodyIndex:
               context.watch<PatientManagerProvider>().patientProfileIndex,
           onIndexChange: (newValue) {
             context
@@ -128,6 +125,7 @@ class _PatientProfileState extends State<PatientProfile> {
         context.read<PatientManagerProvider>();
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
+      iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         if (!patientManagerProvider.personalMode) {
@@ -162,7 +160,7 @@ class _PatientProfileState extends State<PatientProfile> {
     };
     return MihPackageTools(
       tools: temp,
-      selcetedIndex: patientManagerProvider.patientProfileIndex,
+      selectedIndex: patientManagerProvider.patientProfileIndex,
     );
   }
 
