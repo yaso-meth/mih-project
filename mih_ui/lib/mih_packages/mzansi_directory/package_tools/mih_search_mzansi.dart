@@ -76,9 +76,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
       Map<String, Future<String>> userImages = {};
       Future<String> usernProPicUrl;
       for (var user in userResults) {
-        KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
         usernProPicUrl = MihFileApi.getMinioFileUrl(user.pro_pic_path);
-        KenLogger.success("Business Logo Path: ${user.pro_pic_path}");
         userImages[user.app_id] = usernProPicUrl;
         // != ""
         //     ? CachedNetworkImageProvider(usernProPicUrl)
@@ -103,9 +101,7 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
       Map<String, Future<String>> busImagesUrl = {};
       Future<String> businessLogoUrl;
       for (var bus in businessSearchResults) {
-        KenLogger.success("Business Logo Path: ${bus.logo_path}");
         businessLogoUrl = MihFileApi.getMinioFileUrl(bus.logo_path);
-        KenLogger.success("Business Logo Path: ${bus.logo_path}");
         busImagesUrl[bus.business_id] = businessLogoUrl;
         // != ""
         //     ? CachedNetworkImageProvider(businessLogoUrl)

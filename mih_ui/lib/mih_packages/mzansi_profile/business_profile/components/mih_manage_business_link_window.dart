@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/components/mih_edit_user_profile_links_window.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_edit_business_link_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
 
-class MihManageUserProfileLinksWindow extends StatefulWidget {
-  const MihManageUserProfileLinksWindow({super.key});
+class MihManageBusinessLinkWindow extends StatefulWidget {
+  const MihManageBusinessLinkWindow({super.key});
 
   @override
-  State<MihManageUserProfileLinksWindow> createState() =>
-      _MihManageUserProfileLinksWindowState();
+  State<MihManageBusinessLinkWindow> createState() =>
+      _MihManageBusinessLinkWindowState();
 }
 
-class _MihManageUserProfileLinksWindowState
-    extends State<MihManageUserProfileLinksWindow> {
+class _MihManageBusinessLinkWindowState
+    extends State<MihManageBusinessLinkWindow> {
   void successPopUp(String title, String message, int packageIndex) {
     MihAlertServices().successBasicAlert(
       title,
@@ -30,7 +31,7 @@ class _MihManageUserProfileLinksWindowState
       MzansiProfileProvider profileProvider, int idprofile_links) {
     MihAlertServices().warningAdvancedAlert(
       "Remove Link?",
-      "Are you sure you want to remove this link from your profile?",
+      "Are you sure you want to remove this link from your business?",
       [
         MihButton(
           onPressed: () async {
@@ -43,7 +44,7 @@ class _MihManageUserProfileLinksWindowState
             context.pop();
             if (statusCode == 200) {
               successPopUp("profile Link Deleted",
-                  "you have successfully deleted a link to your profile", 0);
+                  "you have successfully deleted a link to your business", 0);
             } else {
               MihAlertServices().internetConnectionAlert(context);
             }
@@ -81,8 +82,9 @@ class _MihManageUserProfileLinksWindowState
 
   void editLinkWindow(ProfileLink link) {
     showDialog(
-        context: context,
-        builder: (context) => MihEditUserProfileLinksWindow(link: link));
+      context: context,
+      builder: (context) => MihEditBusnessLinkWindow(link: link),
+    );
   }
 
   Widget linkActions(MzansiProfileProvider profileProvider, ProfileLink link) {
@@ -139,7 +141,7 @@ class _MihManageUserProfileLinksWindowState
                   ),
                   child: ReorderableListView.builder(
                       itemBuilder: (context, index) {
-                        ProfileLink link = profileProvider.personalLinks[index];
+                        ProfileLink link = profileProvider.businessLinks[index];
                         String display = link.site_name;
                         if (link.custom_name.isNotEmpty) {
                           display += " (${link.custom_name})";
@@ -159,9 +161,9 @@ class _MihManageUserProfileLinksWindowState
                           ),
                         );
                       },
-                      itemCount: profileProvider.personalLinks.length,
+                      itemCount: profileProvider.businessLinks.length,
                       onReorder: (oldIndex, newIndex) {
-                        profileProvider.reorderPersonalLinks(
+                        profileProvider.reorderBusinessLinks(
                             oldIndex: oldIndex, newIndex: newIndex);
                       }),
                 ),
@@ -171,7 +173,7 @@ class _MihManageUserProfileLinksWindowState
                   MihProfileLinksServices.loadingPopUp(context);
                   int newIndex = 1;
                   bool hasError = false;
-                  for (var link in profileProvider.personalLinks) {
+                  for (var link in profileProvider.businessLinks) {
                     int statusCode =
                         await MihProfileLinksServices.updateProfileLink(
                             profileProvider,

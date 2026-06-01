@@ -21,10 +21,12 @@ import 'package:url_launcher/url_launcher.dart';
 class MihBusinessCardV2 extends StatefulWidget {
   final Business business;
   final double width;
+  final bool viewMode;
   const MihBusinessCardV2({
     super.key,
     required this.business,
     required this.width,
+    required this.viewMode,
   });
 
   @override
@@ -190,8 +192,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
             Column(
               children: [
                 MihButton(
-                  width: 80,
-                  height: 80,
+                  width: 70,
+                  height: 70,
                   onPressed: () {
                     _makePhoneCall(widget.business.contact_no);
                   },
@@ -218,8 +220,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
             Column(
               children: [
                 MihButton(
-                  width: 80,
-                  height: 80,
+                  width: 70,
+                  height: 70,
                   onPressed: () {
                     _launchEmail(
                       widget.business.bus_email,
@@ -251,8 +253,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
               Column(
                 children: [
                   MihButton(
-                    width: 80,
-                    height: 80,
+                    width: 70,
+                    height: 70,
                     onPressed: () {
                       final latitude = double.parse(
                           widget.business.gps_location.split(',')[0]);
@@ -288,8 +290,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
               Column(
                 children: [
                   MihButton(
-                    width: 80,
-                    height: 80,
+                    width: 70,
+                    height: 70,
                     onPressed: () {
                       _launchWebsite(widget.business.website);
                     },
@@ -320,8 +322,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   return Column(
                     children: [
                       MihButton(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         onPressed: () {},
                         buttonColor: MihColors.grey(),
                         child: Icon(
@@ -354,8 +356,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   return Column(
                     children: [
                       MihButton(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         onPressed: () {
                           businessReviewRatingWindow(directoryProvider,
                               businessReview, true, widget.width);
@@ -390,8 +392,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   return Column(
                     children: [
                       MihButton(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         onPressed: () {},
                         buttonColor: MihColors.grey(),
                         child: Icon(
@@ -424,8 +426,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   return Column(
                     children: [
                       MihButton(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         onPressed: () {
                           if (bookmarkBusiness == null) {
                             showAddBookmarkAlert();
@@ -457,6 +459,39 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   );
                 }
               },
+            ),
+            Column(
+              children: [
+                MihButton(
+                  width: 70,
+                  height: 70,
+                  onPressed: () {
+                    // _makePhoneCall(widget.business.contact_no);
+                    if (!widget.viewMode) {
+                      profileProvider.setBusinessIndex(5);
+                    } else {
+                      directoryProvider.setBusinessViewIndex(2);
+                    }
+                  },
+                  buttonColor: MihColors.secondary(),
+                  child: Icon(
+                    MihIcons.link,
+                    color: MihColors.primary(),
+                    size: iconSize,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                FittedBox(
+                  child: Text(
+                    "Links",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: MihColors.secondary(),
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );

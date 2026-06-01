@@ -183,6 +183,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                       MihBusinessCardV2(
                         business: directoryProvider.selectedBusiness!,
                         width: width,
+                        viewMode: true,
                       ),
                     ],
                   ),

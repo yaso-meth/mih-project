@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_links.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
@@ -10,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profi
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_user.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
 
 class BusinesProfile extends StatefulWidget {
@@ -27,6 +29,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
   late final MihBusinessUserSearch _businessUserSearch;
   late final MihBusinessReviews _businessReviews;
   late final MihBusinessQrCode _businessQrCode;
+  late final MihBusinessLinks _businessLinks;
 
   Future<void> _loadInitialData() async {
     setState(() {
@@ -39,6 +42,8 @@ class _BusinesProfileState extends State<BusinesProfile> {
         mzansiProfileProvider,
       );
     }
+    await MihProfileLinksServices.getBusinessProfileLinks(
+        mzansiProfileProvider, mzansiProfileProvider.business!.business_id);
     await MihBusinessEmployeeServices()
         .fetchEmployees(mzansiProfileProvider, context);
     setState(() {
@@ -54,6 +59,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
     _businessTeam = MihMyBusinessTeam();
     _businessUserSearch = MihBusinessUserSearch();
     _businessReviews = MihBusinessReviews(business: null);
+    _businessLinks = MihBusinessLinks(viewMode: false);
     _businessQrCode = MihBusinessQrCode(business: null);
     _loadInitialData();
   }
@@ -122,8 +128,11 @@ class _BusinesProfileState extends State<BusinesProfile> {
     temp[const Icon(Icons.star_rate_rounded)] = () {
       context.read<MzansiProfileProvider>().setBusinessIndex(4);
     };
-    temp[const Icon(Icons.qr_code_rounded)] = () {
+    temp[const Icon(Icons.link)] = () {
       context.read<MzansiProfileProvider>().setBusinessIndex(5);
+    };
+    temp[const Icon(Icons.qr_code_rounded)] = () {
+      context.read<MzansiProfileProvider>().setBusinessIndex(6);
     };
     return MihPackageTools(
       tools: temp,
@@ -138,6 +147,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
       "Team",
       "Add",
       "Reviews",
+      "Links",
       "Share",
     ];
     return toolTitles;
@@ -150,6 +160,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
       _businessTeam,
       _businessUserSearch,
       _businessReviews,
+      _businessLinks,
       _businessQrCode,
     ];
   }

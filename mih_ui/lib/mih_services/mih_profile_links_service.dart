@@ -43,6 +43,21 @@ class MihProfileLinksServices {
     }
   }
 
+  static Future<List<ProfileLink>> getBusinessProfileLinksMD(
+    String business_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/profile-links/business/$business_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<ProfileLink> myLinks =
+          List<ProfileLink>.from(l.map((model) => ProfileLink.fromJson(model)));
+      return myLinks;
+    } else {
+      throw Exception('failed to fecth user profile links');
+    }
+  }
+
   static Future<void> getBusinessProfileLinks(
     MzansiProfileProvider profileProvider,
     String business_id,

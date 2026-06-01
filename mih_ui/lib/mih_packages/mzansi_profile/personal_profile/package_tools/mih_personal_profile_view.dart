@@ -162,41 +162,42 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                       ),
                       const SizedBox(height: 15.0),
                       FutureBuilder(
-                          future: futureLinks,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              return MihProfileLinks(
-                                links: asyncSnapshot.requireData,
-                              );
-                            } else {
-                              return Wrap(
-                                alignment: WrapAlignment.center,
-                                runAlignment: WrapAlignment.center,
-                                runSpacing: 10,
-                                spacing: 10,
-                                children: [
-                                  Container(width: 70, height: 70).redacted(
-                                    context: context,
-                                    redact: true,
-                                  ),
-                                  Container(width: 70, height: 70).redacted(
-                                    context: context,
-                                    redact: true,
-                                  ),
-                                  Container(width: 70, height: 70).redacted(
-                                    context: context,
-                                    redact: true,
-                                  ),
-                                  Container(width: 70, height: 70).redacted(
-                                    context: context,
-                                    redact: true,
-                                  ),
-                                ],
-                              );
-                            }
-                          }),
+                        future: futureLinks,
+                        builder: (context, asyncSnapshot) {
+                          if (asyncSnapshot.connectionState ==
+                                  ConnectionState.done &&
+                              asyncSnapshot.hasData) {
+                            return MihProfileLinks(
+                              links: asyncSnapshot.requireData,
+                            );
+                          } else {
+                            return Wrap(
+                              alignment: WrapAlignment.center,
+                              runAlignment: WrapAlignment.center,
+                              runSpacing: 10,
+                              spacing: 10,
+                              children: [
+                                Container(width: 70, height: 70).redacted(
+                                  context: context,
+                                  redact: true,
+                                ),
+                                Container(width: 70, height: 70).redacted(
+                                  context: context,
+                                  redact: true,
+                                ),
+                                Container(width: 70, height: 70).redacted(
+                                  context: context,
+                                  redact: true,
+                                ),
+                                Container(width: 70, height: 70).redacted(
+                                  context: context,
+                                  redact: true,
+                                ),
+                              ],
+                            );
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),

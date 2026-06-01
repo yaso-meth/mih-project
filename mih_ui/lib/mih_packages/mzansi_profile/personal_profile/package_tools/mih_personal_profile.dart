@@ -204,18 +204,19 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      MihButton(
-                        onPressed: () {
-                          editProfileLinksWindow();
-                        },
-                        buttonColor: MihColors.green(),
-                        width: 50,
-                        height: 50,
-                        child: Icon(
-                          Icons.edit,
-                          color: MihColors.primary(),
+                      if (mzansiProfileProvider.personalLinks.isNotEmpty)
+                        MihButton(
+                          onPressed: () {
+                            editProfileLinksWindow();
+                          },
+                          buttonColor: MihColors.green(),
+                          width: 50,
+                          height: 50,
+                          child: Icon(
+                            Icons.edit,
+                            color: MihColors.primary(),
+                          ),
                         ),
-                      ),
                     ],
                   ),
                   const SizedBox(height: 20.0),

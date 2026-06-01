@@ -9,20 +9,19 @@ import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dar
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
 
-class MihEditUserProfileLinksWindow extends StatefulWidget {
+class MihEditBusnessLinkWindow extends StatefulWidget {
   final ProfileLink link;
-  const MihEditUserProfileLinksWindow({
+  const MihEditBusnessLinkWindow({
     super.key,
     required this.link,
   });
 
   @override
-  State<MihEditUserProfileLinksWindow> createState() =>
-      _MihEditUserProfileLinksWindowState();
+  State<MihEditBusnessLinkWindow> createState() =>
+      _MihEditBusnessLinkWindowState();
 }
 
-class _MihEditUserProfileLinksWindowState
-    extends State<MihEditUserProfileLinksWindow> {
+class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
   final _formKey = GlobalKey<FormState>();
   List<String> _dropdowOptions = [
     "YouTube",
@@ -149,8 +148,8 @@ class _MihEditUserProfileLinksWindowState
                               await MihProfileLinksServices.updateProfileLink(
                             profileProvider,
                             widget.link.idprofile_links,
-                            profileProvider.user!.app_id,
                             "",
+                            profileProvider.business!.business_id,
                             _dropdownLinkNameController.text,
                             _linkNameController.text,
                             _destinationController.text,
@@ -162,7 +161,7 @@ class _MihEditUserProfileLinksWindowState
                             context.pop();
                             successPopUp(
                                 "Profile Link Updated",
-                                "You have successfully update a link in your profile",
+                                "You have successfully update a link in your business",
                                 0);
                           } else {
                             MihAlertServices().internetConnectionAlert(context);

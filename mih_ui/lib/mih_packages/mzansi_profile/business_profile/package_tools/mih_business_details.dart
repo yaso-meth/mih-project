@@ -169,6 +169,7 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                       business: mzansiProfileProvider.business!,
                       // startUpSearch: null,
                       width: width,
+                      viewMode: false,
                     ),
                     const SizedBox(height: 30.0),
                   ],

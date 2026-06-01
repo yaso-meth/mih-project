@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
 
-class MihEditUserProfileLinksWindow extends StatefulWidget {
-  final ProfileLink link;
-  const MihEditUserProfileLinksWindow({
-    super.key,
-    required this.link,
-  });
+class MihAddBusinessLinkWindow extends StatefulWidget {
+  const MihAddBusinessLinkWindow({super.key});
 
   @override
-  State<MihEditUserProfileLinksWindow> createState() =>
-      _MihEditUserProfileLinksWindowState();
+  State<MihAddBusinessLinkWindow> createState() =>
+      _MihAddBusinessLinkWindowState();
 }
 
-class _MihEditUserProfileLinksWindowState
-    extends State<MihEditUserProfileLinksWindow> {
+class _MihAddBusinessLinkWindowState extends State<MihAddBusinessLinkWindow> {
   final _formKey = GlobalKey<FormState>();
   List<String> _dropdowOptions = [
     "YouTube",
@@ -64,14 +59,6 @@ class _MihEditUserProfileLinksWindowState
   }
 
   @override
-  void initState() {
-    super.initState();
-    _dropdownLinkNameController.text = widget.link.site_name;
-    _linkNameController.text = widget.link.custom_name;
-    _destinationController.text = widget.link.destination;
-  }
-
-  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     _dropdowOptions.sort();
@@ -84,7 +71,7 @@ class _MihEditUserProfileLinksWindowState
       ) {
         return MihPackageWindow(
           fullscreen: false,
-          windowTitle: "Update Link",
+          windowTitle: "Add Link",
           onWindowTapClose: () {
             _dropdownLinkNameController.clear();
             _destinationController.clear();
@@ -146,23 +133,27 @@ class _MihEditUserProfileLinksWindowState
                         if (_formKey.currentState!.validate()) {
                           MihProfileLinksServices.loadingPopUp(context);
                           int statusCode =
-                              await MihProfileLinksServices.updateProfileLink(
+                              await MihProfileLinksServices.addProfileLink(
                             profileProvider,
-                            widget.link.idprofile_links,
-                            profileProvider.user!.app_id,
                             "",
+                            profileProvider.business!.business_id,
                             _dropdownLinkNameController.text,
                             _linkNameController.text,
                             _destinationController.text,
-                            widget.link.order,
-                            context,
+                            profileProvider.businessLinks.length + 1,
                           );
+                          KenLogger.success("Status COde: $statusCode");
                           context.pop();
-                          if (statusCode == 200) {
+                          if (statusCode == 201) {
+                            await MihProfileLinksServices
+                                .getBusinessProfileLinks(
+                              profileProvider,
+                              profileProvider.business!.business_id,
+                            );
                             context.pop();
                             successPopUp(
-                                "Profile Link Updated",
-                                "You have successfully update a link in your profile",
+                                "Profile Link Added",
+                                "You have successfully added a new link to your business",
                                 0);
                           } else {
                             MihAlertServices().internetConnectionAlert(context);
@@ -174,7 +165,7 @@ class _MihEditUserProfileLinksWindowState
                       buttonColor: MihColors.green(),
                       width: 300,
                       child: Text(
-                        "Update",
+                        "Add",
                         style: TextStyle(
                           color: MihColors.primary(),
                           fontSize: 20,

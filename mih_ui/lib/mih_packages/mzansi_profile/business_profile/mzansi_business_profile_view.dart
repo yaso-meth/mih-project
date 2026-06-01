@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_links.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_details_view.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_qr_code.dart';
@@ -26,6 +27,7 @@ class MzansiBusinessProfileView extends StatefulWidget {
 class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
   late final MihBusinessDetailsView _businessDetailsView;
   late final MihBusinessReviews _businessReviews;
+  late final MihBusinessLinks _businessLinks;
   late final MihBusinessQrCode _businessQrCode;
 
   Future<void> _fetchBusinessDetails(
@@ -49,6 +51,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     _businessQrCode = MihBusinessQrCode(
       business: directoryProvider.selectedBusiness!,
     );
+    _businessLinks = MihBusinessLinks(viewMode: true);
   }
 
   @override
@@ -117,8 +120,11 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     temp[const Icon(Icons.star_rate_rounded)] = () {
       context.read<MzansiDirectoryProvider>().setBusinessViewIndex(1);
     };
-    temp[const Icon(Icons.qr_code_rounded)] = () {
+    temp[const Icon(Icons.link)] = () {
       context.read<MzansiDirectoryProvider>().setBusinessViewIndex(2);
+    };
+    temp[const Icon(Icons.qr_code_rounded)] = () {
+      context.read<MzansiDirectoryProvider>().setBusinessViewIndex(3);
     };
     return MihPackageTools(
       tools: temp,
@@ -130,6 +136,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     return [
       _businessDetailsView,
       _businessReviews,
+      _businessLinks,
       _businessQrCode,
     ];
   }
@@ -138,6 +145,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     List<String> toolTitles = [
       "Profile",
       "Reviews",
+      "Links",
       "Share Business",
     ];
     return toolTitles;
