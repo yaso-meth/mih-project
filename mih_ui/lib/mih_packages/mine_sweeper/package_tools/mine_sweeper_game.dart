@@ -335,7 +335,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
             children: [
               const SizedBox(height: 10),
               Icon(
-                FontAwesomeIcons.bomb,
+                MihIcons.minesweeper,
                 color: MihColors.secondary(),
                 size: 125,
               ),

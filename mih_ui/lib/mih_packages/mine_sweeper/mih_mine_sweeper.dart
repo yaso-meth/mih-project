@@ -100,7 +100,7 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = {};
-    temp[const Icon(FontAwesomeIcons.bomb)] = () {
+    temp[const Icon(MihIcons.minesweeper)] = () {
       context.read<MihMineSweeperProvider>().setToolIndex(0);
     };
     temp[const Icon(Icons.leaderboard_rounded)] = () {

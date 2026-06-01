@@ -177,7 +177,7 @@ class _MihInfoState extends State<MihInfo> {
         kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
     final isWebIos = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS);
     String btnText = "";
-    IconData platformIcon;
+    FaIconData platformIcon;
     if (isWebAndroid) {
       btnText = "Install MIH";
       platformIcon = FontAwesomeIcons.googlePlay;
@@ -483,7 +483,7 @@ class _MihInfoState extends State<MihInfo> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(
+                                  Icon(
                                     Icons.store,
                                     color: MihColors.primary(),
                                   ),
@@ -649,7 +649,7 @@ class _MihInfoState extends State<MihInfo> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FaIcon(
+                      Icon(
                         Icons.edit,
                         color: MihColors.primary(),
                       ),
