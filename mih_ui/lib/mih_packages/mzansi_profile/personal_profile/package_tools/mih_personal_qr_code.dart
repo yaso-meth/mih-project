@@ -39,8 +39,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
   ScreenshotController screenshotController = ScreenshotController();
   Uint8List? personalQRImageFile;
   bool _isUserSignedIn = false;
-  final String _qrCodedata =
-      "${AppEnviroment.baseAppUrl}/mzansi-profile/view?username=";
+  final String _qrCodedata = "${AppEnviroment.baseAppUrl}/mzansi-profile/view/";
 
   Future<void> _checkUserSession() async {
     final doesSessionExist = await SuperTokens.doesSessionExist();

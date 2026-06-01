@@ -59,7 +59,6 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    directoryProvider.setBusinessViewIndex(0);
     _fetchBusinessDetails(directoryProvider);
   }
 
@@ -77,7 +76,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
           );
         } else {
           return MihPackage(
-            packageActionButton: getAction(),
+            packageActionButton: getAction(directoryProvider),
             packageTools: getTools(),
             packageToolBodies: getToolBody(directoryProvider),
             packageToolTitles: getToolTitle(),
@@ -91,7 +90,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
     );
   }
 
-  MihPackageAction getAction() {
+  MihPackageAction getAction(MzansiDirectoryProvider directoryProvider) {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconColor: MihColors.secondary(),
@@ -107,6 +106,7 @@ class _MzansiBusinessProfileViewState extends State<MzansiBusinessProfileView> {
         // context.goNamed(
         //   "mzansiDirectory",
         // );
+        directoryProvider.setBusinessViewIndex(0);
         FocusScope.of(context).unfocus();
       },
     );

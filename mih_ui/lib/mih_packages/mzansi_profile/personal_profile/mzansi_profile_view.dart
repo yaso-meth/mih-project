@@ -26,7 +26,6 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
   void _loadUserData() async {
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    directoryProvider.setPersonalViewIndex(0);
     if (widget.username != null) {
       final user = await MihUserServices()
           .getMIHUserDetailsByUsername(widget.username!, context);
@@ -64,7 +63,7 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
           );
         } else {
           return MihPackage(
-            packageActionButton: getAction(),
+            packageActionButton: getAction(directoryProvider),
             packageTools: getTools(),
             packageToolBodies: getToolBody(),
             packageToolTitles: getToolTitle(),
@@ -78,13 +77,14 @@ class _MzansiProfileViewState extends State<MzansiProfileView> {
     );
   }
 
-  MihPackageAction getAction() {
+  MihPackageAction getAction(MzansiDirectoryProvider directoryProvider) {
     return MihPackageAction(
       icon: const Icon(Icons.arrow_back),
       iconColor: MihColors.secondary(),
       iconSize: 35,
       onTap: () {
         context.pop();
+        directoryProvider.setPersonalViewIndex(0);
         FocusScope.of(context).unfocus();
       },
     );

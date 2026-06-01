@@ -164,9 +164,20 @@ class MihGoRouter {
             path: MihGoRouterPaths.mzansiProfileView,
             builder: (BuildContext context, GoRouterState state) {
               KenLogger.success("MihGoRouter: mzansiProfileView");
-              String? username = state.uri.queryParameters['username'];
-              KenLogger.success("username: username");
+              return MzansiProfileView(
+                username: null,
+              );
+            },
+          ),
+          GoRoute(
+            name: "mzansiProfileView+username",
+            path: "${MihGoRouterPaths.mzansiProfileView}/:username",
+            builder: (BuildContext context, GoRouterState state) {
               KenLogger.success("MihGoRouter: mzansiProfileView");
+              String? username = state.pathParameters['username'];
+              // String? username = state.uri.queryParameters['username'];
+              KenLogger.success("MihGoRouter: mzansiProfileView");
+              KenLogger.success("username: $username");
               MzansiDirectoryProvider directoryProvider =
                   context.read<MzansiDirectoryProvider>();
               if (directoryProvider.selectedUser == null && username == null) {
@@ -193,8 +204,18 @@ class MihGoRouter {
             name: "businessProfileView",
             path: MihGoRouterPaths.businessProfileView,
             builder: (BuildContext context, GoRouterState state) {
+              return MzansiBusinessProfileView(
+                businessId: null,
+                fromMzansiDirectory: true,
+              );
+            },
+          ),
+          GoRoute(
+            name: "businessProfileView+business_id",
+            path: "${MihGoRouterPaths.businessProfileView}/:business_id",
+            builder: (BuildContext context, GoRouterState state) {
               // KenLogger.success("MihGoRouter: businessProfileView");
-              String? businessId = state.uri.queryParameters['business_id'];
+              String? businessId = state.pathParameters['business_id'];
               // KenLogger.success("businessId: $businessId");
               MzansiDirectoryProvider directoryProvider =
                   context.read<MzansiDirectoryProvider>();

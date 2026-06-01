@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
@@ -138,6 +139,7 @@ class _MihManageUserProfileLinksWindowState
                     ),
                   ),
                   child: ReorderableListView.builder(
+                      buildDefaultDragHandles: false,
                       itemBuilder: (context, index) {
                         ProfileLink link = profileProvider.personalLinks[index];
                         String display = link.site_name;
@@ -147,7 +149,7 @@ class _MihManageUserProfileLinksWindowState
                         return ListTile(
                           key: ValueKey("$index"),
                           title: Text(
-                            "$display",
+                            display,
                             style: TextStyle(
                               // fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -156,6 +158,13 @@ class _MihManageUserProfileLinksWindowState
                           leading: linkActions(
                             profileProvider,
                             link,
+                          ),
+                          trailing: ReorderableDragStartListener(
+                            index: index,
+                            child: Icon(
+                              Icons.drag_indicator,
+                              color: MihColors.secondary(),
+                            ),
                           ),
                         );
                       },

@@ -140,6 +140,7 @@ class _MihManageBusinessLinkWindowState
                     ),
                   ),
                   child: ReorderableListView.builder(
+                      buildDefaultDragHandles: false,
                       itemBuilder: (context, index) {
                         ProfileLink link = profileProvider.businessLinks[index];
                         String display = link.site_name;
@@ -149,7 +150,7 @@ class _MihManageBusinessLinkWindowState
                         return ListTile(
                           key: ValueKey("$index"),
                           title: Text(
-                            "$display",
+                            display,
                             style: TextStyle(
                               // fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -158,6 +159,13 @@ class _MihManageBusinessLinkWindowState
                           leading: linkActions(
                             profileProvider,
                             link,
+                          ),
+                          trailing: ReorderableDragStartListener(
+                            index: index,
+                            child: Icon(
+                              Icons.drag_indicator,
+                              color: MihColors.secondary(),
+                            ),
                           ),
                         );
                       },
