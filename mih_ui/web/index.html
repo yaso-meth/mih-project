@@ -257,34 +257,6 @@
 	</script>
 
 	<script src="flutter_bootstrap.js" async></script>
-	<script>
-		var serviceWorkerVersion = '{{flutter_service_worker_version}}';
-		var scriptLoaded = false;
-
-		// We keep your logic to monitor the service worker for immediate updates
-		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', function () {
-				var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion.replace(/"/g, '');
-
-				navigator.serviceWorker.register(serviceWorkerUrl).then((reg) => {
-					reg.addEventListener('updatefound', () => {
-						const newWorker = reg.installing;
-						newWorker.addEventListener('statechange', () => {
-							if (newWorker.state === 'activated') {
-								// This fulfills your requirement for immediate update
-								if (confirm('A new version of MIH is available. Refresh now to update?')) {
-									window.location.reload();
-								}
-							}
-						});
-					});
-				});
-			});
-		}
-	</script>
-
-
-
 	<script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.min.js" defer=""></script>
 	<script id="pdfjs-worker" type="text/javascript"
 		src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.worker.min.js" defer=""></script>
