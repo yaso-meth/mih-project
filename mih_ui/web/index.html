@@ -257,6 +257,46 @@
 	</script>
 
 	<script src="flutter_bootstrap.js" async></script>
+	<script>
+		(function () {
+			if ('serviceWorker' in navigator) {
+				// Wait for the service worker to be ready (registered by Flutter)
+				navigator.serviceWorker.ready.then((registration) => {
+					// If an updated worker is already waiting
+					if (registration.waiting) {
+						showUpdatePrompt(registration);
+					}
+
+					// Listen for new updates while the app is open
+					registration.addEventListener('updatefound', () => {
+						const newWorker = registration.installing;
+						if (newWorker) {
+							newWorker.addEventListener('statechange', () => {
+								if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+									showUpdatePrompt(registration);
+								}
+							});
+						}
+					});
+				});
+
+				// Prevent infinite reload loops
+				let refreshing = false;
+				navigator.serviceWorker.addEventListener('controllerchange', () => {
+					if (!refreshing) {
+						refreshing = true;
+						window.location.reload();
+					}
+				});
+			}
+
+			function showUpdatePrompt(reg) {
+				if (confirm('A new version of MIH is available. Refresh now to update?')) {
+					reg.unregister().then(() => window.location.reload());
+				}
+			}
+		})();
+	</script>
 	<script id="pdfjs-lib" src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.min.js" defer=""></script>
 	<script id="pdfjs-worker" type="text/javascript"
 		src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/pdf.worker.min.js" defer=""></script>
