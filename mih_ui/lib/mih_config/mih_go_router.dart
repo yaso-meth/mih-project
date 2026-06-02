@@ -77,8 +77,8 @@ class MihGoRouter {
         "${MihGoRouterPaths.mihAuthentication}/${MihGoRouterPaths.forgotPassword}",
         MihGoRouterPaths.resetPassword,
         "/${MihGoRouterPaths.aboutMih}",
-        "/${MihGoRouterPaths.businessProfileView}",
-        "/${MihGoRouterPaths.mzansiProfileView}",
+        "/${MihGoRouterPaths.businessProfileView}/:business_id",
+        "/${MihGoRouterPaths.mzansiProfileView}/:username",
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
@@ -88,8 +88,10 @@ class MihGoRouter {
       if (isUserSignedIn &&
           unauthenticatedPaths.contains(state.fullPath) &&
           state.fullPath != "/${MihGoRouterPaths.aboutMih}" &&
-          state.fullPath != "/${MihGoRouterPaths.mzansiProfileView}" &&
-          state.fullPath != "/${MihGoRouterPaths.businessProfileView}") {
+          state.fullPath !=
+              "/${MihGoRouterPaths.mzansiProfileView}/:username" &&
+          state.fullPath !=
+              "/${MihGoRouterPaths.businessProfileView}/:business_id") {
         return MihGoRouterPaths.mihHome;
       }
       return null; // Stay on current route
