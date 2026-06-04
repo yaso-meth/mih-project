@@ -237,15 +237,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   ],
                                 ),
                                 onTap: () {
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) async {
-                                    context
-                                        .read<AboutMihProvider>()
-                                        .setToolIndex(1);
-                                  });
                                   context.goNamed(
-                                    "aboutMih",
-                                    extra: true,
+                                    "mihPrivacyPolicy",
                                   );
                                 },
                               ),
@@ -268,15 +261,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   ],
                                 ),
                                 onTap: () {
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) async {
-                                    context
-                                        .read<AboutMihProvider>()
-                                        .setToolIndex(2);
-                                  });
                                   context.goNamed(
-                                    "aboutMih",
-                                    extra: true,
+                                    "mihTermsOfService",
                                   );
                                 },
                               ),

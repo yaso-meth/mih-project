@@ -130,6 +130,7 @@ services:
       - mih-api-hub
   #============== API Hub ====================================================================
   mih-api-hub:
+    platform: linux/amd64
     build:
       context: ./mih_api_hub
       target: builder
@@ -172,22 +173,6 @@ services:
       - mih-network
     depends_on:
       - mih-db
-  #============== PHP My Admin ====================================================================
-  # phpmyadmin:
-  #   platform: linux/amd64
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: MIH-phpmyadmin
-  #   environment:
-  #     PMA_HOST: mih-db
-  #     PMA_PORT: 3306
-  #     PMA_ARBITRARY:
-  #   networks:
-  #     - mih-network
-  #   restart: always
-  #   ports:
-  #     - 8081:80
-  #   depends_on:
-  #     - mih-db
   #============== Minio File Storage ====================================================================
   mih-minio:
     platform: linux/amd64
@@ -208,7 +193,7 @@ services:
   #============== MIH-Monitor Portainer ====================================================================
   mih-monitor:
     container_name: mih-monitor
-    image: portainer/portainer-ce:2.20.3
+    image: portainer/portainer-ce:lts
     ports:
       - "127.0.0.1:9444:9443"
     volumes:
@@ -220,7 +205,7 @@ services:
   #============== MIH-AI Ollama ====================================================================
   mih-ai:
     container_name: mih-ai
-    image: ollama/ollama:0.21.2
+    image: ollama/ollama:latest
     ports:
       - "127.0.0.1:11434:11434"
     volumes:

@@ -114,10 +114,6 @@ class MihTheme {
     mode;
   }
 
-  String getLatestVersion() {
-    return latestVersion;
-  }
-
   ThemeData getThemeData() {
     return getData(mode == "Dark");
   }
