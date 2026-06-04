@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_file_viewer/components/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_test.dart';
+import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/about_mih.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/mih_access.dart';
@@ -79,6 +80,8 @@ class MihGoRouter {
         "/${MihGoRouterPaths.aboutMih}",
         "/${MihGoRouterPaths.businessProfileView}/:business_id",
         "/${MihGoRouterPaths.mzansiProfileView}/:username",
+        MihGoRouterPaths.privacyPolicyExternal,
+        MihGoRouterPaths.termsOfServiceExternal,
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
@@ -88,6 +91,8 @@ class MihGoRouter {
       if (isUserSignedIn &&
           unauthenticatedPaths.contains(state.fullPath) &&
           state.fullPath != "/${MihGoRouterPaths.aboutMih}" &&
+          state.fullPath != MihGoRouterPaths.privacyPolicyExternal &&
+          state.fullPath != MihGoRouterPaths.termsOfServiceExternal &&
           state.fullPath !=
               "/${MihGoRouterPaths.mzansiProfileView}/:username" &&
           state.fullPath !=
@@ -130,6 +135,32 @@ class MihGoRouter {
             return const SizedBox.shrink();
           }
           return MihAuthPasswordReset(token: token);
+        },
+      ),
+      GoRoute(
+        name: "mihPrivacyPolicy",
+        path: MihGoRouterPaths.privacyPolicyExternal,
+        builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: provacyPolicy");
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              context.read<AboutMihProvider>().setToolIndex(1);
+            }
+          });
+          return AboutMih();
+        },
+      ),
+      GoRoute(
+        name: "mihTermsOfService",
+        path: MihGoRouterPaths.termsOfServiceExternal,
+        builder: (BuildContext context, GoRouterState state) {
+          KenLogger.success("MihGoRouter: termsOfService");
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              context.read<AboutMihProvider>().setToolIndex(2);
+            }
+          });
+          return AboutMih();
         },
       ),
       // ========================== MIH Home ==================================

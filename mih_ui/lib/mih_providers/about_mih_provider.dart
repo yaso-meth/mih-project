@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class AboutMihProvider extends ChangeNotifier {
   int toolIndex;
+  String version = "1.2.7";
 
   AboutMihProvider({
     this.toolIndex = 0,

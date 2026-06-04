@@ -4,12 +4,14 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
+import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_install_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:redacted/redacted.dart';
 import 'package:share_plus/share_plus.dart';
@@ -341,7 +343,7 @@ class _MihInfoState extends State<MihInfo> {
     );
   }
 
-  Widget aboutHeadings() {
+  Widget aboutHeadings(AboutMihProvider aboutProvider) {
     return Column(
       children: [
         SizedBox(
@@ -365,7 +367,7 @@ class _MihInfoState extends State<MihInfo> {
           ),
         ),
         Text(
-          "MIH App Version: ${MzansiInnovationHub.of(context)!.theme.getLatestVersion()}",
+          "MIH App Version: ${aboutProvider.version}",
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.normal,
@@ -852,21 +854,27 @@ class _MihInfoState extends State<MihInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return MihPackageToolBody(
-      backgroundColor: MihColors.primary(),
-      borderOn: false,
-      bodyItem: getBody(),
-    );
+    return Consumer(builder: (
+      BuildContext context,
+      AboutMihProvider aboutProvider,
+      Widget? child,
+    ) {
+      return MihPackageToolBody(
+        backgroundColor: MihColors.primary(),
+        borderOn: false,
+        bodyItem: getBody(aboutProvider),
+      );
+    });
   }
 
-  Widget getBody() {
+  Widget getBody(AboutMihProvider aboutProvider) {
     return Stack(
       children: [
         MihSingleChildScroll(
           scrollbarOn: true,
           child: Column(
             children: [
-              aboutHeadings(),
+              aboutHeadings(aboutProvider),
               communityCounter(),
               callToActionsButtons(),
               // mihDivider(),

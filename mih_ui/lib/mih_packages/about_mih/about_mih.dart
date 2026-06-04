@@ -55,6 +55,7 @@ class _AboutMihState extends State<AboutMih> {
         context.goNamed(
           'mihHome',
         );
+        context.read<AboutMihProvider>().setToolIndex(0);
         FocusScope.of(context).unfocus();
       },
     );
