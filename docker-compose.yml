@@ -231,6 +231,15 @@ services:
             - driver: nvidia
               count: all # or specify a number of GPUs
               capabilities: [gpu]
+  #============== MIH-Legal ====================================================================
+  mih-legal:
+    image: nginx:alpine
+    container_name: mih-legal
+    restart: always
+    volumes:
+      - ./mih_legal:/usr/share/nginx/html:ro
+    ports:
+      - "127.0.0.1:8085:80"
 #============== Firebaase ====================================================================
 # firebase:
 #   container_name: MIH-firebase-emulator
