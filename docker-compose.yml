@@ -205,7 +205,7 @@ services:
   #============== MIH-AI Ollama ====================================================================
   mih-ai:
     container_name: mih-ai
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.30.6
     ports:
       - "127.0.0.1:11434:11434"
     volumes:
