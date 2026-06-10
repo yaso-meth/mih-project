@@ -16,7 +16,7 @@ WORKDIR /app
 COPY pubspec.yaml pubspec.lock ./
 RUN flutter pub get
 COPY . .
-RUN flutter build web --release -t ./lib/main_prod.dart
+RUN flutter build web --release -t ./lib/main_prod.dart -v
 
 # --- STAGE 2: The Final Production Image ---
 FROM nginx:alpine

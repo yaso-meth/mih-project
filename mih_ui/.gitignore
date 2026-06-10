@@ -48,3 +48,8 @@ app.*.map.json
 
 # Flutter config file
 /config/
+
+#Flatpak build files
+flatpak/build-dir/
+flatpak/.flatpak-builder/
+
