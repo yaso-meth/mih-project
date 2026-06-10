@@ -125,7 +125,6 @@
     <content_attribute id="violence-realistic">none</content_attribute>
     <content_attribute id="violence-bloodshed">none</content_attribute>
     <content_attribute id="violence-sexual">none</content_attribute>
-    <content_attribute id="violence-desensitization">none</content_attribute>
     <content_attribute id="drugs-alcohol">none</content_attribute>
     <content_attribute id="drugs-narcotics">none</content_attribute>
     <content_attribute id="drugs-tobacco">none</content_attribute>
@@ -134,8 +133,6 @@
     <content_attribute id="sex-homosexuality">none</content_attribute>
     <content_attribute id="sex-prostitution">none</content_attribute>
     <content_attribute id="sex-adultery">none</content_attribute>
-    <content_attribute id="profanity-slurs">none</content_attribute>
-    <content_attribute id="profanity-addictive">none</content_attribute>
     <content_attribute id="language-discrimination">none</content_attribute>
     <content_attribute id="money-gambling">none</content_attribute>
     <content_attribute id="money-purchasing">none</content_attribute>

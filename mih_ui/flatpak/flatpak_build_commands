@@ -1,0 +1,19 @@
+# Uninstall old version (safe if not installed)
+flatpak uninstall --user za.co.mzansiinnovationhub.mih || true
+
+# Remove old build data
+rm -rf .flatpak-builder/ build-dir/ repo/
+
+# Lint before building (catch errors early)
+flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest za.co.mzansiinnovationhub.mih.yml
+flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream za.co.mzansiinnovationhub.mih.metainfo.xml
+
+# Dev build — fast iteration and local testing
+flatpak-builder --user --install --force-clean build-dir za.co.mzansiinnovationhub.mih.yml
+
+# Run and test the app
+flatpak run za.co.mzansiinnovationhub.mih
+
+# Flathub build — simulates Flathub's build environment, run before submitting
+flatpak run --command=flathub-build org.flatpak.Builder --install za.co.mzansiinnovationhub.mih.yml
+flatpak run --command=flatpak-builder-lint org.flatpak.Builder repo repo
