@@ -14,7 +14,6 @@ ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PAT
 RUN flutter config --enable-web && flutter precache --web
 WORKDIR /app
 COPY pubspec.yaml pubspec.lock ./
-RUN flutter clean
 RUN flutter pub get
 COPY . .
 RUN flutter build web --release -t ./lib/main_prod.dart -v
