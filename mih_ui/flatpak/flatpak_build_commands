@@ -1,0 +1,11 @@
+# Uninstall Old Version
+flatpak uninstall --user za.co.mzansiinnovationhub.mih
+
+# Remove old build data
+rm -rf .flatpak-builder/ build-dir/
+
+# Build and install flatpak
+flatpak-builder --user --install --force-clean build-dir za.co.mzansiinnovationhub.mih.yml
+
+# Run flatpak app
+flatpak run za.co.mzansiinnovationhub.mih
