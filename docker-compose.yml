@@ -20,11 +20,12 @@ services:
       - mih-network
   #============== GITEA ====================================================================
   mih-gitea:
-    image: gitea/gitea:latest
+    image: gitea/gitea:latest-rootless
     container_name: mih-gitea
     environment:
       - USER_UID=1000
       - USER_GID=1000
+      - TZ=Africa/Johannesburg
       - GITEA__database__DB_TYPE=mysql
       - GITEA__database__HOST=mih-gitea-db:3306
       - GITEA__database__NAME=${GITEA_SQL_DB}
@@ -35,8 +36,6 @@ services:
       - mih-network
     volumes:
       - ./mih_git/gitea:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     ports:
       - "127.0.0.1:3000:3000"
       - "127.0.0.1:222:22"
