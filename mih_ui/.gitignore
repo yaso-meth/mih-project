@@ -50,6 +50,6 @@ app.*.map.json
 /config/
 
 #Flatpak build files
-flatpak/build-dir/
-flatpak/.flatpak-builder/
+build-dir/
+.flatpak-builder/
 
