@@ -20,7 +20,7 @@ services:
       - mih-network
   #============== GITEA ====================================================================
   mih-gitea:
-    image: gitea/gitea:latest
+    image: gitea/gitea:latest-rootless
     container_name: mih-gitea
     environment:
       - USER_UID=1000
