@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -29,7 +28,6 @@ class MihAuthenticationServices {
       headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        "Authorization": dotenv.env['SUPERTOKENS_API_KEY'] ?? "",
       },
     );
     if (response.statusCode == 200) {
