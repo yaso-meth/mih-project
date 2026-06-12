@@ -10,7 +10,7 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   - --device=dri
-  - --env=__EGL_VENDOR_LIBRARY_FILENAMES=/usr/lib/GL/glvnd/egl_vendor.d/50_mesa.json
+  - --env=__EGL_VENDOR_LIBRARY_FILENAMES=/usr/lib/x86_64-linux-gnu/GL/glvnd/egl_vendor.d/50_mesa.json
 modules:
   - name: pdfium
     buildsystem: simple
