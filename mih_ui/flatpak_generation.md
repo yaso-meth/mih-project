@@ -2,6 +2,7 @@ To generate the flatpak version of MIH use the following commands in this folder
 
 ## <gpg-sign-key>
 dev-gpg-sign=B9F8044E4AE3D8AD
+prod-gpg-sign=F4AE919EB14ED836
 
 ## Generate new yml file in generated folder
 flutpak generate --tag <tag version>
