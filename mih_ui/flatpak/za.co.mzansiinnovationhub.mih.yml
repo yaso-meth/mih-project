@@ -45,9 +45,9 @@ modules:
       env:
         PUB_CACHE: /run/build/mih/.pub-cache
     build-commands:
-      # - mkdir -p "$BUNDLE_PATH/../pdfium-src/"
-      # - cp -r /app/src/pdfium/* "$BUNDLE_PATH/../pdfium-src/"
       - flutter pub get --offline
+      - mkdir -p "$(dirname "$BUNDLE_PATH")"
+      - ln -s /run/build/mih/pdfium-src "$(dirname "$BUNDLE_PATH")/pdfium-src"
       - flutter build linux --release --no-pub -t lib/main_prod.dart
       - mkdir -p /app/mih
       - cp -r "$BUNDLE_PATH"/. /app/mih/
