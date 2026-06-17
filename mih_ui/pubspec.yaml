@@ -25,7 +25,7 @@ dependencies:
   args: ^2.7.0
   intl: ^0.20.2
   flutter_native_splash: ^2.4.6
-  printing: ^5.13.3
+  printing: ^5.14.2
   geolocator: ^14.0.1
   geolocator_linux: ^0.2.4
   table_calendar: ^3.1.2
