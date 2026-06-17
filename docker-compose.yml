@@ -241,6 +241,18 @@ services:
       - "127.0.0.1:8085:80"
     networks:
       - mih-network
+  #============== MIH-Flatpak Repository =========================================================
+  mih-flatpak:
+    image: nginx:alpine
+    container_name: mih-flatpak
+    restart: always
+    volumes:
+      - ./mih_ui/flatpak/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./mih_ui/repo:/usr/share/nginx/html:ro
+    ports:
+      - "127.0.0.1:8086:80"
+    networks:
+      - mih-network
 #============== Firebaase ====================================================================
 # firebase:
 #   container_name: MIH-firebase-emulator
