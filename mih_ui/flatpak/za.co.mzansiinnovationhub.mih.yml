@@ -12,22 +12,22 @@ finish-args:
   - --socket=wayland
   - --device=dri
 modules:
-  - name: pdfium
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/src/pdfium/
-      - cp -r * /app/src/pdfium/
-    sources:
-      - type: archive
-        url: https://github.com/bblanchon/pdfium-binaries/releases/download/chromium%2F7881/pdfium-linux-x64.tgz
-        sha256: 1470e21b8b4a3b4ad7f85684e2da11d94f3b69a86d81dee11b9b6709d927ac1d
-        only-arches: [x86_64]
-        strip-components: 0
-      - type: archive
-        url: https://github.com/bblanchon/pdfium-binaries/releases/download/chromium%2F7881/pdfium-linux-arm64.tgz
-        sha256: ee7f7b7d5468958336a818c1cd580bdd20972846b7377b13f9a923d92d1d4674
-        only-arches: [aarch64]
-        strip-components: 0
+  # - name: pdfium
+  #   buildsystem: simple
+  #   build-commands:
+  #     - mkdir -p /app/src/pdfium/
+  #     - cp -r * /app/src/pdfium/
+  #   sources:
+  #     - type: archive
+  #       url: https://github.com/bblanchon/pdfium-binaries/releases/download/chromium%2F7881/pdfium-linux-x64.tgz
+  #       sha256: 1470e21b8b4a3b4ad7f85684e2da11d94f3b69a86d81dee11b9b6709d927ac1d
+  #       only-arches: [x86_64]
+  #       strip-components: 0
+  #     - type: archive
+  #       url: https://github.com/bblanchon/pdfium-binaries/releases/download/chromium%2F7881/pdfium-linux-arm64.tgz
+  #       sha256: ee7f7b7d5468958336a818c1cd580bdd20972846b7377b13f9a923d92d1d4674
+  #       only-arches: [aarch64]
+  #       strip-components: 0
 
   - name: mih
     buildsystem: simple
@@ -45,8 +45,8 @@ modules:
       env:
         PUB_CACHE: /run/build/mih/.pub-cache
     build-commands:
-      - mkdir -p "$BUNDLE_PATH/../pdfium-src/"
-      - cp -r /app/src/pdfium/* "$BUNDLE_PATH/../pdfium-src/"
+      # - mkdir -p "$BUNDLE_PATH/../pdfium-src/"
+      # - cp -r /app/src/pdfium/* "$BUNDLE_PATH/../pdfium-src/"
       - flutter pub get --offline
       - flutter build linux --release --no-pub -t lib/main_prod.dart
       - mkdir -p /app/mih
