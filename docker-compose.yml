@@ -248,6 +248,8 @@ services:
     restart: always
     volumes:
       - ./mih_ui/flatpak/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./mih_ui/flatpak/favicon.png:/usr/share/nginx/html:ro
+      - ./mih_ui/flatpak/mih-fphub.flatpakrepo:/usr/share/nginx/html:ro
       - ./mih_ui/repo:/usr/share/nginx/html:ro
     ports:
       - "127.0.0.1:8086:80"
