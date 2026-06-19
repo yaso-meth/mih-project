@@ -18,39 +18,39 @@ services:
       - ./mih_nginx/letsencrypt:/etc/letsencrypt
     networks:
       - mih-network
-  #============== GITEA ====================================================================
-  mih-gitea:
-    image: gitea/gitea:latest-rootless
-    container_name: mih-gitea
+  #============== FORGEJO ====================================================================
+  mih-forgejo:
+    image: codeberg.org/forgejo/forgejo:11
+    container_name: mih-forgejo
     environment:
       - USER_UID=1000
       - USER_GID=1000
       - TZ=Africa/Johannesburg
-      - GITEA__database__DB_TYPE=mysql
-      - GITEA__database__HOST=mih-gitea-db:3306
-      - GITEA__database__NAME=${GITEA_SQL_DB}
-      - GITEA__database__USER=${GITEA_SQL_USER}
-      - GITEA__database__PASSWD=${GITEA_SQL_PW}
+      - FORGEJO__database__DB_TYPE=mysql
+      - FORGEJO__database__HOST=mih-forgejo-db:3306
+      - FORGEJO__database__NAME=${FORGEJO_SQL_DB}
+      - FORGEJO__database__USER=${FORGEJO_SQL_USER}
+      - FORGEJO__database__PASSWD=${FORGEJO_SQL_PW}
     restart: always
     networks:
       - mih-network
     volumes:
-      - ./mih_git/gitea:/data
+      - ./mih_git/forgejo:/data
     ports:
       - "127.0.0.1:3000:3000"
-      - "127.0.0.1:222:22"
+      - "222:22"
     depends_on:
-      mih-gitea-db:
+      mih-forgejo-db:
         condition: service_healthy
-  mih-gitea-db:
+  mih-forgejo-db:
     image: mysql:8.0
-    container_name: mih-gitea-db
+    container_name: mih-forgejo-db
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=${GITEA_SQL_ROOT_PW}
-      - MYSQL_USER=${GITEA_SQL_USER}
-      - MYSQL_PASSWORD=${GITEA_SQL_PW}
-      - MYSQL_DATABASE=${GITEA_SQL_DB}
+      - MYSQL_ROOT_PASSWORD=${FORGEJO_SQL_ROOT_PW}
+      - MYSQL_USER=${FORGEJO_SQL_USER}
+      - MYSQL_PASSWORD=${FORGEJO_SQL_PW}
+      - MYSQL_DATABASE=${FORGEJO_SQL_DB}
     networks:
       - mih-network
     volumes:
