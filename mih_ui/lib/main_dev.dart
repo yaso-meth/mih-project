@@ -42,7 +42,6 @@ void main() async {
     debugPrint('APP INSTALLED!');
   });
   final GoRouter appRouter = MihGoRouter().mihRouter;
-  FlutterNativeSplash.remove();
   runApp(MzansiInnovationHub(
     router: appRouter,
   ));

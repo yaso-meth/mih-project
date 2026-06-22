@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_file_viewer/components/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -85,6 +86,7 @@ class MihGoRouter {
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
+      FlutterNativeSplash.remove();
       if (!isUserSignedIn && !unauthenticatedPaths.contains(state.fullPath)) {
         return MihGoRouterPaths.mihAuthentication;
       }
