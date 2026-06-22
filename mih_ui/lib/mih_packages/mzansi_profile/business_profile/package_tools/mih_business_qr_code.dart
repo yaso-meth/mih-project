@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -400,6 +401,30 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       context,
                       "Check out ${business.Name} on the MIH app's Mzansi Directory",
                       "$qrCodedata${business.business_id}",
+                    );
+                  },
+                ),
+                SpeedDialChild(
+                  child: Icon(
+                    Icons.copy_rounded,
+                    color: MihColors.primary(),
+                  ),
+                  label: "Copy Link",
+                  labelBackgroundColor: MihColors.green(),
+                  labelStyle: TextStyle(
+                    color: MihColors.primary(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  backgroundColor: MihColors.green(),
+                  onTap: () async {
+                    await Clipboard.setData(
+                      ClipboardData(text: "$qrCodedata${business.business_id}"),
+                    );
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      MihSnackBar(
+                        child: Text("Link Copied!"),
+                      ),
                     );
                   },
                 ),
