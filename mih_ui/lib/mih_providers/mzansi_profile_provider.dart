@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
@@ -8,6 +9,8 @@ import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 
 class MzansiProfileProvider extends ChangeNotifier {
+  final MzansiProfileHiveData _hiveData;
+
   bool personalHome;
   int personalIndex;
   int businessIndex;
@@ -27,12 +30,44 @@ class MzansiProfileProvider extends ChangeNotifier {
   List<ProfileLink> personalLinks = [];
   List<ProfileLink> businessLinks = [];
 
-  MzansiProfileProvider({
+  MzansiProfileProvider(
+    this._hiveData, {
     this.personalHome = true,
     this.personalIndex = 0,
     this.businessIndex = 0,
     this.hideBusinessUserDetails = true,
   });
+
+  void loadCachedProfileState() {
+    user = _hiveData.getCachedUser();
+    userConsent = _hiveData.getCachedConsent();
+    business = _hiveData.getCachedBusiness();
+    businessUser = _hiveData.getCachedBusinessUser();
+    String? cachedUserUrl = _hiveData.getCachedUserPicUrl();
+    if (cachedUserUrl != null && cachedUserUrl.isNotEmpty) {
+      userProfilePicUrl = cachedUserUrl;
+      userProfilePicture = CachedNetworkImageProvider(cachedUserUrl);
+    }
+    String? cachedBizUrl = _hiveData.getCachedBusinessPicUrl();
+    if (cachedBizUrl != null && cachedBizUrl.isNotEmpty) {
+      businessProfilePicUrl = cachedBizUrl;
+      businessProfilePicture = CachedNetworkImageProvider(cachedBizUrl);
+    }
+    String? cachedSigUrl = _hiveData.getCachedSignatureUrl();
+    if (cachedSigUrl != null && cachedSigUrl.isNotEmpty) {
+      businessUserSignatureUrl = cachedSigUrl;
+      businessUserSignature = CachedNetworkImageProvider(cachedSigUrl);
+    }
+
+    personalLinks = _hiveData.getCachedPersonalProfileLinks();
+
+    notifyListeners();
+  }
+
+  Future<void> syncWithCloudPipeline() async {
+    await _hiveData.syncProfileDataWithServer();
+    loadCachedProfileState();
+  }
 
   void reset() {
     personalHome = true;

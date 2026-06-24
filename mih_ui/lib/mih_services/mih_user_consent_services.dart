@@ -21,6 +21,19 @@ class MihUserConsentServices {
     }
   }
 
+  Future<UserConsent?> getUserConsentStatusV2() async {
+    var app_id = await SuperTokens.getUserId();
+    final response = await http.get(
+        Uri.parse("${AppEnviroment.baseApiUrl}/user-consent/user/$app_id"));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> userMap = jsonDecode(response.body);
+      UserConsent userConsent = UserConsent.fromJson(userMap);
+      return userConsent;
+    } else {
+      return null;
+    }
+  }
+
   Future<int> insertUserConsentStatus(
     String latestPrivacyPolicyDate,
     String latestTermOfServiceDate,

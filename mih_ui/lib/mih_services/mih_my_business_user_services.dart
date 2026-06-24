@@ -32,6 +32,24 @@ class MihMyBusinessUserServices {
     }
   }
 
+  Future<BusinessUser?> getBusinessUserV2() async {
+    String app_id = await SuperTokens.getUserId();
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      // KenLogger.success(response.body);
+      BusinessUser? businessUser =
+          BusinessUser.fromJson(jsonDecode(response.body));
+      return businessUser;
+    } else {
+      return null;
+    }
+  }
+
   Future<int> createBusinessUser(
     String business_id,
     String app_id,

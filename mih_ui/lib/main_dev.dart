@@ -9,9 +9,16 @@ import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
+import 'package:mzansi_innovation_hub/mih_hive/hive_registrar.g.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
+import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:pwa_install/pwa_install.dart';
 import 'mih_config/mih_env.dart';
 import 'package:supertokens_flutter/supertokens.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +28,15 @@ void main() async {
     apiDomain: AppEnviroment.baseApiUrl,
     apiBasePath: "/auth",
   );
+  await Hive.initFlutter('mih_offline_storage');
+  Hive.registerAdapters();
+  await Hive.openBox<AppUser>('user_box');
+  await Hive.openBox<Business>('business_box');
+  await Hive.openBox<BusinessUser>('business_user_box');
+  await Hive.openBox<UserConsent>('user_consent_box');
+  await Hive.openBox<String>('image_urls_box');
+  await Hive.openBox<ProfileLink>('personal_profile_links_box');
+
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,
   //   options: (Platform.isLinux)

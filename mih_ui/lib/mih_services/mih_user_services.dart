@@ -154,6 +154,23 @@ class MihUserServices {
     }
   }
 
+  Future<AppUser?> getMyUserDetailsV2() async {
+    String app_id = await SuperTokens.getUserId();
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
   Future<int> updateUserV2(
     AppUser signedInUser,
     String firstName,

@@ -98,6 +98,24 @@ class MihBusinessDetailsServices {
     }
   }
 
+  Future<Business?> getBusinessDetailsByUserV2() async {
+    String app_id = await SuperTokens.getUserId();
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business/app_id/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      Business? business = Business.fromJson(jsonBody);
+      return business;
+    } else {
+      return null;
+    }
+  }
+
   Future<Business?> getBusinessDetailsByBusinessId(
     String business_id,
   ) async {

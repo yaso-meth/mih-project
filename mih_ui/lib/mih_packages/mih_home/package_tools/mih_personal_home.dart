@@ -204,7 +204,7 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     searchController.addListener(searchPackage);
     MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
-    if (profileProvider.user!.username == "") {
+    if (profileProvider.user == null || profileProvider.user?.username == "") {
       personalPackagesMap = setNerUserPersonalPackage();
       autoNavToProfile();
     } else {
@@ -233,7 +233,8 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
         return Column(
           children: [
             Visibility(
-              visible: profileProvider.user!.username != "",
+              visible: profileProvider.user != null &&
+                  profileProvider.user?.username != "",
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width / 20),
                 child: MihSearchBar(

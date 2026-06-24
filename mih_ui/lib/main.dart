@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
@@ -121,7 +123,7 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
           create: (context) => MihAuthenticationProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => MzansiProfileProvider(),
+          create: (context) => MzansiProfileProvider(MzansiProfileHiveData()),
         ),
         ChangeNotifierProvider(
           create: (context) => MzansiWalletProvider(),
