@@ -88,11 +88,17 @@ class _MihHomeState extends State<MihHome> {
             RefreshIndicator(
               key: mzansiProfileProvider.refreshIndicatorKey,
               onRefresh: () async {
-                await mzansiProfileProvider.syncWithMihServerData();
+                bool success =
+                    await mzansiProfileProvider.syncWithMihServerData();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     MihSnackBar(
-                      child: Text("Data Synced with MIH Server."),
+                      child: Text(
+                        success
+                            ? "Data Synced with MIH Server."
+                            : "MIH App operation in Offline Mode",
+                      ),
+                      // backgroundColor: success ? null : MihColors.red(),
                     ),
                   );
                 }

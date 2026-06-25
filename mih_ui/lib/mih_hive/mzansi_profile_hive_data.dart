@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -130,7 +128,7 @@ class MzansiProfileHiveData {
   }
 
   // Sync Local Data from data from MIH Server
-  Future<void> syncProfileDataWithServer() async {
+  Future<bool> syncProfileDataWithServer() async {
     try {
       AppUser? remoteUser = await MihUserServices().getMyUserDetailsV2();
       if (remoteUser != null) {
@@ -159,8 +157,10 @@ class MzansiProfileHiveData {
                 remoteBusiness.business_id);
         cacheBusinessProfileLinksData(remoteBusinessLinks);
       }
+      return true;
     } catch (error) {
-      KenLogger.warning("App operating offline mode. Sync paused");
+      KenLogger.warning("App Operating in Offline Mode. Sync Paused");
+      return false;
       // KenLogger.warning("App operating offline mode. Sync paused: $error");
     }
   }

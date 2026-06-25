@@ -72,9 +72,10 @@ class MzansiProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> syncWithMihServerData() async {
-    await _hiveData.syncProfileDataWithServer();
+  Future<bool> syncWithMihServerData() async {
+    bool success = await _hiveData.syncProfileDataWithServer();
     loadCachedProfileState();
+    return success;
   }
 
   void triggerRefresh() {
