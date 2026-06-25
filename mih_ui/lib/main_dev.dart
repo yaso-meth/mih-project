@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
 import 'package:mzansi_innovation_hub/mih_hive/hive_registrar.g.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
@@ -36,6 +37,8 @@ void main() async {
   await Hive.openBox<UserConsent>('user_consent_box');
   await Hive.openBox<String>('image_urls_box');
   await Hive.openBox<ProfileLink>('personal_profile_links_box');
+  await Hive.openBox<ProfileLink>('business_profile_links_box');
+  await Hive.openBox<BusinessEmployee>('business_employees_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

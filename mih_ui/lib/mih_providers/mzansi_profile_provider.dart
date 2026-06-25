@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -29,6 +30,8 @@ class MzansiProfileProvider extends ChangeNotifier {
   bool hideBusinessUserDetails;
   List<ProfileLink> personalLinks = [];
   List<ProfileLink> businessLinks = [];
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   MzansiProfileProvider(
     this._hiveData, {
@@ -59,14 +62,23 @@ class MzansiProfileProvider extends ChangeNotifier {
       businessUserSignature = CachedNetworkImageProvider(cachedSigUrl);
     }
 
+    employeeList = _hiveData.getCachedBusinessEmployees();
+
     personalLinks = _hiveData.getCachedPersonalProfileLinks();
 
+    businessLinks = _hiveData.getCachedBusinessProfileLinks();
+
+    KenLogger.success("Mzansi Profile Loaded from Cache");
     notifyListeners();
   }
 
-  Future<void> syncWithCloudPipeline() async {
+  Future<void> syncWithMihServerData() async {
     await _hiveData.syncProfileDataWithServer();
     loadCachedProfileState();
+  }
+
+  void triggerRefresh() {
+    refreshIndicatorKey.currentState?.show();
   }
 
   void reset() {

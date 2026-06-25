@@ -3,6 +3,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tiles/test_package_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tile/mih_home_refresh_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
@@ -135,6 +136,12 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     //=============== About MIH ===============
     temp.add({
       "About MIH": AboutMihTile(
+        packageSize: packageSize,
+      )
+    });
+    //=============== About MIH ===============
+    temp.add({
+      "Sync Data": MihHomeRefreshTile(
         packageSize: packageSize,
       )
     });

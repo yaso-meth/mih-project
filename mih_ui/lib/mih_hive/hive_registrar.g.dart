@@ -9,6 +9,7 @@ extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(AppUserAdapter());
     registerAdapter(BusinessAdapter());
+    registerAdapter(BusinessEmployeeAdapter());
     registerAdapter(BusinessUserAdapter());
     registerAdapter(ProfileLinkAdapter());
     registerAdapter(UserConsentAdapter());
@@ -19,6 +20,7 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(AppUserAdapter());
     registerAdapter(BusinessAdapter());
+    registerAdapter(BusinessEmployeeAdapter());
     registerAdapter(BusinessUserAdapter());
     registerAdapter(ProfileLinkAdapter());
     registerAdapter(UserConsentAdapter());

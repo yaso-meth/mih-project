@@ -25,6 +25,19 @@ class MihBusinessEmployeeServices {
     return response.statusCode;
   }
 
+  Future<List<BusinessEmployee>> fetchEmployeesV2(String business_id) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/business-user/employees/${business_id}"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<BusinessEmployee> employeeList = List<BusinessEmployee>.from(
+          l.map((model) => BusinessEmployee.fromJson(model)));
+      return employeeList;
+    } else {
+      throw Exception('failed to load employees');
+    }
+  }
+
   Future<int> addEmployee(
     MzansiProfileProvider provider,
     AppUser newEmployee,

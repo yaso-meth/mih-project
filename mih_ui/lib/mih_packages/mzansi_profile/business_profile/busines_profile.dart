@@ -22,7 +22,7 @@ class BusinesProfile extends StatefulWidget {
 }
 
 class _BusinesProfileState extends State<BusinesProfile> {
-  bool _isLoadingInitialData = true;
+  // bool _isLoadingInitialData = true;
   late final MihBusinessDetails _businessDetails;
   late final MihMyBusinessUser _businessUser;
   late final MihMyBusinessTeam _businessTeam;
@@ -31,26 +31,18 @@ class _BusinesProfileState extends State<BusinesProfile> {
   late final MihBusinessQrCode _businessQrCode;
   late final MihBusinessLinks _businessLinks;
 
-  Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
-    MzansiProfileProvider mzansiProfileProvider =
-        context.read<MzansiProfileProvider>();
-    if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
-    }
-    await MihProfileLinksServices.getBusinessProfileLinks(
-        mzansiProfileProvider, mzansiProfileProvider.business!.business_id);
-    await MihBusinessEmployeeServices()
-        .fetchEmployees(mzansiProfileProvider, context);
-    setState(() {
-      _isLoadingInitialData = false;
-    });
-  }
-
+  // Future<void> _loadInitialData() async {
+  //   MzansiProfileProvider mzansiProfileProvider =
+  //       context.read<MzansiProfileProvider>();
+  //   mzansiProfileProvider.loadCachedProfileState();
+  //   if (mzansiProfileProvider.user == null) {
+  //     mzansiProfileProvider.syncWithMihServerData();
+  //   }
+  //   setState(() {
+  //     _isLoadingInitialData = false;
+  //   });
+  // }
+  //
   @override
   void initState() {
     super.initState();
@@ -61,7 +53,7 @@ class _BusinesProfileState extends State<BusinesProfile> {
     _businessReviews = MihBusinessReviews(business: null);
     _businessLinks = MihBusinessLinks(viewMode: false);
     _businessQrCode = MihBusinessQrCode(business: null);
-    _loadInitialData();
+    // _loadInitialData();
   }
 
   @override
@@ -69,13 +61,13 @@ class _BusinesProfileState extends State<BusinesProfile> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
-        if (_isLoadingInitialData) {
-          return Scaffold(
-            body: Center(
-              child: Mihloadingcircle(),
-            ),
-          );
-        }
+        // if (_isLoadingInitialData) {
+        //   return Scaffold(
+        //     body: Center(
+        //       child: Mihloadingcircle(),
+        //     ),
+        //   );
+        // }
         return MihPackage(
           packageActionButton: getAction(),
           packageTools: getTools(),
