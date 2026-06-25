@@ -174,6 +174,8 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
   }
 
   Widget displayPersonalQRCode(double profilePictureWidth) {
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
     return Screenshot(
       controller: screenshotController,
       child: Material(
@@ -192,42 +194,54 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FutureBuilder(
-                    future: futureImageUrl,
-                    builder: (context, asyncSnapshot) {
-                      if (asyncSnapshot.connectionState ==
-                              ConnectionState.done &&
-                          asyncSnapshot.hasData) {
-                        if (asyncSnapshot.requireData != "" ||
-                            asyncSnapshot.requireData.isNotEmpty) {
-                          return MihCircleAvatar(
-                            imageFile: CachedNetworkImageProvider(
-                                asyncSnapshot.requireData),
-                            width: profilePictureWidth,
-                            expandable: true,
-                            editable: false,
-                            fileNameController: TextEditingController(),
-                            userSelectedfile: file,
-                            frameColor: MihColors.primary(),
-                            backgroundColor: MihColors.secondary(),
-                            onChange: () {},
-                          );
-                        } else {
-                          return Icon(
-                            MihIcons.mihIDontKnow,
-                            size: profilePictureWidth,
-                            color: MihColors.primary(),
-                          );
-                        }
-                      } else {
-                        return Icon(
-                          MihIcons.mihRing,
-                          size: profilePictureWidth,
-                          color: MihColors.primary(),
-                        );
-                      }
-                    },
-                  ),
+                  widget.user == null
+                      ? MihCircleAvatar(
+                          imageFile: profileProvider.userProfilePicture,
+                          width: profilePictureWidth,
+                          expandable: true,
+                          editable: false,
+                          fileNameController: TextEditingController(),
+                          userSelectedfile: file,
+                          frameColor: MihColors.primary(),
+                          backgroundColor: MihColors.secondary(),
+                          onChange: () {},
+                        )
+                      : FutureBuilder(
+                          future: futureImageUrl,
+                          builder: (context, asyncSnapshot) {
+                            if (asyncSnapshot.connectionState ==
+                                    ConnectionState.done &&
+                                asyncSnapshot.hasData) {
+                              if (asyncSnapshot.requireData != "" ||
+                                  asyncSnapshot.requireData.isNotEmpty) {
+                                return MihCircleAvatar(
+                                  imageFile: CachedNetworkImageProvider(
+                                      asyncSnapshot.requireData),
+                                  width: profilePictureWidth,
+                                  expandable: true,
+                                  editable: false,
+                                  fileNameController: TextEditingController(),
+                                  userSelectedfile: file,
+                                  frameColor: MihColors.primary(),
+                                  backgroundColor: MihColors.secondary(),
+                                  onChange: () {},
+                                );
+                              } else {
+                                return Icon(
+                                  MihIcons.mihIDontKnow,
+                                  size: profilePictureWidth,
+                                  color: MihColors.primary(),
+                                );
+                              }
+                            } else {
+                              return Icon(
+                                MihIcons.mihRing,
+                                size: profilePictureWidth,
+                                color: MihColors.primary(),
+                              );
+                            }
+                          },
+                        ),
                   FittedBox(
                     child: Text(
                       user.username,

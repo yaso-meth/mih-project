@@ -231,7 +231,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
               );
             }
           } else {
-            return Center(child: Text('Error'));
+            return Center(child: Text('Error: MIH in Offline Mode'));
           }
         });
   }

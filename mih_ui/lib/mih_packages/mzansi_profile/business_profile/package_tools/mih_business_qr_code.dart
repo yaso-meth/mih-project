@@ -175,6 +175,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   }
 
   Widget displayBusinessQRCode(double profilePictureWidth) {
+    MzansiProfileProvider profileprovider =
+        context.read<MzansiProfileProvider>();
     return Screenshot(
       controller: screenshotController,
       child: Material(
@@ -193,42 +195,54 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FutureBuilder(
-                    future: futureImageUrl,
-                    builder: (context, asyncSnapshot) {
-                      if (asyncSnapshot.connectionState ==
-                              ConnectionState.done &&
-                          asyncSnapshot.hasData) {
-                        if (asyncSnapshot.requireData != "" ||
-                            asyncSnapshot.requireData.isNotEmpty) {
-                          return MihCircleAvatar(
-                            imageFile: CachedNetworkImageProvider(
-                                asyncSnapshot.requireData),
-                            width: profilePictureWidth,
-                            expandable: true,
-                            editable: false,
-                            fileNameController: TextEditingController(),
-                            userSelectedfile: file,
-                            frameColor: MihColors.primary(),
-                            backgroundColor: MihColors.secondary(),
-                            onChange: () {},
-                          );
-                        } else {
-                          return Icon(
-                            MihIcons.mihIDontKnow,
-                            size: profilePictureWidth,
-                            color: MihColors.primary(),
-                          );
-                        }
-                      } else {
-                        return Icon(
-                          MihIcons.mihRing,
-                          size: profilePictureWidth,
-                          color: MihColors.primary(),
-                        );
-                      }
-                    },
-                  ),
+                  widget.business == null
+                      ? MihCircleAvatar(
+                          imageFile: profileprovider.businessProfilePicture,
+                          width: profilePictureWidth,
+                          expandable: true,
+                          editable: false,
+                          fileNameController: TextEditingController(),
+                          userSelectedfile: file,
+                          frameColor: MihColors.primary(),
+                          backgroundColor: MihColors.secondary(),
+                          onChange: () {},
+                        )
+                      : FutureBuilder(
+                          future: futureImageUrl,
+                          builder: (context, asyncSnapshot) {
+                            if (asyncSnapshot.connectionState ==
+                                    ConnectionState.done &&
+                                asyncSnapshot.hasData) {
+                              if (asyncSnapshot.requireData != "" ||
+                                  asyncSnapshot.requireData.isNotEmpty) {
+                                return MihCircleAvatar(
+                                  imageFile: CachedNetworkImageProvider(
+                                      asyncSnapshot.requireData),
+                                  width: profilePictureWidth,
+                                  expandable: true,
+                                  editable: false,
+                                  fileNameController: TextEditingController(),
+                                  userSelectedfile: file,
+                                  frameColor: MihColors.primary(),
+                                  backgroundColor: MihColors.secondary(),
+                                  onChange: () {},
+                                );
+                              } else {
+                                return Icon(
+                                  MihIcons.mihIDontKnow,
+                                  size: profilePictureWidth,
+                                  color: MihColors.primary(),
+                                );
+                              }
+                            } else {
+                              return Icon(
+                                MihIcons.mihRing,
+                                size: profilePictureWidth,
+                                color: MihColors.primary(),
+                              );
+                            }
+                          },
+                        ),
                   FittedBox(
                     child: Text(
                       business.Name,
