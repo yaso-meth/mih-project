@@ -42,9 +42,11 @@ class _MihHomeState extends State<MihHome> {
         context.read<MzansiProfileProvider>();
     mzansiProfileProvider.loadCachedProfileState();
     if (mzansiProfileProvider.user == null) {
-      await mzansiProfileProvider.syncWithCloudPipeline();
+      await mzansiProfileProvider.syncWithMihServerData();
+    } else {
+      mzansiProfileProvider.syncWithMihServerData();
     }
-      }
+  }
 
   @override
   void dispose() {
@@ -74,18 +76,26 @@ class _MihHomeState extends State<MihHome> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
-    if (mzansiProfileProvider.user == null) {
-      return Scaffold(
-        body: Center(
-          child: Mihloadingcircle(),
-        ),
-      );
-    }
+        if (mzansiProfileProvider.user == null) {
+          return Scaffold(
+            body: Center(
+              child: Mihloadingcircle(),
+            ),
+          );
+        }
         return Stack(
           children: [
             RefreshIndicator(
+              key: mzansiProfileProvider.refreshIndicatorKey,
               onRefresh: () async {
-                await mzansiProfileProvider.syncWithCloudPipeline();
+                await mzansiProfileProvider.syncWithMihServerData();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    MihSnackBar(
+                      child: Text("Data Synced with MIH Server."),
+                    ),
+                  );
+                }
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),

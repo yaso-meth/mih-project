@@ -171,9 +171,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.mihHome,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mihHome");
-          return MihHome(
-            key: UniqueKey(),
-          );
+          return MihHome();
         },
         routes: [
           // ========================== About MIH ==================================
