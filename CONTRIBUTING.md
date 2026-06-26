@@ -33,7 +33,7 @@ We use a **Fork-and-Pull** model to manage contributions safely and keep the mai
 1. **Fork the Repository:** Log into **MIH Git** and click the **Fork** button on the main [mih-project](https://git.mzansi-innovation-hub.co.za/yaso_meth/mih-project) repository to create a copy under your personal account.
 2. **Clone Your Fork:** Clone your personal fork locally to your machine:
    ```bash
-   git clone https://git.mzansi-innovation-hub.co.za/YOUR_USERNAME/mih-project.git
+   git clone --depth 1 https://git.mzansi-innovation-hub.co.za/YOUR_USERNAME/mih-project.git
    cd mih-project
    ```
 3. **Checkout the Active Version Branch:** Fetch the latest branches and switch to the current active version branch (e.g., `v.1.4.0`):
