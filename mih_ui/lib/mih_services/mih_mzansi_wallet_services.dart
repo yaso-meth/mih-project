@@ -31,6 +31,21 @@ class MIHMzansiWalletApis {
     }
   }
 
+  static Future<List<MIHLoyaltyCard>> getLoyaltyCardsV2(
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/$app_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
+          l.map((model) => MIHLoyaltyCard.fromJson(model)));
+      return myCards;
+    } else {
+      throw Exception('failed to fatch loyalty cards');
+    }
+  }
+
   static Future<void> getFavouriteLoyaltyCards(
     MzansiWalletProvider walletProvider,
     String app_id,
@@ -44,10 +59,24 @@ class MIHMzansiWalletApis {
       List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
           l.map((model) => MIHLoyaltyCard.fromJson(model)));
       walletProvider.setFavouriteCards(cards: myCards);
+    } else {
+      throw Exception('failed to fatch loyalty cards');
     }
-    // else {
-    //   throw Exception('failed to fatch loyalty cards');
-    // }
+  }
+
+  static Future<List<MIHLoyaltyCard>> getFavouriteLoyaltyCardsV2(
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/favourites/$app_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<MIHLoyaltyCard> myCards = List<MIHLoyaltyCard>.from(
+          l.map((model) => MIHLoyaltyCard.fromJson(model)));
+      return myCards;
+    } else {
+      throw Exception('failed to fatch loyalty cards');
+    }
   }
 
   /// This function is used to Delete loyalty card from users mzansi wallet.

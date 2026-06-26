@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_add_card_window.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
@@ -160,6 +161,37 @@ class _MihCardsState extends State<MihCards> {
                       backgroundColor: MihColors.green(),
                       onTap: () {
                         addCardWindow(context, width);
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(
+                        Icons.cloud_sync_rounded,
+                        color: MihColors.primary(),
+                      ),
+                      label: "Sync Wallet",
+                      labelBackgroundColor: MihColors.green(),
+                      labelStyle: TextStyle(
+                        color: MihColors.primary(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      backgroundColor: MihColors.green(),
+                      onTap: () async {
+                        MzansiProfileProvider profileProvider =
+                            context.read<MzansiProfileProvider>();
+                        bool success = await walletProvider
+                            .syncWithMihServerData(profileProvider);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            MihSnackBar(
+                              child: Text(
+                                success
+                                    ? "Wallet Synced with MIH Server."
+                                    : "MIH App operation in Offline Mode",
+                              ),
+                              // backgroundColor: success ? null : MihColors.red(),
+                            ),
+                          );
+                        }
                       },
                     )
                   ]),

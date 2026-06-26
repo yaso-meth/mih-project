@@ -4,6 +4,7 @@ import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 
@@ -14,5 +15,6 @@ import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
   AdapterSpec<UserConsent>(),
   AdapterSpec<ProfileLink>(),
   AdapterSpec<BusinessEmployee>(),
+  AdapterSpec<MIHLoyaltyCard>(),
 ])
 part 'hive_adapters.g.dart';

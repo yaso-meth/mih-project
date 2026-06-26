@@ -14,6 +14,7 @@ import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:pwa_install/pwa_install.dart';
@@ -29,8 +30,10 @@ void main() async {
     apiDomain: AppEnviroment.baseApiUrl,
     apiBasePath: "/auth",
   );
+  // Offine Hive Data
   await Hive.initFlutter('mih_offline_storage');
   Hive.registerAdapters();
+  // Mzansi Profile Data
   await Hive.openBox<AppUser>('user_box');
   await Hive.openBox<Business>('business_box');
   await Hive.openBox<BusinessUser>('business_user_box');
@@ -39,6 +42,9 @@ void main() async {
   await Hive.openBox<ProfileLink>('personal_profile_links_box');
   await Hive.openBox<ProfileLink>('business_profile_links_box');
   await Hive.openBox<BusinessEmployee>('business_employees_box');
+  // Mzansi Wallet Data
+  await Hive.openBox<MIHLoyaltyCard>('loyalty_card_box');
+  await Hive.openBox<MIHLoyaltyCard>('fav_loyalty_card_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

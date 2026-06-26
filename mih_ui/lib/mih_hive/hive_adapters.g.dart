@@ -338,3 +338,55 @@ class BusinessEmployeeAdapter extends TypeAdapter<BusinessEmployee> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class MIHLoyaltyCardAdapter extends TypeAdapter<MIHLoyaltyCard> {
+  @override
+  final typeId = 6;
+
+  @override
+  MIHLoyaltyCard read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return MIHLoyaltyCard(
+      idloyalty_cards: (fields[0] as num).toInt(),
+      app_id: fields[1] as String,
+      shop_name: fields[2] as String,
+      card_number: fields[3] as String,
+      favourite: fields[4] as String,
+      priority_index: (fields[5] as num).toInt(),
+      nickname: fields[6] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, MIHLoyaltyCard obj) {
+    writer
+      ..writeByte(7)
+      ..writeByte(0)
+      ..write(obj.idloyalty_cards)
+      ..writeByte(1)
+      ..write(obj.app_id)
+      ..writeByte(2)
+      ..write(obj.shop_name)
+      ..writeByte(3)
+      ..write(obj.card_number)
+      ..writeByte(4)
+      ..write(obj.favourite)
+      ..writeByte(5)
+      ..write(obj.priority_index)
+      ..writeByte(6)
+      ..write(obj.nickname);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MIHLoyaltyCardAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
