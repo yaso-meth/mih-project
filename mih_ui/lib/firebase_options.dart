@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart'
 /// import 'firebase_options.dart';
 /// // ...
 /// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
+///    options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
 class DefaultFirebaseOptions {
@@ -30,10 +30,6 @@ class DefaultFirebaseOptions {
         return windows;
       case TargetPlatform.linux:
         return web;
-      // throw UnsupportedError(
-      //   'DefaultFirebaseOptions have not been configured for linux - '
-      //   'you can reconfigure this by running the FlutterFire CLI again.',
-      // );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -42,48 +38,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDN-f4sJ4n_fyvrLR193_IIkTsccRVUQxw',
-    appId: '1:33677883408:web:47b8021df7fcacd2223295',
-    messagingSenderId: '33677883408',
-    projectId: 'mzansi-innovation-hub',
-    authDomain: 'mzansi-innovation-hub.firebaseapp.com',
-    storageBucket: 'mzansi-innovation-hub.firebasestorage.app',
-    measurementId: 'G-Y3B5E3HCJY',
+    apiKey: 'YOUR_WEB_API_KEY',
+    appId: 'YOUR_WEB_APP_ID',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    projectId: 'YOUR_PROJECT_ID',
+    authDomain: 'YOUR_AUTH_DOMAIN',
+    storageBucket: 'YOUR_STORAGE_BUCKET',
+    measurementId: 'YOUR_MEASUREMENT_ID',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBUkjWdu9YcgiF-e9TC5hoiEoCjPyjA5hU',
-    appId: '1:33677883408:android:ebd8565991c56257223295',
-    messagingSenderId: '33677883408',
-    projectId: 'mzansi-innovation-hub',
-    storageBucket: 'mzansi-innovation-hub.firebasestorage.app',
+    apiKey: 'YOUR_ANDROID_API_KEY',
+    appId: 'YOUR_ANDROID_APP_ID',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_STORAGE_BUCKET',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDRqY5I5CXjEtWkUX1YUfKT8IUlln9PUuY',
-    appId: '1:33677883408:ios:2048dac086428716223295',
-    messagingSenderId: '33677883408',
-    projectId: 'mzansi-innovation-hub',
-    storageBucket: 'mzansi-innovation-hub.firebasestorage.app',
-    iosBundleId: 'za.co.mzansiinnovationhub.mih',
+    apiKey: 'YOUR_IOS_API_KEY',
+    appId: 'YOUR_IOS_APP_ID',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_STORAGE_BUCKET',
+    iosBundleId: 'YOUR_IOS_BUNDLE_ID',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDRqY5I5CXjEtWkUX1YUfKT8IUlln9PUuY',
-    appId: '1:33677883408:ios:e2db11a42fc3452e223295',
-    messagingSenderId: '33677883408',
-    projectId: 'mzansi-innovation-hub',
-    storageBucket: 'mzansi-innovation-hub.firebasestorage.app',
-    iosBundleId: 'com.example.patientManager',
+    apiKey: 'YOUR_MACOS_API_KEY',
+    appId: 'YOUR_MACOS_APP_ID',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_STORAGE_BUCKET',
+    iosBundleId: 'YOUR_MACOS_BUNDLE_ID',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDN-f4sJ4n_fyvrLR193_IIkTsccRVUQxw',
-    appId: '1:33677883408:web:e08becaef3261c59223295',
-    messagingSenderId: '33677883408',
-    projectId: 'mzansi-innovation-hub',
-    authDomain: 'mzansi-innovation-hub.firebaseapp.com',
-    storageBucket: 'mzansi-innovation-hub.firebasestorage.app',
-    measurementId: 'G-FKKENBX8TT',
+    apiKey: 'YOUR_WINDOWS_API_KEY',
+    appId: 'YOUR_WINDOWS_APP_ID',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    projectId: 'YOUR_PROJECT_ID',
+    authDomain: 'YOUR_AUTH_DOMAIN',
+    storageBucket: 'YOUR_STORAGE_BUCKET',
+    measurementId: 'YOUR_MEASUREMENT_ID',
   );
 }
