@@ -45,6 +45,7 @@ void main() async {
   // Mzansi Wallet Data
   await Hive.openBox<MIHLoyaltyCard>('loyalty_card_box');
   await Hive.openBox<MIHLoyaltyCard>('fav_loyalty_card_box');
+  await Hive.openBox<int>('about_mih_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

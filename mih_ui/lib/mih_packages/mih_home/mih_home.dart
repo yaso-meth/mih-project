@@ -2,11 +2,13 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_user_consent_window.dart';
+import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:provider/provider.dart';
 
 class MihHome extends StatefulWidget {
@@ -88,8 +90,14 @@ class _MihHomeState extends State<MihHome> {
             RefreshIndicator(
               key: mzansiProfileProvider.refreshIndicatorKey,
               onRefresh: () async {
-                bool success =
-                    await mzansiProfileProvider.syncWithMihServerData();
+                MzansiWalletProvider walletProvider =
+                    context.read<MzansiWalletProvider>();
+                AboutMihProvider aboutProvider =
+                    context.read<AboutMihProvider>();
+                await mzansiProfileProvider.syncWithMihServerData();
+                await walletProvider
+                    .syncWithMihServerData(mzansiProfileProvider);
+                bool success = await aboutProvider.syncWithMihServerData();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     MihSnackBar(

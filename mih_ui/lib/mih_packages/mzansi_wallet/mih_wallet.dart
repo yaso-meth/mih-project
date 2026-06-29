@@ -5,8 +5,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart'
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_card_favourites.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_cards.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:provider/provider.dart';
 
 class MihWallet extends StatefulWidget {

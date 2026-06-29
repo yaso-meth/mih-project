@@ -159,7 +159,7 @@ class MzansiProfileHiveData {
       }
       return true;
     } catch (error) {
-      KenLogger.warning("App Operating in Offline Mode. Sync Paused");
+      KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
       return false;
       // KenLogger.warning("App operating offline mode. Sync paused: $error");
     }

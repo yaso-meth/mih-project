@@ -4,7 +4,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_ai/package_tools/mih_ai_chat.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:provider/provider.dart';
 
 class MzansiAi extends StatefulWidget {
@@ -17,37 +16,36 @@ class MzansiAi extends StatefulWidget {
 }
 
 class _MzansiAiState extends State<MzansiAi> {
-  bool _isLoadingInitialData = true;
   late final MihAiChat _aiChat;
 
-  Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
+  Future<void> _syncProfileData() async {
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
+    mzansiProfileProvider.loadCachedProfileState();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+      await mzansiProfileProvider.syncWithMihServerData();
+    } else {
+      await mzansiProfileProvider.syncWithMihServerData();
     }
-    setState(() {
-      _isLoadingInitialData = false;
-    });
   }
 
   @override
   void initState() {
     super.initState();
     _aiChat = MihAiChat();
-    _loadInitialData();
+    _syncProfileData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MzansiAiProvider>(
-      builder: (BuildContext context, MzansiAiProvider value, Widget? child) {
-        if (_isLoadingInitialData) {
+    return Consumer2<MzansiAiProvider, MzansiProfileProvider>(
+      builder: (
+        BuildContext context,
+        MzansiAiProvider aiProvider,
+        MzansiProfileProvider profileProvider,
+        Widget? child,
+      ) {
+        if (profileProvider.user == null) {
           return Scaffold(
             body: Center(
               child: Mihloadingcircle(),

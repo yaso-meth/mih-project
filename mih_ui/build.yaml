@@ -1,0 +1,14 @@
+targets:
+  $default:
+    builders:
+      # 1. Restrict adapter generation to your mih_hive folder
+      hive_ce_generator:hive_adapters_generator:
+        generate_for:
+          - lib/mih_hive/*.dart
+
+      # 2. Restrict registrar generation to your entry points
+      hive_ce_generator:hive_registrar_generator:
+        generate_for:
+          - lib/main.dart
+          - lib/main_dev.dart
+          - lib/main_prod.dart
