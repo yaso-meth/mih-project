@@ -357,13 +357,14 @@ class MIHLoyaltyCardAdapter extends TypeAdapter<MIHLoyaltyCard> {
       favourite: fields[4] as String,
       priority_index: (fields[5] as num).toInt(),
       nickname: fields[6] as String,
+      offline_id: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MIHLoyaltyCard obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.idloyalty_cards)
       ..writeByte(1)
@@ -377,7 +378,9 @@ class MIHLoyaltyCardAdapter extends TypeAdapter<MIHLoyaltyCard> {
       ..writeByte(5)
       ..write(obj.priority_index)
       ..writeByte(6)
-      ..write(obj.nickname);
+      ..write(obj.nickname)
+      ..writeByte(7)
+      ..write(obj.offline_id);
   }
 
   @override
@@ -387,6 +390,55 @@ class MIHLoyaltyCardAdapter extends TypeAdapter<MIHLoyaltyCard> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is MIHLoyaltyCardAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class AppointmentAdapter extends TypeAdapter<Appointment> {
+  @override
+  final typeId = 7;
+
+  @override
+  Appointment read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Appointment(
+      idappointments: (fields[0] as num).toInt(),
+      app_id: fields[1] as String,
+      business_id: fields[2] as String,
+      date_time: fields[3] as String,
+      title: fields[4] as String,
+      description: fields[5] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Appointment obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.idappointments)
+      ..writeByte(1)
+      ..write(obj.app_id)
+      ..writeByte(2)
+      ..write(obj.business_id)
+      ..writeByte(3)
+      ..write(obj.date_time)
+      ..writeByte(4)
+      ..write(obj.title)
+      ..writeByte(5)
+      ..write(obj.description);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppointmentAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

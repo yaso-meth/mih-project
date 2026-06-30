@@ -24,8 +24,6 @@ class _MzansiAiState extends State<MzansiAi> {
     mzansiProfileProvider.loadCachedProfileState();
     if (mzansiProfileProvider.user == null) {
       await mzansiProfileProvider.syncWithMihServerData();
-    } else {
-      await mzansiProfileProvider.syncWithMihServerData();
     }
   }
 

@@ -28,9 +28,40 @@ class MzansiWalletProvider extends ChangeNotifier {
 
   Future<bool> syncWithMihServerData(
       MzansiProfileProvider profileProvider) async {
+    await _hiveData.processModificationsQueue(profileProvider);
     bool success = await _hiveData.syncWalletWithServer(profileProvider);
     loadCachedWallet();
     return success;
+  }
+
+  Future<void> addLocalLoyaltyCard(
+      MzansiProfileProvider profileProvider, MIHLoyaltyCard newCard) async {
+    await _hiveData.addLoyaltyCardLocally(newCard);
+    await _hiveData.queueAddModification(newCard);
+    await _hiveData.processModificationsQueue(profileProvider);
+    await _hiveData.syncWalletWithServer(profileProvider);
+    loadCachedWallet();
+  }
+
+  Future<void> deleteLocalLoyaltyCard(
+      MzansiProfileProvider profileProvider, MIHLoyaltyCard deleteCard) async {
+    await _hiveData.deleteLoyaltyCardLocally(deleteCard);
+    await _hiveData.queueDeleteModification(deleteCard);
+    loadCachedWallet();
+    _hiveData.processModificationsQueue(profileProvider);
+  }
+
+  bool isLocalModificationsPending() {
+    return _hiveData.isModificationNotEmpty();
+  }
+
+  Future<void> updateLocalLoyaltyCard(
+      MzansiProfileProvider profileProvider, MIHLoyaltyCard updatedCard) async {
+    await _hiveData.updateLoyaltyCardLocally(updatedCard);
+    await _hiveData.queueUpdateModification(updatedCard);
+    await _hiveData.processModificationsQueue(profileProvider);
+    await _hiveData.syncWalletWithServer(profileProvider);
+    loadCachedWallet();
   }
 
   void reset() {

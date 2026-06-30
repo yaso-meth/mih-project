@@ -127,6 +127,32 @@ class MIHMzansiWalletApis {
     // }
   }
 
+  /// This function is used to Delete loyalty card from users mzansi wallet.
+  ///
+  /// Patameters:-
+  /// AppUser signedInUser,
+  /// int idloyalty_cards,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
+  static Future<int?> deleteLoyaltyCardAPICallV2(
+    int idloyalty_cards,
+  ) async {
+    try {
+      var response = await http.delete(
+        Uri.parse(
+            "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/delete/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{"idloyalty_cards": idloyalty_cards}),
+      );
+      return response.statusCode;
+    } catch (error) {
+      return null;
+    }
+  }
+
   /// This function is used to add a lopyalty card to users mzansi wallet.
   ///
   /// Patameters:-
@@ -187,6 +213,48 @@ class MIHMzansiWalletApis {
     // }
   }
 
+  /// This function is used to add a lopyalty card to users mzansi wallet.
+  ///
+  /// Patameters:-
+  /// AppUser signedInUser,
+  /// String app_id,
+  /// String shop_name,
+  /// String card_number,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS SUCCESS pop up)
+  static Future<int?> addLoyaltyCardAPICallV2(
+    String app_id,
+    String shop_name,
+    String card_number,
+    String favourite,
+    int priority_index,
+    String nickname,
+  ) async {
+    try {
+      var response = await http
+          .post(
+            Uri.parse(
+                "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/insert/"),
+            headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: jsonEncode(<String, dynamic>{
+              "app_id": app_id,
+              "shop_name": shop_name,
+              "card_number": card_number,
+              "favourite": favourite,
+              "priority_index": priority_index,
+              "nickname": nickname,
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
+      return response.statusCode;
+    } catch (error) {
+      return null;
+    }
+  }
+
   /// This function is used to Update loyalty card from users mzansi wallet.
   ///
   /// Patameters:-
@@ -236,6 +304,42 @@ class MIHMzansiWalletApis {
       );
     }
     return response.statusCode;
+  }
+
+  /// This function is used to Update loyalty card from users mzansi wallet.
+  ///
+  /// Patameters:-
+  /// AppUser signedInUser,
+  /// int idloyalty_cards,
+  /// BuildContext context,
+  ///
+  /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
+  static Future<int?> updateLoyaltyCardAPICallV2(
+    int idloyalty_cards,
+    String favourite,
+    int priority_index,
+    String nickname,
+    String card_number,
+  ) async {
+    try {
+      var response = await http.put(
+        Uri.parse(
+            "${AppEnviroment.baseApiUrl}/mzasni-wallet/loyalty-cards/update/"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "idloyalty_cards": idloyalty_cards,
+          "favourite": favourite,
+          "priority_index": priority_index,
+          "nickname": nickname,
+          "card_number": card_number,
+        }),
+      );
+      return response.statusCode;
+    } catch (error) {
+      return null;
+    }
   }
 
   //================== POP UPS ==========================================================================

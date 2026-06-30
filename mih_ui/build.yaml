@@ -1,10 +1,14 @@
 targets:
   $default:
     builders:
+      # Disable type adapter generator since we use GenerateAdapters in hive_adapters.dart
+      hive_ce_generator:hive_type_adapter_generator:
+        enabled: false
+
       # 1. Restrict adapter generation to your mih_hive folder
       hive_ce_generator:hive_adapters_generator:
         generate_for:
-          - lib/mih_hive/*.dart
+          - lib/mih_hive/hive_adapters.dart
 
       # 2. Restrict registrar generation to your entry points
       hive_ce_generator:hive_registrar_generator:

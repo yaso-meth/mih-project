@@ -11,7 +11,6 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
@@ -130,29 +129,27 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                     child: MihButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          int statusCode = await MIHMzansiWalletApis
-                              .updateLoyaltyCardAPICall(
-                            walletProvider,
-                            mzansiProfileProvider.user!,
-                            widget.cardList[index].idloyalty_cards,
-                            widget.cardList[index].shop_name,
-                            widget.cardList[index].favourite,
-                            widget.cardList[index].priority_index,
-                            _nicknameController.text,
-                            _cardNumberController.text,
-                            ctxt,
+                          walletProvider.updateLocalLoyaltyCard(
+                            mzansiProfileProvider,
+                            MIHLoyaltyCard(
+                              idloyalty_cards:
+                                  widget.cardList[index].idloyalty_cards,
+                              app_id: widget.cardList[index].app_id,
+                              shop_name: widget.cardList[index].shop_name,
+                              card_number: _cardNumberController.text,
+                              favourite: widget.cardList[index].favourite,
+                              priority_index:
+                                  widget.cardList[index].priority_index,
+                              nickname: _nicknameController.text,
+                            ),
                           );
-                          if (statusCode == 200) {
-                            context.pop();
-                            context.pop();
-                            MihAlertServices().successBasicAlert(
-                              "Success!",
-                              "You have successfully updated the loyalty card details.",
-                              context,
-                            );
-                          } else {
-                            MihAlertServices().internetConnectionAlert(context);
-                          }
+                          context.pop();
+                          context.pop();
+                          MihAlertServices().successBasicAlert(
+                            "Success!",
+                            "You have successfully updated the loyalty card details.",
+                            context,
+                          );
                         } else {
                           MihAlertServices().inputErrorAlert(context);
                         }
@@ -183,24 +180,17 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     MihAlertServices().deleteConfirmationAlert(
       "This Card will be deleted permanently from your Mzansi Wallet. Are you certain you want to delete it?",
       () async {
-        int statusCode = await MIHMzansiWalletApis.deleteLoyaltyCardAPICall(
-          walletProvider,
-          mzansiProfileProvider.user!,
-          widget.cardList[index].idloyalty_cards,
+        walletProvider.deleteLocalLoyaltyCard(
+          mzansiProfileProvider,
+          widget.cardList[index],
+        );
+        context.pop();
+        context.pop();
+        MihAlertServices().successBasicAlert(
+          "Success!",
+          "You have successfully deleted the loyalty card from your Mzansi Wallet.",
           context,
         );
-        if (statusCode == 200) {
-          context.pop();
-          context.pop();
-          MihAlertServices().successBasicAlert(
-            "Success!",
-            "You have successfully deleted the loyalty card from your Mzansi Wallet.",
-            context,
-          );
-        } else {
-          context.pop();
-          MihAlertServices().internetConnectionAlert(context);
-        }
       },
       context,
     );
@@ -231,34 +221,26 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         ),
         MihButton(
           onPressed: () async {
-            int statusCode = await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-              walletProvider,
-              mzansiProfileProvider.user!,
-              widget.cardList[index].idloyalty_cards,
-              widget.cardList[index].shop_name,
-              "Yes",
-              _noFavourites,
-              widget.cardList[index].nickname,
-              widget.cardList[index].card_number,
-              ctxt,
+            await walletProvider.updateLocalLoyaltyCard(
+              mzansiProfileProvider,
+              MIHLoyaltyCard(
+                idloyalty_cards: widget.cardList[index].idloyalty_cards,
+                app_id: widget.cardList[index].app_id,
+                shop_name: widget.cardList[index].shop_name,
+                card_number: widget.cardList[index].card_number,
+                favourite: "Yes",
+                priority_index: _noFavourites,
+                nickname: widget.cardList[index].nickname,
+              ),
             );
-            if (statusCode == 200) {
-              context.pop();
-              context.pop();
-              await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-                walletProvider,
-                mzansiProfileProvider.user!.app_id,
-                context,
-              );
-              context.read<MzansiWalletProvider>().setToolIndex(1);
-              MihAlertServices().successBasicAlert(
-                "Success!",
-                "You have successfully added the loyalty card to your favourites.",
-                context,
-              );
-            } else {
-              MihAlertServices().internetConnectionAlert(context);
-            }
+            context.pop();
+            context.pop();
+            context.read<MzansiWalletProvider>().setToolIndex(1);
+            MihAlertServices().successBasicAlert(
+              "Success!",
+              "You have successfully added the loyalty card to your favourites.",
+              context,
+            );
           },
           buttonColor: MihColors.green(),
           width: 300,
@@ -284,34 +266,26 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
       [
         MihButton(
           onPressed: () async {
-            int statusCode = await MIHMzansiWalletApis.updateLoyaltyCardAPICall(
-              walletProvider,
-              mzansiProfileProvider.user!,
-              widget.cardList[index].idloyalty_cards,
-              widget.cardList[index].shop_name,
-              "",
-              0,
-              widget.cardList[index].nickname,
-              widget.cardList[index].card_number,
-              ctxt,
+            await walletProvider.updateLocalLoyaltyCard(
+              mzansiProfileProvider,
+              MIHLoyaltyCard(
+                idloyalty_cards: widget.cardList[index].idloyalty_cards,
+                app_id: widget.cardList[index].app_id,
+                shop_name: widget.cardList[index].shop_name,
+                card_number: widget.cardList[index].card_number,
+                favourite: "",
+                priority_index: 0,
+                nickname: widget.cardList[index].nickname,
+              ),
             );
-            if (statusCode == 200) {
-              context.pop();
-              context.pop();
-              await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-                walletProvider,
-                mzansiProfileProvider.user!.app_id,
-                context,
-              );
-              context.read<MzansiWalletProvider>().setToolIndex(0);
-              MihAlertServices().successBasicAlert(
-                "Success!",
-                "You have successfully removed the loyalty card to your favourites.",
-                context,
-              );
-            } else {
-              MihAlertServices().internetConnectionAlert(context);
-            }
+            context.pop();
+            context.pop();
+            context.read<MzansiWalletProvider>().setToolIndex(0);
+            MihAlertServices().successBasicAlert(
+              "Success!",
+              "You have successfully removed the loyalty card to your favourites.",
+              context,
+            );
           },
           buttonColor: MihColors.red(),
           width: 300,

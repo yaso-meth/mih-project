@@ -28,7 +28,8 @@ class _MihWalletState extends State<MihWallet> {
     if (mzansiProfileProvider.user == null) {
       mzansiProfileProvider.syncWithMihServerData();
     }
-    if (walletProvider.loyaltyCards.isEmpty) {
+    if (walletProvider.loyaltyCards.isEmpty ||
+        walletProvider.isLocalModificationsPending()) {
       walletProvider.syncWithMihServerData(mzansiProfileProvider);
     }
     setState(() {

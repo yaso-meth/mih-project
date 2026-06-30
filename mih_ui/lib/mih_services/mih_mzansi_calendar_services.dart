@@ -40,6 +40,25 @@ class MihMzansiCalendarApis {
     }
   }
 
+  static Future<int> getPersonalAppointmentsV2(
+    String app_id,
+    String date,
+    MihCalendarProvider mihCalendarProvider,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/appointments/personal/$app_id?date=$date"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Appointment> personalAppointments =
+          List<Appointment>.from(l.map((model) => Appointment.fromJson(model)));
+      mihCalendarProvider.setPersonalAppointments(
+          appointments: personalAppointments);
+      return response.statusCode;
+    } else {
+      throw Exception('failed to fatch personal appointments');
+    }
+  }
+
   /// This function is used to fetch a list of appointment for a personal user.
   ///
   /// Patameters:

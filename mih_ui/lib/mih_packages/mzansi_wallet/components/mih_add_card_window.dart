@@ -3,13 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class MihAddCardWindow extends StatefulWidget {
   const MihAddCardWindow({
@@ -55,6 +56,38 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
       _shopName.value = _shopController.text;
     } else {
       _shopName.value = "";
+    }
+  }
+
+  void addLoyaltyCard(MzansiProfileProvider profileProvider,
+      MzansiWalletProvider walletProvider) async {
+    if (_formKey.currentState!.validate()) {
+      if (_shopController.text == "") {
+        MihAlertServices().inputErrorAlert(context);
+      } else {
+        final String uniqueKey = const Uuid().v4();
+
+        MIHLoyaltyCard newCard = MIHLoyaltyCard(
+          idloyalty_cards: 0,
+          app_id: profileProvider.user!.app_id,
+          shop_name: _shopController.text,
+          card_number: _cardNumberController.text,
+          favourite: "No",
+          priority_index: 0,
+          nickname: _nicknameController.text,
+          offline_id: uniqueKey,
+        );
+        await walletProvider.addLocalLoyaltyCard(profileProvider, newCard);
+        context.pop();
+        KenLogger.success("Card Added Successfully");
+        successPopUp(
+          "Successfully Added Card",
+          "The loyalty card has been added to your favourites.",
+          0,
+        );
+      }
+    } else {
+      MihAlertServices().inputErrorAlert(context);
     }
   }
 
@@ -224,38 +257,7 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
                     Center(
                       child: MihButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            if (_shopController.text == "") {
-                              MihAlertServices().inputErrorAlert(context);
-                            } else {
-                              int statusCode = await MIHMzansiWalletApis
-                                  .addLoyaltyCardAPICall(
-                                walletProvider,
-                                mzansiProfileProvider.user!,
-                                mzansiProfileProvider.user!.app_id,
-                                _shopController.text,
-                                _cardNumberController.text,
-                                "",
-                                0,
-                                _nicknameController.text,
-                                context,
-                              );
-                              if (statusCode == 201) {
-                                context.pop();
-                                KenLogger.success("Card Added Successfully");
-                                successPopUp(
-                                  "Successfully Added Card",
-                                  "The loyalty card has been added to your favourites.",
-                                  0,
-                                );
-                              } else {
-                                MihAlertServices()
-                                    .internetConnectionAlert(context);
-                              }
-                            }
-                          } else {
-                            MihAlertServices().inputErrorAlert(context);
-                          }
+                          addLoyaltyCard(mzansiProfileProvider, walletProvider);
                         },
                         buttonColor: MihColors.green(),
                         width: 300,

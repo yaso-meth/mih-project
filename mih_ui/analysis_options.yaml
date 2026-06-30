@@ -1,7 +1,7 @@
 analyzer:
   exclude:
-    - lib/**/*.g.dart
-    - lib/**/hive_registrar.g.dart
+    - lib/mih_hive/*.g.dart
+    - lib/mih_hive/hive_registrar.g.dart
 
 include: package:flutter_lints/flutter.yaml
 
