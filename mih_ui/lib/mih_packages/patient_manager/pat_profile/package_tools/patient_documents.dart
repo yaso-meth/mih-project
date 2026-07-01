@@ -164,11 +164,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                       const SizedBox(width: 10),
                       MihButton(
                         onPressed: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
+                          FilePickerResult? result = await FilePicker.pickFiles(
                             type: FileType.custom,
                             allowedExtensions: ['jpg', 'png', 'pdf'],
-                            withData: true,
                           );
                           if (result == null) return;
                           final selectedFile = result.files.first;

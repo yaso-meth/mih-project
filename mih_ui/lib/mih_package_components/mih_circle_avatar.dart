@@ -129,8 +129,7 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                   ),
                   onPressed: () async {
                     try {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles(
+                      FilePickerResult? result = await FilePicker.pickFiles(
                         type: FileType.image,
                       );
                       // print("Here 1");

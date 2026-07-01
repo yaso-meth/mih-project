@@ -9,9 +9,19 @@ import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
+import 'package:mzansi_innovation_hub/mih_hive/hive_registrar.g.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
+import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
+import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:pwa_install/pwa_install.dart';
 import 'mih_config/mih_env.dart';
 import 'package:supertokens_flutter/supertokens.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +31,41 @@ void main() async {
     apiDomain: AppEnviroment.baseApiUrl,
     apiBasePath: "/auth",
   );
+  // Offine Hive Data
+  await Hive.initFlutter('mih_offline_storage');
+  Hive.registerAdapters();
+  // Mzansi Profile Data
+  await Hive.openBox<AppUser>('user_box');
+  await Hive.openBox<Business>('business_box');
+  await Hive.openBox<BusinessUser>('business_user_box');
+  await Hive.openBox<UserConsent>('user_consent_box');
+  await Hive.openBox<String>('image_urls_box');
+  await Hive.openBox<ProfileLink>('personal_profile_links_box');
+  await Hive.openBox<ProfileLink>('business_profile_links_box');
+  await Hive.openBox<BusinessEmployee>('business_employees_box');
+  // Mzansi Wallet Data
+  await Hive.openBox<MIHLoyaltyCard>('loyalty_card_box');
+  await Hive.openBox<MIHLoyaltyCard>('fav_loyalty_card_box');
+  await Hive.openBox<Map>('wallet_modifications_queue');
+  // About MIH Data
+  await Hive.openBox<int>('about_mih_box');
+  // Mih Calendar Data
+  await Hive.openBox<Appointment>('personal_calendar_box');
+  await Hive.openBox<Appointment>('business_calendar_box');
+
   // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
+  //   // options: DefaultFirebaseOptions.currentPlatform,
+  //   options: (Platform.isLinux)
+  //       ? DefaultFirebaseOptions.web // Forces Linux to use the Web config
+  //       : DefaultFirebaseOptions.currentPlatform,
   // );
   if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    const List<String> testDeviceIds = ['733d4c68-9b54-453a-9622-2df407310f40'];
+    MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(
+        testDeviceIds: testDeviceIds,
+      ),
+    );
     MobileAds.instance.initialize();
   } else {
     usePathUrlStrategy();
@@ -33,7 +74,7 @@ void main() async {
     debugPrint('APP INSTALLED!');
   });
   final GoRouter appRouter = MihGoRouter().mihRouter;
-  (MzansiInnovationHub(
+  runApp(MzansiInnovationHub(
     router: appRouter,
   ));
 }

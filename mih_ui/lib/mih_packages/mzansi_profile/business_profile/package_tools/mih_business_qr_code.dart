@@ -75,14 +75,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     } else if (defaultTargetPlatform == TargetPlatform.linux ||
         defaultTargetPlatform == TargetPlatform.windows) {
       // Use File Picker to get a save path on Desktop
-      String? outputFile = await FilePicker.platform.saveFile(
+      String? outputFile = await FilePicker.saveFile(
         dialogTitle: 'Please select where to save your QR Code:',
         fileName: filename,
+        bytes: imageBytes,
       );
 
       if (outputFile != null) {
-        final file = File(outputFile);
-        await file.writeAsBytes(imageBytes);
         KenLogger.success("Saved to $outputFile");
       }
     } else {
