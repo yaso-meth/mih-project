@@ -17,23 +17,7 @@ class MihFileApi {
   static Future<String> getMinioFileUrl(
     String filePath,
   ) async {
-    // loadingPopUp(context);
-    // print("here");
-    // var url =
-    //     "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-    // var response = await http.get(Uri.parse(url));
     String fileUrl = "";
-    // print(response.statusCode);
-    // if (response.statusCode == 200) {
-    //   String body = response.body;
-    //   var decodedData = jsonDecode(body);
-
-    //   fileUrl = decodedData['minioURL'];
-    // } else {
-    //   fileUrl = "";
-    // }
-    // Navigator.of(context).pop(); // Pop loading dialog
-    // return fileUrl;
     try {
       var url =
           "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
@@ -41,19 +25,10 @@ class MihFileApi {
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
         fileUrl = decodedData['minioURL'];
-      } else {
-        // internetConnectionPopUp(context);
-        // KenLogger.error("Get File Error: $url");
-        // KenLogger.error("Get File Error: ${response.statusCode}");
-        // KenLogger.error("Get File Error: ${response.body}");
-      }
+      } else {}
     } catch (e) {
-      // internetConnectionPopUp(context);
       KenLogger.error("Error getting url");
-    } finally {
-      // Navigator.of(context).pop(); // Always pop loading dialog
-    }
-    // KenLogger.success("File URL: $fileUrl");
+    } finally {}
     if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
       fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
     } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
@@ -61,7 +36,31 @@ class MihFileApi {
     } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
       fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
     }
-    // KenLogger.success("File URL: $fileUrl");
+    return fileUrl;
+  }
+
+  static Future<String> getMinioFileUrlV2(
+    String filePath,
+  ) async {
+    String fileUrl = "";
+    try {
+      var url =
+          "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        fileUrl = decodedData['minioURL'];
+      } else {}
+    } catch (e) {
+      KenLogger.error("Error getting url");
+    } finally {}
+    if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
+      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
+      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
+      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+    }
     return fileUrl;
   }
 

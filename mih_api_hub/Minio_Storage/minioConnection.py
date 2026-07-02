@@ -5,21 +5,21 @@ from dotenv import load_dotenv
 load_dotenv()
 minioAccess = os.getenv("MINIO_ACCESS_KEY")
 minioSecret = os.getenv("MINIO_SECRET_KEY")
+minioEndpoint = os.getenv("MINIO_ENDPOINT", "mih-minio:9000")
+minioSecure = os.getenv("MINIO_SECURE", "False") in ("True")
 
 def minioConnect(env):
     if(env == "Dev"):
         return Minio(
-        endpoint="mih-minio:9000",
-        # "minio.mzansi-innovation-hub.co.za",
+        endpoint=minioEndpoint,
         access_key=minioAccess,
         secret_key=minioSecret,
-        secure=False
+        secure=minioSecure,
         )
     else:
         return Minio(
-        # endpoint="mih-minio:9000",
-        endpoint="minio.mzansi-innovation-hub.co.za",
+        endpoint=minioEndpoint,
         access_key=minioAccess,
         secret_key=minioSecret,
-        secure=True
+        secure=minioSecure,
         )

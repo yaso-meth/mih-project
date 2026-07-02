@@ -46,7 +46,7 @@ dependencies:
   #app_settings: ^6.1.1
   pwa_install: ^0.0.6
   google_mobile_ads: ^8.0.0
-  gma_mediation_meta: ^1.4.1
+  gma_mediation_meta: ^1.5.2
   redacted: ^1.0.13
   custom_rating_bar: ^3.0.0
   country_code_picker: ^3.3.0

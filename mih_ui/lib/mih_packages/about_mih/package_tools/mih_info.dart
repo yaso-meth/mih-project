@@ -67,7 +67,7 @@ class _MihInfoState extends State<MihInfo> {
       children: [
         SizedBox(
           child: Text(
-            "${aboutProvider.businessCount}",
+            "${aboutProvider.userCount}",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 23,

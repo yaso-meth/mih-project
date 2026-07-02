@@ -5,7 +5,7 @@ from typing import List
 import requests
 
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 
 from pydantic import BaseModel
 
@@ -107,6 +107,26 @@ class claimStatementUploud(BaseModel):
     pre_auth_no: str
     logo_path: str
     sig_path: str
+
+@router.get("/v2/minio/pull/file/{env}/{app_id}/{folder}/{file_name}", tags=["Minio"])
+async def pullFileFromMinioV2(app_id: str, folder: str, file_name: str, env: str):
+    object_path = f"{app_id}/{folder}/{file_name}"
+    try:
+        client = Minio_Storage.minioConnection.minioConnect(env)
+        
+        response = client.get_object(bucket_name="mih", object_name=object_path)
+        
+        ext = file_name.split(".")[-1].lower()
+        content_type = f"image/{ext}" if ext in ["png", "jpg", "jpeg", "gif", "webp"] else "application/octet-stream"
+        
+        return StreamingResponse(
+            io.BytesIO(response.read()), 
+            media_type=content_type,
+            headers={"Cache-Control": "public, max-age=31536000"} 
+        )
+        
+    except Exception as error:
+        raise HTTPException(status_code=404, detail=f"File not found or MinIO connection failed: {str(error)}")
 
 @router.get("/minio/pull/file/{env}/{app_id}/{folder}/{file_name}", tags=["Minio"])
 async def pull_File_from_user(app_id: str, folder: str, file_name: str, env: str): #, session: SessionContainer = Depends(verify_session())
