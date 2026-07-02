@@ -7,7 +7,7 @@ class AboutMihHiveData {
   final Box<int> _mihUserBusinessCountBox = Hive.box<int>('about_mih_box');
 
   static const String kUserCountKey = 'current_user_count';
-  static const String kBusinessCountKey = 'current_user_count';
+  static const String kBusinessCountKey = 'current_business_count';
 
   // Get Data from local storage
   int? getcachedUserCount() => _mihUserBusinessCountBox.get(kUserCountKey);
@@ -21,7 +21,7 @@ class AboutMihHiveData {
   }
 
   Future<void> cacheBusinessCount(int remoteBusinessCount) async {
-    await _mihUserBusinessCountBox.put(kUserCountKey, remoteBusinessCount);
+    await _mihUserBusinessCountBox.put(kBusinessCountKey, remoteBusinessCount);
     KenLogger.success("MIH Business Count Cached");
   }
 

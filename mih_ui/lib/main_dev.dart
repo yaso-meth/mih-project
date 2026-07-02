@@ -39,7 +39,6 @@ void main() async {
   await Hive.openBox<Business>('business_box');
   await Hive.openBox<BusinessUser>('business_user_box');
   await Hive.openBox<UserConsent>('user_consent_box');
-  await Hive.openBox<String>('image_urls_box');
   await Hive.openBox<ProfileLink>('personal_profile_links_box');
   await Hive.openBox<ProfileLink>('business_profile_links_box');
   await Hive.openBox<BusinessEmployee>('business_employees_box');

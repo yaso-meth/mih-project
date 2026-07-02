@@ -8,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 
 class MzansiProfileProvider extends ChangeNotifier {
   final MzansiProfileHiveData _hiveData;
@@ -46,20 +47,21 @@ class MzansiProfileProvider extends ChangeNotifier {
     userConsent = _hiveData.getCachedConsent();
     business = _hiveData.getCachedBusiness();
     businessUser = _hiveData.getCachedBusinessUser();
-    String? cachedUserUrl = _hiveData.getCachedUserPicUrl();
-    if (cachedUserUrl != null && cachedUserUrl.isNotEmpty) {
-      userProfilePicUrl = cachedUserUrl;
-      userProfilePicture = CachedNetworkImageProvider(cachedUserUrl);
+    if (user != null && user!.pro_pic_path.isNotEmpty) {
+      KenLogger.success("proPicPath: ${user!.pro_pic_path}| THis is it");
+      userProfilePicUrl = MihFileApi.getMinioFileUrlV2(user!.pro_pic_path);
+      userProfilePicture = CachedNetworkImageProvider(userProfilePicUrl!);
     }
-    String? cachedBizUrl = _hiveData.getCachedBusinessPicUrl();
-    if (cachedBizUrl != null && cachedBizUrl.isNotEmpty) {
-      businessProfilePicUrl = cachedBizUrl;
-      businessProfilePicture = CachedNetworkImageProvider(cachedBizUrl);
+    if (business != null && business!.logo_path.isNotEmpty) {
+      businessProfilePicUrl = MihFileApi.getMinioFileUrlV2(business!.logo_path);
+      businessProfilePicture =
+          CachedNetworkImageProvider(businessProfilePicUrl!);
     }
-    String? cachedSigUrl = _hiveData.getCachedSignatureUrl();
-    if (cachedSigUrl != null && cachedSigUrl.isNotEmpty) {
-      businessUserSignatureUrl = cachedSigUrl;
-      businessUserSignature = CachedNetworkImageProvider(cachedSigUrl);
+    if (businessUser != null && businessUser!.sig_path.isNotEmpty) {
+      businessUserSignatureUrl =
+          MihFileApi.getMinioFileUrlV2(businessUser!.sig_path);
+      businessUserSignature =
+          CachedNetworkImageProvider(businessUserSignatureUrl!);
     }
 
     employeeList = _hiveData.getCachedBusinessEmployees();

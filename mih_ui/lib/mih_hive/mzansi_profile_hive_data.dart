@@ -8,7 +8,6 @@ import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_consent_services.dart';
@@ -27,7 +26,6 @@ class MzansiProfileHiveData {
       Hive.box<ProfileLink>('business_profile_links_box');
   final Box<BusinessEmployee> _businessEmployeesBox =
       Hive.box<BusinessEmployee>('business_Employees_box');
-  final Box<String> _resolvedUrlsBox = Hive.box<String>('image_urls_box');
 
   static const String kUserKey = 'current_user';
   static const String kBusinessKey = 'current_business';
@@ -43,9 +41,6 @@ class MzansiProfileHiveData {
   BusinessUser? getCachedBusinessUser() =>
       _businessUserBox.get(kBusinessUserKey);
   UserConsent? getCachedConsent() => _userConsentBox.get(kConsentKey);
-  String? getCachedUserPicUrl() => _resolvedUrlsBox.get(kUserPicUrlKey);
-  String? getCachedBusinessPicUrl() => _resolvedUrlsBox.get(kBusinessPicUrlKey);
-  String? getCachedSignatureUrl() => _resolvedUrlsBox.get(kSignatureUrlKey);
 
   List<ProfileLink> getCachedPersonalProfileLinks() {
     final links = _personalProfileLinksBox.values.toList();
@@ -68,11 +63,6 @@ class MzansiProfileHiveData {
   // Caching Data to local storage
   Future<void> cacheUserData(AppUser remoteUser) async {
     await _userBox.put(kUserKey, remoteUser);
-    if (remoteUser.pro_pic_path.isNotEmpty) {
-      String userPicUrl =
-          await MihFileApi.getMinioFileUrl(remoteUser.pro_pic_path);
-      await _resolvedUrlsBox.put(kUserPicUrlKey, userPicUrl);
-    }
     KenLogger.success("User Profile Cached");
   }
 
@@ -83,26 +73,11 @@ class MzansiProfileHiveData {
 
   Future<void> cacheBusinessData(Business remoteBusiness) async {
     await _businessBox.put(kBusinessKey, remoteBusiness);
-    if (remoteBusiness.logo_path.isNotEmpty) {
-      String logoUrl =
-          await MihFileApi.getMinioFileUrl(remoteBusiness.logo_path);
-      await _resolvedUrlsBox.put(kBusinessPicUrlKey, logoUrl);
-    }
-    BusinessUser? remoteBizUser =
-        await MihMyBusinessUserServices().getBusinessUserV2();
-    if (remoteBizUser != null) {
-      cacheBusinessUserData(remoteBizUser);
-    }
     KenLogger.success("Busines Profile Cached");
   }
 
   Future<void> cacheBusinessUserData(BusinessUser remoteBizUser) async {
     await _businessUserBox.put(kBusinessUserKey, remoteBizUser);
-    if (remoteBizUser.sig_path.isNotEmpty) {
-      String signatureUrl =
-          await MihFileApi.getMinioFileUrl(remoteBizUser.sig_path);
-      await _resolvedUrlsBox.put(kSignatureUrlKey, signatureUrl);
-    }
     KenLogger.success("Busines User Profile Cached");
   }
 
@@ -146,8 +121,13 @@ class MzansiProfileHiveData {
       Business? remoteBusiness =
           await MihBusinessDetailsServices().getBusinessDetailsByUserV2();
       if (remoteBusiness != null) {
-        cacheBusinessData(remoteBusiness);
+        await cacheBusinessData(remoteBusiness);
 
+        BusinessUser? remoteBizUser =
+            await MihMyBusinessUserServices().getBusinessUserV2();
+        if (remoteBizUser != null) {
+          cacheBusinessUserData(remoteBizUser);
+        }
         final remoteBusinessEmployeeList = await MihBusinessEmployeeServices()
             .fetchEmployeesV2(remoteBusiness.business_id);
         cacheBusinessEmployeesData(remoteBusinessEmployeeList);
