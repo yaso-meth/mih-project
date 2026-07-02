@@ -153,11 +153,11 @@ class MzansiWalletHiveData {
     try {
       final remoteLoyaltyCards = await MIHMzansiWalletApis.getLoyaltyCardsV2(
           profileProvider.user!.app_id);
-      cacheLoyaltyCardsData(remoteLoyaltyCards);
+      await cacheLoyaltyCardsData(remoteLoyaltyCards);
       final remoteFavLoyaltyCards =
           await MIHMzansiWalletApis.getFavouriteLoyaltyCardsV2(
               profileProvider.user!.app_id);
-      cacheFavLoyaltyCardsData(remoteFavLoyaltyCards);
+      await cacheFavLoyaltyCardsData(remoteFavLoyaltyCards);
       return true;
     } catch (error) {
       KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused.");

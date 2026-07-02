@@ -111,12 +111,12 @@ class MzansiProfileHiveData {
         UserConsent? remoteConsent =
             await MihUserConsentServices().getUserConsentStatusV2();
         if (remoteConsent != null) {
-          cacheUserConsentData(remoteConsent);
+          await cacheUserConsentData(remoteConsent);
         }
         final remotePersonalLinks =
             await MihProfileLinksServices.getUserProfileLinksV2(
                 remoteUser.app_id);
-        cachePersonalProfileLinksData(remotePersonalLinks);
+        await cachePersonalProfileLinksData(remotePersonalLinks);
       }
       Business? remoteBusiness =
           await MihBusinessDetailsServices().getBusinessDetailsByUserV2();
@@ -126,16 +126,16 @@ class MzansiProfileHiveData {
         BusinessUser? remoteBizUser =
             await MihMyBusinessUserServices().getBusinessUserV2();
         if (remoteBizUser != null) {
-          cacheBusinessUserData(remoteBizUser);
+          await cacheBusinessUserData(remoteBizUser);
         }
         final remoteBusinessEmployeeList = await MihBusinessEmployeeServices()
             .fetchEmployeesV2(remoteBusiness.business_id);
-        cacheBusinessEmployeesData(remoteBusinessEmployeeList);
+        await cacheBusinessEmployeesData(remoteBusinessEmployeeList);
 
         final remoteBusinessLinks =
             await MihProfileLinksServices.getBusinessProfileLinksV2(
                 remoteBusiness.business_id);
-        cacheBusinessProfileLinksData(remoteBusinessLinks);
+        await cacheBusinessProfileLinksData(remoteBusinessLinks);
       }
       return true;
     } catch (error) {

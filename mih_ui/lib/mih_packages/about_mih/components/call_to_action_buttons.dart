@@ -189,7 +189,7 @@ class _CallToActionButtonsState extends State<CallToActionButtons> {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "MIH Beginners Guide",
+                    "Beginners Guide",
                     style: TextStyle(
                       color: MihColors.primary(),
                       fontSize: 20,

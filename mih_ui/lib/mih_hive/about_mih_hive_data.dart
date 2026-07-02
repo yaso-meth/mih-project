@@ -29,10 +29,10 @@ class AboutMihHiveData {
   Future<bool> syncAboutMihDataWithServer() async {
     try {
       int remoteUserCount = await MihUserServices().fetchUserCount();
-      cacheUserCount(remoteUserCount);
+      await cacheUserCount(remoteUserCount);
       int remoteBusinessCount =
           await MihBusinessDetailsServices().fetchBusinessCount();
-      cacheBusinessCount(remoteBusinessCount);
+      await cacheBusinessCount(remoteBusinessCount);
       return true;
     } catch (error) {
       KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
