@@ -45,8 +45,9 @@ class _MihHomeState extends State<MihHome> {
     mzansiProfileProvider.loadCachedProfileState();
     if (mzansiProfileProvider.user == null) {
       await mzansiProfileProvider.syncWithMihServerData();
-    } else {
-      mzansiProfileProvider.syncWithMihServerData();
+    }
+    if(mzansiProfileProvider.isLocalModificationsPending()){
+	mzansiProfileProvider.syncWithMihServerData();
     }
   }
 

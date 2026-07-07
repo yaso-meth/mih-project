@@ -5,6 +5,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_business_profile_preview.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:provider/provider.dart';
 
 class BuildBusinessSearchResultsList extends StatefulWidget {
@@ -27,8 +28,6 @@ class _BuildBusinessSearchResultsListState
       builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
           Widget? child) {
         return ListView.separated(
-          // shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.businessList.length,
           separatorBuilder: (BuildContext context, index) {
             return Divider(
@@ -54,32 +53,14 @@ class _BuildBusinessSearchResultsListState
                     // vertical: 5,
                     horizontal: 25,
                   ),
-                  child: FutureBuilder(
-                      future: directoryProvider.busSearchImagesUrl![
-                          widget.businessList[index].business_id],
-                      builder: (context, asyncSnapshot) {
-                        ImageProvider<Object>? imageFile;
-                        bool loading = true;
-                        if (asyncSnapshot.connectionState ==
-                            ConnectionState.done) {
-                          loading = false;
-                          if (asyncSnapshot.hasData) {
-                            imageFile = asyncSnapshot.requireData != ""
-                                ? CachedNetworkImageProvider(
-                                    asyncSnapshot.requireData)
-                                : null;
-                          } else {
-                            imageFile = null;
-                          }
-                        } else {
-                          imageFile = null;
-                        }
-                        return MihBusinessProfilePreview(
-                          business: widget.businessList[index],
-                          imageFile: imageFile,
-                          loading: loading,
-                        );
-                      }),
+                  child: MihBusinessProfilePreview(
+                    business: widget.businessList[index],
+                    imageFile: CachedNetworkImageProvider(
+                      MihFileApi.getMinioFileUrlV2(
+                          widget.businessList[index].logo_path),
+                    ),
+                    loading: false,
+                  ),
                 ),
               ),
             );

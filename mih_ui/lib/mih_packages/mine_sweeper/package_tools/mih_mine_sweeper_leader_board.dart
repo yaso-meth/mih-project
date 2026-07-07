@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/builders/build_minesweeper_leaderboard_list.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_minesweeper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
@@ -24,16 +21,7 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
     filterController.text = mineSweeperProvider.difficulty;
-    KenLogger.success("getting data");
     await MihMinesweeperServices().getTop20Leaderboard(mineSweeperProvider);
-    List<Future<String>> userPicturesUrl = [];
-    Future<String> userPicUrl;
-    for (final ranking in mineSweeperProvider.leaderboard!) {
-      userPicUrl = MihFileApi.getMinioFileUrl(ranking.proPicUrl);
-      userPicturesUrl.add(userPicUrl);
-    }
-    mineSweeperProvider.setLeaderboardUserPictures(
-        leaderboardUserPicturesUrl: userPicturesUrl);
     setState(() {
       isLoading = false;
     });

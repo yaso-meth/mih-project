@@ -1,5 +1,3 @@
-import 'package:ken_logger/ken_logger.dart';
-import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
@@ -12,7 +10,7 @@ class MihDataHelperServices {
   Future<void> getUserData(MzansiProfileProvider profileProvider) async {
     String url;
     await MihUserServices().getMyUserDetails(profileProvider);
-    url = await MihFileApi.getMinioFileUrl(
+    url = MihFileApi.getMinioFileUrlV2(
       profileProvider.user!.pro_pic_path,
     );
     profileProvider.setUserProfilePicUrl(url);
@@ -29,12 +27,12 @@ class MihDataHelperServices {
     Business? responseBusiness = await MihBusinessDetailsServices()
         .getBusinessDetailsByUser(profileProvider);
     if (responseBusiness != null) {
-      logoUrl = await MihFileApi.getMinioFileUrl(
+      logoUrl = MihFileApi.getMinioFileUrlV2(
         profileProvider.business!.logo_path,
       );
       profileProvider.setBusinessProfilePicUrl(logoUrl);
       await MihMyBusinessUserServices().getBusinessUser(profileProvider);
-      signatureUrl = await MihFileApi.getMinioFileUrl(
+      signatureUrl = MihFileApi.getMinioFileUrlV2(
         profileProvider.businessUser!.sig_path,
       );
       profileProvider.setBusinessUserSignatureUrl(signatureUrl);

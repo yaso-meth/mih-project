@@ -9,7 +9,6 @@ class MihMineSweeperProvider extends ChangeNotifier {
   int totalMines;
   List<MinesweeperPlayerScore>? leaderboard;
   List<MinesweeperPlayerScore>? myScoreboard;
-  List<Future<String>> leaderboardUserPicturesUrl = [];
 
   MihMineSweeperProvider({
     this.difficulty = "Easy",
@@ -70,12 +69,6 @@ class MihMineSweeperProvider extends ChangeNotifier {
     } else {
       this.myScoreboard = myScoreboard;
     }
-    notifyListeners();
-  }
-
-  void setLeaderboardUserPictures(
-      {required List<Future<String>> leaderboardUserPicturesUrl}) {
-    this.leaderboardUserPicturesUrl = leaderboardUserPicturesUrl;
     notifyListeners();
   }
 }

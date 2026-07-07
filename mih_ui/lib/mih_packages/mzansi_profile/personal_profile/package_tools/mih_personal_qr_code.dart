@@ -206,41 +206,18 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                           backgroundColor: MihColors.secondary(),
                           onChange: () {},
                         )
-                      : FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "" ||
-                                  asyncSnapshot.requireData.isNotEmpty) {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.primary(),
-                                  backgroundColor: MihColors.secondary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.primary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.primary(),
-                              );
-                            }
-                          },
+                      : MihCircleAvatar(
+                          imageFile: CachedNetworkImageProvider(
+                            MihFileApi.getMinioFileUrlV2(user.pro_pic_path),
+                          ),
+                          width: profilePictureWidth,
+                          expandable: true,
+                          editable: false,
+                          fileNameController: TextEditingController(),
+                          userSelectedfile: file,
+                          frameColor: MihColors.primary(),
+                          backgroundColor: MihColors.secondary(),
+                          onChange: () {},
                         ),
                   FittedBox(
                     child: Text(

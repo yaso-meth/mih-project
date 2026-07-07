@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
@@ -59,7 +57,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     String encodedData =
         Uri.encodeComponent("$qrCodedata${business.business_id}");
 
-    return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x${qrSize}&bgcolor=$bgColor&color=$color";
+    return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x$qrSize&bgcolor=$bgColor&color=$color";
   }
 
   Future<void> saveImage(Uint8List imageBytes) async {
@@ -206,41 +204,18 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                           backgroundColor: MihColors.secondary(),
                           onChange: () {},
                         )
-                      : FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "" ||
-                                  asyncSnapshot.requireData.isNotEmpty) {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.primary(),
-                                  backgroundColor: MihColors.secondary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.primary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.primary(),
-                              );
-                            }
-                          },
+                      : MihCircleAvatar(
+                          imageFile: CachedNetworkImageProvider(
+                            MihFileApi.getMinioFileUrlV2(business.logo_path),
+                          ),
+                          width: profilePictureWidth,
+                          expandable: true,
+                          editable: false,
+                          fileNameController: TextEditingController(),
+                          userSelectedfile: file,
+                          frameColor: MihColors.primary(),
+                          backgroundColor: MihColors.secondary(),
+                          onChange: () {},
                         ),
                   FittedBox(
                     child: Text(

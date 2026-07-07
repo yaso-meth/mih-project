@@ -16,56 +16,55 @@ class MihUserConsentWindow extends StatefulWidget {
 }
 
 class _MihUserConsentWindowState extends State<MihUserConsentWindow> {
-  void createOrUpdateAccpetance(MzansiProfileProvider mzansiProfileProvider) {
+  void createOrUpdateAccpetance(
+      MzansiProfileProvider mzansiProfileProvider) async {
     UserConsent? userConsent = mzansiProfileProvider.userConsent;
-    userConsent != null
-        ? MihUserConsentServices()
-            .updateUserConsentStatus(
-            DateTime.now().toIso8601String(),
-            DateTime.now().toIso8601String(),
-            mzansiProfileProvider,
-            context,
-          )
-            .then((value) {
-            if (!mounted) return;
-            if (value == 200) {
-              context.goNamed("mihHome");
-              ScaffoldMessenger.of(context).showSnackBar(
-                MihSnackBar(
-                  child: Text("Thank you for accepting our Policies"),
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                MihSnackBar(
-                  child: Text("There was an error, please try again later"),
-                ),
-              );
-            }
-          })
-        : MihUserConsentServices()
-            .insertUserConsentStatus(
-            DateTime.now().toIso8601String(),
-            DateTime.now().toIso8601String(),
-            mzansiProfileProvider,
-            context,
-          )
-            .then((value) {
-            if (value == 201) {
-              context.goNamed("mihHome");
-              ScaffoldMessenger.of(context).showSnackBar(
-                MihSnackBar(
-                  child: Text("Thank you for accepting our Policies"),
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                MihSnackBar(
-                  child: Text("There was an error, please try again later"),
-                ),
-              );
-            }
-          });
+    if (userConsent != null) {
+      MihUserConsentServices()
+          .updateUserConsentStatus(
+        DateTime.now().toIso8601String(),
+        DateTime.now().toIso8601String(),
+        mzansiProfileProvider,
+        context,
+      )
+          .then((value) {
+        if (!mounted) return;
+        if (value == 200) {
+          context.goNamed("mihHome");
+          ScaffoldMessenger.of(context).showSnackBar(
+            MihSnackBar(
+              child: Text("Thank you for accepting our Policies"),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            MihSnackBar(
+              child: Text("There was an error, please try again later"),
+            ),
+          );
+        }
+      });
+    } else {
+      bool success = await mzansiProfileProvider.addUserConsent(UserConsent(
+        app_id: mzansiProfileProvider.user!.app_id,
+        privacy_policy_accepted: DateTime.now(),
+        terms_of_services_accepted: DateTime.now(),
+      ));
+      if (success) {
+        context.pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          MihSnackBar(
+            child: Text("Thank you for accepting our Policies"),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          MihSnackBar(
+            child: Text("There was an error, please try again later"),
+          ),
+        );
+      }
+    }
   }
 
   @override

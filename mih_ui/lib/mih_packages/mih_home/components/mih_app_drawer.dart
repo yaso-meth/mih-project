@@ -30,8 +30,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   final proPicController = TextEditingController();
   late Widget profilePictureLoaded;
 
-  void resetProviders() {
-    context.read<AboutMihProvider>().reset();
+  Future<void> clearCacheAndProviders() async {
     context.read<MihAccessControllsProvider>().reset();
     context.read<MihAuthenticationProvider>().reset();
     context.read<MihBannerAdProvider>().reset();
@@ -40,8 +39,10 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     context.read<MihMineSweeperProvider>().reset();
     context.read<MzansiAiProvider>().reset();
     context.read<MzansiDirectoryProvider>().reset();
-    context.read<MzansiWalletProvider>().reset();
     context.read<PatientManagerProvider>().reset();
+    await context.read<AboutMihProvider>().clearAboutMihCacheAndProvider();
+    await context.read<MzansiWalletProvider>().clearWalletCacheAndProvider();
+    await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
   }
 
   Future<bool> signOut() async {
@@ -187,32 +188,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                             ),
                           ),
                         ),
-                        // ListTile(
-                        //   title: Row(
-                        //     mainAxisSize: MainAxisSize.max,
-                        //     children: [
-                        //       Icon(
-                        //         Icons.home_outlined,
-                        //         color:
-                        //             MihColors.secondary(),
-                        //       ),
-                        //       const SizedBox(width: 25.0),
-                        //       Text(
-                        //         "Home",
-                        //         style: TextStyle(
-                        //           //fontWeight: FontWeight.bold,
-                        //           color: MzansiInnovationHub.of(context)!
-                        //               .theme
-                        //               .secondaryColor(),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   onTap: () {
-                        //     Navigator.of(context)
-                        //         .pushNamedAndRemoveUntil('/', (route) => false);
-                        //   },
-                        // ),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -291,8 +266,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   });
                                   if (await SuperTokens.doesSessionExist() ==
                                       false) {
-                                    resetProviders();
-                                    await Future.delayed(Duration.zero);
+                                    await clearCacheAndProviders();
                                     if (context.mounted) {
                                       context.goNamed(
                                         'mihHome',
@@ -313,21 +287,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                       height: 30,
                       child: InkWell(
                         onTap: () {
-                          // setState(() {
-                          //   if (MzansiInnovationHub.of(context)?.theme.mode ==
-                          //       "Dark") {
-                          //     //darkm = !darkm;
-                          //     MzansiInnovationHub.of(context)!
-                          //         .changeTheme(ThemeMode.light);
-                          //     //print("Dark Mode: $darkm");
-                          //   } else {
-                          //     //darkm = !darkm;
-                          //     MzansiInnovationHub.of(context)!
-                          //         .changeTheme(ThemeMode.dark);
-                          //     //print("Dark Mode: $darkm");
-                          //   }
-                          //   // Navigator.of(context).popAndPushNamed('/',);
-                          // });
                           context.goNamed("aboutMih");
                         },
                         child: Icon(
@@ -335,27 +294,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                           color: MihColors.primary(),
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     setState(() {
-                      //       if (MzansiInnovationHub.of(context)?.theme.mode == "Dark") {
-                      //         //darkm = !darkm;
-                      //         MzansiInnovationHub.of(context)!.changeTheme(ThemeMode.light);
-                      //         //print("Dark Mode: $darkm");
-                      //       } else {
-                      //         //darkm = !darkm;
-                      //         MzansiInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
-                      //         //print("Dark Mode: $darkm");
-                      //       }
-                      //       Navigator.of(context).popAndPushNamed('/');
-                      //     });
-                      //   },
-                      //   icon: Icon(
-                      //     Icons.light_mode,
-                      //     color: MihColors.primary(),
-                      //     size: 35,
-                      //   ),
-                      // ),
                     ),
                   ],
                 );

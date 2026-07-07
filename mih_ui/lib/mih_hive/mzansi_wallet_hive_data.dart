@@ -13,6 +13,18 @@ class MzansiWalletHiveData {
   final Box<Map> _modificationsQueue =
       Hive.box<Map>('wallet_modifications_queue');
 
+  // Set offline data
+  Future<void> clearWalletCache() async {
+    try {
+      await _loyaltyCardBox.clear();
+      await _favLoyaltyCardBox.clear();
+      await _modificationsQueue.clear();
+      KenLogger.success("Cleared Local Wallet Cache.");
+    } catch (error) {
+      KenLogger.error("Failed to clear local wallet cache.");
+    }
+  }
+
   // Get Offline Data
   List<MIHLoyaltyCard> getCachedLoyaltyCards() {
     final cards = _loyaltyCardBox.values.toList();
@@ -204,8 +216,6 @@ class MzansiWalletHiveData {
       }
       final String action = task['action'];
       final MIHLoyaltyCard taskCard = task['payload'];
-      KenLogger.warning(
-          "Card Details: id=${taskCard.idloyalty_cards}, shop=${taskCard.shop_name}, Nunber=${taskCard.card_number}, offline_id=${taskCard.offline_id}");
       if (action == 'ADD') {
         dynamic deleteCardTaskKey;
         for (var entry in _modificationsQueue.toMap().entries) {

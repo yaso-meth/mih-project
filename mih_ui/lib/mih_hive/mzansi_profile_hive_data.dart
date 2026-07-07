@@ -26,6 +26,25 @@ class MzansiProfileHiveData {
       Hive.box<ProfileLink>('business_profile_links_box');
   final Box<BusinessEmployee> _businessEmployeesBox =
       Hive.box<BusinessEmployee>('business_Employees_box');
+  final Box<Map> _modificationsQueue =
+      Hive.box<Map>('profile_modifications_queue');
+
+  // Set offline data
+  Future<void> clearProfileCache() async {
+    try {
+      await _userBox.clear();
+      await _businessBox.clear();
+      await _businessUserBox.clear();
+      await _userConsentBox.clear();
+      await _personalProfileLinksBox.clear();
+      await _businessProfileLinksBox.clear();
+      await _businessEmployeesBox.clear();
+      await _modificationsQueue.clear();
+      KenLogger.success("Cleared Local Profile Cache.");
+    } catch (error) {
+      KenLogger.error("Failed to clear local profile cache.");
+    }
+  }
 
   static const String kUserKey = 'current_user';
   static const String kBusinessKey = 'current_business';
@@ -143,5 +162,59 @@ class MzansiProfileHiveData {
       return false;
       // KenLogger.warning("App operating offline mode. Sync paused: $error");
     }
+  }
+
+  // Set Offline Data
+  Future<bool> addUserConsentLocally(UserConsent newConsent) async {
+    try {
+      await _userConsentBox.put(kConsentKey, newConsent);
+      KenLogger.success("Consent Saved Locally.");
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  // Modification Processing
+  Future<void> queuAddConsentModification(UserConsent newConsent) async {
+    await _modificationsQueue.add({
+      'action': 'ADD',
+      'type': 'CONSENT',
+      'payload': newConsent,
+    });
+    KenLogger.success("Add Consent Queues for Online Sync");
+  }
+
+  Future<bool> processModificationsQueue() async {
+    if (_modificationsQueue.isEmpty) {
+      return true;
+    }
+    final List<dynamic> queueKeys = _modificationsQueue.keys.toList();
+    for (var taskKey in queueKeys) {
+      final task = _modificationsQueue.get(taskKey);
+      if (task == null) {
+        continue;
+      }
+      final String action = task['action'];
+      final String type = task['type'];
+      if (type == 'CONSENT') {
+        final UserConsent consentTask = task['payload'];
+        if (action == 'ADD') {
+          final responseCode =
+              await MihUserConsentServices().insertUserConsentStatusV2(
+            consentTask,
+          );
+          if (responseCode != null && responseCode == 201) {
+            await _modificationsQueue.delete(taskKey);
+            KenLogger.success("Add User Consent to MIH Server");
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  bool isModificationsNotEmpty() {
+    return _modificationsQueue.values.toList().isNotEmpty;
   }
 }

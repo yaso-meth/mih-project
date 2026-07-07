@@ -539,7 +539,6 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             }
             directoryProvider.setSearchedBusinesses(
               searchedBusinesses: businessSearchResults,
-              businessesImagesUrl: busImagesUrl,
             );
             setState(() {
               _businessReviewFuture = getUserReview();

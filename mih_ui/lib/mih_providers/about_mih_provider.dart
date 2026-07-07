@@ -29,8 +29,15 @@ class AboutMihProvider extends ChangeNotifier {
     return success;
   }
 
+  Future<void> clearAboutMihCacheAndProvider() async {
+    await _hiveData.clearAboutMIHCache();
+    reset();
+  }
+
   void reset() {
     toolIndex = 0;
+    userCount = null;
+    businessCount = null;
     notifyListeners();
   }
 

@@ -54,7 +54,8 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                     size: profilePictureWidth,
                     color: MihColors.secondary(),
                   )
-                : widget.imageFile == null
+                : widget.business.logo_path.endsWith('/') ||
+                        widget.business.logo_path == ''
                     ? Icon(
                         MihIcons.mihIDontKnow,
                         size: profilePictureWidth,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -9,7 +8,6 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/bui
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_user_search_results_list.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +24,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   final TextEditingController mzansiSearchController = TextEditingController();
   final TextEditingController businessTypeController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
-  // late bool userSearch;
-  // Future<List<AppUser>?> futureUserSearchResults = Future.value();
   List<AppUser> userSearchResults = [];
   List<Business> businessSearchResults = [];
   late Future<List<String>> availableBusinessTypes;
@@ -51,9 +47,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   }
 
   void clearAll(MzansiDirectoryProvider directoryProvider) {
-    directoryProvider
-        .setSearchedBusinesses(searchedBusinesses: [], businessesImagesUrl: {});
-    directoryProvider.setSearchedUsers(searchedUsers: [], userImagesUrl: {});
+    directoryProvider.setSearchedBusinesses(searchedBusinesses: []);
+    directoryProvider.setSearchedUsers(searchedUsers: []);
     directoryProvider.setSearchTerm(searchTerm: "");
     setState(() {
       mzansiSearchController.clear();
@@ -73,19 +68,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
         directoryProvider.searchTerm.isNotEmpty) {
       final userResults = await MihUserServices()
           .searchUsers(profileProvider, directoryProvider.searchTerm, context);
-      Map<String, Future<String>> userImages = {};
-      Future<String> usernProPicUrl;
-      for (var user in userResults) {
-        usernProPicUrl = MihFileApi.getMinioFileUrl(user.pro_pic_path);
-        userImages[user.app_id] = usernProPicUrl;
-        // != ""
-        //     ? CachedNetworkImageProvider(usernProPicUrl)
-        //     : null;
-      }
-
       directoryProvider.setSearchedUsers(
         searchedUsers: userResults,
-        userImagesUrl: userImages,
       );
     } else {
       List<Business>? businessSearchResults = [];
@@ -98,18 +82,8 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
             .searchBusinesses(directoryProvider.searchTerm,
                 directoryProvider.businessTypeFilter, context);
       }
-      Map<String, Future<String>> busImagesUrl = {};
-      Future<String> businessLogoUrl;
-      for (var bus in businessSearchResults) {
-        businessLogoUrl = MihFileApi.getMinioFileUrl(bus.logo_path);
-        busImagesUrl[bus.business_id] = businessLogoUrl;
-        // != ""
-        //     ? CachedNetworkImageProvider(businessLogoUrl)
-        //     : null;
-      }
       directoryProvider.setSearchedBusinesses(
         searchedBusinesses: businessSearchResults,
-        businessesImagesUrl: busImagesUrl,
       );
     }
     setState(() {

@@ -209,15 +209,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   void initState() {
     super.initState();
     searchController.addListener(searchPackage);
-    MzansiProfileProvider profileProvider =
-        context.read<MzansiProfileProvider>();
-    if (profileProvider.user == null || profileProvider.user?.username == "") {
-      personalPackagesMap = setNerUserPersonalPackage();
-      autoNavToProfile();
-    } else {
-      personalPackagesMap = setPersonalPackagesMap(profileProvider);
-    }
-    searchPackage();
   }
 
   @override
@@ -237,6 +228,14 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     return Consumer2<MzansiProfileProvider, MzansiAiProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MzansiAiProvider mzansiAiProvider, Widget? child) {
+        if (profileProvider.user == null ||
+            profileProvider.user?.username == "") {
+          personalPackagesMap = setNerUserPersonalPackage();
+          autoNavToProfile();
+        } else {
+          personalPackagesMap = setPersonalPackagesMap(profileProvider);
+        }
+        searchPackage();
         return Column(
           children: [
             Visibility(

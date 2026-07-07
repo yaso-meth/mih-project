@@ -75,40 +75,21 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "") {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.secondary(),
-                                  backgroundColor: MihColors.primary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.secondary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.secondary(),
-                              );
-                            }
-                          }),
+                      MihCircleAvatar(
+                        imageFile: CachedNetworkImageProvider(
+                          MihFileApi.getMinioFileUrlV2(
+                            directoryProvider.selectedUser!.pro_pic_path,
+                          ),
+                        ),
+                        width: profilePictureWidth,
+                        expandable: true,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
+                        onChange: () {},
+                      ),
                       FittedBox(
                         child: Text(
                           directoryProvider.selectedUser!.username.isNotEmpty

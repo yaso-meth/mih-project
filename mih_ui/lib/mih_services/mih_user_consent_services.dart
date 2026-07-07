@@ -54,6 +54,23 @@ class MihUserConsentServices {
     return response.statusCode;
   }
 
+  Future<int?> insertUserConsentStatusV2(
+    UserConsent userConsent,
+  ) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse("${AppEnviroment.baseApiUrl}/user-consent/insert/"),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(userConsent.toJson()),
+          )
+          .timeout(const Duration(seconds: 5));
+      return response.statusCode;
+    } catch (error) {
+      return null;
+    }
+  }
+
   Future<int> updateUserConsentStatus(
     String latestPrivacyPolicyDate,
     String latestTermOfServiceDate,

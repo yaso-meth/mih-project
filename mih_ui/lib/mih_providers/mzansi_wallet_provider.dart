@@ -64,10 +64,16 @@ class MzansiWalletProvider extends ChangeNotifier {
     loadCachedWallet();
   }
 
+  Future<void> clearWalletCacheAndProvider() async {
+    await _hiveData.clearWalletCache();
+    reset();
+  }
+
   void reset() {
     toolIndex = 0;
     loyaltyCards = [];
     favouriteCards = [];
+    notifyListeners();
   }
 
   void setToolIndex(int index) {

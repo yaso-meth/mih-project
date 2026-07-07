@@ -86,12 +86,9 @@ class _MihEditPersonalProfileWindowState
     );
     if (responseCode == 200) {
       setState(() {
-        setProfileVariables(mzansiProfileProvider);
         newSelectedProPic = null;
       });
-      // if (originalProfileTypeIsBusiness == false && businessUser == true) {
-      //   stayOnPersonalSide = false;
-      // }
+      await mzansiProfileProvider.syncWithMihServerData();
       String message = "Your information has been updated successfully!";
       successPopUp(
         mzansiProfileProvider,

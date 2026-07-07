@@ -75,6 +75,7 @@ class MzansiProfileProvider extends ChangeNotifier {
   }
 
   Future<bool> syncWithMihServerData() async {
+    await _hiveData.processModificationsQueue();
     bool success = await _hiveData.syncProfileDataWithServer();
     loadCachedProfileState();
     return success;
@@ -82,6 +83,24 @@ class MzansiProfileProvider extends ChangeNotifier {
 
   void triggerRefresh() {
     refreshIndicatorKey.currentState?.show();
+  }
+
+  bool isLocalModificationsPending(){
+    return _hiveData.isModificationsNotEmpty();
+  }
+
+  Future<bool> addUserConsent(UserConsent newConsent) async {
+    bool success = await _hiveData.addUserConsentLocally(newConsent);
+    await _hiveData.queuAddConsentModification(newConsent);
+    await _hiveData.processModificationsQueue();
+    await _hiveData.syncProfileDataWithServer();
+    loadCachedProfileState();
+    return success;
+  }
+
+  Future<void> clearProfileCacheAndProvider() async {
+    await _hiveData.clearProfileCache();
+    reset();
   }
 
   void reset() {
@@ -98,6 +117,10 @@ class MzansiProfileProvider extends ChangeNotifier {
     businessUserSignatureUrl = null;
     businessUserSignature = null;
     userConsent = null;
+    employeeList = null;
+    userSearchResults = [];
+    personalLinks = [];
+    businessLinks = [];
     notifyListeners();
   }
 

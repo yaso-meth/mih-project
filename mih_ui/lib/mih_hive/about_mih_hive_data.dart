@@ -9,6 +9,16 @@ class AboutMihHiveData {
   static const String kUserCountKey = 'current_user_count';
   static const String kBusinessCountKey = 'current_business_count';
 
+  // Clear Local Cache
+  Future<void> clearAboutMIHCache() async {
+    try {
+      await _mihUserBusinessCountBox.clear();
+      KenLogger.success("Cleared Local About MIH Cache.");
+    } catch (error) {
+      KenLogger.error("Failed to clear local about mih cache.");
+    }
+  }
+
   // Get Data from local storage
   int? getcachedUserCount() => _mihUserBusinessCountBox.get(kUserCountKey);
   int? getcachedBusinessCount() =>

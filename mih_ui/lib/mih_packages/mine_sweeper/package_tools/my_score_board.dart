@@ -26,10 +26,8 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
     filterController.text = mineSweeperProvider.difficulty;
-    KenLogger.success("getting data");
     await MihMinesweeperServices()
         .getMyScoreboard(profileProvider, mineSweeperProvider);
-    KenLogger.success("${mineSweeperProvider.myScoreboard}");
   }
 
   void refreshLeaderBoard(

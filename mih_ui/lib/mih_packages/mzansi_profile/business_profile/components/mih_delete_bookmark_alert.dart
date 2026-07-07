@@ -52,7 +52,6 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
     }
     directoryProvider.setFavouriteBusinesses(
       businesses: favBus,
-      businessesImagesUrl: favBusImages,
     );
   }
 

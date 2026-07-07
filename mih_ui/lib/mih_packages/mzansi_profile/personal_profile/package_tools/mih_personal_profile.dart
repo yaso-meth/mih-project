@@ -174,35 +174,67 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MihButton(
-                        onPressed: () {
-                          addProfileLinksWindow();
-                        },
-                        buttonColor: MihColors.green(),
-                        width: mzansiProfileProvider.personalLinks.isNotEmpty
-                            ? 50
-                            : null,
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add,
-                              color: MihColors.primary(),
-                            ),
-                            if (mzansiProfileProvider.personalLinks.isEmpty)
-                              Text(
-                                "Add Links",
-                                style: TextStyle(
-                                  color: MihColors.primary(),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      mzansiProfileProvider.user!.username != ""
+                          ? MihButton(
+                              onPressed: () {
+                                addProfileLinksWindow();
+                              },
+                              buttonColor: MihColors.green(),
+                              width:
+                                  mzansiProfileProvider.personalLinks.isNotEmpty
+                                      ? 50
+                                      : null,
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: MihColors.primary(),
+                                  ),
+                                  if (mzansiProfileProvider
+                                      .personalLinks.isEmpty)
+                                    Text(
+                                      "Add Links",
+                                      style: TextStyle(
+                                        color: MihColors.primary(),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                ],
                               ),
-                          ],
-                        ),
-                      ),
+                            )
+                          : MihButton(
+                              onPressed: () {
+                                editProfileWindow();
+                              },
+                              buttonColor: MihColors.green(),
+                              width: null,
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    color: MihColors.primary(),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Add Profile",
+                                    style: TextStyle(
+                                      color: MihColors.primary(),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                       const SizedBox(width: 8.0),
                       if (mzansiProfileProvider.personalLinks.isNotEmpty)
                         MihButton(

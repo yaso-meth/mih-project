@@ -47,7 +47,6 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
     }
     directoryProvider.setFavouriteBusinesses(
       businesses: favBus,
-      businessesImagesUrl: favBusImages,
     );
   }
 
