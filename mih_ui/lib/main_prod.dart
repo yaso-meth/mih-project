@@ -42,6 +42,7 @@ void main() async {
   await Hive.openBox<ProfileLink>('personal_profile_links_box');
   await Hive.openBox<ProfileLink>('business_profile_links_box');
   await Hive.openBox<BusinessEmployee>('business_employees_box');
+  await Hive.openBox<Map>('profile_modifications_queue');
   // Mzansi Wallet Data
   await Hive.openBox<MIHLoyaltyCard>('loyalty_card_box');
   await Hive.openBox<MIHLoyaltyCard>('fav_loyalty_card_box');
