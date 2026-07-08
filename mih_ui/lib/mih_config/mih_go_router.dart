@@ -30,8 +30,8 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/pat_manager.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_set_up.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:supertokens_flutter/supertokens.dart';
 
 class MihGoRouterPaths {
   // External
@@ -73,7 +73,11 @@ class MihGoRouter {
   final GoRouter mihRouter = GoRouter(
     initialLocation: MihGoRouterPaths.mihHome,
     redirect: (BuildContext context, GoRouterState state) async {
-      final bool isUserSignedIn = await SuperTokens.doesSessionExist();
+      // final bool isUserSignedIn = await SuperTokens.doesSessionExist();
+      MzansiProfileProvider profileProvider =
+          context.read<MzansiProfileProvider>();
+      final bool isUserSignedIn = profileProvider.hasLocalProfile();
+
       final unauthenticatedPaths = [
         MihGoRouterPaths.mihAuthentication,
         "${MihGoRouterPaths.mihAuthentication}/${MihGoRouterPaths.forgotPassword}",

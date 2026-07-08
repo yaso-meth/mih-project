@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_sign_out_warning.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
@@ -45,11 +46,37 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
   }
 
-  Future<bool> signOut() async {
-    await SuperTokens.signOut(completionHandler: (error) {
-      // handle error if any
-    });
-    return true;
+  Future<void> signOut() async {
+    if (!context.mounted) return;
+    final bool continueSignOut = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => const MihSignOutWarning(),
+        ) ??
+        false;
+    if (!continueSignOut) {
+      if (context.mounted) {
+        context.pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          MihSnackBar(
+            child: const Text("Sign Out Cancelled"),
+          ),
+        );
+      }
+      return; // Stop execution here; local data remains safe
+    } else {
+      await SuperTokens.signOut(completionHandler: (error) {
+        print(error);
+      });
+      if (await SuperTokens.doesSessionExist() == false) {
+        await clearCacheAndProviders();
+        if (context.mounted) {
+          context.goNamed(
+            'mihHome',
+          );
+        }
+      }
+    }
   }
 
   Widget displayProPic(MzansiProfileProvider mzansiProfileProvider) {
@@ -260,19 +287,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   ],
                                 ),
                                 onTap: () async {
-                                  await SuperTokens.signOut(
-                                      completionHandler: (error) {
-                                    print(error);
-                                  });
-                                  if (await SuperTokens.doesSessionExist() ==
-                                      false) {
-                                    await clearCacheAndProviders();
-                                    if (context.mounted) {
-                                      context.goNamed(
-                                        'mihHome',
-                                      );
-                                    }
-                                  }
+                                  signOut();
                                 },
                               ),
                             ],

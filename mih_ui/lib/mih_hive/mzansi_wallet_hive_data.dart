@@ -245,7 +245,7 @@ class MzansiWalletHiveData {
         );
         if (responseCode != null && responseCode == 201) {
           await _modificationsQueue.delete(taskKey);
-          KenLogger.success("Add New Local Card to MIH Server");
+          KenLogger.success("Add New Local Card to MIH Cloud");
         } else {
           KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
           return false;
@@ -258,7 +258,7 @@ class MzansiWalletHiveData {
         );
         if (responseCode != null && responseCode == 200) {
           await _modificationsQueue.delete(taskKey);
-          KenLogger.success("Delete Local Card from MIH Server");
+          KenLogger.success("Delete Local Card from MIH Cloud");
         } else {
           KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
           return false;
@@ -275,7 +275,7 @@ class MzansiWalletHiveData {
         );
         if (responseCode != null && responseCode == 200) {
           await _modificationsQueue.delete(taskKey);
-          KenLogger.success("Update Local Card from MIH Server");
+          KenLogger.success("Update Local Card from MIH Cloud");
         } else {
           KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
           return false;

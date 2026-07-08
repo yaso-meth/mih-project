@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_four.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_three.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_zero.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tools/package_tool_one.dart';
@@ -61,24 +62,29 @@ class _PackageTestState extends State<PackageTest> {
 
   MihPackageTools getTools() {
     Map<Widget, void Function()?> temp = Map();
-    temp[const Icon(Icons.link)] = () {
+    temp[const Icon(Icons.lock)] = () {
       setState(() {
         _selectedIndex = 0;
       });
     };
-    temp[const Icon(Icons.warning)] = () {
+    temp[const Icon(Icons.link)] = () {
       setState(() {
         _selectedIndex = 1;
       });
     };
-    temp[const Icon(Icons.inbox)] = () {
+    temp[const Icon(Icons.warning)] = () {
       setState(() {
         _selectedIndex = 2;
       });
     };
-    temp[const Icon(Icons.outbond)] = () {
+    temp[const Icon(Icons.inbox)] = () {
       setState(() {
         _selectedIndex = 3;
+      });
+    };
+    temp[const Icon(Icons.outbond)] = () {
+      setState(() {
+        _selectedIndex = 4;
       });
     };
     return MihPackageTools(
@@ -95,6 +101,8 @@ class _PackageTestState extends State<PackageTest> {
     MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
     List<Widget> toolBodies = [
+      const PackageToolFour(),
+      const PackageToolThree(),
       const PackageToolThree(),
       const PackageToolZero(),
       PackageToolOne(
@@ -108,9 +116,12 @@ class _PackageTestState extends State<PackageTest> {
 
   List<String> getToolTitle() {
     List<String> toolTitles = [
-      "Tool Zero",
       "Tool One",
       "Tool Two",
+      "Tool Three",
+      "Tool Four",
+      "Tool Five",
+      "Tool Six",
     ];
     return toolTitles;
   }

@@ -1,6 +1,7 @@
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_soft_login_popup.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_user_consent_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -10,6 +11,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_pe
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 
 class MihHome extends StatefulWidget {
   const MihHome({
@@ -23,6 +25,46 @@ class MihHome extends StatefulWidget {
 class _MihHomeState extends State<MihHome> {
   DateTime latestPrivacyPolicyDate = DateTime.parse("2024-12-01");
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
+
+  Future<void> globalMihDataSync(
+      MzansiProfileProvider mzansiProfileProvider) async {
+    MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
+    AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
+    final bool isUserSignedIn = await SuperTokens.doesSessionExist();
+    if (!isUserSignedIn) {
+      if (!context.mounted) return;
+      final bool didReauthenticate = await showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => const MihSoftLoginPopup(),
+          ) ??
+          false;
+      if (!didReauthenticate) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            MihSnackBar(
+              child: const Text("Sync paused: Please log in to sync changes."),
+            ),
+          );
+        }
+        return; // Stop execution here; local data remains safe
+      }
+    }
+    await mzansiProfileProvider.syncWithMihServerData();
+    await walletProvider.syncWithMihServerData(mzansiProfileProvider);
+    bool success = await aboutProvider.syncWithMihServerData();
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        MihSnackBar(
+          child: Text(
+            success
+                ? "Data Synced with MIH Cloud."
+                : "MIH App operation in Offline Mode",
+          ),
+        ),
+      );
+    }
+  }
 
   bool showPolicyWindow(UserConsent? userConsent) {
     if (userConsent == null) {
@@ -46,8 +88,8 @@ class _MihHomeState extends State<MihHome> {
     if (mzansiProfileProvider.user == null) {
       await mzansiProfileProvider.syncWithMihServerData();
     }
-    if(mzansiProfileProvider.isLocalModificationsPending()){
-	mzansiProfileProvider.syncWithMihServerData();
+    if (mzansiProfileProvider.isLocalModificationsPending()) {
+      mzansiProfileProvider.syncWithMihServerData();
     }
   }
 
@@ -91,26 +133,7 @@ class _MihHomeState extends State<MihHome> {
             RefreshIndicator(
               key: mzansiProfileProvider.refreshIndicatorKey,
               onRefresh: () async {
-                MzansiWalletProvider walletProvider =
-                    context.read<MzansiWalletProvider>();
-                AboutMihProvider aboutProvider =
-                    context.read<AboutMihProvider>();
-                await mzansiProfileProvider.syncWithMihServerData();
-                await walletProvider
-                    .syncWithMihServerData(mzansiProfileProvider);
-                bool success = await aboutProvider.syncWithMihServerData();
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    MihSnackBar(
-                      child: Text(
-                        success
-                            ? "Data Synced with MIH Server."
-                            : "MIH App operation in Offline Mode",
-                      ),
-                      // backgroundColor: success ? null : MihColors.red(),
-                    ),
-                  );
-                }
+                await globalMihDataSync(mzansiProfileProvider);
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),

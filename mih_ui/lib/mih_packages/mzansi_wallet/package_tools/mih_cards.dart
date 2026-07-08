@@ -185,7 +185,7 @@ class _MihCardsState extends State<MihCards> {
                             MihSnackBar(
                               child: Text(
                                 success
-                                    ? "Wallet Synced with MIH Server."
+                                    ? "Wallet Synced with MIH Cloud."
                                     : "MIH App operation in Offline Mode",
                               ),
                               // backgroundColor: success ? null : MihColors.red(),

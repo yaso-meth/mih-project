@@ -48,7 +48,6 @@ class MzansiProfileProvider extends ChangeNotifier {
     business = _hiveData.getCachedBusiness();
     businessUser = _hiveData.getCachedBusinessUser();
     if (user != null && user!.pro_pic_path.isNotEmpty) {
-      KenLogger.success("proPicPath: ${user!.pro_pic_path}| THis is it");
       userProfilePicUrl = MihFileApi.getMinioFileUrlV2(user!.pro_pic_path);
       userProfilePicture = CachedNetworkImageProvider(userProfilePicUrl!);
     }
@@ -85,8 +84,12 @@ class MzansiProfileProvider extends ChangeNotifier {
     refreshIndicatorKey.currentState?.show();
   }
 
-  bool isLocalModificationsPending(){
+  bool isLocalModificationsPending() {
     return _hiveData.isModificationsNotEmpty();
+  }
+
+  bool hasLocalProfile() {
+    return _hiveData.hasCachedProfile();
   }
 
   Future<bool> addUserConsent(UserConsent newConsent) async {

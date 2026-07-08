@@ -33,7 +33,9 @@ class _MihSignInState extends State<MihSignIn> {
 
   //sign user in
   Future<void> signUserIn() async {
-    context.read<MzansiProfileProvider>().reset();
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    profileProvider.reset();
     try {
       successfulSignIn = await MihAuthenticationServices().signUserIn(
         emailController.text,
@@ -43,6 +45,8 @@ class _MihSignInState extends State<MihSignIn> {
       if (!successfulSignIn) {
         MihAlertServices().loginErrorAlert(context);
         passwordController.clear();
+      } else {
+        await profileProvider.syncWithMihServerData();
       }
     } on Exception {
       Navigator.of(context).pop();

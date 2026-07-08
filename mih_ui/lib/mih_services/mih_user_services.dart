@@ -63,6 +63,7 @@ class MihUserServices {
       }),
     );
     if (response.statusCode == 201) {
+      await context.read<MzansiProfileProvider>().syncWithMihServerData();
       context.goNamed(
         'mihHome',
         extra: true,

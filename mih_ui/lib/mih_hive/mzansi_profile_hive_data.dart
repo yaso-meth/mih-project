@@ -206,7 +206,7 @@ class MzansiProfileHiveData {
           );
           if (responseCode != null && responseCode == 201) {
             await _modificationsQueue.delete(taskKey);
-            KenLogger.success("Add User Consent to MIH Server");
+            KenLogger.success("Add User Consent to MIH Cloud");
           }
         }
       }
@@ -216,5 +216,9 @@ class MzansiProfileHiveData {
 
   bool isModificationsNotEmpty() {
     return _modificationsQueue.values.toList().isNotEmpty;
+  }
+
+  bool hasCachedProfile() {
+    return _userBox.containsKey(kUserKey);
   }
 }
