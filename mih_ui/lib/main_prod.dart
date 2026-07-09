@@ -18,7 +18,6 @@ import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
-import 'package:pwa_install/pwa_install.dart';
 import 'mih_config/mih_env.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
@@ -70,9 +69,6 @@ void main() async {
   } else {
     usePathUrlStrategy();
   }
-  PWAInstall().setup(installCallback: () {
-    debugPrint('APP INSTALLED!');
-  });
   final GoRouter appRouter = MihGoRouter().mihRouter;
   runApp(MzansiInnovationHub(
     router: appRouter,

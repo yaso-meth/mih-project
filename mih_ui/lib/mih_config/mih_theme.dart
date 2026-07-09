@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import "package:universal_html/html.dart" as html;
+import 'package:mzansi_innovation_hub/mih_helpers/mih_utils_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_utils_web.dart';
 
 class MihTheme {
   late String mode;
@@ -107,7 +108,7 @@ class MihTheme {
   }
 
   bool isPwa() {
-    return html.window.matchMedia('(display-mode: standalone)').matches;
+    return isWebStandalone();
   }
 
   void setMode(String m) {

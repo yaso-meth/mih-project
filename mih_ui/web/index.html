@@ -30,46 +30,32 @@
 
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-	<!-- Splash screen -->
-
-
-	<!-- <script src="install_pwa.js" defer=""></script> -->
-	<!-- Capture PWA install prompt event -->
 	<script>
 		let deferredPrompt;
 
 		window.addEventListener('beforeinstallprompt', (e) => {
+			e.preventDefault(); // Prevent standard browser prompt banner
 			deferredPrompt = e;
 		});
 
 		function promptInstall() {
-			deferredPrompt.prompt();
-		}
-
-		// Listen for app install event
-		window.addEventListener('appinstalled', () => {
-			deferredPrompt = null;
-			appInstalled();
-		});
-
-		// Track how PWA was launched (either from browser or as PWA)
-		function getLaunchMode() {
-			const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-			if (deferredPrompt) hasPrompt();
-			if (document.referrer.startsWith('android-app://')) {
-				appLaunchedAsTWA();
-			} else if (navigator.standalone || isStandalone) {
-				appLaunchedAsPWA();
+			if (deferredPrompt) {
+				deferredPrompt.prompt();
+				deferredPrompt.userChoice.then((choiceResult) => {
+					if (choiceResult.outcome === 'accepted') {
+						console.log('User accepted the PWA install prompt');
+					}
+					deferredPrompt = null;
+				});
 			} else {
-				window.appLaunchedInBrowser();
+				console.log('PWA installation prompt is not available yet.');
 			}
 		}
-	</script>
-	<!-- Splash screen -->
-	<!-- <script>
-    var dartPdfJsBaseUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.2.146/";
-  </script> -->
-	<!--------------------->
+
+		// Helper to safely check from Dart if prompt is ready
+		function isInstallPromptAvailable() {
+			return deferredPrompt !== undefined && deferredPrompt !== null;
+		}	</script>
 
 
 	<script type="application/ld+json">

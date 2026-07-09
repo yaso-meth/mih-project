@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -59,6 +60,7 @@ class MihAuthenticationServices {
             if (response2.statusCode == 200) {
               var userCreated = jsonDecode(response2.body);
               if (userCreated["status"] == "OK") {
+                TextInput.finishAutofillContext();
                 String uid = await SuperTokens.getUserId();
                 await MihUserServices().createUser(
                   email,
@@ -72,6 +74,7 @@ class MihAuthenticationServices {
               } else {
                 context.pop();
                 MihAlertServices().internetConnectionAlert(context);
+                TextInput.finishAutofillContext(shouldSave: false);
               }
             }
           }

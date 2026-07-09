@@ -18,7 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
-import "package:universal_html/html.dart" as html;
+import 'package:mzansi_innovation_hub/mih_helpers/mih_utils_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_utils_web.dart';
 
 class BuildFilesList extends StatefulWidget {
   const BuildFilesList({
@@ -103,7 +104,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
         backgroundColor: MihColors.green(),
         onTap: () {
           if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
-            html.window.open(url, 'download');
+            openWebWindow(url, 'download');
           } else {
             nativeFileDownload(url);
           }

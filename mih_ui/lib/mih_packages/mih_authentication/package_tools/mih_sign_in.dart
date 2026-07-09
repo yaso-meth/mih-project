@@ -58,10 +58,13 @@ class _MihSignInState extends State<MihSignIn> {
   void submitSignInForm() async {
     await signUserIn();
     if (successfulSignIn) {
+      TextInput.finishAutofillContext();
       context.goNamed(
         'mihHome',
         extra: true,
       );
+    } else {
+      TextInput.finishAutofillContext(shouldSave: false);
     }
   }
 
