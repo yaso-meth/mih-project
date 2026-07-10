@@ -442,3 +442,49 @@ class AppointmentAdapter extends TypeAdapter<Appointment> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class BookmarkedBusinessAdapter extends TypeAdapter<BookmarkedBusiness> {
+  @override
+  final typeId = 9;
+
+  @override
+  BookmarkedBusiness read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return BookmarkedBusiness(
+      idbookmarked_businesses: (fields[0] as num).toInt(),
+      app_id: fields[1] as String,
+      business_id: fields[2] as String,
+      business_name: fields[3] as String,
+      created_date: fields[4] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, BookmarkedBusiness obj) {
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.idbookmarked_businesses)
+      ..writeByte(1)
+      ..write(obj.app_id)
+      ..writeByte(2)
+      ..write(obj.business_id)
+      ..writeByte(3)
+      ..write(obj.business_name)
+      ..writeByte(4)
+      ..write(obj.created_date);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BookmarkedBusinessAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

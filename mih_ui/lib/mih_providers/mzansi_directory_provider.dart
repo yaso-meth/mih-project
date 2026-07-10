@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_directory_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 
 class MzansiDirectoryProvider extends ChangeNotifier {
+  final MzansiDirectoryHiveData _hiveData;
+
   int toolIndex;
   int personalViewIndex;
   int businessViewIndex;
@@ -20,7 +25,8 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   String searchTerm;
   String businessTypeFilter;
 
-  MzansiDirectoryProvider({
+  MzansiDirectoryProvider(
+    this._hiveData, {
     this.toolIndex = 0,
     this.personalViewIndex = 0,
     this.businessViewIndex = 0,
@@ -29,6 +35,20 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     this.searchTerm = "",
     this.businessTypeFilter = "",
   });
+
+  void loadCachedDirectory() {
+    bookmarkedBusinesses = _hiveData.getBookmarkedBusinesses();
+    favouriteBusinessesList = _hiveData.getFavouriteBusinesses();
+    KenLogger.success("Mzansi Directory Loaded from Cache");
+    notifyListeners();
+  }
+
+  Future<bool> syncWithMihServerData(
+      MzansiProfileProvider profileProvider) async {
+    bool success = await _hiveData.syncDirectoryDataWithServer(profileProvider);
+    loadCachedDirectory();
+    return success;
+  }
 
   void reset() {
     toolIndex = 0;

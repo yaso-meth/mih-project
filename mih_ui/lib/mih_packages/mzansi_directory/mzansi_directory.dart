@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.da
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_favourite_businesses.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/package_tools/mih_search_mzansi.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:provider/provider.dart';
 
@@ -27,15 +26,20 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
   late final MihFavouriteBusinesses _favouritesTool;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
+    mzansiProfileProvider.loadCachedProfileState();
+    MzansiDirectoryProvider directoryProvider =
+        context.read<MzansiDirectoryProvider>();
+    mzansiProfileProvider.loadCachedProfileState();
+    directoryProvider.loadCachedDirectory();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+      await mzansiProfileProvider.syncWithMihServerData();
+    }
+    if (directoryProvider.favouriteBusinessesList == null ||
+        directoryProvider.favouriteBusinessesList!.isEmpty ||
+        directoryProvider.bookmarkedBusinesses.isEmpty) {
+      await directoryProvider.syncWithMihServerData(mzansiProfileProvider);
     }
     setState(() {
       _isLoadingInitialData = false;
@@ -55,7 +59,11 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     super.initState();
     _searchTool = const MihSearchMzansi();
     _favouritesTool = const MihFavouriteBusinesses();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
   }
 
   @override

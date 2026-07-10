@@ -4,9 +4,6 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/builders/build_favourite_businesses_list.dart';
-import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 
 class MihFavouriteBusinesses extends StatefulWidget {
@@ -26,29 +23,29 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
       ValueNotifier([]);
   Timer? _debounce;
 
-  Future<void> getFavouriteBusinesses(
-      MzansiDirectoryProvider directoryProvider) async {
-    MzansiProfileProvider profileProvider =
-        context.read<MzansiProfileProvider>();
-    if (directoryProvider.bookmarkedBusinesses.isEmpty) {
-      await MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(
-        profileProvider.user!.app_id,
-        directoryProvider,
-      );
-      List<Business> favBus = [];
-      for (var bus in directoryProvider.bookmarkedBusinesses) {
-        await MihBusinessDetailsServices()
-            .getBusinessDetailsByBusinessId(bus.business_id)
-            .then((business) async {
-          favBus.add(business!);
-        });
-      }
-      directoryProvider.setFavouriteBusinesses(
-        businesses: favBus,
-      );
-    }
-  }
-
+  // Future<void> getFavouriteBusinesses(
+  //     MzansiDirectoryProvider directoryProvider) async {
+  //   MzansiProfileProvider profileProvider =
+  //       context.read<MzansiProfileProvider>();
+  //   if (directoryProvider.bookmarkedBusinesses.isEmpty) {
+  //     await MihMzansiDirectoryServices().getAllUserBookmarkedBusiness(
+  //       profileProvider.user!.app_id,
+  //       directoryProvider,
+  //     );
+  //     List<Business> favBus = [];
+  //     for (var bus in directoryProvider.bookmarkedBusinesses) {
+  //       await MihBusinessDetailsServices()
+  //           .getBusinessDetailsByBusinessId(bus.business_id)
+  //           .then((business) async {
+  //         favBus.add(business!);
+  //       });
+  //     }
+  //     directoryProvider.setFavouriteBusinesses(
+  //       businesses: favBus,
+  //     );
+  //   }
+  // }
+  //
   void _filterAndSetBusinesses(MzansiDirectoryProvider directoryProvider) {
     List<Business?> businessesToDisplay = [];
     String query = businessSearchController.text.toLowerCase();
@@ -79,7 +76,7 @@ class _MihFavouriteBusinessesState extends State<MihFavouriteBusinesses> {
     //   mzansiProfileProvider,
     //   directoryProvider,
     // );
-    getFavouriteBusinesses(directoryProvider);
+    // getFavouriteBusinesses(directoryProvider);
     _filterAndSetBusinesses(directoryProvider);
     businessSearchController.addListener(() {
       if (_debounce?.isActive ?? false) {

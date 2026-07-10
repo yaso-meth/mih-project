@@ -22,27 +22,12 @@ class _MzansiProfileState extends State<MzansiProfile> {
   late final MihPersonalQrCode _personalQrCode;
   late final MihPersonalSettings _personalSettings;
 
-  // Future<void> _loadInitialData() async {
-  //   MzansiProfileProvider mzansiProfileProvider =
-  //       context.read<MzansiProfileProvider>();
-  //   if (mzansiProfileProvider.user == null) {
-  //     mzansiProfileProvider.loadCachedProfileState();
-  //     mzansiProfileProvider.syncWithMihServerData();
-  //   }
-  //   setState(() {
-  //     _isLoadingInitialData = false;
-  //   });
-  // }
-  //
   @override
   void initState() {
     super.initState();
     _personalProfile = const MihPersonalProfile();
     _personalQrCode = const MihPersonalQrCode(user: null);
     _personalSettings = const MihPersonalSettings();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _loadInitialData();
-    // });
   }
 
   @override
@@ -50,13 +35,6 @@ class _MzansiProfileState extends State<MzansiProfile> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {
-        // if (_isLoadingInitialData) {
-        //   return Scaffold(
-        //     body: Center(
-        //       child: Mihloadingcircle(),
-        //     ),
-        //   );
-        // }
         return MihPackage(
           packageActionButton: getAction(),
           packageTools: getTools(),

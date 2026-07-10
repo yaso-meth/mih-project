@@ -12,6 +12,7 @@ import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
 import 'package:mzansi_innovation_hub/mih_hive/hive_registrar.g.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
@@ -51,6 +52,9 @@ void main() async {
   // Mih Calendar Data
   await Hive.openBox<Appointment>('personal_calendar_box');
   await Hive.openBox<Appointment>('business_calendar_box');
+  // Mzansi Directory Data
+  await Hive.openBox<BookmarkedBusiness>('bookmarked_business_box');
+  await Hive.openBox<Business>('favourite_business_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

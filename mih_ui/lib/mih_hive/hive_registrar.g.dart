@@ -2,12 +2,14 @@
 // Do not modify
 // Check in to version control
 
-import 'package:hive_ce/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
 import 'package:mzansi_innovation_hub/mih_hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(AppUserAdapter());
+    registerAdapter(AppointmentAdapter());
+    registerAdapter(BookmarkedBusinessAdapter());
     registerAdapter(BusinessAdapter());
     registerAdapter(BusinessEmployeeAdapter());
     registerAdapter(BusinessUserAdapter());
@@ -20,6 +22,8 @@ extension HiveRegistrar on HiveInterface {
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(AppUserAdapter());
+    registerAdapter(AppointmentAdapter());
+    registerAdapter(BookmarkedBusinessAdapter());
     registerAdapter(BusinessAdapter());
     registerAdapter(BusinessEmployeeAdapter());
     registerAdapter(BusinessUserAdapter());

@@ -176,6 +176,24 @@ class MihMzansiDirectoryServices {
     }
   }
 
+  Future<List<BookmarkedBusiness>> getAllUserBookmarkedBusinessV2(
+    String app_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/mzansi-directory/bookmarked-business/user/all/$app_id/"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<BookmarkedBusiness> favouriteBusinesses =
+          List<BookmarkedBusiness>.from(
+              l.map((model) => BookmarkedBusiness.fromJson(model)));
+      return favouriteBusinesses;
+    } else if (response.statusCode == 404) {
+      return [];
+    } else {
+      throw Exception('failed to fetch User Bookmarked Business');
+    }
+  }
+
   Future<int> addBookmarkedBusiness(
     String app_id,
     String business_id,

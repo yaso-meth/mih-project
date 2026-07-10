@@ -62,7 +62,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  build_web_compilers: ^4.1.5
+  build_web_compilers: ^4.8.0
   flutter_lints: ^6.0.0
 
   hive_ce_generator:

@@ -26,7 +26,7 @@ class _MihWalletState extends State<MihWallet> {
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
     walletProvider.loadCachedWallet();
     if (mzansiProfileProvider.user == null) {
-      mzansiProfileProvider.syncWithMihServerData();
+      await mzansiProfileProvider.syncWithMihServerData();
     }
     if (walletProvider.loyaltyCards.isEmpty ||
         walletProvider.isLocalModificationsPending()) {
