@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,8 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_bar_code/code/src/code_generate.dart';
+import 'package:qr_bar_code/code/src/code_type.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -38,25 +41,14 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
   ScreenshotController screenshotController = ScreenshotController();
   Uint8List? personalQRImageFile;
   bool _isUserSignedIn = false;
-  final String _qrCodedata = "${AppEnviroment.baseAppUrl}/mzansi-profile/view/";
+  final String _userShareLink =
+      "${AppEnviroment.baseAppUrl}/mzansi-profile/view/";
 
   Future<void> _checkUserSession() async {
     final doesSessionExist = await SuperTokens.doesSessionExist();
     setState(() {
       _isUserSignedIn = doesSessionExist;
     });
-  }
-
-  String getQrCodeData(int qrSize) {
-    String color =
-        MihColors.primary().toARGB32().toRadixString(16).substring(2, 8);
-    // KenLogger.warning(color);
-    String bgColor =
-        MihColors.secondary().toARGB32().toRadixString(16).substring(2, 8);
-    // KenLogger.warning(bgColor);
-    String encodedData =
-        Uri.encodeComponent("$_qrCodedata${user.username.toLowerCase()}");
-    return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x$qrSize&bgcolor=$bgColor&color=$color";
   }
 
   Future<void> saveImage(Uint8List imageBytes) async {
@@ -177,64 +169,72 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
         context.read<MzansiProfileProvider>();
     return Screenshot(
       controller: screenshotController,
-      child: Material(
-        color: MihColors.secondary().withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(25),
-        elevation: 10,
-        shadowColor: Colors.black,
-        child: Container(
-          decoration: BoxDecoration(
-            color: MihColors.secondary(),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-              padding: const EdgeInsets.all(20.0),
+      child: SizedBox(
+        child: Material(
+          color: MihColors.secondary().withValues(alpha: 0.6),
+          borderRadius: BorderRadius.circular(25),
+          elevation: 10,
+          shadowColor: Colors.black,
+          child: Container(
+            decoration: BoxDecoration(
+              color: MihColors.secondary(),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  widget.user == null
-                      ? MihCircleAvatar(
-                          imageFile: profileProvider.userProfilePicture,
-                          width: profilePictureWidth,
-                          expandable: true,
-                          editable: false,
-                          fileNameController: TextEditingController(),
-                          userSelectedfile: file,
-                          frameColor: MihColors.primary(),
-                          backgroundColor: MihColors.secondary(),
-                          onChange: () {},
-                        )
-                      : MihCircleAvatar(
-                          imageFile: CachedNetworkImageProvider(
-                            MihFileApi.getMinioFileUrlV2(user.pro_pic_path),
+                  Center(
+                    child: widget.user == null
+                        ? MihCircleAvatar(
+                            imageFile: profileProvider.userProfilePicture,
+                            width: profilePictureWidth,
+                            expandable: true,
+                            editable: false,
+                            fileNameController: TextEditingController(),
+                            userSelectedfile: file,
+                            frameColor: MihColors.primary(),
+                            backgroundColor: MihColors.secondary(),
+                            onChange: () {},
+                          )
+                        : MihCircleAvatar(
+                            imageFile: CachedNetworkImageProvider(
+                              MihFileApi.getMinioFileUrlV2(user.pro_pic_path),
+                            ),
+                            width: profilePictureWidth,
+                            expandable: true,
+                            editable: false,
+                            fileNameController: TextEditingController(),
+                            userSelectedfile: file,
+                            frameColor: MihColors.primary(),
+                            backgroundColor: MihColors.secondary(),
+                            onChange: () {},
                           ),
-                          width: profilePictureWidth,
-                          expandable: true,
-                          editable: false,
-                          fileNameController: TextEditingController(),
-                          userSelectedfile: file,
-                          frameColor: MihColors.primary(),
-                          backgroundColor: MihColors.secondary(),
-                          onChange: () {},
+                  ),
+                  Center(
+                    child: FittedBox(
+                      child: Text(
+                        user.username,
+                        style: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                          color: MihColors.primary(),
                         ),
-                  FittedBox(
-                    child: Text(
-                      user.username,
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.primary(),
                       ),
                     ),
                   ),
-                  FittedBox(
-                    child: Text(
-                      "${user.fname} ${user.lname}",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: MihColors.primary(),
+                  Center(
+                    child: FittedBox(
+                      child: Text(
+                        "${user.fname} ${user.lname}",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: MihColors.primary(),
+                        ),
                       ),
                     ),
                   ),
@@ -246,7 +246,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                         child: Text(
                           "Powered by MIH",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
                             color: MihColors.primary(),
                           ),
@@ -261,31 +261,39 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: CachedNetworkImage(
-                      imageUrl: getQrCodeData(qrSize.toInt()),
-                      placeholder: (context, url) => FittedBox(
-                        child: const Mihloadingcircle(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      final double codesize = constraints.maxWidth < qrSize
+                          ? constraints.maxWidth
+                          : qrSize.toDouble();
+                      return Code(
+                        color: MihColors.primary(),
+                        data:
+                            "$_userShareLink${profileProvider.user!.username.toLowerCase()}",
+                        codeType: CodeType.qrCode(),
+                        width: codesize,
+                        height: codesize,
+                      );
+                    }),
                   ),
                   const SizedBox(height: 10),
-                  FittedBox(
-                    child: Text(
-                      "Scan & Connect",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.primary(),
+                  Center(
+                    child: FittedBox(
+                      child: Text(
+                        "Scan & Connect",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: MihColors.primary(),
+                        ),
                       ),
                     ),
                   ),
                 ],
-              )),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -329,22 +337,24 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
   }
 
   Widget getBody(Size screenSize, BuildContext context) {
-    double profilePictureWidth = 150;
+    double profilePictureWidth =
+        MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? 225
+            : 200;
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        MihSingleChildScroll(
-          scrollbarOn: true,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Padding(
-              padding:
-                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-                      ? EdgeInsets.symmetric(horizontal: screenSize.width * 0.2)
-                      : EdgeInsets.symmetric(
-                          horizontal: screenSize.width * 0), //.075),
+            padding:
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: screenSize.width * 0.2)
+                    : EdgeInsets.symmetric(
+                        horizontal: screenSize.width * 0), //.075),
+            child: MihSingleChildScroll(
               child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: displayPersonalQRCode(profilePictureWidth),
               ),
             ),
@@ -388,7 +398,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                     shareMIHLink(
                       context,
                       "Check out ${user.username} on the MIH app's Mzansi Directory",
-                      "$_qrCodedata${user.username.toLowerCase()}",
+                      "$_userShareLink${user.username.toLowerCase()}",
                     );
                   },
                 ),
@@ -407,7 +417,8 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                   onTap: () async {
                     await Clipboard.setData(
                       ClipboardData(
-                          text: "$_qrCodedata${user.username.toLowerCase()}"),
+                          text:
+                              "$_userShareLink${user.username.toLowerCase()}"),
                     );
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(

@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_saver
   file_selector_linux
   printing
+  qr_bar_code
   record_linux
   syncfusion_pdfviewer_linux
   url_launcher_linux

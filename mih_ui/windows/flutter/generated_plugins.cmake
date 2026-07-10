@@ -13,6 +13,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   geolocator_windows
   local_auth_windows
   printing
+  qr_bar_code
   record_windows
   screen_brightness_windows
   share_plus
