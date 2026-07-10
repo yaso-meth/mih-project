@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
@@ -14,30 +11,30 @@ import 'package:supertokens_flutter/supertokens.dart';
 class MihFileApi {
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  static Future<String> getMinioFileUrl(
-    String filePath,
-  ) async {
-    String fileUrl = "";
-    try {
-      var url =
-          "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-      var response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        var decodedData = jsonDecode(response.body);
-        fileUrl = decodedData['minioURL'];
-      } else {}
-    } catch (e) {
-      KenLogger.error("Error getting url");
-    } finally {}
-    if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
-      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
-      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
-      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-    }
-    return fileUrl;
-  }
+  // static Future<String> getMinioFileUrl(
+  //   String filePath,
+  // ) async {network
+  //   String fileUrl = "";
+  //   try {
+  //     var url =
+  //         "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
+  //     var response = await http.get(Uri.parse(url));
+  //     if (response.statusCode == 200) {
+  //       var decodedData = jsonDecode(response.body);
+  //       fileUrl = decodedData['minioURL'];
+  //     } else {}
+  //   } catch (e) {
+  //     KenLogger.error("Error getting url");
+  //   } finally {}
+  //   if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
+  //     fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+  //   } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
+  //     fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+  //   } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
+  //     fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
+  //   }
+  //   return fileUrl;
+  // }
 
   static String getMinioFileUrlV2(
     String filePath,
@@ -63,8 +60,13 @@ class MihFileApi {
     request.fields['app_id'] = app_id;
     request.fields['env'] = env;
     request.fields['folder'] = folderName;
-    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
+    request.files.add(
+      http2.MultipartFile.fromBytes(
+        'file',
+        await file!.readAsBytes(),
+        filename: file.name.replaceAll(RegExp(r' '), '-'),
+      ),
+    );
     var response = await request.send();
     context.pop(); // Pop loading dialog
     return response.statusCode;

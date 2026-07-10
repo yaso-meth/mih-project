@@ -57,8 +57,6 @@ class _MihLinuxInstallInstructionsState
                     MihSnackBar(
                       child: Text('Command copied to clipboard!'),
                     ),
-                    //   const SnackBar(
-                    //       content: Text('Command copied to clipboard!')),
                   );
                 },
                 tooltip: 'Copy command',

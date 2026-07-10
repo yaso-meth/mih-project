@@ -26,7 +26,6 @@ class MihPersonalProfileView extends StatefulWidget {
 }
 
 class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
-  late Future<String> futureImageUrl;
   late Future<List<ProfileLink>> futureLinks;
   PlatformFile? file;
 
@@ -40,8 +39,6 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedUser!.pro_pic_path);
     futureLinks = MihProfileLinksServices.getUserProfileLinksMD(
         directoryProvider, directoryProvider.selectedUser!.app_id);
   }

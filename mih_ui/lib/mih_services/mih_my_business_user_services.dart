@@ -140,7 +140,7 @@ class MihMyBusinessUserServices {
           bUserAccess,
         ),
       );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
+      String newProPicUrl = MihFileApi.getMinioFileUrlV2(filePath);
       provider.setBusinessUserSignatureUrl(newProPicUrl);
       return 200;
     } else {

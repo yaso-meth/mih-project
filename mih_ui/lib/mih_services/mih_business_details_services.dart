@@ -293,7 +293,7 @@ class MihBusinessDetailsServices {
           businessMissionVision,
         ),
       );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
+      String newProPicUrl = MihFileApi.getMinioFileUrlV2(filePath);
       provider.setBusinessProfilePicUrl(newProPicUrl);
       return 200;
     } else {

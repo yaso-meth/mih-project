@@ -11,7 +11,6 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profi
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 import 'package:redacted/redacted.dart';
@@ -531,12 +530,6 @@ class _MihBusinessCardState extends State<MihBusinessCard> {
             businessSearchResults = await MihBusinessDetailsServices()
                 .searchBusinesses(directoryProvider.searchTerm,
                     directoryProvider.businessTypeFilter, context);
-            Map<String, Future<String>> busImagesUrl = {};
-            Future<String> businessLogoUrl;
-            for (var bus in businessSearchResults) {
-              businessLogoUrl = MihFileApi.getMinioFileUrl(bus.logo_path);
-              busImagesUrl[bus.business_id] = businessLogoUrl;
-            }
             directoryProvider.setSearchedBusinesses(
               searchedBusinesses: businessSearchResults,
             );

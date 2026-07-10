@@ -24,7 +24,6 @@ class MihBusinessDetailsView extends StatefulWidget {
 }
 
 class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
-  late Future<String> futureImageUrl;
   PlatformFile? file;
 
   @override
@@ -35,10 +34,6 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
   @override
   void initState() {
     super.initState();
-    MzansiDirectoryProvider directoryProvider =
-        context.read<MzansiDirectoryProvider>();
-    futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedBusiness!.logo_path);
   }
 
   @override

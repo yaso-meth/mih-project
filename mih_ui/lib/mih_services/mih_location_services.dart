@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,9 +21,7 @@ class MIHLocationAPI {
       MihAlertServices().locationPermissionAlert(context);
       return null;
     }
-    print("Before checkPermission"); // Debug
     LocationPermission permission = await Geolocator.checkPermission();
-    print("After checkPermission: $permission"); // Debug
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {

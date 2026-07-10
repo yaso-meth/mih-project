@@ -38,16 +38,16 @@ class _BuildClaimStatementFileListState
   int progress = 0;
   late StreamSubscription progressStream;
 
-  Future<String> getFileUrlApiCall(String filePath) async {
-    String teporaryFileUrl = "";
-    await MihFileApi.getMinioFileUrl(
-      filePath,
-    ).then((value) {
-      teporaryFileUrl = value;
-    });
-    return teporaryFileUrl;
-  }
-
+  // Future<String> getFileUrlApiCall(String filePath) async {
+  //   String teporaryFileUrl = "";
+  //   await MihFileApi.getMinioFileUrl(
+  //     filePath,
+  //   ).then((value) {
+  //     teporaryFileUrl = value;
+  //   });
+  //   return teporaryFileUrl;
+  // }
+  //
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
     return path.split("/").last;
@@ -282,14 +282,13 @@ class _BuildClaimStatementFileListState
                 onTap: () async {
                   MihFileViewerProvider fileViewerProvider =
                       context.read<MihFileViewerProvider>();
-                  await getFileUrlApiCall(patientManagerProvider
-                          .patientClaimsDocuments![index].file_path)
-                      .then((urlHere) {
-                    //print(url);
-                    fileViewerProvider.setFilePath(patientManagerProvider
-                        .patientClaimsDocuments![index].file_path);
-                    fileViewerProvider.setFileLink(urlHere);
-                  });
+                  String fileUrl = MihFileApi.getMinioFileUrlV2(
+                      patientManagerProvider
+                          .patientClaimsDocuments![index].file_path);
+                  //print(url);
+                  fileViewerProvider.setFilePath(patientManagerProvider
+                      .patientClaimsDocuments![index].file_path);
+                  fileViewerProvider.setFileLink(fileUrl);
 
                   viewFilePopUp(
                       patientManagerProvider,

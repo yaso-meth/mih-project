@@ -85,7 +85,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
       bool successUpload =
           await uploadFile(mzansiProfileProvider, newSelectedLogoPic);
       if (successUpload) {
-        String logoUrl = await MihFileApi.getMinioFileUrl(
+        String logoUrl = MihFileApi.getMinioFileUrlV2(
             mzansiProfileProvider.business!.logo_path);
         mzansiProfileProvider.setBusinessProfilePicUrl(logoUrl);
       }
@@ -110,7 +110,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
       bool successUpload =
           await uploadFile(mzansiProfileProvider, newSelectedSignaturePic);
       if (successUpload) {
-        String sigUrl = await MihFileApi.getMinioFileUrl(
+        String sigUrl = MihFileApi.getMinioFileUrlV2(
             mzansiProfileProvider.businessUser!.sig_path);
         mzansiProfileProvider.setBusinessUserSignatureUrl(sigUrl);
         String message =

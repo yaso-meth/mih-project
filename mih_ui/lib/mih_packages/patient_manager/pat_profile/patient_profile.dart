@@ -65,7 +65,7 @@ class _PatientProfileState extends State<PatientProfile> {
       AppUser? patientUserDetails = await MihUserServices().getMIHUserDetails(
           patientManagerProvider.selectedPatient!.app_id, context);
       String patientProPicUrl =
-          await MihFileApi.getMinioFileUrl(patientUserDetails!.pro_pic_path);
+          MihFileApi.getMinioFileUrlV2(patientUserDetails!.pro_pic_path);
       patientManagerProvider.setSelectedPatientProfilePicUrl(patientProPicUrl);
     }
     patientManagerProvider.setPersonalMode(mzansiProfileProvider.personalHome);

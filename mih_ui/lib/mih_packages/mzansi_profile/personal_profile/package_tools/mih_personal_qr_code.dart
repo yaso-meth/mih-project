@@ -33,7 +33,6 @@ class MihPersonalQrCode extends StatefulWidget {
 
 class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
   late AppUser user;
-  late Future<String> futureImageUrl;
   PlatformFile? file;
   int qrSize = 500;
   ScreenshotController screenshotController = ScreenshotController();
@@ -310,7 +309,6 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
       user = profileProvider.user!;
     }
     _checkUserSession();
-    futureImageUrl = MihFileApi.getMinioFileUrl(user.pro_pic_path);
   }
 
   @override

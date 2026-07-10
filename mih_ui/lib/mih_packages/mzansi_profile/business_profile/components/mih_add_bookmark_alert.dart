@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.da
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 
@@ -34,15 +33,11 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
       directoryProvider,
     );
     List<Business> favBus = [];
-    Map<String, Future<String>> favBusImages = {};
-    Future<String> businessLogoUrl;
     for (var bus in directoryProvider.bookmarkedBusinesses) {
       await MihBusinessDetailsServices()
           .getBusinessDetailsByBusinessId(bus.business_id)
           .then((business) async {
         favBus.add(business!);
-        businessLogoUrl = MihFileApi.getMinioFileUrl(business.logo_path);
-        favBusImages[business.business_id] = businessLogoUrl;
       });
     }
     directoryProvider.setFavouriteBusinesses(
