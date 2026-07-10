@@ -49,20 +49,22 @@ class _MihHomeState extends State<MihHome> {
         }
         return; // Stop execution here; local data remains safe
       }
-    }
-    await mzansiProfileProvider.syncWithMihServerData();
-    await walletProvider.syncWithMihServerData(mzansiProfileProvider);
-    bool success = await aboutProvider.syncWithMihServerData();
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        MihSnackBar(
-          child: Text(
-            success
-                ? "Data Synced with MIH Cloud."
-                : "MIH App operation in Offline Mode",
+    } else {
+      await SuperTokens.attemptRefreshingSession();
+      await mzansiProfileProvider.syncWithMihServerData();
+      await walletProvider.syncWithMihServerData(mzansiProfileProvider);
+      bool success = await aboutProvider.syncWithMihServerData();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          MihSnackBar(
+            child: Text(
+              success
+                  ? "Data Synced with MIH Cloud."
+                  : "MIH App operation in Offline Mode",
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 
