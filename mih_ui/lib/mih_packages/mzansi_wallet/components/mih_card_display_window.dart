@@ -340,7 +340,7 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                         data: widget.displayCard.card_number,
                         codeType: CodeType.code128(),
                         drawText: false,
-                        height: 250,
+                        height: 175,
                       ),
                       const SizedBox(height: 10),
                       Text(

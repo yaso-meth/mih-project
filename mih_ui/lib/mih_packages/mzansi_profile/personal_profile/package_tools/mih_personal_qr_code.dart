@@ -3,7 +3,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
@@ -215,13 +214,16 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                           ),
                   ),
                   Center(
-                    child: FittedBox(
-                      child: Text(
-                        user.username,
-                        style: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold,
-                          color: MihColors.primary(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: FittedBox(
+                        child: Text(
+                          user.username,
+                          style: TextStyle(
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.primary(),
+                          ),
                         ),
                       ),
                     ),

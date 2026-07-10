@@ -209,13 +209,16 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                           ),
                   ),
                   Center(
-                    child: FittedBox(
-                      child: Text(
-                        business.Name,
-                        style: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold,
-                          color: MihColors.primary(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: FittedBox(
+                        child: Text(
+                          business.Name,
+                          style: TextStyle(
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.primary(),
+                          ),
                         ),
                       ),
                     ),
