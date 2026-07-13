@@ -55,6 +55,7 @@ void main() async {
   // Mzansi Directory Data
   await Hive.openBox<BookmarkedBusiness>('bookmarked_business_box');
   await Hive.openBox<Business>('favourite_business_box');
+  await Hive.openBox<String>('business_types_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

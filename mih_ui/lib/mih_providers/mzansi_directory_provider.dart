@@ -19,6 +19,7 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
   List<Business>? favouriteBusinessesList;
   List<Business> searchedBusinesses = [];
+  List<String> businessTypes = [];
   Business? selectedBusiness;
   List<AppUser> searchedUsers = [];
   AppUser? selectedUser;
@@ -39,6 +40,7 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   void loadCachedDirectory() {
     bookmarkedBusinesses = _hiveData.getBookmarkedBusinesses();
     favouriteBusinessesList = _hiveData.getFavouriteBusinesses();
+    businessTypes = _hiveData.getBusinessTypes();
     KenLogger.success("Mzansi Directory Loaded from Cache");
     notifyListeners();
   }

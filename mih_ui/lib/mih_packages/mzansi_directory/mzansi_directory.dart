@@ -19,7 +19,6 @@ class MzansiDirectory extends StatefulWidget {
 }
 
 class _MzansiDirectoryState extends State<MzansiDirectory> {
-  bool _isLoadingInitialData = true;
   late Future<Position?> futurePosition =
       MIHLocationAPI().getGPSPosition(context);
   late final MihSearchMzansi _searchTool;
@@ -38,12 +37,12 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     }
     if (directoryProvider.favouriteBusinessesList == null ||
         directoryProvider.favouriteBusinessesList!.isEmpty ||
-        directoryProvider.bookmarkedBusinesses.isEmpty) {
+        directoryProvider.bookmarkedBusinesses.isEmpty ||
+        directoryProvider.businessTypes.isEmpty) {
       await directoryProvider.syncWithMihServerData(mzansiProfileProvider);
+    } else {
+      directoryProvider.syncWithMihServerData(mzansiProfileProvider);
     }
-    setState(() {
-      _isLoadingInitialData = false;
-    });
     initialiseGPSLocation();
   }
 
@@ -71,7 +70,7 @@ class _MzansiDirectoryState extends State<MzansiDirectory> {
     return Consumer<MzansiDirectoryProvider>(
       builder: (BuildContext context, MzansiDirectoryProvider directoryProvider,
           Widget? child) {
-        if (_isLoadingInitialData) {
+        if (directoryProvider.businessTypes.isEmpty) {
           return Scaffold(
             body: Center(
               child: Mihloadingcircle(),

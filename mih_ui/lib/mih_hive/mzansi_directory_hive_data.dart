@@ -11,11 +11,13 @@ class MzansiDirectoryHiveData {
       Hive.box<BookmarkedBusiness>('bookmarked_business_box');
   final Box<Business> _favouriteBusinessBox =
       Hive.box<Business>('favourite_business_box');
+  final Box<String> _businessTypesBox = Hive.box<String>('business_types_box');
 
   Future<void> clearDirectoryCache() async {
     try {
       _bookmarkedBusinessBox.clear();
       _favouriteBusinessBox.clear();
+      _businessTypesBox.clear();
       KenLogger.success("Cleared Local Directory Cache.");
     } catch (e) {
       KenLogger.success("Failed to Clear Local Directory Cache.");
@@ -30,11 +32,13 @@ class MzansiDirectoryHiveData {
     return _favouriteBusinessBox.values.toList();
   }
 
+  List<String> getBusinessTypes() {
+    return _businessTypesBox.values.toList();
+  }
+
   Future<void> cacheBookmarkedBusinesses(
       List<BookmarkedBusiness> remoteBookmarkedBusinesses) async {
-    KenLogger.info("Cache Bookmark 1");
     await _bookmarkedBusinessBox.clear();
-    KenLogger.info("Cache Bookmark 2");
     await _bookmarkedBusinessBox.addAll(remoteBookmarkedBusinesses);
     KenLogger.success("Bookmarked Businesses Cached");
   }
@@ -46,26 +50,32 @@ class MzansiDirectoryHiveData {
     KenLogger.success("Favourite Businesses Cached");
   }
 
+  Future<void> cacheBusinessTypes(List<String> remoteBusinessTypes) async {
+    await _businessTypesBox.clear();
+    await _businessTypesBox.addAll(remoteBusinessTypes);
+    KenLogger.success("Bookmarked Business Types Cached");
+  }
+
   Future<bool> syncDirectoryDataWithServer(
       MzansiProfileProvider profileProvider) async {
     try {
-      KenLogger.info("Sync 1");
       List<BookmarkedBusiness> remoteBookmarkedBusinesses =
           await MihMzansiDirectoryServices()
               .getAllUserBookmarkedBusinessV2(profileProvider.user!.app_id);
-      KenLogger.info("Sync 2");
       await cacheBookmarkedBusinesses(remoteBookmarkedBusinesses);
-      KenLogger.info("Sync 3");
       List<Business> remoteFavouriteBusinesses = [];
       for (var bus in _bookmarkedBusinessBox.values.toList()) {
         await MihBusinessDetailsServices()
             .getBusinessDetailsByBusinessId(bus.business_id)
-            .then((business) async {
+            .then((business) {
           remoteFavouriteBusinesses.add(business!);
         });
       }
-      KenLogger.info("Sync 4");
       await cacheFavouriteBusinesses(remoteFavouriteBusinesses);
+
+      List<String> remoteBusinessTypes =
+          await MihBusinessDetailsServices().fetchAllBusinessTypes();
+      cacheBusinessTypes(remoteBusinessTypes);
       return true;
     } catch (error) {
       KenLogger.warning(

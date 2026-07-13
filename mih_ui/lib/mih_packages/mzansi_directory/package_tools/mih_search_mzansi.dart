@@ -26,7 +26,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
   final FocusNode searchFocusNode = FocusNode();
   List<AppUser> userSearchResults = [];
   List<Business> businessSearchResults = [];
-  late Future<List<String>> availableBusinessTypes;
   bool filterOn = false;
   bool loadingSearchResults = false;
 
@@ -103,8 +102,6 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    availableBusinessTypes =
-        MihBusinessDetailsServices().fetchAllBusinessTypes();
     mzansiSearchController.text = directoryProvider.searchTerm;
   }
 
@@ -196,61 +193,52 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
               ),
             ),
             const SizedBox(height: 10),
-            FutureBuilder(
-                future: availableBusinessTypes,
-                builder: (context, asyncSnapshot) {
-                  List<String> options = [];
-                  if (asyncSnapshot.connectionState == ConnectionState.done) {
-                    options.addAll(asyncSnapshot.data!);
-                  }
-                  return Visibility(
-                    visible: filterOn,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width / 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: MihDropdownField(
-                              controller: businessTypeController,
-                              hintText: "Business Type",
-                              dropdownOptions: options,
-                              requiredText: true,
-                              editable: true,
-                              enableSearch: true,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          MihButton(
-                            onPressed: () {
-                              if (businessTypeController.text.isNotEmpty) {
-                                searchPressed(
-                                    profileProvider, directoryProvider);
-                              } else {
-                                MihAlertServices().errorBasicAlert(
-                                  "Business Type Not Selected",
-                                  "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
-                                  context,
-                                );
-                              }
-                            },
-                            buttonColor: MihColors.green(),
-                            elevation: 10,
-                            child: Text(
-                              "Search",
-                              style: TextStyle(
-                                color: MihColors.primary(),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
+            Visibility(
+              visible: filterOn,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: MihDropdownField(
+                        controller: businessTypeController,
+                        hintText: "Business Type",
+                        dropdownOptions: directoryProvider.businessTypes,
+                        requiredText: true,
+                        editable: true,
+                        enableSearch: true,
                       ),
                     ),
-                  );
-                }),
+                    const SizedBox(width: 10),
+                    MihButton(
+                      onPressed: () {
+                        if (businessTypeController.text.isNotEmpty) {
+                          searchPressed(profileProvider, directoryProvider);
+                        } else {
+                          MihAlertServices().errorBasicAlert(
+                            "Business Type Not Selected",
+                            "Please ensure you have selected a Business Type before seareching for Businesses of Mzansi",
+                            context,
+                          );
+                        }
+                      },
+                      buttonColor: MihColors.green(),
+                      elevation: 10,
+                      child: Text(
+                        "Search",
+                        style: TextStyle(
+                          color: MihColors.primary(),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 10),
             Expanded(
               child: directoryProvider.personalSearch
