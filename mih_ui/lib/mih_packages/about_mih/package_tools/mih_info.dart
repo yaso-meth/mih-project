@@ -135,18 +135,9 @@ class _MihInfoState extends State<MihInfo> {
     );
   }
 
-  Future<void> _syncUserBizCountData() async {
-    AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
-    aboutProvider.loadCachedAboutMihSate();
-    await aboutProvider.syncWithMihServerData();
-  }
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _syncUserBizCountData();
-    });
   }
 
   @override

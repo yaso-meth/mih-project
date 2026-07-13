@@ -23,12 +23,23 @@ class _AboutMihState extends State<AboutMih> {
   late final MIHTermsOfService _termsOfService;
   late final MihAttributes _attributes;
 
+  Future<void> _loadInitialData() async {
+    AboutMihProvider aboutMihProvider = context.read<AboutMihProvider>();
+    aboutMihProvider.loadCachedAboutMihSate();
+    aboutMihProvider.syncWithMihServerData();
+  }
+
   @override
   void initState() {
     _info = MihInfo();
     _privacyPolicy = MihPrivacyPolicy();
     _termsOfService = MIHTermsOfService();
     _attributes = MihAttributes();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
     super.initState();
   }
 

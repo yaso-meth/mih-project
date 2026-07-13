@@ -127,7 +127,10 @@ class _MihSocialLinksState extends State<MihSocialLinks> {
         const SizedBox(
           height: 10,
         ),
-        MihProfileLinks(links: links),
+        MihProfileLinks(
+          links: links,
+          displayCustomName: false,
+        ),
         const SizedBox(
           height: 75,
         ),

@@ -95,6 +95,7 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
                     if (asyncSnapshot.connectionState == ConnectionState.done &&
                         asyncSnapshot.hasData) {
                       return MihProfileLinks(
+                        displayCustomName: true,
                         links: asyncSnapshot.requireData,
                       );
                     } else {
@@ -129,6 +130,7 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
                 Column(
                   children: [
                     MihProfileLinks(
+                      displayCustomName: true,
                       links: profileProvider.businessLinks,
                     ),
                     const SizedBox(height: 8.0),

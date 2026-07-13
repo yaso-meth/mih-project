@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
@@ -21,6 +23,9 @@ class _MihAddUserProfileLinksWindowState
     extends State<MihAddUserProfileLinksWindow> {
   final _formKey = GlobalKey<FormState>();
   List<String> _dropdowOptions = [
+    "App Store",
+    "App Gallery",
+    "Play Store",
     "YouTube",
     "TikTok",
     "Twitch",
@@ -89,19 +94,44 @@ class _MihAddUserProfileLinksWindowState
                 MihForm(
                   formKey: _formKey,
                   formFields: [
-                    MihDropdownField(
-                      controller: _dropdownLinkNameController,
-                      hintText: 'Site Name',
-                      dropdownOptions: _dropdowOptions,
-                      requiredText: true,
-                      editable: true,
-                      enableSearch: true,
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                      onSelected: (value) {
-                        setState(() {});
-                      },
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (_dropdownLinkNameController.text != "")
+                          MihProfileLinks(
+                            displayCustomName: false,
+                            links: [
+                              ProfileLink(
+                                idprofile_links: 0,
+                                app_id: "",
+                                business_id: "",
+                                site_name: _dropdownLinkNameController.text,
+                                custom_name: "",
+                                destination: "",
+                                order: 0,
+                              ),
+                            ],
+                          ),
+                        if (_dropdownLinkNameController.text != "")
+                          const SizedBox(width: 10),
+                        Expanded(
+                          child: MihDropdownField(
+                            controller: _dropdownLinkNameController,
+                            hintText: 'Site Name',
+                            dropdownOptions: _dropdowOptions,
+                            requiredText: true,
+                            editable: true,
+                            enableSearch: true,
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                            onSelected: (value) {
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(

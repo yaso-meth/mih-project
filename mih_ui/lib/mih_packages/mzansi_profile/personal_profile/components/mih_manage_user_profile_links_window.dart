@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/components/mih_edit_user_profile_links_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -148,12 +148,22 @@ class _MihManageUserProfileLinksWindowState
                         }
                         return ListTile(
                           key: ValueKey("$index"),
-                          title: Text(
-                            display,
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          title: Row(
+                            children: [
+                              MihProfileLinks(
+                                displayCustomName: false,
+                                buttonSize: 50,
+                                links: [link],
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                display,
+                                style: TextStyle(
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
                           leading: linkActions(
                             profileProvider,

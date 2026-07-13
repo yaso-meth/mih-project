@@ -146,6 +146,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                                   ConnectionState.done &&
                               asyncSnapshot.hasData) {
                             return MihProfileLinks(
+                              displayCustomName: true,
                               links: asyncSnapshot.requireData,
                             );
                           } else {

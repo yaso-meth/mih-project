@@ -257,6 +257,7 @@ class _PackageToolThreeState extends State<PackageToolThree> {
         Column(
       children: [
         MihProfileLinks(
+          displayCustomName: true,
           links: links,
           // links: [],
         ),

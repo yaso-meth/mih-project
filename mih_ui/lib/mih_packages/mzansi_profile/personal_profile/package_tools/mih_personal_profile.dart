@@ -168,6 +168,7 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
                   ),
                   const SizedBox(height: 15.0),
                   MihProfileLinks(
+                    displayCustomName: true,
                     links: mzansiProfileProvider.personalLinks,
                   ),
                   const SizedBox(height: 8.0),

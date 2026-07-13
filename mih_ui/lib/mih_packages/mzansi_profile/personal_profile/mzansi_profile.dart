@@ -22,12 +22,24 @@ class _MzansiProfileState extends State<MzansiProfile> {
   late final MihPersonalQrCode _personalQrCode;
   late final MihPersonalSettings _personalSettings;
 
+  Future<void> _loadData() async {
+    MzansiProfileProvider profileProvide =
+        context.read<MzansiProfileProvider>();
+    profileProvide.loadCachedProfileState();
+    profileProvide.syncWithMihServerData();
+  }
+
   @override
   void initState() {
     super.initState();
     _personalProfile = const MihPersonalProfile();
     _personalQrCode = const MihPersonalQrCode(user: null);
     _personalSettings = const MihPersonalSettings();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadData();
+      }
+    });
   }
 
   @override
