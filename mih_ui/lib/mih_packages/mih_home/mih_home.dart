@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_soft_login_popup.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_user_consent_window.dart';
-import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
@@ -33,6 +34,8 @@ class _MihHomeState extends State<MihHome> {
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
+    MihMineSweeperProvider mineSweeperProvider =
+        context.read<MihMineSweeperProvider>();
     AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
     final bool isUserSignedIn = await SuperTokens.doesSessionExist();
     if (!isUserSignedIn) {
@@ -44,38 +47,57 @@ class _MihHomeState extends State<MihHome> {
           ) ??
           false;
       if (!didReauthenticate) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            MihSnackBar(
-              child: const Text("Sync paused: Please log in to sync changes."),
-            ),
-          );
-        }
+        _showSyncSnackBar(
+          context,
+          "Sync paused: Please log in to sync changes.",
+        );
         return; // Stop execution here; local data remains safe
       }
     } else {
       try {
         await SuperTokens.attemptRefreshingSession();
-        await profileProvider.syncWithMihServerData();
-        await walletProvider.syncWithMihServerData(profileProvider);
-        await directoryProvider.syncWithMihServerData(profileProvider);
-        bool success = await aboutProvider.syncWithMihServerData();
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            MihSnackBar(
-              child: Text(
-                success
-                    ? "Data Synced with MIH Cloud."
-                    : "MIH App operation in Offline Mode",
-              ),
-            ),
-          );
-        }
+      } on SocketException catch (_) {
+        _showSyncSnackBar(
+          context,
+          "You are offline. Sync will resume once connection is restored.",
+        );
+        return;
       } catch (error) {
-        MihAlertServices()
-            .errorBasicAlert("Sync Error", error.toString(), context);
+        final String errorStr = error.toString().toLowerCase();
+        if (errorStr.contains('some unknown error') ||
+            errorStr.contains('failed host lookup') ||
+            errorStr.contains('network') ||
+            errorStr.contains('connection timed out')) {
+          _showSyncSnackBar(
+              context, "Network error. Unable to connect to MIH Cloud.");
+          return;
+        }
+        _showSyncSnackBar(context, "Session expired. Please sign in again.");
+        return;
       }
     }
+    if (!context.mounted) return;
+    try {
+      await profileProvider.syncWithMihServerData();
+      await walletProvider.syncWithMihServerData(profileProvider);
+      await directoryProvider.syncWithMihServerData(profileProvider);
+      await mineSweeperProvider.syncWithMihServerData(
+          profileProvider, mineSweeperProvider);
+      await aboutProvider.syncWithMihServerData();
+      _showSyncSnackBar(context, "Data Synced with MIH Cloud.");
+    } catch (syncError) {
+      MihAlertServices().errorBasicAlert(
+          "Sync Error", "We couldn't update your data: $syncError", context);
+    }
+  }
+
+  void _showSyncSnackBar(BuildContext context, String message) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      MihSnackBar(
+        child: Text(message),
+      ),
+    );
   }
 
   bool showPolicyWindow(UserConsent? userConsent) {
