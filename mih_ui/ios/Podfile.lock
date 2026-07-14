@@ -1,7 +1,5 @@
 PODS:
   - FBAudienceNetwork (6.21.1)
-  - fl_downloader (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
   - flutter_tts (0.0.1):
     - Flutter
@@ -16,7 +14,6 @@ PODS:
   - GoogleUserMessagingPlatform (3.1.0)
 
 DEPENDENCIES:
-  - fl_downloader (from `.symlinks/plugins/fl_downloader/ios`)
   - Flutter (from `Flutter`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - gma_mediation_meta (from `.symlinks/plugins/gma_mediation_meta/ios`)
@@ -29,8 +26,6 @@ SPEC REPOS:
     - GoogleUserMessagingPlatform
 
 EXTERNAL SOURCES:
-  fl_downloader:
-    :path: ".symlinks/plugins/fl_downloader/ios"
   Flutter:
     :path: Flutter
   flutter_tts:
@@ -40,7 +35,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FBAudienceNetwork: 85d18a65c9e35bc426bd4664cf3ae2a1172d7b60
-  fl_downloader: e9913c2722a6819ac7f5c08de5e7b59ada200ca9
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_tts: 35ac3c7d42412733e795ea96ad2d7e05d0a75113
   gma_mediation_meta: cfa5493a4d585032e7789848190d320090c71709
