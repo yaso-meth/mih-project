@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/board_square.dart';
 
@@ -25,7 +24,8 @@ class MineTile extends StatelessWidget {
 
     if (square.isOpened) {
       if (square.hasBomb) {
-        return const Icon(MihIcons.minesweeper, color: Colors.black);
+        return Icon(MihIcons.minesweeper,
+            color: MihColors.red(darkMode: false));
       } else if (square.bombsAround > 0) {
         // Display bomb count
         return Center(
@@ -55,10 +55,10 @@ class MineTile extends StatelessWidget {
         return MihColors.bluishPurple();
       // return Colors.blue;
       case 2:
-        return MihColors.green();
+        return MihColors.green(darkMode: false);
       // return Colors.green;
       case 3:
-        return MihColors.red();
+        return MihColors.red(darkMode: false);
       // return Colors.red;
       case 4:
         return MihColors.purple();

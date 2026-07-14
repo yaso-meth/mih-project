@@ -14,6 +14,7 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(BusinessEmployeeAdapter());
     registerAdapter(BusinessUserAdapter());
     registerAdapter(MIHLoyaltyCardAdapter());
+    registerAdapter(MinesweeperPlayerScoreAdapter());
     registerAdapter(ProfileLinkAdapter());
     registerAdapter(UserConsentAdapter());
   }
@@ -28,6 +29,7 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(BusinessEmployeeAdapter());
     registerAdapter(BusinessUserAdapter());
     registerAdapter(MIHLoyaltyCardAdapter());
+    registerAdapter(MinesweeperPlayerScoreAdapter());
     registerAdapter(ProfileLinkAdapter());
     registerAdapter(UserConsentAdapter());
   }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_hive/about_mih_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/minesweeper_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_directory_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_wallet_hive_data.dart';
@@ -160,7 +161,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => MihMineSweeperProvider(),
+          create: (context) => MihMineSweeperProvider(
+            MinesweeperHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => PatientManagerProvider(),

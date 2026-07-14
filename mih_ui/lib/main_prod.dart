@@ -56,6 +56,10 @@ void main() async {
   await Hive.openBox<BookmarkedBusiness>('bookmarked_business_box');
   await Hive.openBox<Business>('favourite_business_box');
   await Hive.openBox<String>('business_types_box');
+  // Minesweeper Data
+  await Hive.openBox<List>('ms_player_leaderboard_box');
+  await Hive.openBox<List>('ms_my_leaderboard_box');
+  await Hive.openBox<Map>('minesweeper_modifications_queue');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

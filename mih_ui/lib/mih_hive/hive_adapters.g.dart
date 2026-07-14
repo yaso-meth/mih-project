@@ -488,3 +488,56 @@ class BookmarkedBusinessAdapter extends TypeAdapter<BookmarkedBusiness> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class MinesweeperPlayerScoreAdapter
+    extends TypeAdapter<MinesweeperPlayerScore> {
+  @override
+  final typeId = 10;
+
+  @override
+  MinesweeperPlayerScore read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return MinesweeperPlayerScore(
+      app_id: fields[0] as String,
+      username: fields[1] as String,
+      proPicUrl: fields[2] as String,
+      difficulty: fields[3] as String,
+      game_time: fields[4] as String,
+      game_score: (fields[5] as num).toDouble(),
+      played_date: fields[6] as DateTime,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, MinesweeperPlayerScore obj) {
+    writer
+      ..writeByte(7)
+      ..writeByte(0)
+      ..write(obj.app_id)
+      ..writeByte(1)
+      ..write(obj.username)
+      ..writeByte(2)
+      ..write(obj.proPicUrl)
+      ..writeByte(3)
+      ..write(obj.difficulty)
+      ..writeByte(4)
+      ..write(obj.game_time)
+      ..writeByte(5)
+      ..write(obj.game_score)
+      ..writeByte(6)
+      ..write(obj.played_date);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MinesweeperPlayerScoreAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
