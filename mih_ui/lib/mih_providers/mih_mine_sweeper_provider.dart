@@ -57,6 +57,11 @@ class MihMineSweeperProvider extends ChangeNotifier {
     loadCachedMSleaderboards();
   }
 
+  Future<void> clearMinesweeperCacheAndProvider() async {
+    await _hiveData.clearMinesweeperCache();
+    reset();
+  }
+
   void reset() {
     difficulty = "Easy";
     toolIndex = 0;
