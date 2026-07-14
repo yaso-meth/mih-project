@@ -10,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_bu
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
@@ -50,20 +51,25 @@ class _MihHomeState extends State<MihHome> {
         return; // Stop execution here; local data remains safe
       }
     } else {
-      await SuperTokens.attemptRefreshingSession();
-      await mzansiProfileProvider.syncWithMihServerData();
-      await walletProvider.syncWithMihServerData(mzansiProfileProvider);
-      bool success = await aboutProvider.syncWithMihServerData();
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          MihSnackBar(
-            child: Text(
-              success
-                  ? "Data Synced with MIH Cloud."
-                  : "MIH App operation in Offline Mode",
+      try {
+        await SuperTokens.attemptRefreshingSession();
+        await mzansiProfileProvider.syncWithMihServerData();
+        await walletProvider.syncWithMihServerData(mzansiProfileProvider);
+        bool success = await aboutProvider.syncWithMihServerData();
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            MihSnackBar(
+              child: Text(
+                success
+                    ? "Data Synced with MIH Cloud."
+                    : "MIH App operation in Offline Mode",
+              ),
             ),
-          ),
-        );
+          );
+        }
+      } catch (error) {
+        MihAlertServices()
+            .errorBasicAlert("Sync Error", error.toString(), context);
       }
     }
   }
