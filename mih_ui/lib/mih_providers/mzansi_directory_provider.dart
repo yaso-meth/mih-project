@@ -52,6 +52,11 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     return success;
   }
 
+  Future<void> clearDirectoryCacheAndProvider() async {
+    await _hiveData.clearDirectoryCache();
+    reset();
+  }
+
   void reset() {
     toolIndex = 0;
     personalViewIndex = 0;

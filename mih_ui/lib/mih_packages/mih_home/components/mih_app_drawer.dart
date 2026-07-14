@@ -44,6 +44,9 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     await context.read<AboutMihProvider>().clearAboutMihCacheAndProvider();
     await context.read<MzansiWalletProvider>().clearWalletCacheAndProvider();
     await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
+    await context
+        .read<MzansiDirectoryProvider>()
+        .clearDirectoryCacheAndProvider();
   }
 
   Future<void> signOut() async {

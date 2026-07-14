@@ -3,7 +3,9 @@ import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_soft_login_popup.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_user_consent_window.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_directory/mzansi_directory.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_app_drawer.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_business_home.dart';
@@ -27,9 +29,10 @@ class _MihHomeState extends State<MihHome> {
   DateTime latestPrivacyPolicyDate = DateTime.parse("2024-12-01");
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
 
-  Future<void> globalMihDataSync(
-      MzansiProfileProvider mzansiProfileProvider) async {
+  Future<void> globalMihDataSync(MzansiProfileProvider profileProvider) async {
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
+    MzansiDirectoryProvider directoryProvider =
+        context.read<MzansiDirectoryProvider>();
     AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
     final bool isUserSignedIn = await SuperTokens.doesSessionExist();
     if (!isUserSignedIn) {
@@ -53,8 +56,9 @@ class _MihHomeState extends State<MihHome> {
     } else {
       try {
         await SuperTokens.attemptRefreshingSession();
-        await mzansiProfileProvider.syncWithMihServerData();
-        await walletProvider.syncWithMihServerData(mzansiProfileProvider);
+        await profileProvider.syncWithMihServerData();
+        await walletProvider.syncWithMihServerData(profileProvider);
+        await directoryProvider.syncWithMihServerData(profileProvider);
         bool success = await aboutProvider.syncWithMihServerData();
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
