@@ -172,9 +172,9 @@ class MzansiWalletHiveData {
       await cacheFavLoyaltyCardsData(remoteFavLoyaltyCards);
       return true;
     } catch (error) {
-      KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused.");
+      KenLogger.warning(
+          "Mzansi Wallet: MIH App Operating in Offline Mode. Sync Paused.");
       return false;
-      // KenLogger.warning("App operating offline mode. Sync paused: $error");
     }
   }
 
@@ -203,8 +203,7 @@ class MzansiWalletHiveData {
     KenLogger.warning("Update Card Queued For Online Sync");
   }
 
-  Future<bool> processModificationsQueue(
-      MzansiProfileProvider profileProvider) async {
+  Future<bool> processModificationsQueue() async {
     if (_modificationsQueue.isEmpty) {
       return true;
     }
@@ -231,53 +230,42 @@ class MzansiWalletHiveData {
           await _modificationsQueue
               .delete(deleteCardTaskKey); // Remove 'DELETE'
           KenLogger.success(
-              "Offline add & delete cancelled out. Queue cleaned.");
+              "Offline card add & delete cancelled out. Queue cleaned.");
           continue;
         }
 
-        final responseCode = await MIHMzansiWalletApis.addLoyaltyCardAPICallV2(
-          profileProvider.user!.app_id,
-          taskCard.shop_name,
-          taskCard.card_number,
-          taskCard.favourite,
-          taskCard.priority_index,
-          taskCard.nickname,
-        );
+        final responseCode =
+            await MIHMzansiWalletApis.addLoyaltyCardAPICallV2(taskCard);
         if (responseCode != null && responseCode == 201) {
           await _modificationsQueue.delete(taskKey);
           KenLogger.success("Add New Local Card to MIH Cloud");
         } else {
-          KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
+          KenLogger.warning(
+              "Mzansi Wallet: MIH App Operating in Offline Mode. Sync Paused");
           return false;
         }
       }
       if (action == 'DELETE') {
         final responseCode =
-            await MIHMzansiWalletApis.deleteLoyaltyCardAPICallV2(
-          taskCard.idloyalty_cards,
-        );
+            await MIHMzansiWalletApis.deleteLoyaltyCardAPICallV2(taskCard);
         if (responseCode != null && responseCode == 200) {
           await _modificationsQueue.delete(taskKey);
           KenLogger.success("Delete Local Card from MIH Cloud");
         } else {
-          KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
+          KenLogger.warning(
+              "Mzansi Wallet: MIH App Operating in Offline Mode. Sync Paused");
           return false;
         }
       }
       if (action == 'UPDATE') {
         final responseCode =
-            await MIHMzansiWalletApis.updateLoyaltyCardAPICallV2(
-          taskCard.idloyalty_cards,
-          taskCard.favourite,
-          taskCard.priority_index,
-          taskCard.nickname,
-          taskCard.card_number,
-        );
+            await MIHMzansiWalletApis.updateLoyaltyCardAPICallV2(taskCard);
         if (responseCode != null && responseCode == 200) {
           await _modificationsQueue.delete(taskKey);
           KenLogger.success("Update Local Card from MIH Cloud");
         } else {
-          KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
+          KenLogger.warning(
+              "Mzansi Wallet: MIH App Operating in Offline Mode. Sync Paused");
           return false;
         }
       }

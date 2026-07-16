@@ -5,6 +5,7 @@ class Appointment {
   final String date_time;
   final String title;
   final String description;
+  final String? offline_id;
 
   const Appointment({
     required this.idappointments,
@@ -13,6 +14,7 @@ class Appointment {
     required this.date_time,
     required this.title,
     required this.description,
+    this.offline_id,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) {
@@ -29,11 +31,11 @@ class Appointment {
           idappointments: idappointments,
           app_id: app_id,
           business_id: business_id,
-          date_time: date_time,
+          date_time: date_time.replaceAll('T', ' '),
           title: title,
           description: description,
         ),
-      _ => throw const FormatException('Failed to load album.'),
+      _ => throw const FormatException('Failed to load appointment.'),
     };
   }
 }

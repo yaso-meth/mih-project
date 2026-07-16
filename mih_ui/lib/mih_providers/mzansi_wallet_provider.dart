@@ -16,7 +16,9 @@ class MzansiWalletProvider extends ChangeNotifier {
     this.loyaltyCards = const [],
     this.favouriteCards = const [],
     this.toolIndex = 0,
-  });
+  }) {
+    loadCachedWallet();
+  }
 
   void loadCachedWallet() {
     loyaltyCards = _hiveData.getCachedLoyaltyCards();
@@ -28,7 +30,7 @@ class MzansiWalletProvider extends ChangeNotifier {
 
   Future<bool> syncWithMihServerData(
       MzansiProfileProvider profileProvider) async {
-    await _hiveData.processModificationsQueue(profileProvider);
+    await _hiveData.processModificationsQueue();
     bool success = await _hiveData.syncWalletWithServer(profileProvider);
     loadCachedWallet();
     return success;
@@ -38,7 +40,7 @@ class MzansiWalletProvider extends ChangeNotifier {
       MzansiProfileProvider profileProvider, MIHLoyaltyCard newCard) async {
     await _hiveData.addLoyaltyCardLocally(newCard);
     await _hiveData.queueAddModification(newCard);
-    await _hiveData.processModificationsQueue(profileProvider);
+    await _hiveData.processModificationsQueue();
     await _hiveData.syncWalletWithServer(profileProvider);
     loadCachedWallet();
   }
@@ -48,7 +50,7 @@ class MzansiWalletProvider extends ChangeNotifier {
     await _hiveData.deleteLoyaltyCardLocally(deleteCard);
     await _hiveData.queueDeleteModification(deleteCard);
     loadCachedWallet();
-    _hiveData.processModificationsQueue(profileProvider);
+    _hiveData.processModificationsQueue();
   }
 
   bool isLocalModificationsPending() {
@@ -59,7 +61,7 @@ class MzansiWalletProvider extends ChangeNotifier {
       MzansiProfileProvider profileProvider, MIHLoyaltyCard updatedCard) async {
     await _hiveData.updateLoyaltyCardLocally(updatedCard);
     await _hiveData.queueUpdateModification(updatedCard);
-    await _hiveData.processModificationsQueue(profileProvider);
+    await _hiveData.processModificationsQueue();
     await _hiveData.syncWalletWithServer(profileProvider);
     loadCachedWallet();
   }

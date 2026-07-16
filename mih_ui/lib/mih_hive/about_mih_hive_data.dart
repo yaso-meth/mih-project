@@ -45,7 +45,8 @@ class AboutMihHiveData {
       await cacheBusinessCount(remoteBusinessCount);
       return true;
     } catch (error) {
-      KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused");
+      KenLogger.warning(
+          "About MIH: MIH App Operating in Offline Mode. Sync Paused");
       return false;
     }
   }

@@ -28,7 +28,7 @@ class MihMineSweeperProvider extends ChangeNotifier {
   void loadCachedMSleaderboards() {
     leaderboard = _hiveData.getCachedPlayerLeaderboard(difficulty);
     myScoreboard = _hiveData.getCachedMyLeaderboard(difficulty);
-    KenLogger.success("Minesweeler Leaderboards Loaded from Cache");
+    KenLogger.success("Minesweeper Leaderboards Loaded from Cache");
     notifyListeners();
   }
 
@@ -60,6 +60,10 @@ class MihMineSweeperProvider extends ChangeNotifier {
   Future<void> clearMinesweeperCacheAndProvider() async {
     await _hiveData.clearMinesweeperCache();
     reset();
+  }
+
+  bool isLocalModificationsPending() {
+    return _hiveData.isModificationNotEmpty();
   }
 
   void reset() {

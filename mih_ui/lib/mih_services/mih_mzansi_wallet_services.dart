@@ -136,7 +136,7 @@ class MIHMzansiWalletApis {
   ///
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
   static Future<int?> deleteLoyaltyCardAPICallV2(
-    int idloyalty_cards,
+    MIHLoyaltyCard deletedCard,
   ) async {
     try {
       var response = await http.delete(
@@ -145,7 +145,8 @@ class MIHMzansiWalletApis {
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
-        body: jsonEncode(<String, dynamic>{"idloyalty_cards": idloyalty_cards}),
+        body: jsonEncode(
+            <String, dynamic>{"idloyalty_cards": deletedCard.idloyalty_cards}),
       );
       return response.statusCode;
     } catch (error) {
@@ -224,12 +225,7 @@ class MIHMzansiWalletApis {
   ///
   /// Returns VOID (TRIGGERS SUCCESS pop up)
   static Future<int?> addLoyaltyCardAPICallV2(
-    String app_id,
-    String shop_name,
-    String card_number,
-    String favourite,
-    int priority_index,
-    String nickname,
+    MIHLoyaltyCard newCard,
   ) async {
     try {
       var response = await http
@@ -240,12 +236,12 @@ class MIHMzansiWalletApis {
               "Content-Type": "application/json; charset=UTF-8"
             },
             body: jsonEncode(<String, dynamic>{
-              "app_id": app_id,
-              "shop_name": shop_name,
-              "card_number": card_number,
-              "favourite": favourite,
-              "priority_index": priority_index,
-              "nickname": nickname,
+              "app_id": newCard.app_id,
+              "shop_name": newCard.shop_name,
+              "card_number": newCard.card_number,
+              "favourite": newCard.favourite,
+              "priority_index": newCard.priority_index,
+              "nickname": newCard.nickname,
             }),
           )
           .timeout(const Duration(seconds: 5));
@@ -315,12 +311,7 @@ class MIHMzansiWalletApis {
   ///
   /// Returns VOID (TRIGGERS NOTIGICATIOPN ON SUCCESS)
   static Future<int?> updateLoyaltyCardAPICallV2(
-    int idloyalty_cards,
-    String favourite,
-    int priority_index,
-    String nickname,
-    String card_number,
-  ) async {
+      MIHLoyaltyCard updatedCard) async {
     try {
       var response = await http.put(
         Uri.parse(
@@ -329,11 +320,11 @@ class MIHMzansiWalletApis {
           "Content-Type": "application/json; charset=UTF-8"
         },
         body: jsonEncode(<String, dynamic>{
-          "idloyalty_cards": idloyalty_cards,
-          "favourite": favourite,
-          "priority_index": priority_index,
-          "nickname": nickname,
-          "card_number": card_number,
+          "idloyalty_cards": updatedCard.idloyalty_cards,
+          "favourite": updatedCard.favourite,
+          "priority_index": updatedCard.priority_index,
+          "nickname": updatedCard.nickname,
+          "card_number": updatedCard.card_number,
         }),
       );
       return response.statusCode;

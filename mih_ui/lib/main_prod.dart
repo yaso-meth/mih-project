@@ -11,7 +11,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
 import 'package:mzansi_innovation_hub/mih_hive/hive_registrar.g.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
-import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
@@ -50,8 +49,9 @@ void main() async {
   // About MIH Data
   await Hive.openBox<int>('about_mih_box');
   // Mih Calendar Data
-  await Hive.openBox<Appointment>('personal_calendar_box');
-  await Hive.openBox<Appointment>('business_calendar_box');
+  await Hive.openBox<List>('personal_calendar_box');
+  await Hive.openBox<List>('business_calendar_box');
+  await Hive.openBox<Map>('calendar_modifications_queue');
   // Mzansi Directory Data
   await Hive.openBox<BookmarkedBusiness>('bookmarked_business_box');
   await Hive.openBox<Business>('favourite_business_box');

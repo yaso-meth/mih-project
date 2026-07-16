@@ -13,7 +13,9 @@ class AboutMihProvider extends ChangeNotifier {
   AboutMihProvider(
     this._hiveData, {
     this.toolIndex = 0,
-  });
+  }) {
+    loadCachedAboutMihSate();
+  }
 
   void loadCachedAboutMihSate() {
     userCount = _hiveData.getcachedUserCount();

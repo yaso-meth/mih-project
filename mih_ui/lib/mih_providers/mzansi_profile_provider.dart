@@ -40,7 +40,9 @@ class MzansiProfileProvider extends ChangeNotifier {
     this.personalIndex = 0,
     this.businessIndex = 0,
     this.hideBusinessUserDetails = true,
-  });
+  }) {
+    loadCachedProfileState();
+  }
 
   void loadCachedProfileState() {
     user = _hiveData.getCachedUser();

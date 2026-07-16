@@ -79,7 +79,7 @@ class MzansiDirectoryHiveData {
       return true;
     } catch (error) {
       KenLogger.warning(
-          "Directory: MIH App Operating in Offline Mode. Sync Paused $error");
+          "Mzansi Directory: MIH App Operating in Offline Mode. Sync Paused");
       return false;
     }
   }

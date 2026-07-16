@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.d
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_soft_login_popup.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_user_consent_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -31,12 +32,6 @@ class _MihHomeState extends State<MihHome> {
   DateTime latestTermOfServiceDate = DateTime.parse("2024-12-01");
 
   Future<void> globalMihDataSync(MzansiProfileProvider profileProvider) async {
-    MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
-    MzansiDirectoryProvider directoryProvider =
-        context.read<MzansiDirectoryProvider>();
-    MihMineSweeperProvider mineSweeperProvider =
-        context.read<MihMineSweeperProvider>();
-    AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
     final bool isUserSignedIn = await SuperTokens.doesSessionExist();
     if (!isUserSignedIn) {
       if (!context.mounted) return;
@@ -68,8 +63,8 @@ class _MihHomeState extends State<MihHome> {
             errorStr.contains('failed host lookup') ||
             errorStr.contains('network') ||
             errorStr.contains('connection timed out')) {
-          _showSyncSnackBar(
-              context, "Network error. Unable to connect to MIH Cloud.");
+          _showSyncSnackBar(context,
+              "You are offline. Sync will resume once connection is restored.");
           return;
         }
         _showSyncSnackBar(context, "Session expired. Please sign in again.");
@@ -78,12 +73,22 @@ class _MihHomeState extends State<MihHome> {
     }
     if (!context.mounted) return;
     try {
+      MzansiWalletProvider walletProvider =
+          context.read<MzansiWalletProvider>();
+      MzansiDirectoryProvider directoryProvider =
+          context.read<MzansiDirectoryProvider>();
+      MihMineSweeperProvider mineSweeperProvider =
+          context.read<MihMineSweeperProvider>();
+      AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
+      MihCalendarProvider calendarProvider =
+          context.read<MihCalendarProvider>();
       await profileProvider.syncWithMihServerData();
       await walletProvider.syncWithMihServerData(profileProvider);
       await directoryProvider.syncWithMihServerData(profileProvider);
       await mineSweeperProvider.syncWithMihServerData(
           profileProvider, mineSweeperProvider);
       await aboutProvider.syncWithMihServerData();
+      await calendarProvider.syncWithMihServerData(profileProvider);
       _showSyncSnackBar(context, "Data Synced with MIH Cloud.");
     } catch (syncError) {
       MihAlertServices().errorBasicAlert(

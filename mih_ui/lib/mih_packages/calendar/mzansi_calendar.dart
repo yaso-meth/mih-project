@@ -4,7 +4,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/package_tools/appointments.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:provider/provider.dart';
 
 class MzansiCalendar extends StatefulWidget {
@@ -17,38 +16,47 @@ class MzansiCalendar extends StatefulWidget {
 }
 
 class _MzansiCalendarState extends State<MzansiCalendar> {
-  bool _isLoadingInitialData = true;
   late final Appointments _appointments;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
-    MzansiProfileProvider mzansiProfileProvider =
+    MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
-    if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+    MihCalendarProvider calendarProvider = context.read<MihCalendarProvider>();
+    profileProvider.loadCachedProfileState();
+    calendarProvider.loadCachedCalendar();
+    if (profileProvider.user == null) {
+      await profileProvider.syncWithMihServerData();
     }
-    setState(() {
-      _isLoadingInitialData = false;
-    });
+    if (calendarProvider.personalAppointments == null ||
+        calendarProvider.businessAppointments == null) {
+      await calendarProvider.syncWithMihServerData(profileProvider);
+    }
+    if (calendarProvider.isLocalModificationsPending()) {
+      await calendarProvider.syncWithMihServerData(profileProvider);
+    }
   }
 
   @override
   void initState() {
     super.initState();
     _appointments = Appointments();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MihCalendarProvider>(
-      builder: (BuildContext context, MihCalendarProvider calendarProvider,
-          Widget? child) {
-        if (_isLoadingInitialData) {
+    return Consumer2<MzansiProfileProvider, MihCalendarProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MihCalendarProvider calendarProvider,
+        Widget? child,
+      ) {
+        if (profileProvider.user == null) {
           return Scaffold(
             body: Center(
               child: Mihloadingcircle(),

@@ -35,7 +35,9 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     this.userLocation = "Unknown Location",
     this.searchTerm = "",
     this.businessTypeFilter = "",
-  });
+  }) {
+    loadCachedDirectory();
+  }
 
   void loadCachedDirectory() {
     bookmarkedBusinesses = _hiveData.getBookmarkedBusinesses();

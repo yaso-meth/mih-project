@@ -7,8 +7,6 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/p
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/my_patient_list.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/waiting_room.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
@@ -22,40 +20,29 @@ class PatManager extends StatefulWidget {
 }
 
 class _PatManagerState extends State<PatManager> {
-  bool _isLoadingInitialData = true;
   late final WaitingRoom _waitingRoom;
   late final MyPatientList _myPatientList;
   late final MihPatientSearch _mihPatientSearch;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
     PatientManagerProvider patientManagerProvider =
         context.read<PatientManagerProvider>();
     MihCalendarProvider mihCalendarProvider =
         context.read<MihCalendarProvider>();
-    if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+    mzansiProfileProvider.loadCachedProfileState();
+    mihCalendarProvider.loadCachedCalendar();
+    if (mzansiProfileProvider.user == null ||
+        mzansiProfileProvider.business == null) {
+      await mzansiProfileProvider.syncWithMihServerData();
     }
     patientManagerProvider.setPersonalMode(false);
-    if (mzansiProfileProvider.business != null) {
-      await MihMzansiCalendarApis.getBusinessAppointments(
-        mzansiProfileProvider.business!.business_id,
-        false,
-        mihCalendarProvider.selectedDay,
-        mihCalendarProvider,
-      );
+    if (mihCalendarProvider.businessAppointments == null) {
+      await mihCalendarProvider.syncWithMihServerData(mzansiProfileProvider);
       await MihPatientServices().getPatientAccessListOfBusiness(
           patientManagerProvider, mzansiProfileProvider.business!.business_id);
     }
-    setState(() {
-      _isLoadingInitialData = false;
-    });
   }
 
   @override
@@ -71,10 +58,14 @@ class _PatManagerState extends State<PatManager> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PatientManagerProvider>(
-      builder:
-          (BuildContext context, PatientManagerProvider value, Widget? child) {
-        if (_isLoadingInitialData) {
+    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        PatientManagerProvider value,
+        Widget? child,
+      ) {
+        if (profileProvider.business == null) {
           return Scaffold(
             body: Center(
               child: Mihloadingcircle(),

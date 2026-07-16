@@ -36,7 +36,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     context.read<MihAuthenticationProvider>().reset();
     context.read<MihBannerAdProvider>().reset();
     context.read<MihCalculatorProvider>().reset();
-    context.read<MihCalendarProvider>().reset();
     context.read<MzansiAiProvider>().reset();
     context.read<PatientManagerProvider>().reset();
     await context.read<AboutMihProvider>().clearAboutMihCacheAndProvider();
@@ -48,6 +47,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     await context
         .read<MihMineSweeperProvider>()
         .clearMinesweeperCacheAndProvider();
+    context.read<MihCalendarProvider>().clearCalendarCacheAndProvider();
   }
 
   Future<void> signOut() async {

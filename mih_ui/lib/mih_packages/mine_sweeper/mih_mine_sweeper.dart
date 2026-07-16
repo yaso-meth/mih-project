@@ -40,6 +40,11 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
       await mineSweeperProvider.syncWithMihServerData(
           mzansiProfileProvider, mineSweeperProvider);
     }
+
+    if (mineSweeperProvider.isLocalModificationsPending()) {
+      mineSweeperProvider.syncWithMihServerData(
+          mzansiProfileProvider, mineSweeperProvider);
+    }
   }
 
   @override

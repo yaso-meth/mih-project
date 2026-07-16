@@ -16,6 +16,7 @@ class MinesweeperHiveData {
     try {
       await _playerLeaderboardBox.clear();
       await _myLeaderboardBox.clear();
+      await _modificationsQueue.clear();
       KenLogger.success("Cleared Local Minesweeper Cache.");
     } catch (error) {
       KenLogger.error("Failed to clear local minesweeper cache.");
@@ -42,7 +43,7 @@ class MinesweeperHiveData {
   }
 
   Future<void> addNewScore(MinesweeperPlayerScore newScore) async {
-    var list = _myLeaderboardBox.get(newScore.difficulty) ?? [];
+    final list = _myLeaderboardBox.get(newScore.difficulty) ?? [];
     List<MinesweeperPlayerScore> sortedList =
         List<MinesweeperPlayerScore>.from(list);
     sortedList.add(newScore);
@@ -112,7 +113,8 @@ class MinesweeperHiveData {
       await cacheMyLeaderBoardData(activeDifficulty, remoteMyLeaderboard);
       return true;
     } catch (error) {
-      KenLogger.warning("MIH App Operating in Offline Mode. Sync Paused.");
+      KenLogger.warning(
+          "Minesweeper: MIH App Operating in Offline Mode. Sync Paused.");
       return false;
     }
   }

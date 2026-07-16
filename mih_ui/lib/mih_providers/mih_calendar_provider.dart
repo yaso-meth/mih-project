@@ -1,16 +1,92 @@
 import 'package:flutter/foundation.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mih_calendar_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 
 class MihCalendarProvider extends ChangeNotifier {
+  final MihCalendarHiveData _hiveData;
   int toolIndex;
   String selectedDay = DateTime.now().toString().split(" ")[0];
   List<Appointment>? personalAppointments;
   List<Appointment>? businessAppointments;
 
-  MihCalendarProvider({
+  MihCalendarProvider(
+    this._hiveData, {
     this.toolIndex = 0,
-  });
+  }) {
+    loadCachedCalendar();
+  }
+
+  void loadCachedCalendar() {
+    personalAppointments = _hiveData.getCachedPersonalAppointments(selectedDay);
+    businessAppointments = _hiveData.getCachedBusinessAppointments(selectedDay);
+    KenLogger.success("Calendars Loaded from Cache");
+    notifyListeners();
+  }
+
+  Future<bool> syncWithMihServerData(
+      MzansiProfileProvider profileProvider) async {
+    await _hiveData.processModificationsQueue();
+    bool success = await _hiveData.syncCalendarDataWithServer(
+        profileProvider, selectedDay);
+    loadCachedCalendar();
+    return success;
+  }
+
+  Future<void> addNewAppointmentLocally(
+    MzansiProfileProvider profileProvider,
+    Appointment newAppointment,
+  ) async {
+    String date = newAppointment.date_time.split(' ')[0];
+    await _hiveData.addAppointmentLocally(newAppointment);
+    await _hiveData.queueAddModification(newAppointment);
+    await _hiveData.processModificationsQueue();
+    await _hiveData.syncCalendarDataWithServer(
+      profileProvider,
+      date,
+    );
+    loadCachedCalendar();
+  }
+
+  Future<void> deleteAppointmentLocally(
+    MzansiProfileProvider profileProvider,
+    Appointment deleteAppointment,
+  ) async {
+    String date = deleteAppointment.date_time.split(' ')[0];
+    await _hiveData.deleteAppointmentLocally(deleteAppointment);
+    await _hiveData.queueDeleteModification(deleteAppointment);
+    await _hiveData.processModificationsQueue();
+    await _hiveData.syncCalendarDataWithServer(
+      profileProvider,
+      date,
+    );
+    loadCachedCalendar();
+  }
+
+  Future<void> updateAppointmentLocally(
+    MzansiProfileProvider profileProvider,
+    Appointment updatedAppointment,
+  ) async {
+    String date = updatedAppointment.date_time.split(' ')[0];
+    await _hiveData.updateAppointmentLocally(updatedAppointment);
+    await _hiveData.queueUpdateModification(updatedAppointment);
+    await _hiveData.processModificationsQueue();
+    await _hiveData.syncCalendarDataWithServer(
+      profileProvider,
+      date,
+    );
+    loadCachedCalendar();
+  }
+
+  bool isLocalModificationsPending() {
+    return _hiveData.isModificationNotEmpty();
+  }
+
+  Future<void> clearCalendarCacheAndProvider() async {
+    await _hiveData.clearCalendarCache();
+    reset();
+  }
 
   void reset() {
     toolIndex = 0;

@@ -391,19 +391,19 @@ class _WaitingRoomState extends State<WaitingRoom> {
   Future<void> addAppointmentCall(MzansiProfileProvider profileProvider,
       MihCalendarProvider mihCalendarProvider) async {
     if (isAppointmentInputValid()) {
-      int statusCode;
-      statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
-        profileProvider.user!,
-        profileProvider.business!,
-        profileProvider.businessUser!,
-        true,
-        _appointmentTitleController.text,
-        _appointmentDescriptionIDController.text,
-        _appointmentDateController.text,
-        _appointmentTimeController.text,
-        mihCalendarProvider,
-        context,
-      );
+      int statusCode = 0;
+      // statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
+      //   profileProvider.user!,
+      //   profileProvider.business!,
+      //   profileProvider.businessUser!,
+      //   true,
+      //   _appointmentTitleController.text,
+      //   _appointmentDescriptionIDController.text,
+      //   _appointmentDateController.text,
+      //   _appointmentTimeController.text,
+      //   mihCalendarProvider,
+      //   context,
+      // );
 
       if (statusCode == 201) {
         context.pop();
@@ -473,12 +473,12 @@ class _WaitingRoomState extends State<WaitingRoom> {
         context.read<MzansiProfileProvider>();
     MihCalendarProvider mihCalendarProvider =
         context.read<MihCalendarProvider>();
-    await MihMzansiCalendarApis.getBusinessAppointments(
-      mzansiProfileProvider.business!.business_id,
-      false,
-      mihCalendarProvider.selectedDay,
-      mihCalendarProvider,
-    );
+    // await MihMzansiCalendarApis.getBusinessAppointments(
+    //   mzansiProfileProvider.business!.business_id,
+    //   false,
+    //   mihCalendarProvider.selectedDay,
+    //   mihCalendarProvider,
+    // );
     setState(() {
       isLoading = false;
     });
