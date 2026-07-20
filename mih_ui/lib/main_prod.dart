@@ -67,6 +67,7 @@ void main() async {
   await Hive.openBox<List>('patient_note_box');
   await Hive.openBox<List>('patient_file_box');
   await Hive.openBox<List>('patient_claim_box');
+  await Hive.openBox<String>('patient_pro_pic_url_box');
   await Hive.openBox<PatientAccess>('my_patient_access_list_box');
 
   // await Firebase.initializeApp(
