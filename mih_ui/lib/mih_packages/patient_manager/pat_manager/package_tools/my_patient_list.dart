@@ -63,7 +63,9 @@ class _MyPatientListState extends State<MyPatientList> {
 
   Widget displayMyPatientList(PatientManagerProvider patientManagerProvider) {
     if (patientManagerProvider.myPaitentList!.isNotEmpty) {
-      return Expanded(child: BuildMyPatientListList());
+      return Expanded(
+        child: BuildMyPatientListList(),
+      );
     }
     if (hasSearchedBefore && _myPatientIdSearchString.isNotEmpty) {
       return Column(

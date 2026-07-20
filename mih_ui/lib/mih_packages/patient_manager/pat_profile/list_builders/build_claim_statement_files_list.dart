@@ -249,57 +249,68 @@ class _BuildClaimStatementFileListState
         if (patientManagerProvider.patientClaimsDocuments!.isNotEmpty) {
           return ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: MihColors.secondary(),
+              return SizedBox(
+                height: 3,
               );
             },
             itemCount: patientManagerProvider.patientClaimsDocuments!.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(
-                  Icons.picture_as_pdf,
-                  size: 50,
-                  color: MihColors.red(),
-                ),
-                title: Text(
-                  patientManagerProvider
-                      .patientClaimsDocuments![index].file_name,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+              return Material(
+                color: MihColors.highlight(),
+                borderRadius: BorderRadius.circular(20),
+                clipBehavior: Clip.antiAlias,
+                child: ListTile(
+                  splashColor: Color.lerp(
+                    MihColors.bluishPurple(),
+                    Colors.black,
+                    0.01,
                   ),
-                ),
-                subtitle: Text(
-                  patientManagerProvider
-                      .patientClaimsDocuments![index].insert_date,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+                  hoverColor: MihColors.secondary(),
+                  leading: Icon(
+                    Icons.picture_as_pdf,
+                    size: 50,
+                    color: MihColors.red(darkMode: false),
                   ),
-                ),
-                // trailing: Icon(
-                //   Icons.arrow_forward,
-                //   color: MihColors.secondary(),
-                // ),
-                onTap: () async {
-                  MihFileViewerProvider fileViewerProvider =
-                      context.read<MihFileViewerProvider>();
-                  String fileUrl = MihFileApi.getMinioFileUrlV2(
-                      patientManagerProvider
-                          .patientClaimsDocuments![index].file_path);
-                  //print(url);
-                  fileViewerProvider.setFilePath(patientManagerProvider
-                      .patientClaimsDocuments![index].file_path);
-                  fileViewerProvider.setFileLink(fileUrl);
+                  title: Text(
+                    patientManagerProvider
+                        .patientClaimsDocuments![index].file_name,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ),
+                  subtitle: Text(
+                    patientManagerProvider
+                        .patientClaimsDocuments![index].insert_date,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ),
+                  // trailing: Icon(
+                  //   Icons.arrow_forward,
+                  //   color: MihColors.secondary(),
+                  // ),
+                  onTap: () async {
+                    MihFileViewerProvider fileViewerProvider =
+                        context.read<MihFileViewerProvider>();
+                    String fileUrl = MihFileApi.getMinioFileUrlV2(
+                        patientManagerProvider
+                            .patientClaimsDocuments![index].file_path);
+                    //print(url);
+                    fileViewerProvider.setFilePath(patientManagerProvider
+                        .patientClaimsDocuments![index].file_path);
+                    fileViewerProvider.setFileLink(fileUrl);
 
-                  viewFilePopUp(
-                      patientManagerProvider,
-                      patientManagerProvider
-                          .patientClaimsDocuments![index].file_name,
-                      patientManagerProvider
-                          .patientClaimsDocuments![index].file_path,
-                      patientManagerProvider.patientClaimsDocuments![index]
-                          .idclaim_statement_file,
-                      fileViewerProvider.fileLink);
-                },
+                    viewFilePopUp(
+                        patientManagerProvider,
+                        patientManagerProvider
+                            .patientClaimsDocuments![index].file_name,
+                        patientManagerProvider
+                            .patientClaimsDocuments![index].file_path,
+                        patientManagerProvider.patientClaimsDocuments![index]
+                            .idclaim_statement_file,
+                        fileViewerProvider.fileLink);
+                  },
+                ),
               );
             },
           );

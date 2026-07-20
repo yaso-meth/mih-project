@@ -16,6 +16,8 @@ import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_objects/patients.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'mih_config/mih_env.dart';
@@ -60,6 +62,13 @@ void main() async {
   await Hive.openBox<List>('ms_player_leaderboard_box');
   await Hive.openBox<List>('ms_my_leaderboard_box');
   await Hive.openBox<Map>('minesweeper_modifications_queue');
+  //Patient Manager Data
+  await Hive.openBox<Patient>('patient_info_box');
+  await Hive.openBox<List>('patient_note_box');
+  await Hive.openBox<List>('patient_file_box');
+  await Hive.openBox<List>('patient_claim_box');
+  await Hive.openBox<String>('patient_pro_pic_url_box');
+  await Hive.openBox<PatientAccess>('my_patient_access_list_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

@@ -70,7 +70,6 @@ class _MihAppointmentAddWindowState extends State<MihAppointmentAddWindow> {
     } else {
       MihAlertServices().inputErrorAlert(context);
     }
-    // checkforchange();
   }
 
   void successPopUp(String title, String message) {

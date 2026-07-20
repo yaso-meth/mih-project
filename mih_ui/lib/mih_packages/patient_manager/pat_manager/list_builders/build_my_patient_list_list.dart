@@ -1,17 +1,16 @@
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class BuildMyPatientListList extends StatefulWidget {
   const BuildMyPatientListList({
@@ -32,33 +31,33 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
 
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  Future<void> submitApointment(MzansiProfileProvider profileProvider,
-      PatientManagerProvider patientManagerProvider, int index) async {
-    //To-Do: Add the appointment to the database
-    // print("To-Do: Add the appointment to the database");
-    String description =
-        "Date: ${dateController.text}\nTime: ${timeController.text}\n";
+  Future<void> submitApointment(
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+    MihCalendarProvider calendarProvider,
+    int index,
+  ) async {
+    String description = '';
+    // "Date: ${dateController.text}\nTime: ${timeController.text}\n";
     description += "Medical Practice: ${profileProvider.business!.Name}\n";
     description += "Contact Number: ${profileProvider.business!.contact_no}";
-    int statusCode;
-    statusCode = await MihMzansiCalendarApis.addPatientAppointment(
-      profileProvider.user!,
-      false,
-      patientManagerProvider.myPaitentList![index].app_id,
-      profileProvider.business!.business_id,
-      "${patientManagerProvider.myPaitentList![index].fname} ${patientManagerProvider.myPaitentList![index].lname} - Doctors Visit",
-      description,
-      dateController.text,
-      timeController.text,
-      context,
+    String offlineId = Uuid().v4();
+    calendarProvider.addNewAppointmentLocally(
+      profileProvider,
+      Appointment(
+        idappointments: 0,
+        app_id: patientManagerProvider.myPaitentList![index].app_id,
+        business_id: profileProvider.business!.business_id,
+        date_time: "${dateController.text} ${timeController.text}",
+        title:
+            "${patientManagerProvider.myPaitentList![index].fname} ${patientManagerProvider.myPaitentList![index].lname} - Doctors Visit",
+        description: description,
+        offline_id: offlineId,
+      ),
     );
-    if (statusCode == 201) {
-      context.pop();
-      successPopUp("Successfully Added Appointment",
-          "You appointment has been successfully added to your calendar.");
-    } else {
-      MihAlertServices().internetConnectionAlert(context);
-    }
+    context.pop();
+    successPopUp("Successfully Added Appointment",
+        "You appointment has been successfully added to your calendar.");
   }
 
   void successPopUp(String title, String message) {
@@ -106,6 +105,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
   void appointmentPopUp(
     MzansiProfileProvider profileProvider,
     PatientManagerProvider patientManagerProvider,
+    MihCalendarProvider calendarProvider,
     int index,
     double width,
   ) {
@@ -199,7 +199,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                           bool filled = isAppointmentFieldsFilled();
                           if (filled) {
                             submitApointment(
-                                profileProvider, patientManagerProvider, index);
+                                profileProvider,
+                                patientManagerProvider,
+                                calendarProvider,
+                                index);
                           } else {
                             MihAlertServices().inputErrorAlert(context);
                           }
@@ -260,6 +263,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
   void patientProfileChoicePopUp(
     MzansiProfileProvider profileProvider,
     PatientManagerProvider patientManagerProvider,
+    MihCalendarProvider calendarProvider,
     int index,
     double width,
   ) async {
@@ -335,8 +339,12 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                   children: [
                     MihButton(
                       onPressed: () {
-                        appointmentPopUp(profileProvider,
-                            patientManagerProvider, index, width);
+                        appointmentPopUp(
+                            profileProvider,
+                            patientManagerProvider,
+                            calendarProvider,
+                            index,
+                            width);
                       },
                       buttonColor: MihColors.green(),
                       width: 300,
@@ -351,9 +359,9 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
                     ),
                     MihButton(
                       onPressed: () async {
-                        await MihPatientServices().getPatientDetails(
-                            patientManagerProvider.myPaitentList![index].app_id,
-                            patientManagerProvider);
+                        // await MihPatientServices().getPatientDetails(
+                        //     patientManagerProvider.myPaitentList![index].app_id,
+                        //     patientManagerProvider);
                         context.pop();
                         context.pushNamed(
                           'patientManagerPatient',
@@ -383,6 +391,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
   Widget displayMyPatientTile(
     MzansiProfileProvider profileProvider,
     PatientManagerProvider patientManagerProvider,
+    MihCalendarProvider calendarProvider,
     int index,
     double width,
   ) {
@@ -398,64 +407,100 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       firstName = patientManagerProvider.myPaitentList![index].fname;
       lastName = patientManagerProvider.myPaitentList![index].lname;
       accessWithColour = TextSpan(
-          text: "$access\n", style: TextStyle(color: MihColors.green()));
+        text: "$access\n",
+        style: TextStyle(
+          color: MihColors.green(darkMode: false),
+          fontWeight: FontWeight.bold,
+        ),
+      );
     } else if (access == "PENDING") {
       firstName =
           "${patientManagerProvider.myPaitentList![index].fname[0]}********";
       lastName =
           "${patientManagerProvider.myPaitentList![index].lname[0]}********";
       accessWithColour = TextSpan(
-          text: "$access\n", style: TextStyle(color: MihColors.grey()));
+        text: "$access\n",
+        style: TextStyle(
+          color: MihColors.grey(darkMode: true),
+          fontWeight: FontWeight.bold,
+        ),
+      );
     } else {
       firstName =
           "${patientManagerProvider.myPaitentList![index].fname[0]}********";
       lastName =
           "${patientManagerProvider.myPaitentList![index].lname[0]}********";
-      accessWithColour =
-          TextSpan(text: "$access\n", style: TextStyle(color: MihColors.red()));
+      accessWithColour = TextSpan(
+        text: "$access\n",
+        style: TextStyle(
+          color: MihColors.red(darkMode: false),
+          fontWeight: FontWeight.bold,
+        ),
+      );
     }
 
-    return ListTile(
-      title: Text(
-        "$firstName $lastName",
-        style: TextStyle(
-          color: MihColors.secondary(),
+    return Material(
+      color: MihColors.highlight(),
+      borderRadius: BorderRadius.circular(20),
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        splashColor: Color.lerp(
+          MihColors.bluishPurple(),
+          Colors.black,
+          0.01,
         ),
-      ),
-      subtitle: RichText(
-        text: TextSpan(
-            text:
-                "ID No.: ${patientManagerProvider.myPaitentList![index].id_no}\n",
-            style: DefaultTextStyle.of(context).style,
-            children: <TextSpan>[
-              const TextSpan(text: "Access: "),
-              accessWithColour,
-            ]),
-      ),
-      onTap: () async {
-        if (hasAccess) {
-          await MihPatientServices()
-              .getPatientDetails(
-                  patientManagerProvider.myPaitentList![index].app_id,
-                  patientManagerProvider)
-              .then((result) {});
-          await MihUserServices()
-              .getMIHUserDetails(
-                  patientManagerProvider.myPaitentList![index].app_id, context)
-              .then((user) async {
-            user;
-            String url = MihFileApi.getMinioFileUrlV2(user!.pro_pic_path);
-            patientManagerProvider.setSelectedPatientProfilePicUrl(url);
-          });
-          patientProfileChoicePopUp(
-              profileProvider, patientManagerProvider, index, width);
-        } else {
-          noAccessWarning(patientManagerProvider, index);
-        }
-      },
-      trailing: Icon(
-        Icons.arrow_forward,
-        color: MihColors.secondary(),
+        hoverColor: MihColors.secondary(),
+        title: Text(
+          "$firstName $lastName",
+          style: TextStyle(
+            color: MihColors.primary(),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: RichText(
+          text: TextSpan(
+              text:
+                  "ID No.: ${patientManagerProvider.myPaitentList![index].id_no}\n",
+              style: TextStyle(
+                color: MihColors.primary(),
+              ),
+              children: <TextSpan>[
+                const TextSpan(text: "Access: "),
+                accessWithColour,
+              ]),
+        ),
+        onTap: () async {
+          if (hasAccess) {
+            // await MihPatientServices()
+            //     .getPatientDetails(
+            //         patientManagerProvider.myPaitentList![index].app_id,
+            //         patientManagerProvider)
+            //     .then((result) {});
+            // await MihUserServices()
+            //     .getMIHUserDetails(
+            //         patientManagerProvider.myPaitentList![index].app_id,
+            //         context)
+            //     .then((user) async {
+            //   user;
+            //   String url = MihFileApi.getMinioFileUrlV2(user!.pro_pic_path);
+            //   patientManagerProvider.setSelectedPatientProfilePicUrl(url);
+            // });
+            String patientAppId =
+                patientManagerProvider.myPaitentList![index].app_id;
+            patientManagerProvider.loadCachedPatientManager(patientAppId);
+            if (patientManagerProvider.selectedPatient == null) {
+              patientManagerProvider.syncWithMihServerData(patientAppId, null);
+            }
+            patientProfileChoicePopUp(profileProvider, patientManagerProvider,
+                calendarProvider, index, width);
+          } else {
+            noAccessWarning(patientManagerProvider, index);
+          }
+        },
+        // trailing: Icon(
+        //   Icons.arrow_forward,
+        //   color: MihColors.secondary(),
+        // ),
       ),
     );
   }
@@ -478,19 +523,25 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return Consumer2<MzansiProfileProvider, PatientManagerProvider>(
-      builder: (BuildContext context, MzansiProfileProvider profileProvider,
-          PatientManagerProvider patientManagerProvider, Widget? child) {
+    return Consumer3<MzansiProfileProvider, PatientManagerProvider,
+        MihCalendarProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        PatientManagerProvider patientManagerProvider,
+        MihCalendarProvider calendarProvider,
+        Widget? child,
+      ) {
         return ListView.separated(
           separatorBuilder: (BuildContext context, index) {
-            return Divider(
-              color: MihColors.secondary(),
+            return SizedBox(
+              height: 3,
             );
           },
           itemCount: patientManagerProvider.myPaitentList!.length,
           itemBuilder: (context, index) {
-            return displayMyPatientTile(
-                profileProvider, patientManagerProvider, index, screenWidth);
+            return displayMyPatientTile(profileProvider, patientManagerProvider,
+                calendarProvider, index, screenWidth);
           },
         );
       },

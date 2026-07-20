@@ -207,25 +207,25 @@ class _BuildFilesListState extends State<BuildFilesList> {
         return Icon(
           Icons.picture_as_pdf,
           size: 50,
-          color: MihColors.red(),
+          color: MihColors.red(darkMode: false),
         );
       case ("jpeg"):
         return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
-          color: MihColors.green(),
+          color: MihColors.green(darkMode: false),
         );
       case ("jpg"):
         return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
-          color: MihColors.green(),
+          color: MihColors.green(darkMode: false),
         );
       case ("png"):
         return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
-          color: MihColors.green(),
+          color: MihColors.green(darkMode: false),
         );
       case ("gif"):
         return FaIcon(
@@ -276,8 +276,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
         if (patientManagerProvider.patientDocuments!.isNotEmpty) {
           return ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: MihColors.secondary(),
+              return SizedBox(
+                height: 3,
               );
             },
             itemCount: patientManagerProvider.patientDocuments!.length,
@@ -287,43 +287,56 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   .split(".")
                   .last
                   .toLowerCase();
-              KenLogger.success(fileExtension);
-              return ListTile(
-                leading: getFileIcon(fileExtension),
-                title: Text(
-                  patientManagerProvider.patientDocuments![index].file_name,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+              return Material(
+                color: MihColors.highlight(),
+                borderRadius: BorderRadius.circular(20),
+                clipBehavior: Clip.antiAlias,
+                child: ListTile(
+                  splashColor: Color.lerp(
+                    MihColors.bluishPurple(),
+                    Colors.black,
+                    0.01,
                   ),
-                ),
-                subtitle: Text(
-                  patientManagerProvider.patientDocuments![index].insert_date,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+                  hoverColor: MihColors.secondary(),
+                  leading: getFileIcon(fileExtension),
+                  title: Text(
+                    patientManagerProvider.patientDocuments![index].file_name,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  subtitle: Text(
+                    patientManagerProvider.patientDocuments![index].insert_date,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ),
+                  // trailing: Icon(
+                  //   Icons.arrow_forward,
+                  //   color: MihColors.secondary(),
+                  // ),
+                  onTap: () async {
+                    MihFileViewerProvider fileViewerProvider =
+                        context.read<MihFileViewerProvider>();
+                    String fileUrl = MihFileApi.getMinioFileUrlV2(
+                        patientManagerProvider
+                            .patientDocuments![index].file_path);
+                    //print(url);
+                    fileViewerProvider.setFilePath(patientManagerProvider
+                        .patientDocuments![index].file_path);
+                    fileViewerProvider.setFileLink(fileUrl);
+                    viewFilePopUp(
+                        patientManagerProvider,
+                        patientManagerProvider
+                            .patientDocuments![index].file_name,
+                        patientManagerProvider
+                            .patientDocuments![index].file_path,
+                        patientManagerProvider
+                            .patientDocuments![index].idpatient_files,
+                        fileViewerProvider.fileLink);
+                  },
                 ),
-                // trailing: Icon(
-                //   Icons.arrow_forward,
-                //   color: MihColors.secondary(),
-                // ),
-                onTap: () async {
-                  MihFileViewerProvider fileViewerProvider =
-                      context.read<MihFileViewerProvider>();
-                  String fileUrl = MihFileApi.getMinioFileUrlV2(
-                      patientManagerProvider
-                          .patientDocuments![index].file_path);
-                  //print(url);
-                  fileViewerProvider.setFilePath(patientManagerProvider
-                      .patientDocuments![index].file_path);
-                  fileViewerProvider.setFileLink(fileUrl);
-                  viewFilePopUp(
-                      patientManagerProvider,
-                      patientManagerProvider.patientDocuments![index].file_name,
-                      patientManagerProvider.patientDocuments![index].file_path,
-                      patientManagerProvider
-                          .patientDocuments![index].idpatient_files,
-                      fileViewerProvider.fileLink);
-                },
               );
             },
           );

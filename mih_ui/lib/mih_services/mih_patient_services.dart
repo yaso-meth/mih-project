@@ -34,6 +34,25 @@ class MihPatientServices {
     }
   }
 
+  Future<Patient?> getPatientDetailsV2(
+    String appId,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/patients/$appId"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      Patient patient = Patient.fromJson(jsonBody);
+      return patient;
+    } else {
+      return null;
+    }
+  }
+
   static Future<List<Patient>> searchPatients(
     PatientManagerProvider patientManagerProvider,
     String search,
@@ -170,6 +189,21 @@ class MihPatientServices {
     return response.statusCode;
   }
 
+  Future<List<Note>> getPatientConsultationNotesV2(
+    String appId,
+  ) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/notes/patients/$appId"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Note> notes =
+          List<Note>.from(l.map((model) => Note.fromJson(model)));
+      return notes;
+    } else {
+      throw Exception('failed to fatch patient notes');
+    }
+  }
+
   Future<int> addPatientNoteAPICall(
     String title,
     String noteText,
@@ -225,6 +259,19 @@ class MihPatientServices {
           patientDocuments: patientDocuments);
     }
     return response.statusCode;
+  }
+
+  Future<List<PFile>> getPatientDocumentsV2(String appId) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/get/$appId"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PFile> patientDocuments =
+          List<PFile>.from(l.map((model) => PFile.fromJson(model)));
+      return patientDocuments;
+    } else {
+      throw Exception('failed to fatch patient files with api');
+    }
   }
 
   Future<int> addPatientFile(
@@ -318,6 +365,21 @@ class MihPatientServices {
       List<PatientAccess> patientAccesses = List<PatientAccess>.from(
           l.map((model) => PatientAccess.fromJson(model)));
       patientManagerProvider.setMyPatientList(myPaitentList: patientAccesses);
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access List for business');
+    }
+  }
+
+  Future<List<PatientAccess>> getPatientAccessListOfBusinessV2(
+    String business_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/business/patient/$business_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
       return patientAccesses;
     } else {
       throw Exception('failed to pull patient access List for business');

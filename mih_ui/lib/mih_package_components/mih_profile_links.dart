@@ -164,8 +164,9 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
                 : 70 * 0.7,
           ),
         ),
-        if (widget.displayCustomName) const SizedBox(height: 2),
-        if (widget.displayCustomName)
+        if (widget.displayCustomName && link.custom_name != '')
+          const SizedBox(height: 2),
+        if (widget.displayCustomName && link.custom_name != '')
           Text(
             link.custom_name,
             style: TextStyle(

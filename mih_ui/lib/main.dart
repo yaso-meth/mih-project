@@ -10,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_hive/minesweeper_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_directory_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_hive/mzansi_wallet_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/patient_manager_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
@@ -169,7 +170,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => PatientManagerProvider(),
+          create: (context) => PatientManagerProvider(
+            PatientManagerHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => MihFileViewerProvider(),

@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/p
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/my_patient_list.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/package_tools/waiting_room.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:provider/provider.dart';
 
 class PatManager extends StatefulWidget {
@@ -40,8 +39,12 @@ class _PatManagerState extends State<PatManager> {
     patientManagerProvider.setPersonalMode(false);
     if (mihCalendarProvider.businessAppointments == null) {
       await mihCalendarProvider.syncWithMihServerData(mzansiProfileProvider);
-      await MihPatientServices().getPatientAccessListOfBusiness(
-          patientManagerProvider, mzansiProfileProvider.business!.business_id);
+    }
+    if (patientManagerProvider.myPaitentList == null) {
+      patientManagerProvider.syncWithMihServerData(
+        null,
+        mzansiProfileProvider.business!.business_id,
+      );
     }
   }
 

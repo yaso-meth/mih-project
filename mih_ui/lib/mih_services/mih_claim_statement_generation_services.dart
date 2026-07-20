@@ -115,28 +115,33 @@ class MIHClaimStatementGenerationApi {
   static Future<List<ClaimStatementFile>> getClaimStatementFilesByPatient(
     PatientManagerProvider patientManagerProvider,
   ) async {
-    //print("Patien manager page: $endpoint");
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/files/claim-statement/patient/${patientManagerProvider.selectedPatient!.app_id}"));
-    // print("Here");
-    // print("Body: ${response.body}");
-    // print("Code: ${response.statusCode}");
-    // errorCode = response.statusCode.toString();
-    // errorBody = response.body;
-
     if (response.statusCode == 200) {
-      //print("Here1");
       Iterable l = jsonDecode(response.body);
-      //print("Here2");
       List<ClaimStatementFile> docList = List<ClaimStatementFile>.from(
           l.map((model) => ClaimStatementFile.fromJson(model)));
-      //print("Here3");
       patientManagerProvider.setClaimsDocuments(
           patientClaimsDocuments: docList);
       return docList;
     } else {
       throw Exception(
           'failed to fatch patient claims statement files with api');
+    }
+  }
+
+  static Future<List<ClaimStatementFile>> getClaimStatementFilesByPatientV2(
+    String appId,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/files/claim-statement/patient/$appId"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<ClaimStatementFile> docList = List<ClaimStatementFile>.from(
+          l.map((model) => ClaimStatementFile.fromJson(model)));
+      return docList;
+    } else {
+      throw Exception('failed to fatch patient claims statement files');
     }
   }
 
