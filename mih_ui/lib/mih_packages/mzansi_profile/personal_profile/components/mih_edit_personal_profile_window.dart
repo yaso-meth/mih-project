@@ -1,7 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -73,28 +72,31 @@ class _MihEditPersonalProfileWindowState
 
   Future<void> updateUserApiCall(
       MzansiProfileProvider mzansiProfileProvider) async {
-    KenLogger.success("businessUser: $businessUser");
-    int responseCode = await MihUserServices().updateUserV2(
-      mzansiProfileProvider.user!,
-      fnameController.text,
-      lnameController.text,
-      usernameController.text,
-      proPicController.text,
-      purposeController.text,
-      businessUser,
-      context,
-    );
-    if (responseCode == 200) {
-      setState(() {
-        newSelectedProPic = null;
-      });
-      await mzansiProfileProvider.syncWithMihServerData();
-      String message = "Your information has been updated successfully!";
-      successPopUp(
-        mzansiProfileProvider,
-        message,
+    try {
+      int responseCode = await MihUserServices().updateUserV2(
+        mzansiProfileProvider.user!,
+        fnameController.text,
+        lnameController.text,
+        usernameController.text,
+        proPicController.text,
+        purposeController.text,
+        businessUser,
+        context,
       );
-    } else {
+      if (responseCode == 200) {
+        setState(() {
+          newSelectedProPic = null;
+        });
+        mzansiProfileProvider.syncWithMihServerData();
+        String message = "Your information has been updated successfully!";
+        successPopUp(
+          mzansiProfileProvider,
+          message,
+        );
+      } else {
+        MihAlertServices().internetConnectionAlert(context);
+      }
+    } catch (erro) {
       MihAlertServices().internetConnectionAlert(context);
     }
   }
@@ -339,6 +341,18 @@ class _MihEditPersonalProfileWindowState
                             readOnly: true,
                             hintText: "Selected File Name",
                           ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Row(
+                          children: [
+                            Text(
+                              "*NB: Internet connection required to update profile.",
+                              style: TextStyle(
+                                color: MihColors.red(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
                         MihTextFormField(

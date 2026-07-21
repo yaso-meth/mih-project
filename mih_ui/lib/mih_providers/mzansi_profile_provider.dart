@@ -263,18 +263,12 @@ class MzansiProfileProvider extends ChangeNotifier {
   }
 
   void reorderPersonalLinks({required int oldIndex, required int newIndex}) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final ProfileLink link = personalLinks.removeAt(oldIndex);
     personalLinks.insert(newIndex, link);
     notifyListeners();
   }
 
   void reorderBusinessLinks({required int oldIndex, required int newIndex}) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final ProfileLink link = businessLinks.removeAt(oldIndex);
     businessLinks.insert(newIndex, link);
     notifyListeners();

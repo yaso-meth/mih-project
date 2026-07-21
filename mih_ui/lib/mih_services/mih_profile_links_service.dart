@@ -108,17 +108,19 @@ class MihProfileLinksServices {
     MzansiProfileProvider profileProvider,
     int idprofile_links,
   ) async {
-    final response = await http.delete(
-      Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/delete/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          "idprofile_links": idprofile_links,
-        },
-      ),
-    );
+    final response = await http
+        .delete(
+          Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/delete/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(
+            <String, dynamic>{
+              "idprofile_links": idprofile_links,
+            },
+          ),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       profileProvider.deleteProfileLink(linkId: idprofile_links);
     }
@@ -134,20 +136,22 @@ class MihProfileLinksServices {
     String destination,
     int order,
   ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "business_id": business_id,
-        "site_name": site_name,
-        "custom_name": custom_name,
-        "destination": destination,
-        "order": order,
-      }),
-    );
+    var response = await http
+        .post(
+          Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/insert/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "app_id": app_id,
+            "business_id": business_id,
+            "site_name": site_name,
+            "custom_name": custom_name,
+            "destination": destination,
+            "order": order,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     KenLogger.success("Response: $response.statusCode");
     // if (response.statusCode == 201) {
     //   if (app_id == "") {
@@ -170,19 +174,21 @@ class MihProfileLinksServices {
     int order,
     BuildContext context,
   ) async {
-    final response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "idprofile_links": idprofile_links,
-        "site_name": site_name,
-        "custom_name": custom_name,
-        "destination": destination,
-        "order": order,
-      }),
-    );
+    final response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "idprofile_links": idprofile_links,
+            "site_name": site_name,
+            "custom_name": custom_name,
+            "destination": destination,
+            "order": order,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       profileProvider.editProfileLink(
         updatedLink: ProfileLink(

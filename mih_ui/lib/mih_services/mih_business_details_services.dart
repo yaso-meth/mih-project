@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
@@ -151,12 +149,6 @@ class MihBusinessDetailsServices {
     String businessMissionVision,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     var response = await http.post(
       Uri.parse("${AppEnviroment.baseApiUrl}/business/insert/"),
       headers: <String, String>{
@@ -178,7 +170,6 @@ class MihBusinessDetailsServices {
         "mission_vision": businessMissionVision,
       }),
     );
-    context.pop();
     if (response.statusCode == 201) {
       int finalStatusCode = await updateBusinessDetailsV2(
         jsonDecode(response.body)['business_id'],
@@ -225,6 +216,75 @@ class MihBusinessDetailsServices {
     return response;
   }
 
+  Future<int> addBusiness(
+    MzansiProfileProvider provider,
+    String business_id,
+    String busineName,
+    String businessType,
+    String businessRegistrationNo,
+    String businessPracticeNo,
+    String businessVatNo,
+    String businessEmail,
+    String businessPhoneNumber,
+    String businessLocation,
+    String businessLogoFilename,
+    String businessWebsite,
+    String businessRating,
+    String businessMissionVision,
+    BuildContext context,
+  ) async {
+    String logoName = businessLogoFilename.replaceAll(RegExp(r' '), '-');
+    String logoPath = businessLogoFilename.isNotEmpty
+        ? "$business_id/business_files/$logoName"
+        : "";
+    var response = await http
+        .post(
+          Uri.parse("${AppEnviroment.baseApiUrl}/business/insert/v2/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": business_id,
+            "Name": busineName,
+            "type": businessType,
+            "registration_no": businessRegistrationNo,
+            "logo_name": logoName,
+            "logo_path": logoPath,
+            "contact_no": businessPhoneNumber,
+            "bus_email": businessEmail,
+            "gps_location": businessLocation,
+            "practice_no": businessPracticeNo,
+            "vat_no": businessVatNo,
+            "website": businessWebsite,
+            "rating": businessRating,
+            "mission_vision": businessMissionVision,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
+    if (response.statusCode == 201) {
+      provider.setBusiness(
+        newBusiness: Business(
+          business_id,
+          busineName,
+          businessType,
+          businessRegistrationNo,
+          logoName,
+          logoPath,
+          businessPhoneNumber,
+          businessEmail,
+          provider.user!.app_id,
+          businessLocation,
+          businessPracticeNo,
+          businessVatNo,
+          businessWebsite,
+          businessRating,
+          businessMissionVision,
+        ),
+      );
+    }
+    return response.statusCode;
+  }
+
   Future<int> updateBusinessDetailsV2(
     String business_id,
     String business_name,
@@ -242,37 +302,32 @@ class MihBusinessDetailsServices {
     MzansiProfileProvider provider,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     var filePath =
         "$business_id/business_files/${business_logo_name.replaceAll(RegExp(r' '), '-')}";
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/business/update/v2/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": business_id,
-        "Name": business_name,
-        "type": business_type,
-        "registration_no": business_registration_no,
-        "logo_name": business_logo_name.replaceAll(RegExp(r' '), '-'),
-        "logo_path": filePath,
-        "contact_no": business_phone_number,
-        "bus_email": business_email,
-        "gps_location": business_location,
-        "practice_no": business_practice_no,
-        "vat_no": business_vat_no,
-        "website": businessWebsite,
-        "rating": businessRating,
-        "mission_vision": businessMissionVision,
-      }),
-    );
-    context.pop();
+    var response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/business/update/v2/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": business_id,
+            "Name": business_name,
+            "type": business_type,
+            "registration_no": business_registration_no,
+            "logo_name": business_logo_name.replaceAll(RegExp(r' '), '-'),
+            "logo_path": filePath,
+            "contact_no": business_phone_number,
+            "bus_email": business_email,
+            "gps_location": business_location,
+            "practice_no": business_practice_no,
+            "vat_no": business_vat_no,
+            "website": businessWebsite,
+            "rating": businessRating,
+            "mission_vision": businessMissionVision,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       provider.setBusiness(
         newBusiness: Business(

@@ -101,6 +101,19 @@ class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
                     : EdgeInsets.symmetric(horizontal: screenWidth * 0),
             child: Column(
               children: [
+                const SizedBox(height: 10.0),
+                Row(
+                  children: [
+                    Text(
+                      "*NB: Internet connection required to edit profile links.",
+                      style: TextStyle(
+                        color: MihColors.red(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5.0),
                 MihForm(
                   formKey: _formKey,
                   formFields: [
@@ -172,27 +185,35 @@ class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
                     MihButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          MihProfileLinksServices.loadingPopUp(context);
-                          int statusCode =
-                              await MihProfileLinksServices.updateProfileLink(
-                            profileProvider,
-                            widget.link.idprofile_links,
-                            "",
-                            profileProvider.business!.business_id,
-                            _dropdownLinkNameController.text,
-                            _linkNameController.text,
-                            _destinationController.text,
-                            widget.link.order,
-                            context,
-                          );
-                          context.pop();
-                          if (statusCode == 200) {
+                          try {
+                            MihProfileLinksServices.loadingPopUp(context);
+                            int statusCode =
+                                await MihProfileLinksServices.updateProfileLink(
+                              profileProvider,
+                              widget.link.idprofile_links,
+                              "",
+                              profileProvider.business!.business_id,
+                              _dropdownLinkNameController.text,
+                              _linkNameController.text,
+                              _destinationController.text,
+                              widget.link.order,
+                              context,
+                            );
+                            if (statusCode == 200) {
+                              context.pop();
+                              context.pop();
+                              profileProvider.syncWithMihServerData();
+                              successPopUp(
+                                  "Profile Link Updated",
+                                  "You have successfully update a link in your business",
+                                  0);
+                            } else {
+                              context.pop();
+                              MihAlertServices()
+                                  .internetConnectionAlert(context);
+                            }
+                          } catch (error) {
                             context.pop();
-                            successPopUp(
-                                "Profile Link Updated",
-                                "You have successfully update a link in your business",
-                                0);
-                          } else {
                             MihAlertServices().internetConnectionAlert(context);
                           }
                         } else {

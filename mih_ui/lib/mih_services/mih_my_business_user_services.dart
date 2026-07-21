@@ -59,12 +59,6 @@ class MihMyBusinessUserServices {
     MzansiProfileProvider provider,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     String filename = signatureFilename.replaceAll(RegExp(r' '), '-');
     String sigPath = "$business_id/business_files/$signatureFilename";
     var response = await http.post(
@@ -81,7 +75,6 @@ class MihMyBusinessUserServices {
         "access": access,
       }),
     );
-    context.pop();
     if (response.statusCode == 201) {
       provider.setBusinessUser(
         newBusinessUser: BusinessUser(

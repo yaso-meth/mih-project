@@ -40,8 +40,6 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
   void editProfileLinksWindow() {
     showDialog(
       context: context,
-      // barrierDismissible: false,
-      // builder: (context) => Placeholder(),
       builder: (context) => MihManageUserProfileLinksWindow(),
     );
   }
@@ -66,196 +64,222 @@ class _MihPersonalProfileState extends State<MihPersonalProfile> {
             child: Mihloadingcircle(),
           );
         } else {
-          return MihSingleChildScroll(
-            scrollbarOn: true,
-            child: Padding(
-              padding:
-                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+          return Stack(
+            children: [
+              MihSingleChildScroll(
+                scrollbarOn: true,
+                child: Padding(
+                  padding: MzansiInnovationHub.of(context)!.theme.screenType ==
+                          "desktop"
                       ? EdgeInsets.symmetric(horizontal: width * 0.2)
                       : EdgeInsets.symmetric(horizontal: width * 0.075),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      MihCircleAvatar(
-                        imageFile: mzansiProfileProvider.userProfilePicture,
-                        width: 150,
-                        expandable: true,
-                        editable: false,
-                        fileNameController: proPicController,
-                        userSelectedfile: newSelectedProPic,
-                        frameColor: MihColors.secondary(),
-                        backgroundColor: MihColors.primary(),
-                        onChange: (selectedImage) {
-                          setState(() {
-                            newSelectedProPic = selectedImage;
-                          });
-                        },
-                        key: ValueKey(mzansiProfileProvider.userProfilePicUrl),
-                      ),
-                      Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: MihButton(
-                          onPressed: () {
-                            editProfileWindow();
-                          },
-                          buttonColor: MihColors.green(),
-                          width: 35,
-                          height: 35,
-                          child: Icon(
-                            Icons.edit,
-                            color: MihColors.primary(),
+                      Stack(
+                        children: [
+                          MihCircleAvatar(
+                            imageFile: mzansiProfileProvider.userProfilePicture,
+                            width: 150,
+                            expandable: true,
+                            editable: false,
+                            fileNameController: proPicController,
+                            userSelectedfile: newSelectedProPic,
+                            frameColor: MihColors.secondary(),
+                            backgroundColor: MihColors.primary(),
+                            onChange: (selectedImage) {
+                              setState(() {
+                                newSelectedProPic = selectedImage;
+                              });
+                            },
+                            key: ValueKey(
+                                mzansiProfileProvider.userProfilePicUrl),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  FittedBox(
-                    child: Text(
-                      mzansiProfileProvider.user!.username.isNotEmpty
-                          ? mzansiProfileProvider.user!.username
-                          : "username",
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.secondary(),
-                      ),
-                    ),
-                  ),
-                  FittedBox(
-                    child: Text(
-                      mzansiProfileProvider.user!.fname.isNotEmpty
-                          ? "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}"
-                          : "Name Surname",
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.secondary(),
-                      ),
-                    ),
-                  ),
-                  FittedBox(
-                    child: Text(
-                      mzansiProfileProvider.business != null
-                          ? "Business".toUpperCase()
-                          : "Personal".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.secondary(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Center(
-                    child: SizedBox(
-                      width: 700,
-                      child: Text(
-                        mzansiProfileProvider.user!.purpose.isNotEmpty
-                            ? mzansiProfileProvider.user!.purpose
-                            : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: MihColors.secondary(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15.0),
-                  MihProfileLinks(
-                    displayCustomName: true,
-                    links: mzansiProfileProvider.personalLinks,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      mzansiProfileProvider.user!.username != ""
-                          ? MihButton(
-                              onPressed: () {
-                                addProfileLinksWindow();
-                              },
-                              buttonColor: MihColors.green(),
-                              width:
-                                  mzansiProfileProvider.personalLinks.isNotEmpty
-                                      ? 50
-                                      : null,
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: MihColors.primary(),
-                                  ),
-                                  if (mzansiProfileProvider
-                                      .personalLinks.isEmpty)
-                                    Text(
-                                      "Add Links",
-                                      style: TextStyle(
-                                        color: MihColors.primary(),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            )
-                          : MihButton(
+                          Positioned(
+                            bottom: 5,
+                            right: 5,
+                            child: MihButton(
                               onPressed: () {
                                 editProfileWindow();
                               },
                               buttonColor: MihColors.green(),
-                              width: null,
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.edit,
-                                    color: MihColors.primary(),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Add Profile",
-                                    style: TextStyle(
-                                      color: MihColors.primary(),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                              width: 35,
+                              height: 35,
+                              child: Icon(
+                                Icons.edit,
+                                color: MihColors.primary(),
                               ),
                             ),
-                      const SizedBox(width: 8.0),
-                      if (mzansiProfileProvider.personalLinks.isNotEmpty)
-                        MihButton(
-                          onPressed: () {
-                            editProfileLinksWindow();
-                          },
-                          buttonColor: MihColors.green(),
-                          width: 50,
-                          height: 50,
-                          child: Icon(
-                            Icons.edit,
-                            color: MihColors.primary(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+                      FittedBox(
+                        child: Text(
+                          mzansiProfileProvider.user!.username.isNotEmpty
+                              ? mzansiProfileProvider.user!.username
+                              : "username",
+                          style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.secondary(),
                           ),
                         ),
+                      ),
+                      FittedBox(
+                        child: Text(
+                          mzansiProfileProvider.user!.fname.isNotEmpty
+                              ? "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}"
+                              : "Name Surname",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.secondary(),
+                          ),
+                        ),
+                      ),
+                      FittedBox(
+                        child: Text(
+                          mzansiProfileProvider.business != null
+                              ? "Business".toUpperCase()
+                              : "Personal".toUpperCase(),
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.secondary(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Center(
+                        child: SizedBox(
+                          width: 700,
+                          child: Text(
+                            mzansiProfileProvider.user!.purpose.isNotEmpty
+                                ? mzansiProfileProvider.user!.purpose
+                                : "",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: MihColors.secondary(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15.0),
+                      MihProfileLinks(
+                        displayCustomName: true,
+                        links: mzansiProfileProvider.personalLinks,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          mzansiProfileProvider.user!.username != ""
+                              ? MihButton(
+                                  onPressed: () {
+                                    addProfileLinksWindow();
+                                  },
+                                  buttonColor: MihColors.green(),
+                                  width: mzansiProfileProvider
+                                          .personalLinks.isNotEmpty
+                                      ? 50
+                                      : null,
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
+                                        color: MihColors.primary(),
+                                      ),
+                                      if (mzansiProfileProvider
+                                          .personalLinks.isEmpty)
+                                        Text(
+                                          "Add Links",
+                                          style: TextStyle(
+                                            color: MihColors.primary(),
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                )
+                              : MihButton(
+                                  onPressed: () {
+                                    editProfileWindow();
+                                  },
+                                  buttonColor: MihColors.green(),
+                                  width: null,
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.edit,
+                                        color: MihColors.primary(),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Add Profile",
+                                        style: TextStyle(
+                                          color: MihColors.primary(),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          const SizedBox(width: 8.0),
+                          if (mzansiProfileProvider.personalLinks.isNotEmpty)
+                            MihButton(
+                              onPressed: () {
+                                editProfileLinksWindow();
+                              },
+                              buttonColor: MihColors.green(),
+                              width: 50,
+                              height: 50,
+                              child: Icon(
+                                Icons.edit,
+                                color: MihColors.primary(),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 20.0),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                right: 10,
+                top: 10,
+                child: MihButton(
+                  onPressed: () {
+                    editProfileWindow();
+                  },
+                  buttonColor: MihColors.green(),
+                  width: 100,
+                  height: 35,
+                  child: Text(
+                    "Edit Profile",
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         }
       },

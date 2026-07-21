@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
@@ -90,6 +89,19 @@ class _MihAddBusinessLinkWindowState extends State<MihAddBusinessLinkWindow> {
                     : EdgeInsets.symmetric(horizontal: screenWidth * 0),
             child: Column(
               children: [
+                const SizedBox(height: 10.0),
+                Row(
+                  children: [
+                    Text(
+                      "*NB: Internet connection required to add profile links.",
+                      style: TextStyle(
+                        color: MihColors.red(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5.0),
                 MihForm(
                   formKey: _formKey,
                   formFields: [
@@ -161,31 +173,33 @@ class _MihAddBusinessLinkWindowState extends State<MihAddBusinessLinkWindow> {
                     MihButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          MihProfileLinksServices.loadingPopUp(context);
-                          int statusCode =
-                              await MihProfileLinksServices.addProfileLink(
-                            profileProvider,
-                            "",
-                            profileProvider.business!.business_id,
-                            _dropdownLinkNameController.text,
-                            _linkNameController.text,
-                            _destinationController.text,
-                            profileProvider.businessLinks.length + 1,
-                          );
-                          KenLogger.success("Status COde: $statusCode");
-                          context.pop();
-                          if (statusCode == 201) {
-                            await MihProfileLinksServices
-                                .getBusinessProfileLinks(
+                          try {
+                            MihProfileLinksServices.loadingPopUp(context);
+                            int statusCode =
+                                await MihProfileLinksServices.addProfileLink(
                               profileProvider,
+                              "",
                               profileProvider.business!.business_id,
+                              _dropdownLinkNameController.text,
+                              _linkNameController.text,
+                              _destinationController.text,
+                              profileProvider.businessLinks.length + 1,
                             );
+                            if (statusCode == 201) {
+                              context.pop();
+                              context.pop();
+                              profileProvider.syncWithMihServerData();
+                              successPopUp(
+                                  "Profile Link Added",
+                                  "You have successfully added a new link to your business",
+                                  0);
+                            } else {
+                              context.pop();
+                              MihAlertServices()
+                                  .internetConnectionAlert(context);
+                            }
+                          } catch (error) {
                             context.pop();
-                            successPopUp(
-                                "Profile Link Added",
-                                "You have successfully added a new link to your business",
-                                0);
-                          } else {
                             MihAlertServices().internetConnectionAlert(context);
                           }
                         } else {

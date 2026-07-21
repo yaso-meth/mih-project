@@ -73,7 +73,6 @@ class MihGoRouter {
   final GoRouter mihRouter = GoRouter(
     initialLocation: MihGoRouterPaths.mihHome,
     redirect: (BuildContext context, GoRouterState state) async {
-      // final bool isUserSignedIn = await SuperTokens.doesSessionExist();
       MzansiProfileProvider profileProvider =
           context.read<MzansiProfileProvider>();
       final bool isUserSignedIn = profileProvider.hasLocalProfile();

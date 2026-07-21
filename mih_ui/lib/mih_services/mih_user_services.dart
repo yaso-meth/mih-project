@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -185,28 +184,28 @@ class MihUserServices {
     var fileName = profilePicture.replaceAll(RegExp(r' '), '-');
     var filePath = "${signedInUser.app_id}/profile_files/$fileName";
     String profileType;
-    KenLogger.success("is Busines User: $isBusinessUser");
     if (isBusinessUser) {
       profileType = "business";
     } else {
       profileType = "personal";
     }
-    KenLogger.success("Profile Type: $profileType");
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "idusers": signedInUser.idUser,
-        "username": username,
-        "fnam": firstName,
-        "lname": lastName,
-        "type": profileType,
-        "pro_pic_path": filePath,
-        "purpose": purpose,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "idusers": signedInUser.idUser,
+            "username": username,
+            "fnam": firstName,
+            "lname": lastName,
+            "type": profileType,
+            "pro_pic_path": filePath,
+            "purpose": purpose,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       context.read<MzansiProfileProvider>().setUser(
             newUser: AppUser(

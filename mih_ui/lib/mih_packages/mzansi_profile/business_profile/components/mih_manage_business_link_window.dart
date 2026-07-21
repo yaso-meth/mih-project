@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_edit_business_link_window.dart';
@@ -35,17 +36,23 @@ class _MihManageBusinessLinkWindowState
       [
         MihButton(
           onPressed: () async {
-            MihProfileLinksServices.loadingPopUp(context);
-            int statusCode = await MihProfileLinksServices.deleteProfileLink(
-              profileProvider,
-              idprofile_links,
-            );
-            context.pop();
-            context.pop();
-            if (statusCode == 200) {
-              successPopUp("profile Link Deleted",
-                  "you have successfully deleted a link to your business", 0);
-            } else {
+            try {
+              MihProfileLinksServices.loadingPopUp(context);
+              int statusCode = await MihProfileLinksServices.deleteProfileLink(
+                profileProvider,
+                idprofile_links,
+              );
+              if (statusCode == 200) {
+                context.pop();
+                context.pop();
+                successPopUp("profile Link Deleted",
+                    "you have successfully deleted a link to your business", 0);
+              } else {
+                context.pop();
+                MihAlertServices().internetConnectionAlert(context);
+              }
+            } catch (error) {
+              context.pop();
               MihAlertServices().internetConnectionAlert(context);
             }
           },
@@ -116,7 +123,7 @@ class _MihManageBusinessLinkWindowState
 
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Consumer<MzansiProfileProvider>(
       builder: (
         BuildContext context,
@@ -132,6 +139,25 @@ class _MihManageBusinessLinkWindowState
           },
           windowBody: Column(
             children: [
+              const SizedBox(height: 10.0),
+              Padding(
+                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
+                        "desktop"
+                    ? EdgeInsets.symmetric(horizontal: screenWidth * 0.05)
+                    : EdgeInsets.symmetric(horizontal: screenWidth * 0),
+                child: Row(
+                  children: [
+                    Text(
+                      "*NB: Internet connection required to manage profile links.",
+                      style: TextStyle(
+                        color: MihColors.red(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5.0),
               Expanded(
                 child: Theme(
                   data: Theme.of(context).copyWith(
@@ -180,7 +206,7 @@ class _MihManageBusinessLinkWindowState
                         );
                       },
                       itemCount: profileProvider.businessLinks.length,
-                      onReorder: (oldIndex, newIndex) {
+                      onReorderItem: (oldIndex, newIndex) {
                         profileProvider.reorderBusinessLinks(
                             oldIndex: oldIndex, newIndex: newIndex);
                       }),
@@ -189,35 +215,41 @@ class _MihManageBusinessLinkWindowState
               MihButton(
                 onPressed: () async {
                   MihProfileLinksServices.loadingPopUp(context);
-                  int newIndex = 1;
-                  bool hasError = false;
-                  for (var link in profileProvider.businessLinks) {
-                    int statusCode =
-                        await MihProfileLinksServices.updateProfileLink(
-                            profileProvider,
-                            link.idprofile_links,
-                            link.app_id,
-                            link.business_id,
-                            link.site_name,
-                            link.custom_name,
-                            link.destination,
-                            newIndex,
-                            context);
-                    if (statusCode != 200) {
-                      hasError = true;
-                      break;
+                  try {
+                    int newIndex = 1;
+                    bool hasError = false;
+                    for (var link in profileProvider.businessLinks) {
+                      int statusCode =
+                          await MihProfileLinksServices.updateProfileLink(
+                              profileProvider,
+                              link.idprofile_links,
+                              link.app_id,
+                              link.business_id,
+                              link.site_name,
+                              link.custom_name,
+                              link.destination,
+                              newIndex,
+                              context);
+                      if (statusCode != 200) {
+                        hasError = true;
+                        break;
+                      }
+                      newIndex++;
                     }
-                    newIndex++;
-                  }
-                  if (hasError) {
+                    if (hasError) {
+                      MihAlertServices().internetConnectionAlert(context);
+                    } else {
+                      context.pop();
+                      context.pop();
+                      profileProvider.syncWithMihServerData();
+                      successPopUp(
+                          "profile Link Reordered",
+                          "you have successfully reordered your profile links",
+                          0);
+                    }
+                  } catch (error) {
+                    context.pop();
                     MihAlertServices().internetConnectionAlert(context);
-                  } else {
-                    context.pop();
-                    context.pop();
-                    successPopUp(
-                        "profile Link Reordered",
-                        "you have successfully reordered your profile links",
-                        0);
                   }
                 },
                 buttonColor: MihColors.green(),

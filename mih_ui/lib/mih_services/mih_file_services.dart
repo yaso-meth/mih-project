@@ -50,7 +50,7 @@ class MihFileApi {
     PlatformFile? file,
     BuildContext context,
   ) async {
-    loadingPopUp(context);
+    // loadingPopUp(context);
     var token = await SuperTokens.getAccessToken();
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
@@ -68,7 +68,7 @@ class MihFileApi {
       ),
     );
     var response = await request.send();
-    context.pop(); // Pop loading dialog
+    // context.pop(); // Pop loading dialog
     return response.statusCode;
   }
 

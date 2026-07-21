@@ -91,6 +91,19 @@ class _MihAddUserProfileLinksWindowState
                     : EdgeInsets.symmetric(horizontal: screenWidth * 0),
             child: Column(
               children: [
+                const SizedBox(height: 10.0),
+                Row(
+                  children: [
+                    Text(
+                      "*NB: Internet connection required to add profile links.",
+                      style: TextStyle(
+                        color: MihColors.red(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5.0),
                 MihForm(
                   formKey: _formKey,
                   formFields: [
@@ -162,30 +175,33 @@ class _MihAddUserProfileLinksWindowState
                     MihButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          MihProfileLinksServices.loadingPopUp(context);
-                          int statusCode =
-                              await MihProfileLinksServices.addProfileLink(
-                            profileProvider,
-                            profileProvider.user!.app_id,
-                            "",
-                            _dropdownLinkNameController.text,
-                            _linkNameController.text,
-                            _destinationController.text,
-                            profileProvider.personalLinks.length + 1,
-                          );
-                          KenLogger.success("Status COde: $statusCode");
-                          context.pop();
-                          if (statusCode == 201) {
-                            await MihProfileLinksServices.getUserProfileLinks(
+                          try {
+                            MihProfileLinksServices.loadingPopUp(context);
+                            int statusCode =
+                                await MihProfileLinksServices.addProfileLink(
                               profileProvider,
                               profileProvider.user!.app_id,
+                              "",
+                              _dropdownLinkNameController.text,
+                              _linkNameController.text,
+                              _destinationController.text,
+                              profileProvider.personalLinks.length + 1,
                             );
+                            if (statusCode == 201) {
+                              context.pop();
+                              context.pop();
+                              profileProvider.syncWithMihServerData();
+                              successPopUp(
+                                  "Profile Link Added",
+                                  "You have successfully added a new link to your profile",
+                                  0);
+                            } else {
+                              context.pop();
+                              MihAlertServices()
+                                  .internetConnectionAlert(context);
+                            }
+                          } catch (error) {
                             context.pop();
-                            successPopUp(
-                                "Profile Link Added",
-                                "You have successfully added a new link to your profile",
-                                0);
-                          } else {
                             MihAlertServices().internetConnectionAlert(context);
                           }
                         } else {

@@ -3,7 +3,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -17,6 +16,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class MihBusinessDetailsSetUp extends StatefulWidget {
   const MihBusinessDetailsSetUp({super.key});
@@ -64,33 +64,46 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
 
   Future<void> createBusinessProfileAPICall(
       MzansiProfileProvider mzansiProfileProvider) async {
-    Response response =
-        await MihBusinessDetailsServices().createBusinessDetails(
-      mzansiProfileProvider,
-      nameController.text,
-      typeController.text,
-      regController.text,
-      practiceNoController.text,
-      vatNoController.text,
-      emailController.text,
-      getNumberWithCountryCode(),
-      locationController.text,
-      logoFileNameController.text,
-      websiteController.text,
-      "0",
-      missionVisionController.text,
-      context,
-    );
-    if (response.statusCode == 201) {
-      bool successUpload =
-          await uploadFile(mzansiProfileProvider, newSelectedLogoPic);
-      if (successUpload) {
-        String logoUrl = MihFileApi.getMinioFileUrlV2(
-            mzansiProfileProvider.business!.logo_path);
-        mzansiProfileProvider.setBusinessProfilePicUrl(logoUrl);
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      String business_id = Uuid().v4();
+      int responseCode = await MihBusinessDetailsServices().addBusiness(
+        mzansiProfileProvider,
+        business_id,
+        nameController.text,
+        typeController.text,
+        regController.text,
+        practiceNoController.text,
+        vatNoController.text,
+        emailController.text,
+        getNumberWithCountryCode(),
+        locationController.text,
+        logoFileNameController.text,
+        websiteController.text,
+        "0",
+        missionVisionController.text,
+        context,
+      );
+      if (responseCode == 201) {
+        bool successUpload =
+            await uploadFile(mzansiProfileProvider, newSelectedLogoPic);
+        if (successUpload) {
+          String logoUrl = MihFileApi.getMinioFileUrlV2(
+              mzansiProfileProvider.business!.logo_path);
+          mzansiProfileProvider.setBusinessProfilePicUrl(logoUrl);
+        }
+        await createBusinessUserAPICall(mzansiProfileProvider);
+      } else {
+        context.pop();
+        MihAlertServices().internetConnectionAlert(context);
       }
-      await createBusinessUserAPICall(mzansiProfileProvider);
-    } else {
+    } catch (error) {
+      context.pop();
       MihAlertServices().internetConnectionAlert(context);
     }
   }
@@ -115,6 +128,8 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
         mzansiProfileProvider.setBusinessUserSignatureUrl(sigUrl);
         String message =
             "Your business profile is now live! You can now start connecting with customers and growing your business.";
+        context.pop();
+        mzansiProfileProvider.syncWithMihServerData();
         successPopUp(message, false);
       } else {
         MihAlertServices().internetConnectionAlert(context);
@@ -309,7 +324,18 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                     ),
                   ),
                   Divider(color: MihColors.secondary()),
-                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      Text(
+                        "*NB: Internet connection required to set up business profile.",
+                        style: TextStyle(
+                          color: MihColors.red(),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
                   MihForm(
                     formKey: _formKey,
                     formFields: [
@@ -680,7 +706,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                           buttonColor: MihColors.green(),
                           width: 300,
                           child: Text(
-                            "Set Up Buasiness",
+                            "Set Up Business",
                             style: TextStyle(
                               color: MihColors.primary(),
                               fontSize: 20,

@@ -39,7 +39,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     context.read<MzansiAiProvider>().reset();
     await context.read<AboutMihProvider>().clearAboutMihCacheAndProvider();
     await context.read<MzansiWalletProvider>().clearWalletCacheAndProvider();
-    await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
     await context
         .read<MzansiDirectoryProvider>()
         .clearDirectoryCacheAndProvider();
@@ -50,6 +49,8 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     await context
         .read<PatientManagerProvider>()
         .clearPatientManagerCacheAndProvider();
+    //last clear is always the profile provider
+    await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
   }
 
   Future<void> signOut() async {
