@@ -89,24 +89,21 @@ class MihBusinessEmployeeServices {
       String newTitle,
       String newAccess,
       BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/employees/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": employee.business_id,
-        "app_id": employee.app_id,
-        "title": newTitle,
-        "access": newAccess,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse(
+              "${AppEnviroment.baseApiUrl}/business-user/employees/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": employee.business_id,
+            "app_id": employee.app_id,
+            "title": newTitle,
+            "access": newAccess,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       provider.updateEmplyeeDetails(
         updatedEmployee: BusinessEmployee(
@@ -121,7 +118,6 @@ class MihBusinessEmployeeServices {
         ),
       );
     }
-    context.pop();
     return response.statusCode;
   }
 
@@ -130,12 +126,6 @@ class MihBusinessEmployeeServices {
     BusinessEmployee employee,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     var response = await http.delete(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/employees/delete/"),
       headers: <String, String>{
@@ -149,7 +139,6 @@ class MihBusinessEmployeeServices {
     if (response.statusCode == 200) {
       provider.deleteEmplyee(deletedEmployee: employee);
     }
-    context.pop();
     return response.statusCode;
   }
 }

@@ -97,30 +97,25 @@ class MihMyBusinessUserServices {
     MzansiProfileProvider provider,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     var filename = signatureFileName.replaceAll(RegExp(r' '), '-');
     var filePath =
         "$app_id/business_files/${signatureFileName.replaceAll(RegExp(r' '), '-')}";
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": business_id,
-        "app_id": app_id,
-        "signature": filename,
-        "sig_path": filePath,
-        "title": bUserTitle,
-        "access": bUserAccess,
-      }),
-    );
-    context.pop();
+    var response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": business_id,
+            "app_id": app_id,
+            "signature": filename,
+            "sig_path": filePath,
+            "title": bUserTitle,
+            "access": bUserAccess,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       provider.setBusinessUser(
         newBusinessUser: BusinessUser(

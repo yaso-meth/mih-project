@@ -130,7 +130,6 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
             }
           : null,
       child: SizedBox(
-        // alignment: Alignment.center,
         width: widget.width,
         height: widget.width,
         child: Stack(
@@ -151,6 +150,14 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
                 color: widget.frameColor,
               ),
             ] else ...[
+              Positioned(
+                right: widget.width * 0.03,
+                child: CircleAvatar(
+                  radius: widget.width / 2.2,
+                  backgroundColor: widget.backgroundColor,
+                  backgroundImage: imagePreview,
+                ),
+              ),
               Icon(
                 MihIcons.mihIDontKnow,
                 size: widget.width,

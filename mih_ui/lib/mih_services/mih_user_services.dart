@@ -113,6 +113,24 @@ class MihUserServices {
     }
   }
 
+  Future<AppUser?> getMIHUserDetailsV2(
+    String app_id,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
   Future<AppUser?> getMIHUserDetailsByUsername(
     String username,
     BuildContext context,

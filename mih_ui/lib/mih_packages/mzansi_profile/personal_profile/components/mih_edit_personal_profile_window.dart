@@ -56,47 +56,47 @@ class _MihEditPersonalProfileWindowState
   }
 
   Future<void> submitForm(MzansiProfileProvider mzansiProfileProvider) async {
-    if (mzansiProfileProvider.user!.username != usernameController.text) {
-      bool isUsernameUnique = await MihUserServices.isUsernameUnique(
-          usernameController.text, context);
-      if (isUsernameUnique == false) {
-        notUniqueAlert();
-        return;
+    try {
+      if (mzansiProfileProvider.user!.username != usernameController.text) {
+        bool isUsernameUnique = await MihUserServices.isUsernameUnique(
+            usernameController.text, context);
+        if (isUsernameUnique == false) {
+          notUniqueAlert();
+          return;
+        }
       }
+      if (oldProPicName != proPicController.text) {
+        await uploadSelectedFile(mzansiProfileProvider, newSelectedProPic);
+      }
+      await updateUserApiCall(mzansiProfileProvider);
+    } catch (erro) {
+      MihAlertServices().internetConnectionAlert(context);
     }
-    if (oldProPicName != proPicController.text) {
-      await uploadSelectedFile(mzansiProfileProvider, newSelectedProPic);
-    }
-    await updateUserApiCall(mzansiProfileProvider);
   }
 
   Future<void> updateUserApiCall(
       MzansiProfileProvider mzansiProfileProvider) async {
-    try {
-      int responseCode = await MihUserServices().updateUserV2(
-        mzansiProfileProvider.user!,
-        fnameController.text,
-        lnameController.text,
-        usernameController.text,
-        proPicController.text,
-        purposeController.text,
-        businessUser,
-        context,
+    int responseCode = await MihUserServices().updateUserV2(
+      mzansiProfileProvider.user!,
+      fnameController.text,
+      lnameController.text,
+      usernameController.text,
+      proPicController.text,
+      purposeController.text,
+      businessUser,
+      context,
+    );
+    if (responseCode == 200) {
+      setState(() {
+        newSelectedProPic = null;
+      });
+      mzansiProfileProvider.syncWithMihServerData();
+      String message = "Your information has been updated successfully!";
+      successPopUp(
+        mzansiProfileProvider,
+        message,
       );
-      if (responseCode == 200) {
-        setState(() {
-          newSelectedProPic = null;
-        });
-        mzansiProfileProvider.syncWithMihServerData();
-        String message = "Your information has been updated successfully!";
-        successPopUp(
-          mzansiProfileProvider,
-          message,
-        );
-      } else {
-        MihAlertServices().internetConnectionAlert(context);
-      }
-    } catch (erro) {
+    } else {
       MihAlertServices().internetConnectionAlert(context);
     }
   }
