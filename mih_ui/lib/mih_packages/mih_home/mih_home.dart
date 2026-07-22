@@ -14,6 +14,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_bu
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tools/mih_personal_home.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -82,6 +83,8 @@ class _MihHomeState extends State<MihHome> {
       AboutMihProvider aboutProvider = context.read<AboutMihProvider>();
       MihCalendarProvider calendarProvider =
           context.read<MihCalendarProvider>();
+      PatientManagerProvider patientManagerProvider =
+          context.read<PatientManagerProvider>();
       await profileProvider.syncWithMihServerData();
       await walletProvider.syncWithMihServerData(profileProvider);
       await directoryProvider.syncWithMihServerData(profileProvider);
@@ -89,6 +92,8 @@ class _MihHomeState extends State<MihHome> {
           profileProvider, mineSweeperProvider);
       await aboutProvider.syncWithMihServerData();
       await calendarProvider.syncWithMihServerData(profileProvider);
+      await patientManagerProvider.syncWithMihServerData(
+          profileProvider.user!.app_id, profileProvider.business?.bus_email);
       _showSyncSnackBar(context, "Data Synced with MIH Cloud.");
     } catch (syncError) {
       MihAlertServices().errorBasicAlert(
@@ -127,9 +132,7 @@ class _MihHomeState extends State<MihHome> {
     if (mzansiProfileProvider.user == null) {
       await mzansiProfileProvider.syncWithMihServerData();
     }
-    if (mzansiProfileProvider.isLocalModificationsPending()) {
-      mzansiProfileProvider.syncWithMihServerData();
-    }
+    mzansiProfileProvider.syncWithMihServerData();
   }
 
   @override

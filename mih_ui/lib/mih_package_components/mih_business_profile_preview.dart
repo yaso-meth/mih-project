@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -30,7 +31,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
           1000;
       return "${distanceInKm.toStringAsFixed(2)} km";
     } catch (error) {
-      print(error);
+      KenLogger.error(error);
       return "*.** km";
     }
   }
@@ -70,7 +71,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                         userSelectedfile: null,
                         frameColor: MihColors.secondary(),
                         backgroundColor: MihColors.primary(),
-                        onChange: () {},
+                        onChange: null,
                       ),
             const SizedBox(width: 15),
             Column(

@@ -14,6 +14,7 @@ import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
@@ -43,13 +44,14 @@ void main() async {
   await Hive.openBox<ProfileLink>('personal_profile_links_box');
   await Hive.openBox<ProfileLink>('business_profile_links_box');
   await Hive.openBox<BusinessEmployee>('business_employees_box');
+  await Hive.openBox<BusinessReview>('business_reviews_box');
   await Hive.openBox<Map>('profile_modifications_queue');
   // Mzansi Wallet Data
   await Hive.openBox<MIHLoyaltyCard>('loyalty_card_box');
   await Hive.openBox<MIHLoyaltyCard>('fav_loyalty_card_box');
   await Hive.openBox<Map>('wallet_modifications_queue');
   // About MIH Data
-  await Hive.openBox<int>('about_mih_box');
+  await Hive.openBox('about_mih_box');
   // Mih Calendar Data
   await Hive.openBox<List>('personal_calendar_box');
   await Hive.openBox<List>('business_calendar_box');
@@ -63,7 +65,7 @@ void main() async {
   await Hive.openBox<List>('ms_my_leaderboard_box');
   await Hive.openBox<Map>('minesweeper_modifications_queue');
   //Patient Manager Data
-  await Hive.openBox<Patient>('patient_info_box');
+  await Hive.openBox<Patient?>('patient_info_box');
   await Hive.openBox<List>('patient_note_box');
   await Hive.openBox<List>('patient_file_box');
   await Hive.openBox<List>('patient_claim_box');

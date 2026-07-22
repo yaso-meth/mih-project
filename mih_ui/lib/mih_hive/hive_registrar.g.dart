@@ -12,6 +12,7 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(BookmarkedBusinessAdapter());
     registerAdapter(BusinessAdapter());
     registerAdapter(BusinessEmployeeAdapter());
+    registerAdapter(BusinessReviewAdapter());
     registerAdapter(BusinessUserAdapter());
     registerAdapter(ClaimStatementFileAdapter());
     registerAdapter(MIHLoyaltyCardAdapter());
@@ -32,6 +33,7 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(BookmarkedBusinessAdapter());
     registerAdapter(BusinessAdapter());
     registerAdapter(BusinessEmployeeAdapter());
+    registerAdapter(BusinessReviewAdapter());
     registerAdapter(BusinessUserAdapter());
     registerAdapter(ClaimStatementFileAdapter());
     registerAdapter(MIHLoyaltyCardAdapter());

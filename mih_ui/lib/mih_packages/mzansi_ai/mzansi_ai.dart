@@ -31,7 +31,11 @@ class _MzansiAiState extends State<MzansiAi> {
   void initState() {
     super.initState();
     _aiChat = MihAiChat();
-    _syncProfileData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _syncProfileData();
+      }
+    });
   }
 
   @override

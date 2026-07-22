@@ -192,7 +192,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                             userSelectedfile: file,
                             frameColor: MihColors.primary(),
                             backgroundColor: MihColors.secondary(),
-                            onChange: () {},
+                            onChange: null,
                           )
                         : MihCircleAvatar(
                             imageFile: CachedNetworkImageProvider(
@@ -205,7 +205,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                             userSelectedfile: file,
                             frameColor: MihColors.primary(),
                             backgroundColor: MihColors.secondary(),
-                            onChange: () {},
+                            onChange: null,
                           ),
                   ),
                   Center(

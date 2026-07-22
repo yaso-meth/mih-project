@@ -231,11 +231,11 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                                 imageFilter: ImageFilter.blur(
                                     sigmaX: 15.0, sigmaY: 15.0),
                                 child: MihImageDisplay(
-                                  key: UniqueKey(),
                                   imageFile: mzansiProfileProvider
                                       .businessUserSignature,
                                   width: 300,
                                   height: 200,
+                                  expandable: false,
                                   editable: false,
                                   fileNameController: signtureController,
                                   userSelectedfile: newSelectedSignaturePic,
@@ -244,11 +244,11 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                               ),
                             )
                           : MihImageDisplay(
-                              key: UniqueKey(),
                               imageFile:
                                   mzansiProfileProvider.businessUserSignature,
                               width: 300,
                               height: 200,
+                              expandable: true,
                               editable: false,
                               fileNameController: signtureController,
                               userSelectedfile: newSelectedSignaturePic,

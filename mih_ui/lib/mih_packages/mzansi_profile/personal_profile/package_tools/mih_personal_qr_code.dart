@@ -197,7 +197,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                             userSelectedfile: file,
                             frameColor: MihColors.primary(),
                             backgroundColor: MihColors.secondary(),
-                            onChange: () {},
+                            onChange: null,
                           )
                         : MihCircleAvatar(
                             imageFile: CachedNetworkImageProvider(
@@ -210,7 +210,7 @@ class _MihPersonalQrCodeState extends State<MihPersonalQrCode> {
                             userSelectedfile: file,
                             frameColor: MihColors.primary(),
                             backgroundColor: MihColors.secondary(),
-                            onChange: () {},
+                            onChange: null,
                           ),
                   ),
                   Center(

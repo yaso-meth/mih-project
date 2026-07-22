@@ -3,12 +3,14 @@ import 'package:ken_logger/ken_logger.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_my_business_user_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_consent_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
@@ -24,6 +26,8 @@ class MzansiProfileHiveData {
       Hive.box<ProfileLink>('personal_profile_links_box');
   final Box<ProfileLink> _businessProfileLinksBox =
       Hive.box<ProfileLink>('business_profile_links_box');
+  final Box<BusinessReview> _businessReviewsBox =
+      Hive.box<BusinessReview>('business_reviews_box');
   final Box<BusinessEmployee> _businessEmployeesBox =
       Hive.box<BusinessEmployee>('business_Employees_box');
   final Box<Map> _modificationsQueue =
@@ -39,6 +43,7 @@ class MzansiProfileHiveData {
       await _personalProfileLinksBox.clear();
       await _businessProfileLinksBox.clear();
       await _businessEmployeesBox.clear();
+      await _businessReviewsBox.clear();
       await _modificationsQueue.clear();
       KenLogger.success("Cleared Local Profile Cache.");
     } catch (error) {
@@ -77,6 +82,10 @@ class MzansiProfileHiveData {
     final employees = _businessEmployeesBox.values.toList();
     employees.sort((a, b) => a.fname.compareTo(b.fname));
     return employees;
+  }
+
+  List<BusinessReview> getCachedBusinessReviews() {
+    return _businessReviewsBox.values.toList();
   }
 
   // Caching Data to local storage
@@ -118,7 +127,14 @@ class MzansiProfileHiveData {
       List<ProfileLink> remoteBusinessLinks) async {
     await _businessProfileLinksBox.clear();
     await _businessProfileLinksBox.addAll(remoteBusinessLinks);
-    KenLogger.success("Personal Profile Links Cached");
+    KenLogger.success("Business Profile Links Cached");
+  }
+
+  Future<void> cacheBusinessReviewsData(
+      List<BusinessReview> remoteBusinessReviews) async {
+    await _businessReviewsBox.clear();
+    await _businessReviewsBox.addAll(remoteBusinessReviews);
+    KenLogger.success("Business Reviews Cached");
   }
 
   // Sync Local Data from data from MIH Server
@@ -155,6 +171,10 @@ class MzansiProfileHiveData {
             await MihProfileLinksServices.getBusinessProfileLinksV2(
                 remoteBusiness.business_id);
         await cacheBusinessProfileLinksData(remoteBusinessLinks);
+
+        final remoteBusinessReviews = await MihMzansiDirectoryServices()
+            .getAllReviewsofBusiness(remoteBusiness.business_id);
+        await cacheBusinessReviewsData(remoteBusinessReviews);
       }
       return true;
     } catch (error) {

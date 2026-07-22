@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/claim_statement_file.dart';
 import 'package:mzansi_innovation_hub/mih_objects/files.dart';
@@ -23,6 +24,7 @@ import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
   AdapterSpec<UserConsent>(),
   AdapterSpec<ProfileLink>(),
   AdapterSpec<BusinessEmployee>(),
+  AdapterSpec<BusinessReview>(),
   AdapterSpec<MIHLoyaltyCard>(),
   AdapterSpec<Appointment>(),
   AdapterSpec<BookmarkedBusiness>(),

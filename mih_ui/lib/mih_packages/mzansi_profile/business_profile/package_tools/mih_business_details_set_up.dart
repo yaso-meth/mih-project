@@ -683,6 +683,7 @@ class _MihBusinessDetailsSetUpState extends State<MihBusinessDetailsSetUp> {
                               : mzansiProfileProvider.businessUserSignature,
                           width: 300,
                           height: 200,
+                          expandable: true,
                           editable: true,
                           fileNameController: signtureController,
                           userSelectedfile: newSelectedSignaturePic,

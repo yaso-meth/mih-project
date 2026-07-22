@@ -52,7 +52,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                     userSelectedfile: null,
                     frameColor: MihColors.secondary(),
                     backgroundColor: MihColors.primary(),
-                    onChange: () {},
+                    onChange: null,
                   ),
         const SizedBox(width: 15),
         Column(

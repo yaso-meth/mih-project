@@ -4,7 +4,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class AboutMihHiveData {
-  final Box<int> _mihUserBusinessCountBox = Hive.box<int>('about_mih_box');
+  final Box _mihUserBusinessCountBox = Hive.box('about_mih_box');
 
   static const String kUserCountKey = 'current_user_count';
   static const String kBusinessCountKey = 'current_business_count';
@@ -20,9 +20,17 @@ class AboutMihHiveData {
   }
 
   // Get Data from local storage
-  int? getcachedUserCount() => _mihUserBusinessCountBox.get(kUserCountKey);
-  int? getcachedBusinessCount() =>
-      _mihUserBusinessCountBox.get(kBusinessCountKey);
+  int? getcachedUserCount() {
+    final value = _mihUserBusinessCountBox.get(kUserCountKey);
+    if (value == null) return null;
+    return (value as num).toInt();
+  }
+
+  int? getcachedBusinessCount() {
+    final value = _mihUserBusinessCountBox.get(kBusinessCountKey);
+    if (value == null) return null;
+    return (value as num).toInt();
+  }
 
   // Caching Data to local storage
   Future<void> cacheUserCount(int remoteUserCount) async {

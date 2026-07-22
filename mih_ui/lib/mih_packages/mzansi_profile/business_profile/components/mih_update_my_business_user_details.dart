@@ -125,8 +125,8 @@ class _MihUpdateMyBusinessUserDetailsState
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
-                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+                    ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                    : EdgeInsets.symmetric(horizontal: width * 0),
             child: Stack(
               children: [
                 Column(
@@ -233,6 +233,7 @@ class _MihUpdateMyBusinessUserDetailsState
                                 : mzansiProfileProvider.businessUserSignature,
                             width: 300,
                             height: 200,
+                            expandable: true,
                             editable: true,
                             fileNameController: signtureController,
                             userSelectedfile: newSelectedSignaturePic,

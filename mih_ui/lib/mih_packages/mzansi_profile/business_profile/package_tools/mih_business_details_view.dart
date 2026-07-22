@@ -76,7 +76,7 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                         userSelectedfile: file,
                         frameColor: MihColors.secondary(),
                         backgroundColor: MihColors.primary(),
-                        onChange: () {},
+                        onChange: null,
                       ),
                       FittedBox(
                         child: Text(

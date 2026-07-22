@@ -831,3 +831,58 @@ class PatientAdapter extends TypeAdapter<Patient> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class BusinessReviewAdapter extends TypeAdapter<BusinessReview> {
+  @override
+  final typeId = 16;
+
+  @override
+  BusinessReview read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return BusinessReview(
+      idbusiness_ratings: (fields[0] as num).toInt(),
+      app_id: fields[1] as String,
+      business_id: fields[2] as String,
+      rating_title: fields[3] as String,
+      rating_description: fields[4] as String,
+      rating_score: fields[5] as String,
+      date_time: fields[6] as String,
+      reviewer: fields[7] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, BusinessReview obj) {
+    writer
+      ..writeByte(8)
+      ..writeByte(0)
+      ..write(obj.idbusiness_ratings)
+      ..writeByte(1)
+      ..write(obj.app_id)
+      ..writeByte(2)
+      ..write(obj.business_id)
+      ..writeByte(3)
+      ..write(obj.rating_title)
+      ..writeByte(4)
+      ..write(obj.rating_description)
+      ..writeByte(5)
+      ..write(obj.rating_score)
+      ..writeByte(6)
+      ..write(obj.date_time)
+      ..writeByte(7)
+      ..write(obj.reviewer);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BusinessReviewAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

@@ -77,7 +77,7 @@ class _BuildMinesweeperLeaderboardListState
                           userSelectedfile: null,
                           frameColor: getMedalColor(index),
                           backgroundColor: MihColors.primary(),
-                          onChange: () {},
+                          onChange: null,
                         ),
                   const SizedBox(width: 10),
                   Column(
