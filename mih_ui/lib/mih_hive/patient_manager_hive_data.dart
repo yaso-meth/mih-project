@@ -11,7 +11,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 
 class PatientManagerHiveData {
-  final Box<Patient> _patientInfoBox = Hive.box<Patient>('patient_info_box');
+  final Box<Patient?> _patientInfoBox = Hive.box<Patient?>('patient_info_box');
   final Box<List> _patientNoteBox = Hive.box<List>('patient_note_box');
   final Box<List> _patientFileBox = Hive.box<List>('patient_file_box');
   final Box<List> _patientClaimBox = Hive.box<List>('patient_claim_box');
@@ -82,8 +82,8 @@ class PatientManagerHiveData {
     return _myPatientAccessListBox.values.toList();
   }
 
-  Future<void> cachePatientData(Patient remotePatient) async {
-    await _patientInfoBox.put(remotePatient.app_id, remotePatient);
+  Future<void> cachePatientData(String appId, Patient? remotePatient) async {
+    await _patientInfoBox.put(appId, remotePatient);
     KenLogger.success("Patient Info Cached");
   }
 
@@ -129,7 +129,7 @@ class PatientManagerHiveData {
       final remotePatient =
           await MihPatientServices().getPatientDetailsV2(appId);
       if (remotePatient != null) {
-        await cachePatientData(remotePatient);
+        await cachePatientData(appId, remotePatient);
         final remotePatientUser = await MihUserServices().getMyUserDetailsV2();
         final remoteProPicUrl =
             MihFileApi.getMinioFileUrlV2(remotePatientUser!.pro_pic_path);
@@ -145,8 +145,10 @@ class PatientManagerHiveData {
         await cachePatientClaimsData(remotePatient.app_id, remotePatientClaims);
         return true;
       } else {
-        throw Exception(
-            "Failed to sync: No patient details found on the server for appId: $appId.");
+        await cachePatientData(appId, remotePatient);
+        // KenLogger.info(
+        //     "Patient Manager: No patient details found on the server for appId: $appId.");
+        return true;
       }
     } catch (error) {
       KenLogger.warning(

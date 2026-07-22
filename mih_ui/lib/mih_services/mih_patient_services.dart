@@ -111,25 +111,47 @@ class MihPatientServices {
     if (response.statusCode == 201) {
       await getPatientDetails(
           profileProvider.user!.app_id, patientManagerProvider);
-      // patientManagerProvider.setSelectedPatient(
-      //   selectedPatient: Patient(
-      //     idpatients: 0,
-      //     id_no: id_no,
-      //     first_name: fname,
-      //     last_name: lname,
-      //     email: email,
-      //     cell_no: cell,
-      //     medical_aid: medAid,
-      //     medical_aid_name: medName,
-      //     medical_aid_no: medNo,
-      //     medical_aid_main_member: medMainMem,
-      //     medical_aid_code: medAidCode,
-      //     medical_aid_scheme: medScheme,
-      //     address: address,
-      //     app_id: profileProvider.user!.app_id,
-      //   ),
-      // );
     }
+    return response.statusCode;
+  }
+
+  Future<int> addPatientServiceV2(
+    String id_no,
+    String fname,
+    String lname,
+    String email,
+    String cell,
+    String medAid,
+    String medMainMem,
+    String medNo,
+    String medAidCode,
+    String medName,
+    String medScheme,
+    String address,
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/patients/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "id_no": id_no,
+        "first_name": fname,
+        "last_name": lname,
+        "email": email,
+        "cell_no": cell,
+        "medical_aid": medAid,
+        "medical_aid_main_member": medMainMem,
+        "medical_aid_no": medNo,
+        "medical_aid_code": medAidCode,
+        "medical_aid_name": medName,
+        "medical_aid_scheme": medScheme,
+        "address": address,
+        "app_id": profileProvider.user!.app_id,
+      }),
+    );
     return response.statusCode;
   }
 

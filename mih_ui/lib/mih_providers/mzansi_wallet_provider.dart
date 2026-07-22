@@ -23,7 +23,6 @@ class MzansiWalletProvider extends ChangeNotifier {
   void loadCachedWallet() {
     loyaltyCards = _hiveData.getCachedLoyaltyCards();
     favouriteCards = _hiveData.getCachedFavLoyaltyCards();
-
     KenLogger.success("Mzansi Wallet Loaded from Cache");
     notifyListeners();
   }

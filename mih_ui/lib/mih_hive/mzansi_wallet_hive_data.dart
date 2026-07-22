@@ -41,11 +41,11 @@ class MzansiWalletHiveData {
   // Set Offline Data
   Future<void> addLoyaltyCardLocally(MIHLoyaltyCard newCard) async {
     await _loyaltyCardBox.put(newCard.offline_id, newCard);
-
+    KenLogger.success("New Card Saved Locally.");
     if (newCard.favourite == "Yes") {
       await _favLoyaltyCardBox.put(newCard.offline_id, newCard);
+      KenLogger.success("New Card Added To Favourites.");
     }
-    KenLogger.success("New Card Saved Locally.");
   }
 
   Future<void> deleteLoyaltyCardLocally(MIHLoyaltyCard deleteCard) async {

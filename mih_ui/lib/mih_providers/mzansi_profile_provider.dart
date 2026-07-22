@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
@@ -31,6 +32,7 @@ class MzansiProfileProvider extends ChangeNotifier {
   bool hideBusinessUserDetails;
   List<ProfileLink> personalLinks = [];
   List<ProfileLink> businessLinks = [];
+  List<BusinessReview> businessReviews = [];
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -64,13 +66,10 @@ class MzansiProfileProvider extends ChangeNotifier {
       businessUserSignature =
           CachedNetworkImageProvider(businessUserSignatureUrl!);
     }
-
     employeeList = _hiveData.getCachedBusinessEmployees();
-
     personalLinks = _hiveData.getCachedPersonalProfileLinks();
-
     businessLinks = _hiveData.getCachedBusinessProfileLinks();
-
+    businessReviews = _hiveData.getCachedBusinessReviews();
     KenLogger.success("Mzansi Profile Loaded from Cache");
     notifyListeners();
   }

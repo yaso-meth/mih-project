@@ -305,7 +305,7 @@ class _PatientInfoState extends State<PatientInfo> {
                     userSelectedfile: null,
                     frameColor: MihColors.secondary(),
                     backgroundColor: MihColors.primary(),
-                    onChange: () {},
+                    onChange: null,
                   ),
                   const SizedBox(height: 10),
                   buildPatientInfoCard(patientManagerProvider),
