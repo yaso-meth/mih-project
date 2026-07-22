@@ -4,7 +4,6 @@ import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
@@ -288,7 +287,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   .last
                   .toLowerCase();
               return Material(
-                color: MihColors.highlight(),
+                color: MihColors.secondary(),
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAlias,
                 child: ListTile(
@@ -297,7 +296,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
                     Colors.black,
                     0.01,
                   ),
-                  hoverColor: MihColors.secondary(),
+                  hoverColor: MihColors.highlight(),
                   leading: getFileIcon(fileExtension),
                   title: Text(
                     patientManagerProvider.patientDocuments![index].file_name,

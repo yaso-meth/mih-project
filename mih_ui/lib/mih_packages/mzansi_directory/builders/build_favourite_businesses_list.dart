@@ -35,8 +35,8 @@ class _BuildFavouriteBusinessesListState
         return ListView.separated(
           itemCount: widget.favouriteBusinesses.length,
           separatorBuilder: (BuildContext context, index) {
-            return Divider(
-              color: Theme.of(context).colorScheme.secondary,
+            return SizedBox(
+              height: 3,
             );
           },
           itemBuilder: (context, index) {
@@ -44,8 +44,27 @@ class _BuildFavouriteBusinessesListState
               return const SizedBox(); // Or a placeholder if a business couldn't be loaded
             }
             return Material(
-              color: MihColors.primary(),
-              child: InkWell(
+              color: MihColors.secondary(),
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
+              child: ListTile(
+                hoverColor: MihColors.highlight(),
+                splashColor: Color.lerp(
+                  MihColors.bluishPurple(),
+                  Colors.black,
+                  0.01,
+                ),
+                title: MihBusinessProfilePreview(
+                  foregroundColor: MihColors.primary(),
+                  backgroundColor: MihColors.secondary(),
+                  business: widget.favouriteBusinesses[index]!,
+                  imageFile: CachedNetworkImageProvider(
+                    MihFileApi.getMinioFileUrlV2(
+                      widget.favouriteBusinesses[index]!.logo_path,
+                    ),
+                  ),
+                  loading: false,
+                ),
                 onTap: () {
                   directoryProvider.setSelectedBusiness(
                     business: widget.favouriteBusinesses[index]!,
@@ -54,22 +73,6 @@ class _BuildFavouriteBusinessesListState
                     'businessProfileView',
                   );
                 },
-                splashColor: MihColors.secondary().withOpacity(0.2),
-                borderRadius: BorderRadius.circular(15),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25,
-                  ),
-                  child: MihBusinessProfilePreview(
-                    business: widget.favouriteBusinesses[index]!,
-                    imageFile: CachedNetworkImageProvider(
-                      MihFileApi.getMinioFileUrlV2(
-                        widget.favouriteBusinesses[index]!.logo_path,
-                      ),
-                    ),
-                    loading: false,
-                  ),
-                ),
               ),
             );
           },

@@ -214,7 +214,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                 notePreview = "${notePreview.substring(0, 30)} ...";
               }
               return Material(
-                color: MihColors.highlight(),
+                color: MihColors.secondary(),
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAlias,
                 child: ListTile(
@@ -223,7 +223,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                     Colors.black,
                     0.01,
                   ),
-                  hoverColor: MihColors.secondary(),
+                  hoverColor: MihColors.highlight(),
                   leading: Icon(
                     Icons.note,
                     size: 50,

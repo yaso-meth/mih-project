@@ -77,7 +77,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
 
     int appointHour = int.parse(timePart.split(':')[0]);
 
-    Color appointmentColor = MihColors.highlight();
+    Color appointmentColor = MihColors.secondary();
 
     if (currentDate == datePart) {
       if (appointHour < hourNow) {
@@ -94,7 +94,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
       borderRadius: BorderRadius.circular(20),
       clipBehavior: Clip.antiAlias,
       child: ListTile(
-        hoverColor: MihColors.secondary(),
+        hoverColor: MihColors.highlight(),
         splashColor: Color.lerp(
           MihColors.bluishPurple(),
           Colors.black,

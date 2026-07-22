@@ -1,11 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -399,10 +404,9 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(
-            // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
             "${patientManagerProvider.patientSearchResults[index].first_name} ${patientManagerProvider.patientSearchResults[index].last_name}",
             style: TextStyle(
-              color: MihColors.secondary(),
+              color: MihColors.primary(),
             ),
           ),
           const SizedBox(
@@ -410,16 +414,15 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           ),
           Icon(
             Icons.star_border_rounded,
-            color: MihColors.secondary(),
+            color: MihColors.primary(),
           ),
         ],
       );
     } else {
       return Text(
-        // "$firstLetterFName$fnameStar $firstLetterLName$lnameStar",
         "${patientManagerProvider.patientSearchResults[index].first_name} ${patientManagerProvider.patientSearchResults[index].last_name}",
         style: TextStyle(
-          color: MihColors.secondary(),
+          color: MihColors.primary(),
         ),
       );
     }
@@ -442,54 +445,127 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       displayedIdNo = "${patientIdNo}******";
     }
 
+    Future<AppUser?> reviewer = MihUserServices().getMIHUserDetailsV2(
+        patientManagerProvider.patientSearchResults[index].app_id);
     if (patientManagerProvider.patientSearchResults[index].medical_aid ==
         "Yes") {
-      return ListTile(
-        title: isMainMember(patientManagerProvider, index),
-        subtitle: Text(
-          "ID No.: $displayedIdNo\nMedical Aid No.: $medAidNoStar",
-          style: TextStyle(
+      return Material(
+        color: MihColors.secondary(),
+        borderRadius: BorderRadius.circular(20),
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          splashColor: Color.lerp(
+            MihColors.bluishPurple(),
+            Colors.black,
+            0.01,
+          ),
+          hoverColor: MihColors.highlight(),
+          leading: FutureBuilder<AppUser?>(
+            future: reviewer,
+            builder: (context, snapshot) {
+              ImageProvider? image;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                image = CachedNetworkImageProvider("");
+              }
+
+              if (snapshot.hasData) {
+                String? userPicUrl =
+                    MihFileApi.getMinioFileUrlV2(snapshot.data!.pro_pic_path);
+                image = CachedNetworkImageProvider(userPicUrl);
+              }
+
+              if (snapshot.hasError) {
+                image = null;
+              }
+
+              return MihCircleAvatar(
+                imageFile: image,
+                width: 50,
+                expandable: true,
+                editable: false,
+                fileNameController: null,
+                userSelectedfile: null,
+                frameColor: MihColors.primary(),
+                backgroundColor: MihColors.secondary(),
+                onChange: null,
+              );
+            },
+          ),
+          title: isMainMember(patientManagerProvider, index),
+          subtitle: Text(
+            "ID No.: $displayedIdNo\nMedical Aid No.: $medAidNoStar",
+            style: TextStyle(
+              color: MihColors.primary(),
+            ),
+          ),
+          onTap: () {
+            patientProfileChoicePopUp(
+                profileProvider, patientManagerProvider, index);
+          },
+          trailing: Icon(
+            Icons.arrow_forward,
             color: MihColors.secondary(),
           ),
-        ),
-        onTap: () {
-          patientProfileChoicePopUp(
-              profileProvider, patientManagerProvider, index);
-          // setState(() {
-          //   appointmentPopUp(index);
-          //   // Add popup to add patienmt to queue
-          //   // Navigator.of(context).pushNamed('/patient-manager/patient',
-          //   //     arguments: PatientViewArguments(
-          //   //         widget.signedInUser, widget.patients[index], "business"));
-          // });
-        },
-        trailing: Icon(
-          Icons.arrow_forward,
-          color: MihColors.secondary(),
         ),
       );
     } else {
-      return ListTile(
-        title: isMainMember(patientManagerProvider, index),
-        subtitle: Text(
-          "ID No.: $displayedIdNo\nMedical Aid No.: $medAidNoStar",
-          style: TextStyle(
-            color: MihColors.secondary(),
+      return Material(
+        color: MihColors.secondary(),
+        borderRadius: BorderRadius.circular(20),
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          splashColor: Color.lerp(
+            MihColors.bluishPurple(),
+            Colors.black,
+            0.01,
           ),
-        ),
-        onTap: () {
-          patientProfileChoicePopUp(
-              profileProvider, patientManagerProvider, index);
-          // setState(() {
-          //   appointmentPopUp(index);
-          //   // Navigator.of(context).pushNamed('/patient-manager/patient',
-          //   //     arguments: PatientViewArguments(
-          //   //         widget.signedInUser, widget.patients[index], "business"));
-          // });
-        },
-        trailing: Icon(
-          Icons.add,
-          color: MihColors.secondary(),
+          hoverColor: MihColors.highlight(),
+          leading: FutureBuilder<AppUser?>(
+            future: reviewer,
+            builder: (context, snapshot) {
+              ImageProvider? image;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                image = CachedNetworkImageProvider("");
+              }
+
+              if (snapshot.hasData) {
+                String? userPicUrl =
+                    MihFileApi.getMinioFileUrlV2(snapshot.data!.pro_pic_path);
+                image = CachedNetworkImageProvider(userPicUrl);
+              }
+
+              if (snapshot.hasError) {
+                image = null;
+              }
+
+              return MihCircleAvatar(
+                imageFile: image,
+                width: 50,
+                expandable: true,
+                editable: false,
+                fileNameController: null,
+                userSelectedfile: null,
+                frameColor: MihColors.primary(),
+                backgroundColor: MihColors.secondary(),
+                onChange: null,
+              );
+            },
+          ),
+          title: isMainMember(patientManagerProvider, index),
+          subtitle: Text(
+            "ID No.: $displayedIdNo\nMedical Aid No.: $medAidNoStar",
+            style: TextStyle(
+              color: MihColors.primary(),
+            ),
+          ),
+          onTap: () {
+            patientProfileChoicePopUp(
+                profileProvider, patientManagerProvider, index);
+          },
+          trailing: Icon(
+            Icons.add,
+            color: MihColors.primary(),
+          ),
         ),
       );
     }
@@ -516,9 +592,7 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           PatientManagerProvider patientManagerProvider, Widget? child) {
         return ListView.separated(
           separatorBuilder: (BuildContext context, index) {
-            return Divider(
-              color: MihColors.secondary(),
-            );
+            return SizedBox(height: 3);
           },
           itemCount: patientManagerProvider.patientSearchResults.length,
           itemBuilder: (context, index) {

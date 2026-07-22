@@ -256,7 +256,7 @@ class _BuildClaimStatementFileListState
             itemCount: patientManagerProvider.patientClaimsDocuments!.length,
             itemBuilder: (context, index) {
               return Material(
-                color: MihColors.highlight(),
+                color: MihColors.secondary(),
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAlias,
                 child: ListTile(
@@ -265,11 +265,11 @@ class _BuildClaimStatementFileListState
                     Colors.black,
                     0.01,
                   ),
-                  hoverColor: MihColors.secondary(),
+                  hoverColor: MihColors.primary(),
                   leading: Icon(
                     Icons.picture_as_pdf,
                     size: 50,
-                    color: MihColors.red(darkMode: false),
+                    color: MihColors.red(darkMode: true),
                   ),
                   title: Text(
                     patientManagerProvider

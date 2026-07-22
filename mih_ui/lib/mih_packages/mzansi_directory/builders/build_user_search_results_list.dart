@@ -30,14 +30,32 @@ class _BuildUserSearchResultsListState
         return ListView.separated(
           itemCount: widget.userList.length,
           separatorBuilder: (BuildContext context, index) {
-            return Divider(
-              color: MihColors.secondary(),
+            return SizedBox(
+              height: 3,
             );
           },
           itemBuilder: (context, index) {
             return Material(
-              color: MihColors.primary(),
-              child: InkWell(
+              color: MihColors.secondary(),
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
+              child: ListTile(
+                hoverColor: MihColors.highlight(),
+                splashColor: Color.lerp(
+                  MihColors.bluishPurple(),
+                  Colors.black,
+                  0.01,
+                ),
+                title: MihPersonalProfilePreview(
+                  foregroundColor: MihColors.primary(),
+                  backgroundColor: MihColors.secondary(),
+                  user: widget.userList[index],
+                  imageFile: CachedNetworkImageProvider(
+                    MihFileApi.getMinioFileUrlV2(
+                        widget.userList[index].pro_pic_path),
+                  ),
+                  loading: false,
+                ),
                 onTap: () {
                   directoryProvider.setSelectedUser(
                       user: widget.userList[index]);
@@ -45,22 +63,6 @@ class _BuildUserSearchResultsListState
                     'mzansiProfileView',
                   );
                 },
-                splashColor: MihColors.secondary().withOpacity(0.2),
-                borderRadius: BorderRadius.circular(15),
-                child: Padding(
-                  padding: EdgeInsetsGeometry.symmetric(
-                    // vertical: 5,
-                    horizontal: 25,
-                  ),
-                  child: MihPersonalProfilePreview(
-                    user: widget.userList[index],
-                    imageFile: CachedNetworkImageProvider(
-                      MihFileApi.getMinioFileUrlV2(
-                          widget.userList[index].pro_pic_path),
-                    ),
-                    loading: false,
-                  ),
-                ),
               ),
             );
           },

@@ -1,11 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
@@ -439,8 +444,10 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       );
     }
 
+    Future<AppUser?> reviewer = MihUserServices().getMIHUserDetailsV2(
+        patientManagerProvider.myPaitentList![index].app_id);
     return Material(
-      color: MihColors.highlight(),
+      color: MihColors.secondary(),
       borderRadius: BorderRadius.circular(20),
       clipBehavior: Clip.antiAlias,
       child: ListTile(
@@ -449,7 +456,38 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
           Colors.black,
           0.01,
         ),
-        hoverColor: MihColors.secondary(),
+        hoverColor: MihColors.highlight(),
+        leading: FutureBuilder<AppUser?>(
+          future: reviewer,
+          builder: (context, snapshot) {
+            ImageProvider? image;
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              image = CachedNetworkImageProvider("");
+            }
+
+            if (snapshot.hasData) {
+              String? userPicUrl =
+                  MihFileApi.getMinioFileUrlV2(snapshot.data!.pro_pic_path);
+              image = CachedNetworkImageProvider(userPicUrl);
+            }
+
+            if (snapshot.hasError) {
+              image = null;
+            }
+
+            return MihCircleAvatar(
+              imageFile: image,
+              width: 50,
+              expandable: true,
+              editable: false,
+              fileNameController: null,
+              userSelectedfile: null,
+              frameColor: MihColors.primary(),
+              backgroundColor: MihColors.secondary(),
+              onChange: null,
+            );
+          },
+        ),
         title: Text(
           "$firstName $lastName",
           style: TextStyle(

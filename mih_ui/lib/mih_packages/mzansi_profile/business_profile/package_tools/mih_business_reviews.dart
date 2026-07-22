@@ -105,12 +105,12 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
       int descriptionDisplayCOunt = 75;
       return ListView.separated(
         itemCount: reviews.length,
-        separatorBuilder: (context, index) => Divider(),
+        separatorBuilder: (context, index) => SizedBox(height: 3),
         itemBuilder: (context, index) {
           Future<AppUser?> reviewer =
               MihUserServices().getMIHUserDetailsV2(reviews[index].app_id);
           return Material(
-            color: MihColors.highlight(),
+            color: MihColors.secondary(),
             borderRadius: BorderRadius.circular(20),
             clipBehavior: Clip.antiAlias,
             child: ListTile(
@@ -119,7 +119,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                 Colors.black,
                 0.01,
               ),
-              hoverColor: MihColors.secondary(),
+              hoverColor: MihColors.highlight(),
               leading: FutureBuilder<AppUser?>(
                 future: reviewer,
                 builder: (context, snapshot) {
@@ -146,7 +146,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                     fileNameController: null,
                     userSelectedfile: null,
                     frameColor: MihColors.primary(),
-                    backgroundColor: MihColors.highlight(),
+                    backgroundColor: MihColors.secondary(),
                     onChange: null,
                   );
                 },

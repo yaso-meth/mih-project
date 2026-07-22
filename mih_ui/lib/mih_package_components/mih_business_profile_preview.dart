@@ -10,12 +10,16 @@ import 'package:provider/provider.dart';
 class MihBusinessProfilePreview extends StatefulWidget {
   final Business business;
   final ImageProvider<Object>? imageFile;
+  final Color? foregroundColor;
+  final Color? backgroundColor;
   final bool loading;
   const MihBusinessProfilePreview({
     super.key,
     required this.business,
     required this.imageFile,
     required this.loading,
+    this.foregroundColor,
+    this.backgroundColor,
   });
 
   @override
@@ -53,14 +57,14 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                 ? Icon(
                     MihIcons.mihRing,
                     size: profilePictureWidth,
-                    color: MihColors.secondary(),
+                    color: widget.foregroundColor ?? MihColors.secondary(),
                   )
                 : widget.business.logo_path.endsWith('/') ||
                         widget.business.logo_path == ''
                     ? Icon(
                         MihIcons.mihIDontKnow,
                         size: profilePictureWidth,
-                        color: MihColors.secondary(),
+                        color: widget.foregroundColor ?? MihColors.secondary(),
                       )
                     : MihCircleAvatar(
                         imageFile: widget.imageFile,
@@ -69,8 +73,10 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                         editable: false,
                         fileNameController: TextEditingController(),
                         userSelectedfile: null,
-                        frameColor: MihColors.secondary(),
-                        backgroundColor: MihColors.primary(),
+                        frameColor:
+                            widget.foregroundColor ?? MihColors.secondary(),
+                        backgroundColor:
+                            widget.backgroundColor ?? MihColors.primary(),
                         onChange: null,
                       ),
             const SizedBox(width: 15),
@@ -82,6 +88,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
+                    color: widget.foregroundColor ?? MihColors.secondary(),
                   ),
                 ),
                 Text(
@@ -89,6 +96,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
+                    color: widget.foregroundColor ?? MihColors.secondary(),
                   ),
                 ),
                 Text(
@@ -98,6 +106,7 @@ class _MihBusinessProfilePreviewState extends State<MihBusinessProfilePreview> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 10,
+                    color: widget.foregroundColor ?? MihColors.secondary(),
                   ),
                 ),
               ],

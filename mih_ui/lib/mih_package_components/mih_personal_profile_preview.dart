@@ -6,12 +6,16 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.d
 class MihPersonalProfilePreview extends StatefulWidget {
   final AppUser user;
   final ImageProvider<Object>? imageFile;
+  final Color? foregroundColor;
+  final Color? backgroundColor;
   final bool loading;
   const MihPersonalProfilePreview({
     super.key,
     required this.user,
     required this.imageFile,
     required this.loading,
+    this.foregroundColor,
+    this.backgroundColor,
   });
 
   @override
@@ -34,14 +38,14 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
             ? Icon(
                 MihIcons.mihRing,
                 size: profilePictureWidth,
-                color: MihColors.secondary(),
+                color: widget.foregroundColor ?? MihColors.secondary(),
               )
             : widget.user.pro_pic_path.endsWith('/') ||
                     widget.user.pro_pic_path == ""
                 ? Icon(
                     MihIcons.mihIDontKnow,
                     size: profilePictureWidth,
-                    color: MihColors.secondary(),
+                    color: widget.foregroundColor ?? MihColors.secondary(),
                   )
                 : MihCircleAvatar(
                     imageFile: widget.imageFile,
@@ -50,8 +54,9 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                     editable: false,
                     fileNameController: TextEditingController(),
                     userSelectedfile: null,
-                    frameColor: MihColors.secondary(),
-                    backgroundColor: MihColors.primary(),
+                    frameColor: widget.foregroundColor ?? MihColors.secondary(),
+                    backgroundColor:
+                        widget.backgroundColor ?? MihColors.primary(),
                     onChange: null,
                   ),
         const SizedBox(width: 15),
@@ -63,6 +68,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                   ? widget.user.username
                   : "Username",
               style: TextStyle(
+                color: widget.foregroundColor ?? MihColors.secondary(),
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -72,6 +78,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
                   ? "${widget.user.fname} ${widget.user.lname}"
                   : "Name Surname",
               style: TextStyle(
+                color: widget.foregroundColor ?? MihColors.secondary(),
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
@@ -79,6 +86,7 @@ class _MihPersonalProfilePreviewState extends State<MihPersonalProfilePreview> {
             Text(
               widget.user.type.toUpperCase(),
               style: TextStyle(
+                color: widget.foregroundColor ?? MihColors.secondary(),
                 fontWeight: FontWeight.bold,
                 fontSize: 10,
               ),

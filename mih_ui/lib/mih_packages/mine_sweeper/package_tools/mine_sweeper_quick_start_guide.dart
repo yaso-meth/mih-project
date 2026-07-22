@@ -43,7 +43,7 @@ class _MineSweeperQuickStartGuideState
                   TextSpan(
                     text: 'Quick Tap (or Click): This is the Dig action.',
                     style: TextStyle(
-                      color: MihColors.green(),
+                      color: MihColors.green(darkMode: false),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -62,7 +62,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.green(),
+                          color: MihColors.green(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -91,7 +91,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Risk:',
                         style: TextStyle(
-                          color: MihColors.red(),
+                          color: MihColors.red(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -118,7 +118,7 @@ class _MineSweeperQuickStartGuideState
                     text:
                         'Tap and Hold (or Long Press): This is the Flag action (🚩).',
                     style: TextStyle(
-                      color: MihColors.red(),
+                      color: MihColors.red(darkMode: false),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -137,7 +137,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.green(),
+                          color: MihColors.green(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -182,7 +182,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Risk:',
                         style: TextStyle(
-                          color: MihColors.red(),
+                          color: MihColors.red(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -212,7 +212,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Benefit:',
                         style: TextStyle(
-                          color: MihColors.green(),
+                          color: MihColors.green(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -285,7 +285,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• If you see a Blank Space (a '0'):",
                         style: TextStyle(
-                          color: MihColors.orange(),
+                          color: MihColors.orange(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -323,7 +323,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• If you see a '1':",
                         style: TextStyle(
-                          color: MihColors.orange(),
+                          color: MihColors.orange(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -369,7 +369,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• If you see a '3':",
                         style: TextStyle(
-                          color: MihColors.orange(),
+                          color: MihColors.orange(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -446,7 +446,7 @@ class _MineSweeperQuickStartGuideState
                   TextSpan(
                     text: 'A. Find the Mines (Where to Flag 🚩)',
                     style: TextStyle(
-                      color: MihColors.purple(),
+                      color: MihColors.purple(darkMode: false),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -465,7 +465,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.green(),
+                          color: MihColors.green(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -511,7 +511,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Action:',
                         style: TextStyle(
-                          color: MihColors.red(),
+                          color: MihColors.red(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -553,7 +553,7 @@ class _MineSweeperQuickStartGuideState
                   TextSpan(
                     text: 'B. Find the Safe Squares (Where to Dig)',
                     style: TextStyle(
-                      color: MihColors.purple(),
+                      color: MihColors.purple(darkMode: false),
                       fontWeight: FontWeight.bold,
                       fontSize: subtitleSize,
                     ),
@@ -572,7 +572,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Goal:',
                         style: TextStyle(
-                          color: MihColors.green(),
+                          color: MihColors.green(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -602,7 +602,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: '• Action:',
                         style: TextStyle(
-                          color: MihColors.red(),
+                          color: MihColors.red(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -675,7 +675,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• Start on the Edges and Corners: ",
                         style: TextStyle(
-                          color: MihColors.bronze(),
+                          color: MihColors.bronze(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),
@@ -705,7 +705,7 @@ class _MineSweeperQuickStartGuideState
                       TextSpan(
                         text: "• Don't Guess: ",
                         style: TextStyle(
-                          color: MihColors.bronze(),
+                          color: MihColors.bronze(darkMode: false),
                           fontWeight: FontWeight.bold,
                           fontSize: pointsSize,
                         ),

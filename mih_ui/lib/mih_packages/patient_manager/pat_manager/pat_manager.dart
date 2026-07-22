@@ -40,7 +40,8 @@ class _PatManagerState extends State<PatManager> {
     if (mihCalendarProvider.businessAppointments == null) {
       await mihCalendarProvider.syncWithMihServerData(mzansiProfileProvider);
     }
-    if (patientManagerProvider.myPaitentList == null) {
+    if (patientManagerProvider.myPaitentList == null ||
+        patientManagerProvider.myPaitentList!.isEmpty) {
       patientManagerProvider.syncWithMihServerData(
         null,
         mzansiProfileProvider.business!.business_id,
