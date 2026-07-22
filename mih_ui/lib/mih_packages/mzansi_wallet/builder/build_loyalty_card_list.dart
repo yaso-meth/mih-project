@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_add_card_window.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display_slanted.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -50,6 +51,14 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
     );
   }
 
+  void addCardWindow(BuildContext ctxt, double width) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => MihAddCardWindow(),
+    );
+  }
+
   double getHorizontalPaddingSize(Size screenSize) {
     if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
       return screenSize.width / 10;
@@ -61,7 +70,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   int countFavourites() {
     int count = 0;
     for (var card in widget.cardList) {
-      if (card.favourite != "") {
+      if (card.favourite != "No" || card.favourite != "") {
         count++;
       }
     }
@@ -199,7 +208,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
@@ -219,29 +228,31 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   color: MihColors.secondary(),
                 ),
               ),
-              const SizedBox(height: 25),
-              Center(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: MihColors.secondary(),
+              const SizedBox(height: 15),
+              MihButton(
+                width: 150,
+                onPressed: () {
+                  addCardWindow(
+                    context,
+                    size.width,
+                  );
+                },
+                buttonColor: MihColors.green(),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: MihColors.primary(),
                     ),
-                    children: [
-                      TextSpan(text: "Press "),
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Icons.menu,
-                          size: 20,
-                          color: MihColors.secondary(),
-                        ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Add Card",
+                      style: TextStyle(
+                        color: MihColors.primary(),
+                        fontWeight: FontWeight.bold,
                       ),
-                      TextSpan(text: " to add your first loyalty card"),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -251,7 +262,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
@@ -271,7 +282,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
                   color: MihColors.secondary(),
                 ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 15),
               Center(
                 child: RichText(
                   textAlign: TextAlign.center,

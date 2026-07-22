@@ -63,7 +63,7 @@ async def read_all_loyalty_cards_by_app_id(app_id: str, session: SessionContaine
 async def read_favourite_loyalty_cards_by_app_id(app_id: str, session: SessionContainer = Depends(verify_session())): # , session: SessionContainer = Depends(verify_session())
     db = mih_database.dbConnection.dbMzansiWalletConnect()
     cursor = db.cursor()
-    query = "SELECT * FROM loyalty_cards where app_id = %s and favourite != '' ORDER BY priority_index Asc"
+    query = "SELECT * FROM loyalty_cards where app_id = %s and favourite NOT IN ('', 'No') ORDER BY priority_index Asc"
     cursor.execute(query, (app_id,))
     items = [
         {

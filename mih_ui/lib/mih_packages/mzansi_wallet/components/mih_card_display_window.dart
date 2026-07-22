@@ -158,7 +158,7 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                 app_id: widget.displayCard.app_id,
                 shop_name: widget.displayCard.shop_name,
                 card_number: widget.displayCard.card_number,
-                favourite: "",
+                favourite: "No",
                 priority_index: 0,
                 nickname: widget.displayCard.nickname,
               ),
@@ -231,7 +231,8 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
           windowTitle: null,
           menuOptions: [
             SpeedDialChild(
-              child: widget.displayCard.favourite == ""
+              child: widget.displayCard.favourite == "No" ||
+                      widget.displayCard.favourite == ""
                   ? Icon(
                       Icons.favorite,
                       color: MihColors.primary(),
@@ -240,7 +241,8 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                       Icons.favorite_border,
                       color: MihColors.primary(),
                     ),
-              label: widget.displayCard.favourite == ""
+              label: widget.displayCard.favourite == "No" ||
+                      widget.displayCard.favourite == ""
                   ? "Add to Favourite"
                   : "Remove from Favourite",
               labelBackgroundColor: MihColors.green(),
@@ -250,7 +252,8 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
               ),
               backgroundColor: MihColors.green(),
               onTap: () {
-                if (widget.displayCard.favourite == "") {
+                if (widget.displayCard.favourite == "No" ||
+                    widget.displayCard.favourite == "") {
                   addToFavCardWindow(
                     mzansiProfileProvider,
                     walletProvider,

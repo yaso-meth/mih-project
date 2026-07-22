@@ -15,33 +15,28 @@ class MihCardFavourites extends StatefulWidget {
 }
 
 class _MihCardFavouritesState extends State<MihCardFavourites> {
-  late Future<List<MIHLoyaltyCard>> cardList;
-  List<MIHLoyaltyCard> listOfCards = [];
-
-  void getFavouriteLoyaltyCards(BuildContext context) async {
-    setState(() {
-      listOfCards = context.read<MzansiWalletProvider>().favouriteCards;
-    });
-  }
-
   @override
   void initState() {
-    getFavouriteLoyaltyCards(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MihPackageToolBody(
-      backgroundColor: MihColors.primary(),
-      borderOn: false,
-      bodyItem: getBody(),
+    return Consumer<MzansiWalletProvider>(
+      builder: (BuildContext context, MzansiWalletProvider walletProvider,
+          Widget? child) {
+        return MihPackageToolBody(
+          backgroundColor: MihColors.primary(),
+          borderOn: false,
+          bodyItem: getBody(walletProvider),
+        );
+      },
     );
   }
 
-  Widget getBody() {
+  Widget getBody(MzansiWalletProvider walletProvider) {
     return BuildLoyaltyCardList(
-      cardList: listOfCards,
+      cardList: walletProvider.favouriteCards,
       navIndex: 0,
       favouritesMode: true,
       searchText: TextEditingController(),

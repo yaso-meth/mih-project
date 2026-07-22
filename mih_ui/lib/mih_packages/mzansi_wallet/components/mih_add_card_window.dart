@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
@@ -79,10 +78,9 @@ class _MihAddCardWindowState extends State<MihAddCardWindow> {
         );
         await walletProvider.addLocalLoyaltyCard(profileProvider, newCard);
         context.pop();
-        KenLogger.success("Card Added Successfully");
         successPopUp(
           "Successfully Added Card",
-          "The loyalty card has been added to your favourites.",
+          "The loyalty card has been added to your Mzansi Wallet.",
           0,
         );
       }
