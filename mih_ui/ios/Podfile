@@ -37,7 +37,20 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  # Fix Pods targets
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = '$(inherited)'
+    end
+  end
+
+  # Fix Runner target directly to clear the warnings
+  installer.aggregate_targets.each do |target|
+    target.user_project.targets.each do |user_target|
+      user_target.build_configurations.each do |config|
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = '$(inherited)'
+      end
+    end
   end
 end
