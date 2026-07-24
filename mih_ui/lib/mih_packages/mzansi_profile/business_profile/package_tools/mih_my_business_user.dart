@@ -224,36 +224,13 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                       ),
                     ),
                     Center(
-                      child: mzansiProfileProvider.hideBusinessUserDetails
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(300 * 0.1),
-                              child: ImageFiltered(
-                                imageFilter: ImageFilter.blur(
-                                    sigmaX: 15.0, sigmaY: 15.0),
-                                child: MihImageDisplay(
-                                  imageFile: mzansiProfileProvider
-                                      .businessUserSignature,
-                                  width: 300,
-                                  height: 200,
-                                  expandable: false,
-                                  editable: false,
-                                  fileNameController: signtureController,
-                                  userSelectedfile: newSelectedSignaturePic,
-                                  onChange: (selectedFile) {},
-                                ),
-                              ),
-                            )
-                          : MihImageDisplay(
-                              imageFile:
-                                  mzansiProfileProvider.businessUserSignature,
-                              width: 300,
-                              height: 200,
-                              expandable: true,
-                              editable: false,
-                              fileNameController: signtureController,
-                              userSelectedfile: newSelectedSignaturePic,
-                              onChange: (selectedFile) {},
-                            ),
+                      child: MihImageDisplay(
+                        imageFile: mzansiProfileProvider.businessUserSignature,
+                        height: 200,
+                        expandable: true,
+                        editable: false,
+                        blur: mzansiProfileProvider.hideBusinessUserDetails,
+                      ),
                     ),
                     const SizedBox(height: 20),
                   ],

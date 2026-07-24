@@ -229,10 +229,10 @@ class _MihUpdateMyBusinessUserDetailsState
                             imageFile: newSelectedSignaturePic != null
                                 ? MemoryImage(newSelectedSignaturePic!.bytes!)
                                 : mzansiProfileProvider.businessUserSignature,
-                            width: 300,
                             height: 200,
                             expandable: true,
                             editable: true,
+                            blur: mzansiProfileProvider.hideBusinessUserDetails,
                             fileNameController: signtureController,
                             userSelectedfile: newSelectedSignaturePic,
                             onChange: (selectedFile) {
