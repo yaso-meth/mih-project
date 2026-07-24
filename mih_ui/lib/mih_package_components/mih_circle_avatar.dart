@@ -1,11 +1,11 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 
 class MihCircleAvatar extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
@@ -68,39 +68,15 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
   }
 
   Future<void> _pickImage() async {
-    try {
-      FilePickerResult? result = await FilePicker.pickFiles(
-        type: FileType.image,
-      );
-      PlatformFile? selectedFile;
-      ImageProvider<Object>? newPreview;
-      Uint8List selectedFileBytes;
-      if (result != null) {
-        if (kIsWeb || kIsWasm) {
-          selectedFile = result.files.first;
-          selectedFileBytes = await selectedFile.readAsBytes();
-          newPreview = MemoryImage(selectedFileBytes);
-        } else {
-          File file = File(result.files.single.path!);
-          selectedFileBytes = await file.readAsBytes();
-          selectedFile = PlatformFile(
-            path: file.path,
-            name: file.path.split('/').last,
-            size: file.lengthSync(),
-            bytes: selectedFileBytes, // Read file bytes
-          );
-          newPreview = FileImage(file);
-        }
-        setState(() {
-          imagePreview = newPreview;
-          widget.fileNameController!.text = selectedFile!.name;
-        });
-        widget.onChange?.call(selectedFile);
-      } else {
-        KenLogger.error("User didnt pick avatar");
-      }
-    } catch (e) {
-      KenLogger.error("Mih Avatar: $e");
+    final PlatformFile? file = await MihFileApi.pickImage();
+    if (file != null) {
+      String fileName = file.name;
+      Uint8List fileBytes = await file.readAsBytes();
+      setState(() {
+        imagePreview = MemoryImage(fileBytes);
+        widget.fileNameController!.text = fileName;
+      });
+      widget.onChange?.call(file);
     }
   }
 

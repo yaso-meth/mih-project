@@ -1,30 +1,38 @@
-import 'dart:io';
+import 'dart:ui';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 
 class MihImageDisplay extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
-  final double width;
   final double height;
+  final double? width;
+  final BoxFit fit;
   final bool expandable;
   final bool editable;
+  final bool blur;
+  final BorderRadius? borderRadius;
   final TextEditingController? fileNameController;
   final ValueChanged<PlatformFile>? onChange;
   final PlatformFile? userSelectedfile;
   const MihImageDisplay({
     super.key,
     required this.imageFile,
-    required this.width,
     required this.height,
-    required this.expandable,
-    required this.editable,
-    required this.fileNameController,
-    required this.userSelectedfile,
-    required this.onChange,
+    this.width,
+    this.fit = BoxFit.cover,
+    this.expandable = false,
+    this.editable = false,
+    this.blur = false,
+    this.borderRadius,
+    this.fileNameController,
+    this.userSelectedfile,
+    this.onChange,
   });
 
   @override
@@ -34,79 +42,10 @@ class MihImageDisplay extends StatefulWidget {
 class _MihImageDisplayState extends State<MihImageDisplay> {
   late ImageProvider<Object>? imagePreview;
 
-  ImageProvider<Object>? getImage() {
-    if (widget.imageFile == null) {
-      return null;
-    } else {
-      return widget.imageFile;
-    }
-  }
-
-  void expandImage() {
-    if (imagePreview == null) return;
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MihPackageWindow(
-          fullscreen: true,
-          windowTitle: "",
-          scrollbarOn: false,
-          onWindowTapClose: () {
-            context.pop();
-          },
-          windowBody: SizedBox.expand(
-            child: InteractiveViewer(
-              child: Image(image: imagePreview!),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _pickImage() async {
-    try {
-      FilePickerResult? result = await FilePicker.pickFiles(
-        type: FileType.image,
-      );
-      PlatformFile? selectedFile;
-      ImageProvider<Object>? newPreview;
-      Uint8List selectedFileBytes;
-      if (result != null) {
-        if (kIsWeb || kIsWasm) {
-          selectedFile = result.files.first;
-          selectedFileBytes = await selectedFile.readAsBytes();
-          newPreview = MemoryImage(selectedFileBytes);
-        } else {
-          File file = File(result.files.single.path!);
-          selectedFileBytes = await file.readAsBytes();
-          selectedFile = PlatformFile(
-            path: file.path,
-            name: file.path.split('/').last,
-            size: file.lengthSync(),
-            bytes: selectedFileBytes, // Read file bytes
-          );
-          newPreview = FileImage(file);
-        }
-        setState(() {
-          imagePreview = newPreview;
-          widget.fileNameController!.text = selectedFile!.name;
-        });
-        widget.onChange?.call(selectedFile);
-      } else {
-        KenLogger.error("User didnt pick avatar");
-      }
-    } catch (e) {
-      KenLogger.error("Mih Avatar: $e");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    setState(() {
-      imagePreview = getImage();
-    });
+    imagePreview = widget.imageFile;
   }
 
   @override
@@ -119,8 +58,101 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
     }
   }
 
+  void expandImage() {
+    if (imagePreview == null) return;
+    Widget modalImage = Image(
+      image: imagePreview!,
+      width: double.infinity,
+      fit: BoxFit.fitWidth,
+    );
+
+    if (widget.blur) {
+      modalImage = ImageFiltered(
+        imageFilter: ImageFilter.blur(
+          sigmaX: 35.0,
+          sigmaY: 35.0,
+        ),
+        child: modalImage,
+      );
+    }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MihPackageWindow(
+          fullscreen: true,
+          windowTitle: "",
+          scrollbarOn: false,
+          onWindowTapClose: () {
+            context.pop();
+          },
+          windowBody: SizedBox.expand(
+            child: InteractiveViewer(
+              child: Center(
+                child: modalImage,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImage() async {
+    final PlatformFile? file = await MihFileApi.pickImage();
+    if (file != null) {
+      String fileName = file.name;
+      Uint8List fileBytes = await file.readAsBytes();
+      setState(() {
+        imagePreview = MemoryImage(fileBytes);
+        widget.fileNameController!.text = fileName;
+      });
+      widget.onChange?.call(file);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final BorderRadius effectiveRadius =
+        widget.borderRadius ?? BorderRadius.circular(widget.height * 0.1);
+    Widget content;
+    if (imagePreview != null) {
+      Widget imageWidget = Image(
+        image: imagePreview!,
+        height: widget.height,
+        width: widget.width,
+        fit: widget.fit,
+      );
+      if (widget.blur) {
+        imageWidget = ImageFiltered(
+          imageFilter: ImageFilter.blur(
+            sigmaX: 15.0,
+            sigmaY: 15.0,
+          ),
+          child: imageWidget,
+        );
+      }
+      content = ClipRRect(
+        borderRadius: effectiveRadius,
+        child: Container(
+          color: MihColors.secondary(),
+          child: imageWidget,
+        ),
+      );
+    } else {
+      content = Container(
+        width: widget.width ?? widget.height,
+        height: widget.height,
+        decoration: BoxDecoration(
+          color: MihColors.secondary(),
+          borderRadius: effectiveRadius,
+        ),
+        child: Icon(
+          Icons.image_not_supported_rounded,
+          size: widget.height * 0.3,
+          color: MihColors.primary(),
+        ),
+      );
+    }
     return GestureDetector(
       onTap: widget.expandable
           ? () {
@@ -134,34 +166,7 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            if (imagePreview != null) ...[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(widget.width * 0.1),
-                child: Container(
-                  // width: widget.width,
-                  height: widget.height,
-                  decoration: BoxDecoration(
-                    color: MihColors.secondary(),
-                    borderRadius: BorderRadius.circular(widget.width * 0.1),
-                  ),
-                  child: Image(image: imagePreview!),
-                ),
-              ),
-            ] else ...[
-              Container(
-                width: widget.width,
-                height: widget.height,
-                decoration: BoxDecoration(
-                  color: MihColors.secondary(),
-                  borderRadius: BorderRadius.circular(widget.width * 0.1),
-                ),
-                child: Icon(
-                  Icons.image_not_supported_rounded,
-                  size: widget.width * 0.3,
-                  color: MihColors.primary(),
-                ),
-              ),
-            ],
+            content,
             if (widget.editable)
               Positioned(
                 bottom: 5,

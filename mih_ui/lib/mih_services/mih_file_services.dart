@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:flutter/material.dart';
@@ -11,30 +14,36 @@ import 'package:supertokens_flutter/supertokens.dart';
 class MihFileApi {
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  // static Future<String> getMinioFileUrl(
-  //   String filePath,
-  // ) async {network
-  //   String fileUrl = "";
-  //   try {
-  //     var url =
-  //         "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-  //     var response = await http.get(Uri.parse(url));
-  //     if (response.statusCode == 200) {
-  //       var decodedData = jsonDecode(response.body);
-  //       fileUrl = decodedData['minioURL'];
-  //     } else {}
-  //   } catch (e) {
-  //     KenLogger.error("Error getting url");
-  //   } finally {}
-  //   if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
-  //     fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-  //   } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
-  //     fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-  //   } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
-  //     fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-  //   }
-  //   return fileUrl;
-  // }
+  static Future<PlatformFile?> pickImage() async {
+    try {
+      FilePickerResult? result = await FilePicker.pickFiles(
+        type: FileType.image,
+      );
+      PlatformFile selectedFile;
+      Uint8List fileBytes;
+      if (result != null && result.files.isNotEmpty) {
+        if (kIsWeb || kIsWasm) {
+          selectedFile = result.files.first;
+          fileBytes = await selectedFile.readAsBytes();
+        } else {
+          File file = File(result.files.single.path!);
+          fileBytes = await file.readAsBytes();
+          selectedFile = PlatformFile(
+            path: file.path,
+            name: file.path.split('/').last,
+            size: file.lengthSync(),
+            bytes: fileBytes, // Read file bytes
+          );
+        }
+        return selectedFile;
+      } else {
+        KenLogger.error("User didn't pick an image");
+      }
+    } catch (e) {
+      KenLogger.error("Mih Avatar error: $e");
+    }
+    return null;
+  }
 
   static String getMinioFileUrlV2(
     String filePath,
