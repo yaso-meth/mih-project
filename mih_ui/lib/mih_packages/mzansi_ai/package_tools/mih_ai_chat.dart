@@ -328,7 +328,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                 height: 100,
                 expandable: true,
                 editable: false,
-                blur: true,
+                blur: false,
               ),
               Positioned(
                 top: -6,
