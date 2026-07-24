@@ -4,9 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen_ai_chat_ui/flutter_gen_ai_chat_ui.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:intl/intl.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_helpers/mih_tts_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_tts_web.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -27,9 +28,47 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   late final ChatUser _currentUser;
   late final ChatUser _aiUser;
   final TextToSpeechPlus _tts = TextToSpeechPlus();
+  final StringBuffer _fullResponse = StringBuffer();
+  bool _isFirstTtsChunk = true;
   Uint8List? _pendingBase64Image;
   bool _isLoading = false;
   bool _isTalking = false;
+
+  String stripMarkdownRegex(String text) {
+    if (text.isEmpty) return text;
+    String cleaned = text;
+    cleaned = cleaned.replaceAll(
+      RegExp(r'<(think|thought)>[\s\S]*?<\/\1>', caseSensitive: false),
+      '',
+    );
+    cleaned = cleaned.trim();
+    if ((cleaned.startsWith('```markdown') ||
+            cleaned.startsWith('```md') ||
+            cleaned.startsWith('```')) &&
+        cleaned.endsWith('```')) {
+      cleaned = cleaned.replaceFirst(RegExp(r'^```[a-zA-Z]*\n?'), '');
+      cleaned = cleaned.substring(0, cleaned.length - 3).trim();
+    }
+    cleaned = cleaned.replaceAll(RegExp(r'```[a-zA-Z]*\n?'), '');
+    cleaned = cleaned.replaceAllMapped(
+      RegExp(r'!\[(.*?)\]\(.*?\)'),
+      (match) => match[1] ?? '',
+    );
+    cleaned = cleaned.replaceAllMapped(
+      RegExp(r'\[(.*?)\]\(.*?\)'),
+      (match) => match[1] ?? '',
+    );
+    cleaned = cleaned.replaceAll(RegExp(r'^\s*#+\s+', multiLine: true), '');
+    cleaned = cleaned.replaceAll(RegExp(r'^\s*>\s?', multiLine: true), '');
+    cleaned = cleaned.replaceAll(
+        RegExp(r'^\s*([*+-]|\d+\.)\s+', multiLine: true), '');
+    cleaned =
+        cleaned.replaceAll(RegExp(r'^\s*([-*_]){3,}\s*$', multiLine: true), '');
+    cleaned = cleaned.replaceAll(RegExp(r'(\*\*|__|~~|`|\*|_)'), '');
+    cleaned = cleaned.replaceAll(RegExp(r'\$\$?'), '');
+    cleaned = cleaned.replaceAll(RegExp(r'\n{3,}'), '\n\n');
+    return cleaned.trim();
+  }
 
   void initialiseControllers(MzansiProfileProvider profileProvider) {
     _chatController = ChatMessagesController();
@@ -58,56 +97,105 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   }
 
   void resetChat(MzansiAiProvider aiProvider) {
+    stopTTS(aiProvider);
     _chatController.clearMessages();
     _chatController.showWelcomeMessage = true;
     aiProvider.ollamaProvider.resetChat();
   }
 
-  void saveHistory(
-      MzansiProfileProvider profileProvider, MzansiAiProvider aiProvider) {
-    final history = aiProvider.ollamaProvider.history.toList();
-    DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
-    String formattedDateTimeNow = formatter.format(now);
-    List<Map<String, dynamic>> messages = [];
-    for (int i = 0; i < history.length; i++) {
-      final map = history[i].toJson();
-      map["order"] = i;
-      messages.add(map);
+  Future<void> _speakText(String text, {bool enqueue = false}) async {
+    if (text.trim().isEmpty) return;
+    if (kIsWasm) {
+      try {
+        speakOnWeb(stripMarkdownRegex(text), enqueue: enqueue);
+      } catch (error) {
+        KenLogger.error("WASM TTS Error: $error");
+      }
+    } else if (!kIsWeb && Platform.isLinux) {
+      final args = [
+        '-o',
+        'espeak-ng',
+        '-y',
+        'en+f3',
+        '-r',
+        '0',
+        '-p',
+        '12',
+        if (enqueue) '-e',
+        stripMarkdownRegex(text),
+      ];
+      try {
+        await Process.run('spd-say', args).timeout(
+          const Duration(seconds: 2),
+          onTimeout: () => ProcessResult(-1, -1, '', 'spd-say timed out'),
+        );
+      } catch (e) {
+        KenLogger.error("Linux TTS error: $e");
+      }
+    } else {
+      await _tts.speak(text, enqueue: enqueue);
     }
-
-    final historyMap = <String, dynamic>{
-      "conversation_id": "1234-asdf-5678-qwert",
-      "app_id": profileProvider.user!.app_id,
-      "modified_date": formattedDateTimeNow,
-      "messages": messages, // The list of messages is included here
-    };
-
-    const encoder = JsonEncoder.withIndent(' ');
-    String jsonHistory = encoder.convert(historyMap);
-    debugPrint("History: $jsonHistory");
   }
 
-  void stopTTS(MzansiAiProvider aiProvider) {
-    if (!kIsWeb && Platform.isLinux) {
-      Process.run('spd-say', ['-S']);
+  void stopTTS(MzansiAiProvider aiProvider) async {
+    if (kIsWasm) {
+      stopOnWeb();
+    } else if (!kIsWeb && Platform.isLinux) {
+      try {
+        await Process.run('spd-say', ['-C']).timeout(
+          const Duration(seconds: 1),
+          onTimeout: () => ProcessResult(-1, -1, '', 'spd-say timed out'),
+        );
+      } catch (e) {
+        KenLogger.error("Failed to stop Linux TTS: $e");
+      }
     } else {
       _tts.stop();
     }
     aiProvider.setTTSstate(false);
   }
 
+  void toggleTTS(MzansiAiProvider aiProvider) {
+    unlockWebAudio();
+    if (aiProvider.ttsOn) {
+      stopTTS(aiProvider);
+    } else {
+      aiProvider.setTTSstate(true);
+      _isFirstTtsChunk = false;
+      if (_isLoading && _fullResponse.isNotEmpty) {
+        _speakText(_fullResponse.toString(), enqueue: false);
+      } else {
+        final history = aiProvider.ollamaProvider.history;
+        if (history.isNotEmpty) {
+          final aiMessages =
+              history.where((msg) => msg.role != ollama.MessageRole.user);
+          if (aiMessages.isNotEmpty) {
+            final lastAiMessage = aiMessages.last;
+            if (lastAiMessage.content.isNotEmpty) {
+              _speakText(lastAiMessage.content, enqueue: false);
+            }
+          }
+        }
+      }
+    }
+  }
+
   Future<void> initTts(MzansiAiProvider aiProvider) async {
-    List<dynamic>? allVoices = await _tts.voices;
-    var myVoices = allVoices
-        ?.where((v) =>
-            v['locale'] == 'en-US' &&
-            v['gender'] == 'female' &&
-            v['is_neural'] == '1')
-        .toList();
-    KenLogger.info("NoVoices: ${myVoices!.length}");
-    if (myVoices.isNotEmpty) {
-      await _tts.setVoice(Map<String, String>.from(myVoices.first));
+    if (!kIsWeb && Platform.isLinux) {
+      return;
+    } else {
+      List<dynamic>? allVoices = await _tts.voices;
+      KenLogger.info("Voices: ${allVoices!.length}");
+      var myVoices = allVoices
+          .where((v) =>
+              v['locale'] == 'en-US' &&
+              v['gender'] == 'female' &&
+              v['is_neural'] == '1')
+          .toList();
+      KenLogger.info("My Voices: ${myVoices.length}");
+      if (myVoices.isNotEmpty) {
+        await _tts.setVoice(Map<String, String>.from(myVoices.first));
+      }
     }
   }
 
@@ -147,23 +235,32 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
     setState(() {
       _pendingBase64Image = null;
     });
+    _fullResponse.clear();
+    _isFirstTtsChunk = true;
     try {
       MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
       final stream = aiProvider.ollamaProvider.sendMessageStream(
         message.text,
         images: images,
       );
-      StringBuffer fullResponse = StringBuffer();
       await for (final chunk in stream) {
         if (!_isTalking) {
           setState(() {
             _isTalking = true;
           });
         }
-        fullResponse.write(chunk);
+        _fullResponse.write(chunk);
+        if (aiProvider.ttsOn && chunk.isNotEmpty) {
+          if (_isFirstTtsChunk) {
+            _speakText(chunk, enqueue: false);
+            _isFirstTtsChunk = false;
+          } else {
+            _speakText(chunk, enqueue: true);
+          }
+        }
         _chatController.updateMessage(
           ChatMessage(
-            text: fullResponse.toString(),
+            text: _fullResponse.toString(),
             createdAt: DateTime.now(),
             user: _aiUser,
             isMarkdown: true,
@@ -176,7 +273,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
       }
       _chatController.updateMessage(
         ChatMessage(
-          text: fullResponse.toString(),
+          text: _fullResponse.toString(),
           createdAt: DateTime.now(),
           user: _aiUser,
           isMarkdown: true,
@@ -285,7 +382,8 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _tts.stop();
+    MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
+    stopTTS(aiProvider);
     super.dispose();
   }
 
@@ -350,11 +448,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                   width: 35,
                   height: 35,
                   onPressed: () {
-                    // if (!aiProvider.ttsOn) {
-                    //   speakLastMessage(aiProvider);
-                    // } else {
-                    //   stopTTS(aiProvider);
-                    // }
+                    toggleTTS(aiProvider);
                   },
                   buttonColor:
                       !aiProvider.ttsOn ? MihColors.green() : MihColors.red(),
