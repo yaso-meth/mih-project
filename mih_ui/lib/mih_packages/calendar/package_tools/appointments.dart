@@ -30,6 +30,20 @@ class _PatientAccessRequestState extends State<Appointments> {
   final TextEditingController _appointmentTimeController =
       TextEditingController();
 
+  Future<void> _updateSelectedDate(
+    int daysOffset,
+    MihCalendarProvider mihCalendarProvider,
+    MzansiProfileProvider mzansiProfileProvider,
+  ) async {
+    final String rawDay = mihCalendarProvider.selectedDay;
+    final DateTime currentDay = DateTime.parse(rawDay);
+    final DateTime newDate = currentDay.add(Duration(days: daysOffset));
+    final String formattedDate = newDate.toIso8601String().split('T')[0];
+    mihCalendarProvider.setSelectedDay(formattedDate);
+    mihCalendarProvider.loadCachedCalendar();
+    await mihCalendarProvider.syncWithMihServerData(mzansiProfileProvider);
+  }
+
   Widget displayAppointmentList(MzansiProfileProvider mzansiProfileProvider,
       MihCalendarProvider mihCalendarProvider) {
     List<Appointment> appointmentList = mzansiProfileProvider.personalHome
@@ -169,31 +183,69 @@ class _PatientAccessRequestState extends State<Appointments> {
                 )
               ],
             ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: MihFloatingMenu(
-                icon: Icons.add,
-                animatedIcon: AnimatedIcons.menu_close,
-                children: [
-                  SpeedDialChild(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Align(
+                alignment: AlignmentGeometry.bottomCenter,
+                child: MihButton(
+                  borderRadius: 100,
+                  width: 65,
+                  height: 65,
+                  onPressed: () {
+                    addAppointmentWindow(
+                        mzansiProfileProvider, mihCalendarProvider, width);
+                  },
+                  buttonColor: MihColors.green(),
+                  child: Center(
                     child: Icon(
                       Icons.add,
                       color: MihColors.primary(),
+                      size: 45,
                     ),
-                    label: "Add Appointment",
-                    labelBackgroundColor: MihColors.green(),
-                    labelStyle: TextStyle(
-                      color: MihColors.primary(),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: MihColors.green(),
-                    onTap: () {
-                      addAppointmentWindow(
-                          mzansiProfileProvider, mihCalendarProvider, width);
-                    },
-                  )
-                ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 10,
+              bottom: 10,
+              child: MihButton(
+                borderRadius: 100,
+                width: 65,
+                height: 65,
+                onPressed: () {
+                  _updateSelectedDate(
+                      -1, mihCalendarProvider, mzansiProfileProvider);
+                },
+                buttonColor: MihColors.green(),
+                child: Center(
+                  child: Icon(
+                    Icons.keyboard_arrow_left_rounded,
+                    color: MihColors.primary(),
+                    size: 60,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 10,
+              bottom: 10,
+              child: MihButton(
+                borderRadius: 100,
+                width: 65,
+                height: 65,
+                onPressed: () {
+                  _updateSelectedDate(
+                      1, mihCalendarProvider, mzansiProfileProvider);
+                },
+                buttonColor: MihColors.green(),
+                child: Center(
+                  child: Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    color: MihColors.primary(),
+                    size: 60,
+                  ),
+                ),
               ),
             ),
           ],
