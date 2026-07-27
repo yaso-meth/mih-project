@@ -116,6 +116,7 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                 favourite: "Yes",
                 priority_index: widget.noFavourites,
                 nickname: widget.displayCard.nickname,
+                offline_id: widget.displayCard.offline_id,
               ),
             );
             context.pop();
@@ -161,6 +162,7 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                 favourite: "No",
                 priority_index: 0,
                 nickname: widget.displayCard.nickname,
+                offline_id: widget.displayCard.offline_id,
               ),
             );
             context.pop();
@@ -225,6 +227,8 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
         MzansiWalletProvider walletProvider,
         Widget? child,
       ) {
+        KenLogger.info("card_id: ${widget.displayCard.idloyalty_cards}");
+        KenLogger.info("offline_id: ${widget.displayCard.offline_id}");
         return MihPackageWindow(
           backgroundColor: getCardColor(widget.displayCard.shop_name),
           fullscreen: false,

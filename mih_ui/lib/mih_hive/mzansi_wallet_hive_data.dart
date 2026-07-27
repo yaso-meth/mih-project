@@ -42,10 +42,6 @@ class MzansiWalletHiveData {
   Future<void> addLoyaltyCardLocally(MIHLoyaltyCard newCard) async {
     await _loyaltyCardBox.put(newCard.offline_id, newCard);
     KenLogger.success("New Card Saved Locally.");
-    if (newCard.favourite == "Yes") {
-      await _favLoyaltyCardBox.put(newCard.offline_id, newCard);
-      KenLogger.success("New Card Added To Favourites.");
-    }
   }
 
   Future<void> deleteLoyaltyCardLocally(MIHLoyaltyCard deleteCard) async {
@@ -91,31 +87,16 @@ class MzansiWalletHiveData {
 
   Future<void> updateLoyaltyCardLocally(MIHLoyaltyCard updatedCard) async {
     dynamic mainTargetKey;
-    dynamic favTargetKey;
     for (var key in _loyaltyCardBox.keys) {
       final card = _loyaltyCardBox.get(key);
       if (card != null) {
-        if (updatedCard.idloyalty_cards != 0 &&
+        if (card.idloyalty_cards != 0 &&
             card.idloyalty_cards == updatedCard.idloyalty_cards) {
           mainTargetKey = key;
           break;
-        } else if (updatedCard.idloyalty_cards == 0 &&
+        } else if (card.idloyalty_cards == 0 &&
             card.offline_id == updatedCard.offline_id) {
           mainTargetKey = key;
-          break;
-        }
-      }
-    }
-    for (var key in _favLoyaltyCardBox.keys) {
-      final card = _favLoyaltyCardBox.get(key);
-      if (card != null) {
-        if (updatedCard.idloyalty_cards != 0 &&
-            card.idloyalty_cards == updatedCard.idloyalty_cards) {
-          favTargetKey = key;
-          break;
-        } else if (updatedCard.idloyalty_cards == 0 &&
-            card.offline_id == updatedCard.offline_id) {
-          favTargetKey = key;
           break;
         }
       }
@@ -123,6 +104,22 @@ class MzansiWalletHiveData {
     if (mainTargetKey != null) {
       await _loyaltyCardBox.put(mainTargetKey, updatedCard);
       KenLogger.success("Card Udpdated Locally.");
+    }
+
+    dynamic favTargetKey;
+    for (var key in _favLoyaltyCardBox.keys) {
+      final card = _favLoyaltyCardBox.get(key);
+      if (card != null) {
+        if (card.idloyalty_cards != 0 &&
+            card.idloyalty_cards == updatedCard.idloyalty_cards) {
+          favTargetKey = key;
+          break;
+        } else if (card.idloyalty_cards == 0 &&
+            card.offline_id == updatedCard.offline_id) {
+          favTargetKey = key;
+          break;
+        }
+      }
     }
     if (favTargetKey != null) {
       if (updatedCard.favourite == "Yes") {
@@ -132,15 +129,10 @@ class MzansiWalletHiveData {
         await _favLoyaltyCardBox.delete(favTargetKey);
         KenLogger.success("Fav Card Removed Locally.");
       }
-    } else {
-      if (updatedCard.offline_id == null) {
-        final String uniqueKey = const Uuid().v4();
-        await _favLoyaltyCardBox.put(uniqueKey, updatedCard);
-        KenLogger.success("Fav Card Added Locally.");
-      } else {
-        await _favLoyaltyCardBox.put(updatedCard.offline_id, updatedCard);
-        KenLogger.success("Fav Card Added Locally.");
-      }
+    } else if (updatedCard.favourite == "Yes") {
+      final keyToUse = updatedCard.offline_id ?? const Uuid().v4();
+      await _favLoyaltyCardBox.put(keyToUse, updatedCard);
+      KenLogger.success("Fav Card Added Locally.");
     }
   }
 
@@ -196,11 +188,30 @@ class MzansiWalletHiveData {
   }
 
   Future<void> queueUpdateModification(MIHLoyaltyCard updatedCardData) async {
-    await _modificationsQueue.add({
-      'action': 'UPDATE',
-      'payload': updatedCardData,
-    });
-    KenLogger.warning("Update Card Queued For Online Sync");
+    bool foundPendingAdd = false;
+    for (var key in _modificationsQueue.keys) {
+      final task = _modificationsQueue.get(key);
+      if (task != null && task['action'] == 'ADD') {
+        final MIHLoyaltyCard cardInQueue = task['payload'];
+        if (cardInQueue.offline_id == updatedCardData.offline_id) {
+          await _modificationsQueue.put(key, {
+            'action': 'ADD',
+            'payload': updatedCardData,
+          });
+          foundPendingAdd = true;
+          KenLogger.warning(
+              "Pending Add Card updated with new offline changes");
+          break;
+        }
+      }
+    }
+    if (!foundPendingAdd) {
+      await _modificationsQueue.add({
+        'action': 'UPDATE',
+        'payload': updatedCardData,
+      });
+      KenLogger.warning("Update Card Queued For Online Sync");
+    }
   }
 
   Future<bool> processModificationsQueue() async {

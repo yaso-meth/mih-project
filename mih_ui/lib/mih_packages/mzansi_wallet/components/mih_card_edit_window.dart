@@ -132,6 +132,7 @@ class _MihCardEditWindowState extends State<MihCardEditWindow> {
                                 favourite: widget.editCard.favourite,
                                 priority_index: widget.editCard.priority_index,
                                 nickname: _nicknameController.text,
+                                offline_id: widget.editCard.offline_id,
                               ),
                             );
                             context.pop();
