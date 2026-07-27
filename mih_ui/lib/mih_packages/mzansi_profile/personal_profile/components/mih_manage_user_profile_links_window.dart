@@ -141,20 +141,13 @@ class _MihManageUserProfileLinksWindowState
             children: [
               const SizedBox(height: 10.0),
               Padding(
-                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
-                        "desktop"
-                    ? EdgeInsets.symmetric(horizontal: screenWidth * 0.05)
-                    : EdgeInsets.symmetric(horizontal: screenWidth * 0),
-                child: Row(
-                  children: [
-                    Text(
-                      "*NB: Internet connection required to manage profile links.",
-                      style: TextStyle(
-                        color: MihColors.red(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  "*NB: Internet connection required to manage profile links.",
+                  style: TextStyle(
+                    color: MihColors.red(),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 5.0),
@@ -183,11 +176,14 @@ class _MihManageUserProfileLinksWindowState
                                 links: [link],
                               ),
                               SizedBox(width: 8),
-                              Text(
-                                display,
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                              Expanded(
+                                child: Text(
+                                  display,
+                                  style: TextStyle(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ],

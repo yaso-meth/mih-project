@@ -10,6 +10,36 @@ import 'package:supertokens_flutter/http.dart' as http;
 
 class MihProfileLinksServices {
   final baseAPI = AppEnviroment.baseApiUrl;
+  List<String> linkOptions = [
+    "App Store",
+    "App Gallery",
+    "Play Store",
+    "YouTube",
+    "TikTok",
+    "Twitch",
+    "Threads",
+    "WhatsApp",
+    "Instagram",
+    "X",
+    "LinkedIn",
+    "Facebook",
+    "Reddit",
+    "Discord",
+    "Git",
+    "Telegram",
+    "Pinterest",
+    "Snapchat",
+    "Messenger",
+    "Medium",
+    "Substack",
+    "Spotify",
+    "YT Music",
+    "Apple Music",
+    "Patreon",
+    "Loolio",
+    "WeChat",
+    "Other"
+  ];
 
   static Future<List<ProfileLink>> getUserProfileLinksMD(
     MzansiDirectoryProvider directoryProvider,

@@ -289,16 +289,18 @@ class MihUserServices {
     BuildContext context,
   ) async {
     loadingPopUp(context);
-    var response = await http.delete(
-      Uri.parse("${AppEnviroment.baseApiUrl}/user/delete/all/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": provider.user!.app_id,
-        "env": AppEnviroment.getEnv(),
-      }),
-    );
+    var response = await http
+        .delete(
+          Uri.parse("${AppEnviroment.baseApiUrl}/user/delete/all/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "app_id": provider.user!.app_id,
+            "env": AppEnviroment.getEnv(),
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
 
     if (response.statusCode == 200) {
       await SuperTokens.signOut(completionHandler: (error) {

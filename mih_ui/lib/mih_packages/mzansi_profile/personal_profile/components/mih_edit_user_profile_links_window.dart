@@ -25,36 +25,7 @@ class MihEditUserProfileLinksWindow extends StatefulWidget {
 class _MihEditUserProfileLinksWindowState
     extends State<MihEditUserProfileLinksWindow> {
   final _formKey = GlobalKey<FormState>();
-  List<String> _dropdowOptions = [
-    "App Store",
-    "App Gallery",
-    "Play Store",
-    "YouTube",
-    "TikTok",
-    "Twitch",
-    "Threads",
-    "WhatsApp",
-    "Instagram",
-    "X",
-    "LinkedIn",
-    "Facebook",
-    "Reddit",
-    "Discord",
-    "Git",
-    "Telegram",
-    "Pinterest",
-    "Snapchat",
-    "Messenger",
-    "Medium",
-    "Substack",
-    "Spotify",
-    "YT Music",
-    "Apple Music",
-    "Patreon",
-    "Loolio",
-    "WeChat",
-    "Other"
-  ];
+  List<String> _dropdowOptions = MihProfileLinksServices().linkOptions;
   TextEditingController _dropdownLinkNameController = TextEditingController();
   TextEditingController _linkNameController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
@@ -101,18 +72,15 @@ class _MihEditUserProfileLinksWindowState
                     ? EdgeInsets.symmetric(horizontal: screenWidth * 0.05)
                     : EdgeInsets.symmetric(horizontal: screenWidth * 0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10.0),
-                Row(
-                  children: [
-                    Text(
-                      "*NB: Internet connection required to edit profile links.",
-                      style: TextStyle(
-                        color: MihColors.red(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                Text(
+                  "*NB: Internet connection required to edit profile links.",
+                  style: TextStyle(
+                    color: MihColors.red(),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 5.0),
                 MihForm(
