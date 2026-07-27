@@ -64,7 +64,7 @@ class MihBusinessDetailsServices {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-    );
+    ).timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<Business> businesses =

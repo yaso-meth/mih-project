@@ -18,8 +18,12 @@ class MihUserServices {
     String username,
     BuildContext context,
   ) async {
-    var response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/users/validate/username/$username"));
+    var response = await http
+        .get(
+          Uri.parse(
+              "${AppEnviroment.baseApiUrl}/users/validate/username/$username"),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);

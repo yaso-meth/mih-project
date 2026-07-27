@@ -57,37 +57,44 @@ class _MihSearchMzansiState extends State<MihSearchMzansi> {
 
   Future<void> searchPressed(MzansiProfileProvider profileProvider,
       MzansiDirectoryProvider directoryProvider) async {
-    setState(() {
-      loadingSearchResults = true;
-    });
-    directoryProvider.setSearchTerm(searchTerm: mzansiSearchController.text);
-    directoryProvider.setBusinessTypeFilter(
-        businessTypeFilter: businessTypeController.text);
-    if (directoryProvider.personalSearch &&
-        directoryProvider.searchTerm.isNotEmpty) {
-      final userResults = await MihUserServices()
-          .searchUsers(profileProvider, directoryProvider.searchTerm, context);
-      directoryProvider.setSearchedUsers(
-        searchedUsers: userResults,
-      );
-    } else {
-      List<Business>? businessSearchResults = [];
-      if (directoryProvider.businessTypeFilter.isNotEmpty) {
-        businessSearchResults = await MihBusinessDetailsServices()
-            .searchBusinesses(directoryProvider.searchTerm,
-                directoryProvider.businessTypeFilter, context);
-      } else if (directoryProvider.searchTerm.isNotEmpty) {
-        businessSearchResults = await MihBusinessDetailsServices()
-            .searchBusinesses(directoryProvider.searchTerm,
-                directoryProvider.businessTypeFilter, context);
+    try {
+      setState(() {
+        loadingSearchResults = true;
+      });
+      directoryProvider.setSearchTerm(searchTerm: mzansiSearchController.text);
+      directoryProvider.setBusinessTypeFilter(
+          businessTypeFilter: businessTypeController.text);
+      if (directoryProvider.personalSearch &&
+          directoryProvider.searchTerm.isNotEmpty) {
+        final userResults = await MihUserServices().searchUsers(
+            profileProvider, directoryProvider.searchTerm, context);
+        directoryProvider.setSearchedUsers(
+          searchedUsers: userResults,
+        );
+      } else {
+        List<Business>? businessSearchResults = [];
+        if (directoryProvider.businessTypeFilter.isNotEmpty) {
+          businessSearchResults = await MihBusinessDetailsServices()
+              .searchBusinesses(directoryProvider.searchTerm,
+                  directoryProvider.businessTypeFilter, context);
+        } else if (directoryProvider.searchTerm.isNotEmpty) {
+          businessSearchResults = await MihBusinessDetailsServices()
+              .searchBusinesses(directoryProvider.searchTerm,
+                  directoryProvider.businessTypeFilter, context);
+        }
+        directoryProvider.setSearchedBusinesses(
+          searchedBusinesses: businessSearchResults,
+        );
       }
-      directoryProvider.setSearchedBusinesses(
-        searchedBusinesses: businessSearchResults,
-      );
+      setState(() {
+        loadingSearchResults = false;
+      });
+    } catch (error) {
+      setState(() {
+        loadingSearchResults = false;
+      });
+      MihAlertServices().internetConnectionAlert(context);
     }
-    setState(() {
-      loadingSearchResults = false;
-    });
   }
 
   @override
