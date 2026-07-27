@@ -7,7 +7,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.da
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
 
@@ -52,29 +51,34 @@ class _MihDeleteBookmarkAlertState extends State<MihDeleteBookmarkAlert> {
   }
 
   Future<void> deleteBookmark(int idbookmarked_businesses) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    await MihMzansiDirectoryServices()
-        .deleteBookmarkedBusiness(idbookmarked_businesses)
-        .then((statusCode) {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      await MihMzansiDirectoryServices()
+          .deleteBookmarkedBusiness(idbookmarked_businesses)
+          .then((statusCode) {
+        context.pop();
+        if (statusCode == 200) {
+          successPopUp(
+            "Successfully Removed Bookmark!",
+            "${widget.business.Name} has successfully been removed your favourite businessess in the Mzansi Directory.",
+          );
+        } else {
+          MihAlertServices().errorBasicAlert(
+            "Error Adding Bookmark",
+            "An error occured while add ${widget.business.Name} to you Mzansi Directory, Please try again later.",
+            context,
+          );
+        }
+      });
+    } catch (error) {
       context.pop();
-      if (statusCode == 200) {
-        successPopUp(
-          "Successfully Removed Bookmark!",
-          "${widget.business.Name} has successfully been removed your favourite businessess in the Mzansi Directory.",
-        );
-      } else {
-        MihAlertServices().errorBasicAlert(
-          "Error Adding Bookmark",
-          "An error occured while add ${widget.business.Name} to you Mzansi Directory, Please try again later.",
-          context,
-        );
-      }
-    });
+      MihAlertServices().internetConnectionAlert(context);
+    }
   }
 
   void successPopUp(String title, String message) {

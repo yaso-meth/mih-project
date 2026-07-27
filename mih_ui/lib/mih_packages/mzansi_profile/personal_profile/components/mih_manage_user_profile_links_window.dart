@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/components/mih_edit_user_profile_links_window.dart';
@@ -123,7 +122,6 @@ class _MihManageUserProfileLinksWindowState
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Consumer<MzansiProfileProvider>(
       builder: (
         BuildContext context,

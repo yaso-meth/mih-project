@@ -18,16 +18,11 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
   String errorCode = "";
   String errorBody = "";
 
-  // void getEmployeeData(MzansiProfileProvider mzansiProfileProvider) {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
-  //     await MihBusinessEmployeeServices()
-  //         .fetchEmployees(mzansiProfileProvider, context);
-  //   });
-  // }
-
   Widget displayEmployeeList(List<BusinessEmployee> employeeList) {
     if (employeeList.isNotEmpty) {
-      return Expanded(child: BuildEmployeeList());
+      return Expanded(
+        child: BuildEmployeeList(),
+      );
     }
     return Center(
       child: Text(
@@ -36,15 +31,6 @@ class _MihMyBusinessTeamState extends State<MihMyBusinessTeam> {
         textAlign: TextAlign.center,
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // fetchEmployees(context.read<MzansiProfileProvider>()).catchError((e) {
-    //   // Handle the error thrown in fetchEmployees
-    //   print('Error fetching employees: $e');
-    // });
   }
 
   @override

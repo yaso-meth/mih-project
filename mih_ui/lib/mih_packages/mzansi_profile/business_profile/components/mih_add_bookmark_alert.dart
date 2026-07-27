@@ -47,29 +47,34 @@ class _MihAddBookmarkAlertState extends State<MihAddBookmarkAlert> {
 
   Future<void> addBookmark(
       MzansiProfileProvider profileProvider, String business_id) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    await MihMzansiDirectoryServices()
-        .addBookmarkedBusiness(profileProvider.user!.app_id, business_id)
-        .then((statusCode) {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      await MihMzansiDirectoryServices()
+          .addBookmarkedBusiness(profileProvider.user!.app_id, business_id)
+          .then((statusCode) {
+        context.pop();
+        if (statusCode == 201) {
+          successPopUp(
+            "Successfully Bookmarked Business!",
+            "${widget.business.Name} has successfully been added to favourite businessess in the Mzansi Directory.",
+          );
+        } else {
+          MihAlertServices().errorBasicAlert(
+            "Error Adding Bookmark",
+            "An error occured while add ${widget.business.Name} to you Mzansi Directory, Please try again later.",
+            context,
+          );
+        }
+      });
+    } catch (error) {
       context.pop();
-      if (statusCode == 201) {
-        successPopUp(
-          "Successfully Bookmarked Business!",
-          "${widget.business.Name} has successfully been added to favourite businessess in the Mzansi Directory.",
-        );
-      } else {
-        MihAlertServices().errorBasicAlert(
-          "Error Adding Bookmark",
-          "An error occured while add ${widget.business.Name} to you Mzansi Directory, Please try again later.",
-          context,
-        );
-      }
-    });
+      MihAlertServices().internetConnectionAlert(context);
+    }
   }
 
   void successPopUp(String title, String message) {

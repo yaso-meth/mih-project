@@ -24,36 +24,7 @@ class MihEditBusnessLinkWindow extends StatefulWidget {
 
 class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
   final _formKey = GlobalKey<FormState>();
-  List<String> _dropdowOptions = [
-    "App Store",
-    "App Gallery",
-    "Play Store",
-    "YouTube",
-    "TikTok",
-    "Twitch",
-    "Threads",
-    "WhatsApp",
-    "Instagram",
-    "X",
-    "LinkedIn",
-    "Facebook",
-    "Reddit",
-    "Discord",
-    "Git",
-    "Telegram",
-    "Pinterest",
-    "Snapchat",
-    "Messenger",
-    "Medium",
-    "Substack",
-    "Spotify",
-    "YT Music",
-    "Apple Music",
-    "Patreon",
-    "Loolio",
-    "WeChat",
-    "Other"
-  ];
+  List<String> _dropdowOptions = MihProfileLinksServices().linkOptions;
   TextEditingController _dropdownLinkNameController = TextEditingController();
   TextEditingController _linkNameController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
@@ -102,16 +73,15 @@ class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
             child: Column(
               children: [
                 const SizedBox(height: 10.0),
-                Row(
-                  children: [
-                    Text(
-                      "*NB: Internet connection required to edit profile links.",
-                      style: TextStyle(
-                        color: MihColors.red(),
-                        fontWeight: FontWeight.bold,
-                      ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "*NB: Internet connection required to edit profile links.",
+                    style: TextStyle(
+                      color: MihColors.red(),
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 5.0),
                 MihForm(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_edit_business_link_window.dart';
@@ -123,7 +122,6 @@ class _MihManageBusinessLinkWindowState
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Consumer<MzansiProfileProvider>(
       builder: (
         BuildContext context,
@@ -141,20 +139,13 @@ class _MihManageBusinessLinkWindowState
             children: [
               const SizedBox(height: 10.0),
               Padding(
-                padding: MzansiInnovationHub.of(context)!.theme.screenType ==
-                        "desktop"
-                    ? EdgeInsets.symmetric(horizontal: screenWidth * 0.05)
-                    : EdgeInsets.symmetric(horizontal: screenWidth * 0),
-                child: Row(
-                  children: [
-                    Text(
-                      "*NB: Internet connection required to manage profile links.",
-                      style: TextStyle(
-                        color: MihColors.red(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  "*NB: Internet connection required to manage profile links.",
+                  style: TextStyle(
+                    color: MihColors.red(),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 5.0),

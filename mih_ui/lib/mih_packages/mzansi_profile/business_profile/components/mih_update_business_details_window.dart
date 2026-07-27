@@ -291,16 +291,15 @@ class _MihUpdateBusinessDetailsWindowState
                           ),
                         ),
                         const SizedBox(height: 20.0),
-                        Row(
-                          children: [
-                            Text(
-                              "*NB: Internet connection required to update profile.",
-                              style: TextStyle(
-                                color: MihColors.red(),
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "*NB: Internet connection required to update profile.",
+                            style: TextStyle(
+                              color: MihColors.red(),
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
+                          ),
                         ),
                         const SizedBox(height: 10),
                         MihTextFormField(
