@@ -93,83 +93,89 @@ class _PrescripInputState extends State<PrescripInput> {
   Future<void> generatePerscription(
     PatientManagerProvider patManProvider,
   ) async {
-    //start loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    DateTime now = DateTime.now();
-    // DateTime date = new DateTime(now.year, now.month, now.day);
-    String fileName =
-        "Perscription-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${now.toString().substring(0, 19)}.pdf"
-            .replaceAll(RegExp(r' '), '-');
-    var response1 = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/perscription/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": widget.selectedPatient.app_id,
-        "env": widget.env,
-        "patient_full_name":
-            "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
-        "fileName": fileName,
-        "id_no": widget.selectedPatient.id_no,
-        "docfname":
-            "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
-        "busName": widget.business!.Name,
-        "busAddr": "*TO BE ADDED IN THE FUTURE*",
-        "busNo": widget.business!.contact_no,
-        "busEmail": widget.business!.bus_email,
-        "logo_path": widget.business!.logo_path,
-        "sig_path": widget.businessUser!.sig_path,
-        "data": perscriptionObjOutput,
-      }),
-    );
-    //print(response1.statusCode);
-    if (response1.statusCode == 200) {
-      var response2 = await http.post(
-        Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      DateTime now = DateTime.now();
+      // DateTime date = new DateTime(now.year, now.month, now.day);
+      String fileName =
+          "Perscription-${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}-${now.toString().substring(0, 19)}.pdf"
+              .replaceAll(RegExp(r' '), '-');
+      var response1 = await http.post(
+        Uri.parse("${AppEnviroment.baseApiUrl}/minio/generate/perscription/"),
         headers: <String, String>{
           "Content-Type": "application/json; charset=UTF-8"
         },
         body: jsonEncode(<String, dynamic>{
-          "file_path":
-              "${widget.selectedPatient.app_id}/patient_files/$fileName",
-          "file_name": fileName,
-          "app_id": widget.selectedPatient.app_id
+          "app_id": widget.selectedPatient.app_id,
+          "env": widget.env,
+          "patient_full_name":
+              "${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}",
+          "fileName": fileName,
+          "id_no": widget.selectedPatient.id_no,
+          "docfname":
+              "DR. ${widget.signedInUser.fname} ${widget.signedInUser.lname}",
+          "busName": widget.business!.Name,
+          "busAddr": "*TO BE ADDED IN THE FUTURE*",
+          "busNo": widget.business!.contact_no,
+          "busEmail": widget.business!.bus_email,
+          "logo_path": widget.business!.logo_path,
+          "sig_path": widget.businessUser!.sig_path,
+          "data": perscriptionObjOutput,
         }),
       );
-      //print(response2.statusCode);
-      if (response2.statusCode == 201) {
-        //To do
-        widget.medicineController.clear();
-        widget.dosageController.clear();
-        widget.timesDailyController.clear();
-        widget.noDaysController.clear();
-        widget.timesDailyController.clear();
-        widget.noRepeatsController.clear();
-        widget.quantityController.clear();
-        widget.outputController.clear();
-        // futueFiles = fetchFiles();
-        // end loading circle
-        context.pop();
-        context.pop();
-        String message =
-            "The perscription $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
-
-        await MihPatientServices().getPatientDocuments(patManProvider);
-        MihAlertServices().successBasicAlert(
-          "Success!",
-          message,
-          context,
+      //print(response1.statusCode);
+      if (response1.statusCode == 200) {
+        var response2 = await http.post(
+          Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/insert/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "file_path":
+                "${widget.selectedPatient.app_id}/patient_files/$fileName",
+            "file_name": fileName,
+            "app_id": widget.selectedPatient.app_id
+          }),
         );
+        //print(response2.statusCode);
+        if (response2.statusCode == 201) {
+          //To do
+          widget.medicineController.clear();
+          widget.dosageController.clear();
+          widget.timesDailyController.clear();
+          widget.noDaysController.clear();
+          widget.timesDailyController.clear();
+          widget.noRepeatsController.clear();
+          widget.quantityController.clear();
+          widget.outputController.clear();
+          // futueFiles = fetchFiles();
+          // end loading circle
+          context.pop();
+          context.pop();
+          String message =
+              "The perscription $fileName has been successfully generated and added to ${widget.selectedPatient.first_name} ${widget.selectedPatient.last_name}'s record. You can now access and download it for their use.";
+
+          await MihPatientServices().getPatientDocuments(patManProvider);
+          MihAlertServices().successBasicAlert(
+            "Success!",
+            message,
+            context,
+          );
+        } else {
+          context.pop();
+          MihAlertServices().internetConnectionAlert(context);
+        }
       } else {
+        context.pop();
         MihAlertServices().internetConnectionAlert(context);
       }
-    } else {
+    } catch (error) {
+      context.pop();
       MihAlertServices().internetConnectionAlert(context);
     }
   }
@@ -319,6 +325,18 @@ class _PrescripInputState extends State<PrescripInput> {
   Widget displayMedInput() {
     return Column(
       children: [
+        const SizedBox(height: 10.0),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "*NB: Internet connection required to generate document.",
+            style: TextStyle(
+              color: MihColors.red(),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 10.0),
         MihForm(
           formKey: _formKey,
           formFields: [

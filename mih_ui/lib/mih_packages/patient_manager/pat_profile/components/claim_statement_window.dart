@@ -75,6 +75,18 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                   : const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
             children: [
+              const SizedBox(height: 10.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "*NB: Internet connection required to generate document.",
+                  style: TextStyle(
+                    color: MihColors.red(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
               MihForm(
                 formKey: _formKey,
                 formFields: [
@@ -289,41 +301,47 @@ class _ClaimStatementWindowState extends State<ClaimStatementWindow> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (isInputValid()) {
-                            MIHClaimStatementGenerationApi()
-                                .generateClaimStatement(
-                                    profileProvider,
-                                    patientManagerProvider,
-                                    ClaimStatementGenerationArguments(
-                                      _docTypeController.text,
-                                      patientManagerProvider
-                                          .selectedPatient!.app_id,
-                                      _fullNameController.text,
-                                      _idController.text,
-                                      _medAidController.text,
-                                      _medAidNoController.text,
-                                      _medAidCodeController.text,
-                                      _medAidNameController.text,
-                                      _medAidSchemeController.text,
-                                      profileProvider.business!.Name,
-                                      "*To-Be Added*",
-                                      profileProvider.business!.contact_no,
-                                      profileProvider.business!.bus_email,
-                                      _providerNameController.text,
-                                      _practiceNoController.text,
-                                      _vatNoController.text,
-                                      _serviceDateController.text,
-                                      _serviceDescController.text,
-                                      _serviceDescOptionsController.text,
-                                      _prcedureNameController.text,
-                                      _proceedureAdditionalInfoController.text,
-                                      _icd10CodeController.text,
-                                      _amountController.text,
-                                      _preauthNoController.text,
-                                      profileProvider.business!.logo_path,
-                                      profileProvider.businessUser!.sig_path,
-                                    ),
-                                    AppEnviroment.getEnv(),
-                                    context);
+                            try {
+                              MIHClaimStatementGenerationApi()
+                                  .generateClaimStatement(
+                                      profileProvider,
+                                      patientManagerProvider,
+                                      ClaimStatementGenerationArguments(
+                                        _docTypeController.text,
+                                        patientManagerProvider
+                                            .selectedPatient!.app_id,
+                                        _fullNameController.text,
+                                        _idController.text,
+                                        _medAidController.text,
+                                        _medAidNoController.text,
+                                        _medAidCodeController.text,
+                                        _medAidNameController.text,
+                                        _medAidSchemeController.text,
+                                        profileProvider.business!.Name,
+                                        "*To-Be Added*",
+                                        profileProvider.business!.contact_no,
+                                        profileProvider.business!.bus_email,
+                                        _providerNameController.text,
+                                        _practiceNoController.text,
+                                        _vatNoController.text,
+                                        _serviceDateController.text,
+                                        _serviceDescController.text,
+                                        _serviceDescOptionsController.text,
+                                        _prcedureNameController.text,
+                                        _proceedureAdditionalInfoController
+                                            .text,
+                                        _icd10CodeController.text,
+                                        _amountController.text,
+                                        _preauthNoController.text,
+                                        profileProvider.business!.logo_path,
+                                        profileProvider.businessUser!.sig_path,
+                                      ),
+                                      AppEnviroment.getEnv(),
+                                      context);
+                            } catch (error) {
+                              MihAlertServices()
+                                  .internetConnectionAlert(context);
+                            }
                           } else {
                             MihAlertServices().inputErrorAlert(context);
                           }

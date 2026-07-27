@@ -43,6 +43,20 @@ class _WaitingRoomState extends State<WaitingRoom> {
   bool inWaitingRoom = true;
   final _formKey = GlobalKey<FormState>();
 
+  Future<void> _updateSelectedDate(
+    int daysOffset,
+    MihCalendarProvider mihCalendarProvider,
+    MzansiProfileProvider mzansiProfileProvider,
+  ) async {
+    final String rawDay = mihCalendarProvider.selectedDay;
+    final DateTime currentDay = DateTime.parse(rawDay);
+    final DateTime newDate = currentDay.add(Duration(days: daysOffset));
+    final String formattedDate = newDate.toIso8601String().split('T')[0];
+    mihCalendarProvider.setSelectedDay(formattedDate);
+    mihCalendarProvider.loadCachedCalendar();
+    await mihCalendarProvider.syncWithMihServerData(mzansiProfileProvider);
+  }
+
   // Business Appointment Tool
   Widget getBusinessAppointmentsTool(double width) {
     return Consumer3<MzansiProfileProvider, PatientManagerProvider,
@@ -71,39 +85,77 @@ class _WaitingRoomState extends State<WaitingRoom> {
                         .syncWithMihServerData(profileProvider);
                   },
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 displayAppointmentList(calendarProvider)
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Align(
+                alignment: AlignmentGeometry.bottomCenter,
+                child: MihButton(
+                  borderRadius: 100,
+                  width: 65,
+                  height: 65,
+                  onPressed: () {
+                    appointmentTypeSelection(
+                      profileProvider,
+                      patientManagerProvider,
+                      calendarProvider,
+                      width,
+                    );
+                  },
+                  buttonColor: MihColors.green(),
+                  child: Center(
+                    child: Icon(
+                      Icons.add,
+                      color: MihColors.primary(),
+                      size: 45,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 10,
+              bottom: 10,
+              child: MihButton(
+                borderRadius: 100,
+                width: 65,
+                height: 65,
+                onPressed: () {
+                  _updateSelectedDate(-1, calendarProvider, profileProvider);
+                },
+                buttonColor: MihColors.green(),
+                child: Center(
+                  child: Icon(
+                    Icons.keyboard_arrow_left_rounded,
+                    color: MihColors.primary(),
+                    size: 60,
+                  ),
+                ),
+              ),
             ),
             Positioned(
               right: 10,
               bottom: 10,
-              child: MihFloatingMenu(
-                icon: Icons.add,
-                animatedIcon: AnimatedIcons.menu_close,
-                children: [
-                  SpeedDialChild(
-                    child: Icon(
-                      Icons.add,
-                      color: MihColors.primary(),
-                    ),
-                    label: "Add Appointment",
-                    labelBackgroundColor: MihColors.green(),
-                    labelStyle: TextStyle(
-                      color: MihColors.primary(),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: MihColors.green(),
-                    onTap: () {
-                      // addAppointmentWindow();
-                      appointmentTypeSelection(
-                        profileProvider,
-                        patientManagerProvider,
-                        calendarProvider,
-                        width,
-                      );
-                    },
-                  )
-                ],
+              child: MihButton(
+                borderRadius: 100,
+                width: 65,
+                height: 65,
+                onPressed: () {
+                  _updateSelectedDate(1, calendarProvider, profileProvider);
+                },
+                buttonColor: MihColors.green(),
+                child: Center(
+                  child: Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    color: MihColors.primary(),
+                    size: 60,
+                  ),
+                ),
               ),
             ),
           ],
@@ -289,6 +341,9 @@ class _WaitingRoomState extends State<WaitingRoom> {
 
   void addAppointmentWindow(MzansiProfileProvider profileProvider,
       MihCalendarProvider mihCalendarProvider, double width) {
+    _appointmentDateController.text = mihCalendarProvider.selectedDay;
+    _appointmentTimeController.text =
+        DateTime.now().toIso8601String().split('T')[1].substring(0, 5);
     showDialog(
       context: context,
       barrierDismissible: false,

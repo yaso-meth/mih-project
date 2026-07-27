@@ -36,25 +36,29 @@ class _PatientConsultationState extends State<PatientConsultation> {
     MzansiProfileProvider profileProvider,
     PatientManagerProvider patManProvider,
   ) async {
-    int statuscode = await MihPatientServices().addPatientNoteAPICall(
-      titleController.text,
-      noteTextController.text,
-      profileProvider,
-      patManProvider,
-    );
-    if (statuscode == 201) {
-      context.pop();
-      MihAlertServices().successBasicAlert(
-        "Success!",
-        "Note added successfully.",
-        context,
+    try {
+      int statuscode = await MihPatientServices().addPatientNoteAPICall(
+        titleController.text,
+        noteTextController.text,
+        profileProvider,
+        patManProvider,
       );
-      titleController.clear();
-      noteTextController.clear();
-      officeController.clear();
-      dateController.clear();
-      doctorController.clear();
-    } else {
+      if (statuscode == 201) {
+        context.pop();
+        MihAlertServices().successBasicAlert(
+          "Success!",
+          "Note added successfully.",
+          context,
+        );
+        titleController.clear();
+        noteTextController.clear();
+        officeController.clear();
+        dateController.clear();
+        doctorController.clear();
+      } else {
+        MihAlertServices().internetConnectionAlert(context);
+      }
+    } catch (error) {
       MihAlertServices().internetConnectionAlert(context);
     }
   }
@@ -95,6 +99,18 @@ class _PatientConsultationState extends State<PatientConsultation> {
                   : const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
             children: [
+              const SizedBox(height: 10.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "*NB: Internet connection required to add note",
+                  style: TextStyle(
+                    color: MihColors.red(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
               MihForm(
                 formKey: _formKey,
                 formFields: [

@@ -121,6 +121,9 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
       fnameController.text = firstLetterFName;
       lnameController.text = firstLetterLName;
     });
+    dateController.text = DateTime.now().toIso8601String().split('T')[0];
+    timeController.text =
+        DateTime.now().toIso8601String().split('T')[1].substring(0, 5);
     showDialog(
       context: context,
       barrierDismissible: false,
