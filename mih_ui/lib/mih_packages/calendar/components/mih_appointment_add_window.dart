@@ -5,7 +5,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
-import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
