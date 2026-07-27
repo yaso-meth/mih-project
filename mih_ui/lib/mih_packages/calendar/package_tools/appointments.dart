@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/components/mih_appointment_add_window.dart';
