@@ -121,10 +121,19 @@ class OllamaProvider with ChangeNotifier {
     try {
       response = await _httpClient.send(request);
     } on http.ClientException catch (e) {
-      // Aborted before a response ever arrived.
-      KenLogger.info("Generation aborted before response: $e");
+      if (_abortCompleter != null && _abortCompleter!.isCompleted) {
+        KenLogger.info("Generation aborted before response: $e");
+        _abortCompleter = null;
+        return;
+      }
+
+      // Otherwise, it's a real network/server error — rethrow it!
+      KenLogger.error("Network connection error: $e");
       _abortCompleter = null;
-      return;
+      rethrow;
+    } catch (e) {
+      _abortCompleter = null;
+      rethrow;
     }
 
     try {

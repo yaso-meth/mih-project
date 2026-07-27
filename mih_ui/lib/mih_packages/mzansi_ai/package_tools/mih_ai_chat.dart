@@ -271,9 +271,12 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
           ),
         );
       }
+      String response = _fullResponse.isNotEmpty
+          ? _fullResponse.toString()
+          : "Please bear with us as we are still learning and do not have all the answers.";
       _chatController.updateMessage(
         ChatMessage(
-          text: _fullResponse.toString(),
+          text: response,
           createdAt: DateTime.now(),
           user: _aiUser,
           isMarkdown: true,
@@ -286,10 +289,11 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
       _chatController.stopStreamingMessage(aiMessageId);
     } catch (e) {
       KenLogger.error("Error generating stream: $e");
+      _chatController.stopStreamingMessage(aiMessageId);
       _chatController.updateMessage(
         ChatMessage(
           text:
-              "Please bear with us as we are still learning and do not have all the answers.",
+              "Connection failed. Please check your internet connection or try again later.",
           createdAt: DateTime.now(),
           user: _aiUser,
           isMarkdown: true,

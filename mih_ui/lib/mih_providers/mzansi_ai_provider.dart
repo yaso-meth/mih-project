@@ -136,9 +136,11 @@ class MzansiAiProvider extends ChangeNotifier {
   ) {
     return WelcomeMessageConfig(
       centerVertically: true,
-      title: "Hi there $name 👋\nMzansi AI is here to help.",
+      title: "Hi There $name 👋\nMzansi AI is here to help.",
       titleStyle: TextStyle(
-        fontSize: 35,
+        fontSize: MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? 35
+            : 24,
         fontWeight: FontWeight.bold,
         color: MihColors.primary(),
       ),
