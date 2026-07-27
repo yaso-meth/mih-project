@@ -171,27 +171,29 @@ class MihPatientServices {
     String address,
     PatientManagerProvider patientManagerProvider,
   ) async {
-    var response = await http.put(
-      Uri.parse("$baseAPI/patients/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "id_no": id_no,
-        "first_name": fname,
-        "last_name": lname,
-        "email": email,
-        "cell_no": cell,
-        "medical_aid": medAid,
-        "medical_aid_main_member": medMainMem,
-        "medical_aid_no": medNo,
-        "medical_aid_code": medAidCode,
-        "medical_aid_name": medName,
-        "medical_aid_scheme": medScheme,
-        "address": address,
-        "app_id": app_id,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse("$baseAPI/patients/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "id_no": id_no,
+            "first_name": fname,
+            "last_name": lname,
+            "email": email,
+            "cell_no": cell,
+            "medical_aid": medAid,
+            "medical_aid_main_member": medMainMem,
+            "medical_aid_no": medNo,
+            "medical_aid_code": medAidCode,
+            "medical_aid_name": medName,
+            "medical_aid_scheme": medScheme,
+            "address": address,
+            "app_id": app_id,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       await getPatientDetails(app_id, patientManagerProvider);
     }

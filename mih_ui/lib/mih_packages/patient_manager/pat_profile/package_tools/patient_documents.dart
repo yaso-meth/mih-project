@@ -45,7 +45,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   Future<void> submitDocUploadForm(
       PatientManagerProvider patientManagerProvider) async {
     if (isFileFieldsFilled()) {
-      await uploadSelectedFile(patientManagerProvider, selected);
+      try {
+        await uploadSelectedFile(patientManagerProvider, selected);
+      } catch (error) {
+        MihAlertServices().internetConnectionAlert(context);
+      }
     } else {
       MihAlertServices().inputErrorAlert(context);
     }
