@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
-import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:provider/provider.dart';
 
