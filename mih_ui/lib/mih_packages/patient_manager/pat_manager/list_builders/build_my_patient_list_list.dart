@@ -465,7 +465,7 @@ class _BuildPatientsListState extends State<BuildMyPatientListList> {
           builder: (context, snapshot) {
             ImageProvider? image;
             if (snapshot.connectionState == ConnectionState.waiting) {
-              image = CachedNetworkImageProvider("");
+              image = null;
             }
 
             if (snapshot.hasData) {

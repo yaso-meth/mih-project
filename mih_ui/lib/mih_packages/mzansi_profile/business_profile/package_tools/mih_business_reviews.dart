@@ -125,7 +125,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
                 builder: (context, snapshot) {
                   ImageProvider? image;
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    image = CachedNetworkImageProvider("");
+                    image = null;
                   }
 
                   if (snapshot.hasData) {

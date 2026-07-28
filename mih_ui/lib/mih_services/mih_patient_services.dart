@@ -22,7 +22,7 @@ class MihPatientServices {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-    );
+    ).timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);

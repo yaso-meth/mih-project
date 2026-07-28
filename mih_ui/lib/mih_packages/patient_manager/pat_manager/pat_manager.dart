@@ -42,7 +42,7 @@ class _PatManagerState extends State<PatManager> {
     }
     if (patientManagerProvider.myPaitentList == null ||
         patientManagerProvider.myPaitentList!.isEmpty) {
-      patientManagerProvider.syncWithMihServerData(
+      await patientManagerProvider.syncWithMihServerData(
         null,
         mzansiProfileProvider.business!.business_id,
       );

@@ -138,6 +138,18 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
         },
         windowBody: Column(
           children: [
+            const SizedBox(height: 10.0),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "*NB: Internet connection required to request access.",
+                style: TextStyle(
+                  color: MihColors.red(),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5.0),
             MihTextFormField(
               fillColor: MihColors.secondary(),
               inputColor: MihColors.primary(),
@@ -264,28 +276,19 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
                       child: MihButton(
                         onPressed: () async {
                           if (hasAccess) {
-                            await MihPatientServices().getPatientDetails(
-                                patientManagerProvider
-                                    .patientSearchResults[index].app_id,
-                                patientManagerProvider);
-                            context.pop();
-                            context.pushNamed(
-                              'patientManagerPatient',
-                            );
-                            // context.pushNamed(
-                            //   'patientPatient',
-                            //   extra: patientManagerProvider
-                            //       .patientSearchResults![index].app_id,
-                            // );
-                            // Navigator.of(context)
-                            //     .pushNamed('/patient-manager/patient',
-                            //         arguments: PatientViewArguments(
-                            //           widget.signedInUser,
-                            //           widget.patients[index],
-                            //           widget.businessUser,
-                            //           widget.business,
-                            //           "business",
-                            //         ));
+                            try {
+                              await MihPatientServices().getPatientDetails(
+                                  patientManagerProvider
+                                      .patientSearchResults[index].app_id,
+                                  patientManagerProvider);
+                              context.pop();
+                              context.pushNamed(
+                                'patientManagerPatient',
+                              );
+                            } catch (error) {
+                              MihAlertServices()
+                                  .internetConnectionAlert(context);
+                            }
                           } else {
                             MihAlertServices().warningAlert(
                               "Access Pending",
@@ -442,10 +445,10 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
       displayedIdNo = "${patientIdNo.substring(0, 6)}$idStars";
     } else {
       // If ID is shorter than 6 characters, just show it with stars
-      displayedIdNo = "${patientIdNo}******";
+      displayedIdNo = "$patientIdNo******";
     }
 
-    Future<AppUser?> reviewer = MihUserServices().getMIHUserDetailsV2(
+    Future<AppUser?> patient = MihUserServices().getMIHUserDetailsV2(
         patientManagerProvider.patientSearchResults[index].app_id);
     if (patientManagerProvider.patientSearchResults[index].medical_aid ==
         "Yes") {
@@ -461,11 +464,11 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           ),
           hoverColor: MihColors.highlight(),
           leading: FutureBuilder<AppUser?>(
-            future: reviewer,
+            future: patient,
             builder: (context, snapshot) {
               ImageProvider? image;
               if (snapshot.connectionState == ConnectionState.waiting) {
-                image = CachedNetworkImageProvider("");
+                image = null;
               }
 
               if (snapshot.hasData) {
@@ -521,11 +524,11 @@ class _BuildPatientsListState extends State<BuildMihPatientSearchList> {
           ),
           hoverColor: MihColors.highlight(),
           leading: FutureBuilder<AppUser?>(
-            future: reviewer,
+            future: patient,
             builder: (context, snapshot) {
               ImageProvider? image;
               if (snapshot.connectionState == ConnectionState.waiting) {
-                image = CachedNetworkImageProvider("");
+                image = null;
               }
 
               if (snapshot.hasData) {
