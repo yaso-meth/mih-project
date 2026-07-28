@@ -4,7 +4,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provide
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/package_tools/mih_access_requests.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:provider/provider.dart';
 
 class MihAccess extends StatefulWidget {
@@ -17,38 +16,46 @@ class MihAccess extends StatefulWidget {
 }
 
 class _MihAccessState extends State<MihAccess> {
-  bool _isLoadingInitialData = true;
   late final MihAccessRequest _accessRequest;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
-    MzansiProfileProvider mzansiProfileProvider =
+    MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
-    if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+    MihAccessControllsProvider accessProvider =
+        context.read<MihAccessControllsProvider>();
+    profileProvider.loadCachedProfileState();
+    accessProvider.loadCachedAccess();
+    if (profileProvider.user == null) {
+      await profileProvider.syncWithMihServerData();
     }
-    setState(() {
-      _isLoadingInitialData = false;
-    });
+    if (accessProvider.accessList == null) {
+      await accessProvider.syncWithMihServerData(profileProvider);
+    } else {
+      accessProvider.syncWithMihServerData(profileProvider);
+    }
   }
 
   @override
   void initState() {
     super.initState();
     _accessRequest = MihAccessRequest();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MihAccessControllsProvider>(
-      builder: (BuildContext context, MihAccessControllsProvider accessProvider,
-          Widget? child) {
-        if (_isLoadingInitialData) {
+    return Consumer2<MzansiProfileProvider, MihAccessControllsProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MihAccessControllsProvider accessProvider,
+        Widget? child,
+      ) {
+        if (profileProvider.user == null || accessProvider.accessList == null) {
           return Scaffold(
             body: Center(
               child: Mihloadingcircle(),
