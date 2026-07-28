@@ -71,13 +71,9 @@ void main() async {
   await Hive.openBox<List>('patient_claim_box');
   await Hive.openBox<String>('patient_pro_pic_url_box');
   await Hive.openBox<PatientAccess>('my_patient_access_list_box');
+  // Mih Access Data
+  await Hive.openBox<PatientAccess>('patient_access_box');
 
-  // await Firebase.initializeApp(
-  //   // options: DefaultFirebaseOptions.currentPlatform,
-  //   options: (Platform.isLinux)
-  //       ? DefaultFirebaseOptions.web // Forces Linux to use the Web config
-  //       : DefaultFirebaseOptions.currentPlatform,
-  // );
   if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
     const List<String> testDeviceIds = ['733d4c68-9b54-453a-9622-2df407310f40'];
     MobileAds.instance.updateRequestConfiguration(

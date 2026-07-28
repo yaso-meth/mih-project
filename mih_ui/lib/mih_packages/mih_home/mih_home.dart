@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.d
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_soft_login_popup.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_user_consent_window.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
@@ -85,6 +86,8 @@ class _MihHomeState extends State<MihHome> {
           context.read<MihCalendarProvider>();
       PatientManagerProvider patientManagerProvider =
           context.read<PatientManagerProvider>();
+      MihAccessControllsProvider accessProvider =
+          context.read<MihAccessControllsProvider>();
       await profileProvider.syncWithMihServerData();
       await walletProvider.syncWithMihServerData(profileProvider);
       await directoryProvider.syncWithMihServerData(profileProvider);
@@ -94,6 +97,7 @@ class _MihHomeState extends State<MihHome> {
       await calendarProvider.syncWithMihServerData(profileProvider);
       await patientManagerProvider.syncWithMihServerData(
           profileProvider.user!.app_id, profileProvider.business?.bus_email);
+      await accessProvider.syncWithMihServerData(profileProvider);
       _showSyncSnackBar(context, "Data Synced with MIH Cloud.");
     } catch (syncError) {
       MihAlertServices().errorBasicAlert(

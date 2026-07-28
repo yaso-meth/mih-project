@@ -71,6 +71,8 @@ void main() async {
   await Hive.openBox<List>('patient_claim_box');
   await Hive.openBox<String>('patient_pro_pic_url_box');
   await Hive.openBox<PatientAccess>('my_patient_access_list_box');
+  // Mih Access Data
+  await Hive.openBox<PatientAccess>('patient_access_box');
 
   // await Firebase.initializeApp(
   //   // options: DefaultFirebaseOptions.currentPlatform,

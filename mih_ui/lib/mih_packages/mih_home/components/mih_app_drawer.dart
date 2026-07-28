@@ -32,7 +32,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   late Widget profilePictureLoaded;
 
   Future<void> clearCacheAndProviders() async {
-    context.read<MihAccessControllsProvider>().reset();
     context.read<MihAuthenticationProvider>().reset();
     context.read<MihBannerAdProvider>().reset();
     context.read<MihCalculatorProvider>().reset();
@@ -49,6 +48,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
     await context
         .read<PatientManagerProvider>()
         .clearPatientManagerCacheAndProvider();
+    context.read<MihAccessControllsProvider>().clearAccessCacheAndProvider();
     //last clear is always the profile provider
     await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
   }
