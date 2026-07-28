@@ -10,6 +10,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 class MihCircleAvatar extends StatefulWidget {
   final ImageProvider<Object>? imageFile;
   final double width;
+  final BoxFit fit;
   final bool expandable;
   final bool editable;
   final TextEditingController? fileNameController;
@@ -21,8 +22,9 @@ class MihCircleAvatar extends StatefulWidget {
     super.key,
     required this.imageFile,
     required this.width,
-    required this.expandable,
-    required this.editable,
+    this.fit = BoxFit.cover,
+    this.expandable = false,
+    this.editable = false,
     required this.fileNameController,
     required this.userSelectedfile,
     required this.frameColor,
@@ -37,16 +39,29 @@ class MihCircleAvatar extends StatefulWidget {
 class _MihCircleAvatarState extends State<MihCircleAvatar> {
   late ImageProvider<Object>? imagePreview;
 
-  ImageProvider<Object>? getAvatar() {
-    if (widget.imageFile == null) {
-      return null;
-    } else {
-      return widget.imageFile;
+  @override
+  void initState() {
+    super.initState();
+    imagePreview = widget.imageFile;
+  }
+
+  @override
+  void didUpdateWidget(covariant MihCircleAvatar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.imageFile != oldWidget.imageFile) {
+      setState(() {
+        imagePreview = widget.imageFile;
+      });
     }
   }
 
   void expandAvatar() {
     if (imagePreview == null) return;
+    Widget modalImage = Image(
+      image: imagePreview!,
+      width: double.infinity,
+      fit: BoxFit.fitWidth,
+    );
     showDialog(
       context: context,
       builder: (context) {
@@ -59,7 +74,9 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
           },
           windowBody: SizedBox.expand(
             child: InteractiveViewer(
-              child: Image(image: imagePreview!),
+              child: Center(
+                child: modalImage,
+              ),
             ),
           ),
         );
@@ -77,22 +94,6 @@ class _MihCircleAvatarState extends State<MihCircleAvatar> {
         widget.fileNameController!.text = fileName;
       });
       widget.onChange?.call(file);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    imagePreview = getAvatar();
-  }
-
-  @override
-  void didUpdateWidget(covariant MihCircleAvatar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.imageFile != oldWidget.imageFile) {
-      setState(() {
-        imagePreview = widget.imageFile;
-      });
     }
   }
 

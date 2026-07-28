@@ -65,7 +65,6 @@ class _MihImageDisplayState extends State<MihImageDisplay> {
       width: double.infinity,
       fit: BoxFit.fitWidth,
     );
-
     if (widget.blur) {
       modalImage = ImageFiltered(
         imageFilter: ImageFilter.blur(
