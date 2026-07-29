@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -363,7 +361,9 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                 ),
               ),
               SizedBox(height: 10),
-              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+              if (!kIsWeb &&
+                  (defaultTargetPlatform == TargetPlatform.android ||
+                      defaultTargetPlatform == TargetPlatform.iOS))
                 MihBannerAd()
               // MihBannerAd(),
             ],

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -80,7 +78,9 @@ void main() async {
   //       ? DefaultFirebaseOptions.web // Forces Linux to use the Web config
   //       : DefaultFirebaseOptions.currentPlatform,
   // );
-  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS)) {
     const List<String> testDeviceIds = ['733d4c68-9b54-453a-9622-2df407310f40'];
     MobileAds.instance.updateRequestConfiguration(
       RequestConfiguration(

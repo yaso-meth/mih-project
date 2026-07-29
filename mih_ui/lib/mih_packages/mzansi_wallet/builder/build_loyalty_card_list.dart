@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
@@ -78,7 +76,7 @@ class _BuildLoyaltyCardListState extends State<BuildLoyaltyCardList> {
   }
 
   Future<void> setScreenBrightness(double newBrightness) async {
-    if (!kIsWeb && !Platform.isLinux) {
+    if (!kIsWeb && defaultTargetPlatform != TargetPlatform.linux) {
       bool canChange =
           await ScreenBrightness.instance.canChangeSystemBrightness;
 

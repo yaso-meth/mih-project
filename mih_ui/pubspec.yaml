@@ -11,6 +11,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   mih_package_toolkit: ^1.0.0
+  ai_response_cleaner: ^1.0.1
   cupertino_icons: ^1.0.8
   font_awesome_flutter: ^11.0.0
   syncfusion_flutter_core: ^34.1.30

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
@@ -212,7 +210,9 @@ class _TipCalcState extends State<TipCalc> {
               ),
             SizedBox(height: 10),
             Consumer(builder: (context, bannerAdDisplay, child) {
-              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+              if (!kIsWeb &&
+                  (defaultTargetPlatform == TargetPlatform.android ||
+                      defaultTargetPlatform == TargetPlatform.iOS)) {
                 return MihBannerAd();
               } else {
                 return const SizedBox(height: 0);

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -407,7 +405,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                     ),
                   ],
                 ),
-                if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+                if (!kIsWeb &&
+                    (defaultTargetPlatform == TargetPlatform.android ||
+                        defaultTargetPlatform == TargetPlatform.iOS))
                   MihBannerAd(),
                 const SizedBox(height: 10),
                 Divider(

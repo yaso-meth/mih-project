@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -30,7 +28,9 @@ class MihBannerAdProvider extends ChangeNotifier {
   }
 
   void loadBannerAd() {
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
       if (bannerAd != null) {
         bannerAd!.dispose();
         bannerAd = null;

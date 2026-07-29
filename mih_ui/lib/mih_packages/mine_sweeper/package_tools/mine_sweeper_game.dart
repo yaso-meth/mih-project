@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -790,7 +789,10 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 ],
               ),
             ),
-            _timer != null && !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+            _timer != null &&
+                    !kIsWeb &&
+                    (defaultTargetPlatform == TargetPlatform.android ||
+                        defaultTargetPlatform == TargetPlatform.iOS)
                 ? MihBannerAd()
                 : SizedBox(),
             SizedBox(height: 10),

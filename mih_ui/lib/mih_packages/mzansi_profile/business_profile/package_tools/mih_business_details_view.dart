@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -147,7 +145,9 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                 ),
               ),
             ),
-            !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+            !kIsWeb &&
+                    (defaultTargetPlatform == TargetPlatform.android ||
+                        defaultTargetPlatform == TargetPlatform.iOS)
                 ? MihBannerAd()
                 : SizedBox(),
             SizedBox(height: 10),

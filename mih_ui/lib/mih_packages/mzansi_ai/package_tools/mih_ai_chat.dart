@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:ai_response_cleaner/ai_response_cleaner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen_ai_chat_ui/flutter_gen_ai_chat_ui.dart';
@@ -33,42 +34,6 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   Uint8List? _pendingBase64Image;
   bool _isLoading = false;
   bool _isTalking = false;
-
-  String stripMarkdownRegex(String text) {
-    if (text.isEmpty) return text;
-    String cleaned = text;
-    cleaned = cleaned.replaceAll(
-      RegExp(r'<(think|thought)>[\s\S]*?<\/\1>', caseSensitive: false),
-      '',
-    );
-    cleaned = cleaned.trim();
-    if ((cleaned.startsWith('```markdown') ||
-            cleaned.startsWith('```md') ||
-            cleaned.startsWith('```')) &&
-        cleaned.endsWith('```')) {
-      cleaned = cleaned.replaceFirst(RegExp(r'^```[a-zA-Z]*\n?'), '');
-      cleaned = cleaned.substring(0, cleaned.length - 3).trim();
-    }
-    cleaned = cleaned.replaceAll(RegExp(r'```[a-zA-Z]*\n?'), '');
-    cleaned = cleaned.replaceAllMapped(
-      RegExp(r'!\[(.*?)\]\(.*?\)'),
-      (match) => match[1] ?? '',
-    );
-    cleaned = cleaned.replaceAllMapped(
-      RegExp(r'\[(.*?)\]\(.*?\)'),
-      (match) => match[1] ?? '',
-    );
-    cleaned = cleaned.replaceAll(RegExp(r'^\s*#+\s+', multiLine: true), '');
-    cleaned = cleaned.replaceAll(RegExp(r'^\s*>\s?', multiLine: true), '');
-    cleaned = cleaned.replaceAll(
-        RegExp(r'^\s*([*+-]|\d+\.)\s+', multiLine: true), '');
-    cleaned =
-        cleaned.replaceAll(RegExp(r'^\s*([-*_]){3,}\s*$', multiLine: true), '');
-    cleaned = cleaned.replaceAll(RegExp(r'(\*\*|__|~~|`|\*|_)'), '');
-    cleaned = cleaned.replaceAll(RegExp(r'\$\$?'), '');
-    cleaned = cleaned.replaceAll(RegExp(r'\n{3,}'), '\n\n');
-    return cleaned.trim();
-  }
 
   void initialiseControllers(MzansiProfileProvider profileProvider) {
     _chatController = ChatMessagesController();
@@ -107,7 +72,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
     if (text.trim().isEmpty) return;
     if (kIsWasm) {
       try {
-        speakOnWeb(stripMarkdownRegex(text), enqueue: enqueue);
+        speakOnWeb(AiResponseCleaner.clean(text), enqueue: enqueue);
       } catch (error) {
         KenLogger.error("WASM TTS Error: $error");
       }
@@ -122,7 +87,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
         '-p',
         '12',
         if (enqueue) '-e',
-        stripMarkdownRegex(text),
+        AiResponseCleaner.clean(text),
       ];
       try {
         await Process.run('spd-say', args).timeout(

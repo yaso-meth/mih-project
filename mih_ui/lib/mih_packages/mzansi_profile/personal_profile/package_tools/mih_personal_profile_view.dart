@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
@@ -156,19 +154,19 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                               runSpacing: 10,
                               spacing: 10,
                               children: [
-                                Container(width: 70, height: 70).redacted(
+                                SizedBox(width: 70, height: 70).redacted(
                                   context: context,
                                   redact: true,
                                 ),
-                                Container(width: 70, height: 70).redacted(
+                                SizedBox(width: 70, height: 70).redacted(
                                   context: context,
                                   redact: true,
                                 ),
-                                Container(width: 70, height: 70).redacted(
+                                SizedBox(width: 70, height: 70).redacted(
                                   context: context,
                                   redact: true,
                                 ),
-                                Container(width: 70, height: 70).redacted(
+                                SizedBox(width: 70, height: 70).redacted(
                                   context: context,
                                   redact: true,
                                 ),
@@ -182,7 +180,9 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                 ),
               ),
             ),
-            !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+            !kIsWeb &&
+                    (defaultTargetPlatform == TargetPlatform.android ||
+                        defaultTargetPlatform == TargetPlatform.iOS)
                 ? MihBannerAd()
                 : SizedBox(),
             SizedBox(height: 10),

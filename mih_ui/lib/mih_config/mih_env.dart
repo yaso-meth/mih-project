@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 
 enum Enviroment { dev, prod }
@@ -28,7 +26,8 @@ abstract class AppEnviroment {
             baseAiUrl = "http://localhost:11434";
             bannerAdUnitId = 'ca-app-pub-3940256099942544/2435281174'; // IOS ID
             break;
-          } else if (Platform.isIOS || Platform.isLinux) {
+          } else if (defaultTargetPlatform == TargetPlatform.linux ||
+              defaultTargetPlatform == TargetPlatform.iOS) {
             //================= Web Dev Urls =================
             baseAppUrl = "http://localhost:80";
             baseApiUrl = "http://localhost:8080";
@@ -36,7 +35,7 @@ abstract class AppEnviroment {
             baseAiUrl = "http://localhost:11434";
             bannerAdUnitId = 'ca-app-pub-3940256099942544/2435281174'; // IOS ID
             break;
-          } else if (Platform.isAndroid) {
+          } else if (defaultTargetPlatform == TargetPlatform.android) {
             //================= Android Dev Urls =================
             baseAppUrl = "http://10.0.2.2:80";
             baseApiUrl = "http://10.0.2.2:8080";
@@ -54,10 +53,10 @@ abstract class AppEnviroment {
           if (kIsWeb) {
             // No banner ads on web, or use a placeholder/specific web ad unit
             bannerAdUnitId = ''; // Or a specific web ad unit ID if you have one
-          } else if (Platform.isAndroid) {
+          } else if (defaultTargetPlatform == TargetPlatform.android) {
             bannerAdUnitId =
                 'ca-app-pub-4781880856775334/8868663088'; // Android
-          } else if (Platform.isIOS) {
+          } else if (defaultTargetPlatform == TargetPlatform.iOS) {
             // Use Platform.isIOS for clarity
             bannerAdUnitId = 'ca-app-pub-4781880856775334/6640324682'; // iOS
           } else {
