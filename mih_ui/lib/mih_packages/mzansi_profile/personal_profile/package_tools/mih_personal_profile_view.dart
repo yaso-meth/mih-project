@@ -5,6 +5,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -39,6 +40,11 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
         context.read<MzansiDirectoryProvider>();
     futureLinks = MihProfileLinksServices.getUserProfileLinksMD(
         directoryProvider, directoryProvider.selectedUser!.app_id);
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
   }
 
   @override
@@ -180,11 +186,10 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                 ),
               ),
             ),
-            !kIsWeb &&
-                    (defaultTargetPlatform == TargetPlatform.android ||
-                        defaultTargetPlatform == TargetPlatform.iOS)
-                ? MihBannerAd()
-                : SizedBox(),
+            if (!kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.iOS))
+              MihBannerAd(),
             SizedBox(height: 10),
           ],
         );

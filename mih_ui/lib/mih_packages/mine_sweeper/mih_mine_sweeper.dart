@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mih_mine_sweeper_leader_board.dart';
@@ -28,10 +27,8 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
         context.read<MzansiProfileProvider>();
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
-    MihBannerAdProvider bannerAdProvider = context.read<MihBannerAdProvider>();
     mzansiProfileProvider.loadCachedProfileState();
     mineSweeperProvider.loadCachedMSleaderboards();
-    bannerAdProvider.loadBannerAd();
     if (mzansiProfileProvider.user == null) {
       await mzansiProfileProvider.syncWithMihServerData();
     }

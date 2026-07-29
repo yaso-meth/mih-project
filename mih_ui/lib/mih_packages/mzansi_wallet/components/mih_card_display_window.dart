@@ -8,6 +8,7 @@ import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_display.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_card_edit_window.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -33,6 +34,16 @@ class MihCardDisplayWindow extends StatefulWidget {
 
 class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
   double? _originalBrightness;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
+  }
 
   void resetScreenBrightness() async {
     if (!kIsWeb) {
@@ -365,7 +376,6 @@ class _MihCardDisplayWindowState extends State<MihCardDisplayWindow> {
                   (defaultTargetPlatform == TargetPlatform.android ||
                       defaultTargetPlatform == TargetPlatform.iOS))
                 MihBannerAd()
-              // MihBannerAd(),
             ],
           ),
         );

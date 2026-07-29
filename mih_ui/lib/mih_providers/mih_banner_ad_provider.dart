@@ -28,14 +28,14 @@ class MihBannerAdProvider extends ChangeNotifier {
   }
 
   void loadBannerAd() {
+    if (isBannerAdLoaded && bannerAd != null) return;
+
     if (!kIsWeb &&
         (defaultTargetPlatform == TargetPlatform.android ||
             defaultTargetPlatform == TargetPlatform.iOS)) {
-      if (bannerAd != null) {
-        bannerAd!.dispose();
-        bannerAd = null;
-        isBannerAdLoaded = false;
-      }
+      bannerAd?.dispose();
+      bannerAd = null;
+
       bannerAd = BannerAd(
         adUnitId: adUnitId,
         request: const AdRequest(),
@@ -49,10 +49,10 @@ class MihBannerAdProvider extends ChangeNotifier {
           onAdFailedToLoad: (ad, err) {
             debugPrint('BannerAd failed to load: $err');
             errorMessage =
-                'Failed to load ad- Message: ${err.message} Code :${err.code}';
-            ad.dispose(); // Dispose the ad to free resources
-            isBannerAdLoaded = false; // ⬅️ Explicitly set to false
-            bannerAd = null; // ⬅️ Explicitly set to null
+                'Failed to load ad - Message: ${err.message} Code :${err.code}';
+            ad.dispose();
+            isBannerAdLoaded = false;
+            bannerAd = null;
             notifyListeners();
           },
           onAdOpened: (Ad ad) => debugPrint('$ad opened.'),
