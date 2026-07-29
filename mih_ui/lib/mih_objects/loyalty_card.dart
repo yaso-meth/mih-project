@@ -6,6 +6,7 @@ class MIHLoyaltyCard {
   final String favourite;
   final int priority_index;
   final String nickname;
+  final String? offline_id;
 
   const MIHLoyaltyCard({
     required this.idloyalty_cards,
@@ -15,6 +16,7 @@ class MIHLoyaltyCard {
     required this.favourite,
     required this.priority_index,
     required this.nickname,
+    this.offline_id,
   });
 
   factory MIHLoyaltyCard.fromJson(Map<String, dynamic> json) {

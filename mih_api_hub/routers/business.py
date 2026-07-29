@@ -34,6 +34,22 @@ class businessInsertRequest(BaseModel):
     rating: str
     mission_vision: str
 
+class businessInsertRequestV2(BaseModel):
+    business_id: str
+    Name: str
+    type: str
+    registration_no: str
+    logo_name: str
+    logo_path: str
+    contact_no: str
+    bus_email: str
+    gps_location: str
+    practice_no: str
+    vat_no: str
+    website: str
+    rating: str
+    mission_vision: str
+
 class businessUpdateRequest(BaseModel):
     business_id: str
     Name: str
@@ -286,6 +302,39 @@ async def read_business_by_app_id(app_id: str, session: SessionContainer = Depen
         raise HTTPException(status_code=404, detail="No record found")
 
 # Insert Patient into table
+@router.post("/business/insert/v2/", tags=["MIH Business"], status_code=201)
+async def insert_business_detailsV2(itemRequest : businessInsertRequestV2, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
+    db = mih_database.dbConnection.dbAppDataConnect()
+    cursor = db.cursor()
+    query = "insert into business "
+    query += "(business_id, Name, type, registration_no, logo_name, logo_path, contact_no, bus_email, gps_location, practice_no, vat_no, website, rating, mission_vision) "
+    query += "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    userData = (itemRequest.business_id,
+                itemRequest.Name,
+                itemRequest.type,
+                itemRequest.registration_no,
+                itemRequest.logo_name,
+                itemRequest.logo_path,
+                itemRequest.contact_no,
+                itemRequest.bus_email,
+                itemRequest.gps_location,
+                itemRequest.practice_no,
+                itemRequest.vat_no,
+                itemRequest.website,
+                itemRequest.rating,
+                itemRequest.mission_vision,
+                )
+    try:
+        cursor.execute(query, userData) 
+    except Exception as error:
+         raise HTTPException(status_code=404, detail=error)
+        # return {"message": error}
+    db.commit()
+    cursor.close()
+    db.close()
+    return {"message": "Successfully Created Record"}
+
+# Insert Patient into table
 @router.post("/business/insert/", tags=["MIH Business"], status_code=201)
 async def insert_business_details(itemRequest : businessInsertRequest, session: SessionContainer = Depends(verify_session())): #, session: SessionContainer = Depends(verify_session())
     db = mih_database.dbConnection.dbAppDataConnect()
@@ -310,8 +359,6 @@ async def insert_business_details(itemRequest : businessInsertRequest, session: 
                 itemRequest.mission_vision,
                 )
     try:
-        print(query)
-        print(userData)
         cursor.execute(query, userData) 
     except Exception as error:
          raise HTTPException(status_code=404, detail=error)

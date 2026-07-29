@@ -24,7 +24,6 @@ class MihBusinessDetailsView extends StatefulWidget {
 }
 
 class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
-  late Future<String> futureImageUrl;
   PlatformFile? file;
 
   @override
@@ -35,10 +34,6 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
   @override
   void initState() {
     super.initState();
-    MzansiDirectoryProvider directoryProvider =
-        context.read<MzansiDirectoryProvider>();
-    futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedBusiness!.logo_path);
   }
 
   @override
@@ -69,58 +64,20 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                       : EdgeInsets.symmetric(horizontal: width * 0),
                   child: Column(
                     children: [
-                      FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "") {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.secondary(),
-                                  backgroundColor: MihColors.primary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.secondary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.secondary(),
-                              );
-                            }
-                          }),
-                      // Center(
-                      //   child: MihCircleAvatar(
-                      //     imageFile: widget.logoImage,
-                      //     width: 150,
-                      //     editable: false,
-                      //     fileNameController: fileNameController,
-                      //     userSelectedfile: imageFile,
-                      //     frameColor:
-                      //         MihColors.secondary(),
-                      //     backgroundColor:
-                      //         MihColors.primary(),
-                      //     onChange: (selectedfile) {
-                      //       setState(() {
-                      //         imageFile = selectedfile;
-                      //       });
-                      //     },
-                      //   ),
-                      // ),
+                      MihCircleAvatar(
+                        imageFile: CachedNetworkImageProvider(
+                          MihFileApi.getMinioFileUrlV2(
+                              directoryProvider.selectedBusiness!.logo_path),
+                        ),
+                        width: profilePictureWidth,
+                        expandable: true,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
+                        onChange: null,
+                      ),
                       FittedBox(
                         child: Text(
                           directoryProvider.selectedBusiness!.Name,

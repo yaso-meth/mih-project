@@ -202,8 +202,8 @@ class _BuildNotesListState extends State<BuildNotesList> {
         if (patientManagerProvider.consultationNotes!.isNotEmpty) {
           return ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: MihColors.secondary(),
+              return SizedBox(
+                height: 3,
               );
             },
             itemCount: patientManagerProvider.consultationNotes!.length,
@@ -213,35 +213,47 @@ class _BuildNotesListState extends State<BuildNotesList> {
               if (notePreview.length > 30) {
                 notePreview = "${notePreview.substring(0, 30)} ...";
               }
-              return ListTile(
-                leading: Icon(
-                  Icons.note,
-                  size: 50,
-                  color: MihColors.gold(),
-                ),
-                title: Text(
-                  "${patientManagerProvider.consultationNotes![index].note_name}\n${patientManagerProvider.consultationNotes![index].doc_office} - ${patientManagerProvider.consultationNotes![index].doctor}",
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+              return Material(
+                color: MihColors.secondary(),
+                borderRadius: BorderRadius.circular(20),
+                clipBehavior: Clip.antiAlias,
+                child: ListTile(
+                  splashColor: Color.lerp(
+                    MihColors.bluishPurple(),
+                    Colors.black,
+                    0.01,
                   ),
-                ),
-                subtitle: Text(
-                  "${patientManagerProvider.consultationNotes![index].insert_date}:\n$notePreview",
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+                  hoverColor: MihColors.highlight(),
+                  leading: Icon(
+                    Icons.note,
+                    size: 50,
+                    color: MihColors.gold(darkMode: false),
                   ),
-                ), //Text(widget.notes[index].note_text),
-                trailing: Icon(
-                  Icons.arrow_forward,
-                  color: MihColors.secondary(),
+                  title: Text(
+                    "${patientManagerProvider.consultationNotes![index].note_name}\n${patientManagerProvider.consultationNotes![index].doc_office} - ${patientManagerProvider.consultationNotes![index].doctor}",
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${patientManagerProvider.consultationNotes![index].insert_date}:\n$notePreview",
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ), //Text(widget.notes[index].note_text),
+                  // trailing: Icon(
+                  //   Icons.arrow_forward,
+                  //   color: MihColors.primary(),
+                  // ),
+                  onTap: () {
+                    viewNotePopUp(
+                      profileProvider,
+                      patientManagerProvider,
+                      patientManagerProvider.consultationNotes![index],
+                    );
+                  },
                 ),
-                onTap: () {
-                  viewNotePopUp(
-                    profileProvider,
-                    patientManagerProvider,
-                    patientManagerProvider.consultationNotes![index],
-                  );
-                },
               );
             },
           );
@@ -249,7 +261,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [

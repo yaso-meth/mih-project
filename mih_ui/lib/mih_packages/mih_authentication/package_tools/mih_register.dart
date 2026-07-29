@@ -1,18 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
-import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_authentication_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
-import 'package:supertokens_flutter/http.dart' as http;
-import 'package:supertokens_flutter/supertokens.dart';
 
 class MihRegister extends StatefulWidget {
   const MihRegister({
@@ -31,142 +26,11 @@ class _MihRegisterState extends State<MihRegister> {
   final _formKey = GlobalKey<FormState>();
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  Future<void> addUserAPICall(String email, String uid) async {
-    //await getOfficeIdByUser(docOfficeIdApiUrl + widget.userEmail);
-    //print(futureDocOfficeId.toString());
-    await MihUserServices().createUser(
-      email,
-      uid,
-      context,
-    );
-    // var response = await http.post(
-    //   Uri.parse("$baseAPI/user/insert/"),
-    //   headers: <String, String>{
-    //     "Content-Type": "application/json; charset=UTF-8"
-    //   },
-    //   body: jsonEncode(<String, dynamic>{
-    //     "email": email,
-    //     "app_id": uid,
-    //   }),
-    // );
-    // if (response.statusCode == 201) {
-    //   Navigator.of(context).pushNamedAndRemoveUntil(
-    //     '/',
-    //     (route) => false,
-    //     arguments: AuthArguments(
-    //       true,
-    //       true,
-    //     ),
-    //   );
-    //   // signUpSuccess();
-    //   // setState(() {
-    //   //   successfulSignUp = true;
-    //   // });
-    // } else {
-    //   internetConnectionPopUp();
-    // }
-  }
-
-  Future<void> signUserUp() async {
-    context.read<MzansiProfileProvider>().reset();
-    if (!validEmail()) {
-      MihAlertServices().invalidEmailAlert(context);
-    } else if (passwordController.text != confirmPasswordController.text) {
-      MihAlertServices().passwordMatchAlert(context);
-    } else {
-      //var _backgroundColor = Colors.transparent;
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Mihloadingcircle();
-        },
-      );
-      try {
-        Uri uri = Uri.parse(
-            "$baseAPI/auth/emailpassword/email/exists?email=${emailController.text}");
-        //print("Here");
-        var response = await http.get(uri);
-        //print(response.body);
-        //print("response 1: ${response.statusCode}");
-        if (response.statusCode == 200) {
-          var userExists = jsonDecode(response.body);
-          if (userExists["exists"]) {
-            Navigator.of(context).pop();
-            MihAlertServices().emailExistsAlert(context);
-          } else {
-            var response2 = await http.post(
-              Uri.parse("$baseAPI/auth/signup"),
-              body:
-                  '{"formFields": [{"id": "email","value": "${emailController.text}"}, {"id": "password","value": "${passwordController.text}"}]}',
-              headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-              },
-            );
-            //print("response 2: ${response2.statusCode}");
-            if (response2.statusCode == 200) {
-              //print("response 2: ${response2.body}");
-              var userCreated = jsonDecode(response2.body);
-              //print("Created user $userCreated");
-              if (userCreated["status"] == "OK") {
-                //print("Here1");
-                //Creat user in db
-                String uid = await SuperTokens.getUserId();
-                //print("uid: $uid");
-                addUserAPICall(emailController.text, uid);
-                Navigator.of(context).pop();
-                //print("Here1");
-              } else if (userCreated["status"] == "FIELD_ERROR") {
-                Navigator.of(context).pop();
-                MihAlertServices().passwordRequirementAlert(context);
-              } else {
-                Navigator.of(context).pop();
-                MihAlertServices().internetConnectionAlert(context);
-              }
-            }
-          }
-        }
-      } on Exception catch (error) {
-        Navigator.of(context).pop();
-        loginError(error.toString());
-        emailController.clear();
-        passwordController.clear();
-        confirmPasswordController.clear();
-      }
-    }
-  }
-
   void submitFormInput() async {
-    await signUserUp();
-  }
-
-  bool validEmail() {
-    String text = emailController.text;
-    var regex = RegExp(r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
-    return regex.hasMatch(text);
-  }
-
-  void loginError(error) {
-    MihAlertServices().errorAdvancedAlert(
-      "Sign Up Error",
-      "An error occurred while signing up: $error Please try again later.",
-      [
-        MihButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          buttonColor: MihColors.secondary(),
-          width: 200,
-          child: Text(
-            "Dismiss",
-            style: TextStyle(
-              color: MihColors.primary(),
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
+    await MihAuthenticationServices().signUserUp(
+      emailController.text,
+      passwordController.text,
+      confirmPasswordController.text,
       context,
     );
   }

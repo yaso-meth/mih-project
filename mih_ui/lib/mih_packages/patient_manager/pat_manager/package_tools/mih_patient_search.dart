@@ -1,5 +1,6 @@
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_patient_services.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
@@ -158,8 +159,12 @@ class _MihPatientSearchState extends State<MihPatientSearch> {
         _mihPatientSearchString = _mihPatientSearchController.text;
         hasSearchedBefore = true;
       });
-      await MihPatientServices.searchPatients(
-          patientManagerProvider, _mihPatientSearchString);
+      try {
+        await MihPatientServices.searchPatients(
+            patientManagerProvider, _mihPatientSearchString);
+      } catch (error) {
+        MihAlertServices().internetConnectionAlert(context);
+      }
     }
   }
 

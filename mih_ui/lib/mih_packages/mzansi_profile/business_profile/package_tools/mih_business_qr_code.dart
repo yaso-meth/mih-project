@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
@@ -17,6 +15,8 @@ import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_bar_code/code/src/code_generate.dart';
+import 'package:qr_bar_code/code/src/code_type.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -33,10 +33,9 @@ class MihBusinessQrCode extends StatefulWidget {
 }
 
 class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
-  late Future<String> futureImageUrl;
   late Business business;
   PlatformFile? file;
-  late String qrCodedata;
+  late String _businessShare;
   int qrSize = 500;
   bool _isUserSignedIn = false;
   ScreenshotController screenshotController = ScreenshotController();
@@ -47,19 +46,6 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     setState(() {
       _isUserSignedIn = doesSessionExist;
     });
-  }
-
-  String getQrCodeData(int qrSize) {
-    String color =
-        MihColors.primary().toARGB32().toRadixString(16).substring(2, 8);
-    // KenLogger.warning(color);
-    String bgColor =
-        MihColors.secondary().toARGB32().toRadixString(16).substring(2, 8);
-    // KenLogger.warning(bgColor);
-    String encodedData =
-        Uri.encodeComponent("$qrCodedata${business.business_id}");
-
-    return "https://api.qrserver.com/v1/create-qr-code/?data=$encodedData&size=${qrSize}x${qrSize}&bgcolor=$bgColor&color=$color";
   }
 
   Future<void> saveImage(Uint8List imageBytes) async {
@@ -75,14 +61,13 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
     } else if (defaultTargetPlatform == TargetPlatform.linux ||
         defaultTargetPlatform == TargetPlatform.windows) {
       // Use File Picker to get a save path on Desktop
-      String? outputFile = await FilePicker.platform.saveFile(
+      String? outputFile = await FilePicker.saveFile(
         dialogTitle: 'Please select where to save your QR Code:',
         fileName: filename,
+        bytes: imageBytes,
       );
 
       if (outputFile != null) {
-        final file = File(outputFile);
-        await file.writeAsBytes(imageBytes);
         KenLogger.success("Saved to $outputFile");
       }
     } else {
@@ -175,6 +160,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   }
 
   Widget displayBusinessQRCode(double profilePictureWidth) {
+    MzansiProfileProvider profileprovider =
+        context.read<MzansiProfileProvider>();
     return Screenshot(
       controller: screenshotController,
       child: Material(
@@ -188,22 +175,16 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FutureBuilder(
-                    future: futureImageUrl,
-                    builder: (context, asyncSnapshot) {
-                      if (asyncSnapshot.connectionState ==
-                              ConnectionState.done &&
-                          asyncSnapshot.hasData) {
-                        if (asyncSnapshot.requireData != "" ||
-                            asyncSnapshot.requireData.isNotEmpty) {
-                          return MihCircleAvatar(
-                            imageFile: CachedNetworkImageProvider(
-                                asyncSnapshot.requireData),
+                  Center(
+                    child: widget.business == null
+                        ? MihCircleAvatar(
+                            imageFile: profileprovider.businessProfilePicture,
                             width: profilePictureWidth,
                             expandable: true,
                             editable: false,
@@ -211,41 +192,46 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                             userSelectedfile: file,
                             frameColor: MihColors.primary(),
                             backgroundColor: MihColors.secondary(),
-                            onChange: () {},
-                          );
-                        } else {
-                          return Icon(
-                            MihIcons.mihIDontKnow,
-                            size: profilePictureWidth,
-                            color: MihColors.primary(),
-                          );
-                        }
-                      } else {
-                        return Icon(
-                          MihIcons.mihRing,
-                          size: profilePictureWidth,
-                          color: MihColors.primary(),
-                        );
-                      }
-                    },
+                            onChange: null,
+                          )
+                        : MihCircleAvatar(
+                            imageFile: CachedNetworkImageProvider(
+                              MihFileApi.getMinioFileUrlV2(business.logo_path),
+                            ),
+                            width: profilePictureWidth,
+                            expandable: true,
+                            editable: false,
+                            fileNameController: TextEditingController(),
+                            userSelectedfile: file,
+                            frameColor: MihColors.primary(),
+                            backgroundColor: MihColors.secondary(),
+                            onChange: null,
+                          ),
                   ),
-                  FittedBox(
-                    child: Text(
-                      business.Name,
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.primary(),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: FittedBox(
+                        child: Text(
+                          business.Name,
+                          style: TextStyle(
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold,
+                            color: MihColors.primary(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  FittedBox(
-                    child: Text(
-                      business.type,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: MihColors.primary(),
+                  Center(
+                    child: FittedBox(
+                      child: Text(
+                        business.type,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: MihColors.primary(),
+                        ),
                       ),
                     ),
                   ),
@@ -257,7 +243,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                         child: Text(
                           "Powered by MIH",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
                             color: MihColors.primary(),
                           ),
@@ -272,26 +258,31 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: CachedNetworkImage(
-                      imageUrl: getQrCodeData(qrSize.toInt()),
-                      placeholder: (context, url) => FittedBox(
-                        child: const Mihloadingcircle(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      final double codesize = constraints.maxWidth < qrSize
+                          ? constraints.maxWidth
+                          : qrSize.toDouble();
+                      return Code(
+                        color: MihColors.primary(),
+                        data: "$_businessShare${business.business_id}",
+                        codeType: CodeType.qrCode(),
+                        width: codesize,
+                        height: codesize,
+                      );
+                    }),
                   ),
                   const SizedBox(height: 10),
-                  FittedBox(
-                    child: Text(
-                      "Scan & Connect",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: MihColors.primary(),
+                  Center(
+                    child: FittedBox(
+                      child: Text(
+                        "Scan & Connect",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: MihColors.primary(),
+                        ),
                       ),
                     ),
                   ),
@@ -325,8 +316,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
       business = profileProvider.business!;
     }
     _checkUserSession();
-    futureImageUrl = MihFileApi.getMinioFileUrl(business.logo_path);
-    qrCodedata = "${AppEnviroment.baseAppUrl}/business-profile/view/";
+    _businessShare = "${AppEnviroment.baseAppUrl}/business-profile/view/";
   }
 
   @override
@@ -341,12 +331,14 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
   }
 
   Widget getBody(Size screenSize, BuildContext context) {
-    double profilePictureWidth = 150;
+    double profilePictureWidth =
+        MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+            ? 225
+            : 200;
     return Stack(
       alignment: Alignment.topCenter,
       children: [
         MihSingleChildScroll(
-          scrollbarOn: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Padding(
@@ -356,7 +348,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                       : EdgeInsets.symmetric(
                           horizontal: screenSize.width * 0), //.075),
               child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: displayBusinessQRCode(profilePictureWidth),
               ),
             ),
@@ -400,7 +392,7 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                     shareMIHLink(
                       context,
                       "Check out ${business.Name} on the MIH app's Mzansi Directory",
-                      "$qrCodedata${business.business_id}",
+                      "$_businessShare${business.business_id}",
                     );
                   },
                 ),
@@ -418,7 +410,8 @@ class _MihBusinessQrCodeState extends State<MihBusinessQrCode> {
                   backgroundColor: MihColors.green(),
                   onTap: () async {
                     await Clipboard.setData(
-                      ClipboardData(text: "$qrCodedata${business.business_id}"),
+                      ClipboardData(
+                          text: "$_businessShare${business.business_id}"),
                     );
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(

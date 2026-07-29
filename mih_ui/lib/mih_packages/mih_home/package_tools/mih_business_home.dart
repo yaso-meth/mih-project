@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tile/mih_home_refresh_tile.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
@@ -126,6 +127,12 @@ class _MihBusinessHomeState extends State<MihBusinessHome>
     //=============== About MIH ===============
     temp.add({
       "About MIH": AboutMihTile(
+        packageSize: packageSize,
+      )
+    });
+    //=============== About MIH ===============
+    temp.add({
+      "Sync Data": MihHomeRefreshTile(
         packageSize: packageSize,
       )
     });

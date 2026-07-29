@@ -32,32 +32,55 @@ class _MihEditEmployeeDetailsWindowState
 
   void updateEmployeeAPICall(
       MzansiProfileProvider mzansiProfileProvider) async {
-    int statusCode = await MihBusinessEmployeeServices().updateEmployeeDetails(
-        mzansiProfileProvider,
-        widget.employee,
-        titleController.text,
-        accessController.text,
-        context);
-    if (statusCode == 200) {
-      String message = "Your employees details have been updated.";
-      successPopUp(message, false);
-    } else {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      int statusCode = await MihBusinessEmployeeServices()
+          .updateEmployeeDetails(mzansiProfileProvider, widget.employee,
+              titleController.text, accessController.text, context);
+      if (statusCode == 200) {
+        String message = "Your employees details have been updated.";
+        context.pop();
+        successPopUp(message, false);
+      } else {
+        context.pop();
+        MihAlertServices().internetConnectionAlert(context);
+      }
+    } catch (error) {
+      context.pop();
       MihAlertServices().internetConnectionAlert(context);
     }
   }
 
   Future<void> deleteEmployeeApiCall() async {
-    int statusCode = await MihBusinessEmployeeServices().deleteEmployee(
-      context.read<MzansiProfileProvider>(),
-      widget.employee,
-      context,
-    );
-    if (statusCode == 200) {
-      String message =
-          "The employee has been deleted successfully. This means they will no longer have access to your business profile";
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      int statusCode = await MihBusinessEmployeeServices().deleteEmployee(
+        context.read<MzansiProfileProvider>(),
+        widget.employee,
+        context,
+      );
+      if (statusCode == 200) {
+        String message =
+            "The employee has been deleted successfully. This means they will no longer have access to your business profile";
+        context.pop();
+        context.pop();
+        successPopUp(message, false);
+      } else {
+        context.pop();
+        MihAlertServices().internetConnectionAlert(context);
+      }
+    } catch (error) {
       context.pop();
-      successPopUp(message, false);
-    } else {
       MihAlertServices().internetConnectionAlert(context);
     }
   }
@@ -165,6 +188,19 @@ class _MihEditEmployeeDetailsWindowState
                 MihForm(
                   formKey: _formKey,
                   formFields: [
+                    const SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Text(
+                          "*NB: Internet connection required to update employee access.",
+                          style: TextStyle(
+                            color: MihColors.red(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     MihTextFormField(
                       fillColor: MihColors.secondary(),
                       inputColor: MihColors.primary(),

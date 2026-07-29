@@ -1,4 +1,3 @@
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/components/mih_add_card_window.dart';
@@ -140,30 +139,27 @@ class _MihCardsState extends State<MihCards> {
                 ),
               ],
             ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: MihFloatingMenu(
-                  animatedIcon: AnimatedIcons.menu_close,
-                  children: [
-                    SpeedDialChild(
-                      child: Icon(
-                        Icons.add,
-                        color: MihColors.primary(),
-                      ),
-                      label: "Add Loyalty Card",
-                      labelBackgroundColor: MihColors.green(),
-                      labelStyle: TextStyle(
-                        color: MihColors.primary(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      backgroundColor: MihColors.green(),
-                      onTap: () {
-                        addCardWindow(context, width);
-                      },
-                    )
-                  ]),
-            )
+            if (walletProvider.loyaltyCards.isNotEmpty)
+              Positioned(
+                right: 10,
+                bottom: 10,
+                child: MihButton(
+                  borderRadius: 100,
+                  width: 65,
+                  height: 65,
+                  onPressed: () {
+                    addCardWindow(context, width);
+                  },
+                  buttonColor: MihColors.green(),
+                  child: Center(
+                    child: Icon(
+                      Icons.add,
+                      color: MihColors.primary(),
+                      size: 45,
+                    ),
+                  ),
+                ),
+              ),
           ],
         );
       },

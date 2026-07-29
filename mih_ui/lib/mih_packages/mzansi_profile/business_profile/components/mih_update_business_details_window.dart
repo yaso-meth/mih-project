@@ -2,7 +2,6 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -165,56 +164,61 @@ class _MihUpdateBusinessDetailsWindowState
   }
 
   Future<void> submitForm(MzansiProfileProvider mzansiProfileProvider) async {
-    KenLogger.success("Start Submit Form");
     if (isFormFilled()) {
-      KenLogger.success("Form Filled");
-      KenLogger.success("Start File Upload");
-      bool successfullyUploadedFile = await uploadFile(mzansiProfileProvider);
-      KenLogger.success(
-          "File Upload Complete: outcome $successfullyUploadedFile");
-      if (!mounted) return;
-      KenLogger.success("is mounted");
-      if (successfullyUploadedFile) {
-        KenLogger.success("Start Details Update");
-        int statusCode = 0;
-        statusCode = await MihBusinessDetailsServices().updateBusinessDetailsV2(
-          mzansiProfileProvider.business!.business_id,
-          nameController.text,
-          typeController.text,
-          regController.text,
-          practiceNoController.text,
-          vatNoController.text,
-          emailController.text,
-          getNumberWithCountryCode(),
-          // contactController.text,
-          locationController.text,
-          fileNameController.text,
-          websiteController.text,
-          ratingController.text.isEmpty ? "0" : ratingController.text,
-          missionVisionController.text,
-          mzansiProfileProvider,
-          context,
-        );
-        KenLogger.success("Details Update Complete: status code $statusCode");
+      try {
+        bool successfullyUploadedFile = await uploadFile(mzansiProfileProvider);
         if (!mounted) return;
-        KenLogger.success("is mounted");
-        if (statusCode == 200) {
-          KenLogger.success("Start Success Message");
-          //You left of here
-          String message = "Your information has been updated successfully!";
-          context.pop();
-          successPopUp(message, false);
-          // File uploaded successfully
-        } else {
-          context.pop();
-          // File upload failed
-          MihAlertServices().errorBasicAlert(
-            "Error Updating Business Details",
-            "An error occurred while updating the business details. Please try again.",
+        if (successfullyUploadedFile) {
+          int statusCode = 0;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Mihloadingcircle();
+            },
+          );
+          statusCode =
+              await MihBusinessDetailsServices().updateBusinessDetailsV2(
+            mzansiProfileProvider.business!.business_id,
+            nameController.text,
+            typeController.text,
+            regController.text,
+            practiceNoController.text,
+            vatNoController.text,
+            emailController.text,
+            getNumberWithCountryCode(),
+            // contactController.text,
+            locationController.text,
+            fileNameController.text,
+            websiteController.text,
+            ratingController.text.isEmpty ? "0" : ratingController.text,
+            missionVisionController.text,
+            mzansiProfileProvider,
             context,
           );
+          if (!mounted) return;
+          if (statusCode == 200) {
+            //You left of here
+            String message = "Your information has been updated successfully!";
+            context.pop();
+            context.pop();
+            mzansiProfileProvider.syncWithMihServerData();
+            successPopUp(message, false);
+            // File uploaded successfully
+          } else {
+            context.pop();
+            // File upload failed
+            MihAlertServices().errorBasicAlert(
+              "Error Updating Business Details",
+              "An error occurred while updating the business details. Please try again.",
+              context,
+            );
+          }
+        } else {
+          context.pop();
+          if (!mounted) return;
+          MihAlertServices().internetConnectionAlert(context);
         }
-      } else {
+      } catch (error) {
         context.pop();
         if (!mounted) return;
         MihAlertServices().internetConnectionAlert(context);
@@ -239,302 +243,286 @@ class _MihUpdateBusinessDetailsWindowState
         return MihPackageWindow(
           fullscreen: false,
           windowTitle: 'Edit Profile',
+          scrollbarOn: true,
           onWindowTapClose: () {
             context.pop();
           },
-          windowBody: MihSingleChildScroll(
-            scrollbarOn: true,
-            child: Padding(
-              padding:
-                  MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-                      ? EdgeInsets.symmetric(horizontal: widget.width * 0.05)
-                      : EdgeInsets.symmetric(horizontal: widget.width * 0),
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      MihForm(
-                        formKey: _formKey,
-                        formFields: [
-                          Center(
-                            child: MihCircleAvatar(
-                              imageFile: newSelectedLogoPic != null
-                                  ? MemoryImage(newSelectedLogoPic!.bytes!)
-                                  : mzansiProfileProvider
-                                      .businessProfilePicture,
-                              width: 150,
-                              expandable: false,
-                              editable: true,
-                              fileNameController: fileNameController,
-                              userSelectedfile: newSelectedLogoPic,
-                              frameColor: MihColors.secondary(),
-                              backgroundColor: MihColors.primary(),
-                              onChange: (selectedfile) {
+          windowBody: Padding(
+            padding:
+                MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
+                    ? EdgeInsets.symmetric(horizontal: widget.width * 0.05)
+                    : EdgeInsets.symmetric(horizontal: widget.width * 0),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    MihForm(
+                      formKey: _formKey,
+                      formFields: [
+                        Center(
+                          child: MihCircleAvatar(
+                            imageFile: newSelectedLogoPic != null
+                                ? MemoryImage(newSelectedLogoPic!.bytes!)
+                                : mzansiProfileProvider.businessProfilePicture,
+                            width: 150,
+                            expandable: false,
+                            editable: true,
+                            fileNameController: fileNameController,
+                            userSelectedfile: newSelectedLogoPic,
+                            frameColor: MihColors.secondary(),
+                            backgroundColor: MihColors.primary(),
+                            onChange: (selectedfile) {
+                              setState(() {
+                                newSelectedLogoPic = selectedfile;
+                              });
+                            },
+                          ),
+                        ),
+                        Visibility(
+                          visible: false,
+                          child: MihTextFormField(
+                            fillColor: MihColors.secondary(),
+                            inputColor: MihColors.primary(),
+                            controller: fileNameController,
+                            multiLineInput: false,
+                            requiredText: true,
+                            readOnly: true,
+                            hintText: "Selected File Name",
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "*NB: Internet connection required to update profile.",
+                            style: TextStyle(
+                              color: MihColors.red(),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: nameController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Business Name",
+                          validator: (value) {
+                            return MihValidationServices().isEmpty(value);
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: typeController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Business Type",
+                          validator: (value) {
+                            return MihValidationServices()
+                                .validateNoSpecialChars(value);
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: emailController,
+                          multiLineInput: false,
+                          requiredText: true,
+                          hintText: "Business Email",
+                          validator: (value) {
+                            return MihValidationServices().validateEmail(value);
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          width: 300,
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            "Contact Number:",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CountryCodePicker(
+                              padding: EdgeInsetsGeometry.all(0),
+                              onChanged: (selectedCode) {
                                 setState(() {
-                                  newSelectedLogoPic = selectedfile;
+                                  countryCodeController.text =
+                                      selectedCode.toString();
+                                });
+                                debugPrint(
+                                    "Selected Country Code: ${countryCodeController.text}");
+                              },
+                              initialSelection: countryCodeController.text,
+                              showDropDownButton: false,
+                              pickerStyle: PickerStyle.bottomSheet,
+                              dialogBackgroundColor: MihColors.primary(),
+                              barrierColor: MihColors.primary(),
+                            ),
+                            Expanded(
+                              child: MihTextFormField(
+                                fillColor: MihColors.secondary(),
+                                inputColor: MihColors.primary(),
+                                controller: contactController,
+                                numberMode: true,
+                                multiLineInput: false,
+                                requiredText: true,
+                                hintText: null,
+                                validator: (value) {
+                                  return MihValidationServices().isEmpty(value);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          height: 250,
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: missionVisionController,
+                          multiLineInput: true,
+                          requiredText: true,
+                          hintText: "Business Mission & Vision",
+                          validator: (value) {
+                            return MihValidationServices().validateLength(
+                                missionVisionController.text, 256);
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                          child: ValueListenableBuilder(
+                            valueListenable: _counter,
+                            builder: (BuildContext context, int value,
+                                Widget? child) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "$value",
+                                    style: TextStyle(
+                                      color: getMissionVisionLimitColor(256),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    "/256",
+                                    style: TextStyle(
+                                      color: getMissionVisionLimitColor(256),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: websiteController,
+                          multiLineInput: false,
+                          requiredText: false,
+                          hintText: "Business Website",
+                          validator: (value) {
+                            return MihValidationServices()
+                                .validateWebsite(value, false);
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: regController,
+                          multiLineInput: false,
+                          requiredText: false,
+                          hintText: "Registration No.",
+                          validator: (value) {
+                            // return MihValidationServices().isEmpty(value);
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: practiceNoController,
+                          multiLineInput: false,
+                          requiredText: false,
+                          hintText: "Practice Number",
+                          validator: (validateValue) {
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        MihTextFormField(
+                          fillColor: MihColors.secondary(),
+                          inputColor: MihColors.primary(),
+                          controller: vatNoController,
+                          multiLineInput: false,
+                          requiredText: false,
+                          hintText: "VAT Number",
+                          validator: (value) {
+                            // return MihValidationServices().isEmpty(value);
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              child: MihTextFormField(
+                                fillColor: MihColors.secondary(),
+                                inputColor: MihColors.primary(),
+                                controller: locationController,
+                                multiLineInput: false,
+                                requiredText: true,
+                                readOnly: true,
+                                hintText: "GPS Location",
+                              ),
+                            ),
+                            const SizedBox(width: 10.0),
+                            MihButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Mihloadingcircle(
+                                      message: "Getting your location",
+                                    );
+                                  },
+                                );
+                                MIHLocationAPI()
+                                    .getGPSPosition(context)
+                                    .then((position) {
+                                  if (position != null) {
+                                    setState(() {
+                                      locationController.text =
+                                          "${position.latitude}, ${position.longitude}";
+                                    });
+                                  }
+                                  //Dismiss loading indicator
+                                  context.pop();
                                 });
                               },
-                            ),
-                          ),
-                          Visibility(
-                            visible: false,
-                            child: MihTextFormField(
-                              fillColor: MihColors.secondary(),
-                              inputColor: MihColors.primary(),
-                              controller: fileNameController,
-                              multiLineInput: false,
-                              requiredText: true,
-                              readOnly: true,
-                              hintText: "Selected File Name",
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: nameController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Business Name",
-                            validator: (value) {
-                              return MihValidationServices().isEmpty(value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: typeController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Business Type",
-                            validator: (value) {
-                              return MihValidationServices()
-                                  .validateNoSpecialChars(value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: emailController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            hintText: "Business Email",
-                            validator: (value) {
-                              return MihValidationServices()
-                                  .validateEmail(value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            width: 300,
-                            alignment: Alignment.topLeft,
-                            child: const Text(
-                              "Contact Number:",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              CountryCodePicker(
-                                padding: EdgeInsetsGeometry.all(0),
-                                onChanged: (selectedCode) {
-                                  setState(() {
-                                    countryCodeController.text =
-                                        selectedCode.toString();
-                                  });
-                                  debugPrint(
-                                      "Selected Country Code: ${countryCodeController.text}");
-                                },
-                                initialSelection: countryCodeController.text,
-                                showDropDownButton: false,
-                                pickerStyle: PickerStyle.bottomSheet,
-                                dialogBackgroundColor: MihColors.primary(),
-                                barrierColor: MihColors.primary(),
-                              ),
-                              Expanded(
-                                child: MihTextFormField(
-                                  fillColor: MihColors.secondary(),
-                                  inputColor: MihColors.primary(),
-                                  controller: contactController,
-                                  numberMode: true,
-                                  multiLineInput: false,
-                                  requiredText: true,
-                                  hintText: null,
-                                  validator: (value) {
-                                    return MihValidationServices()
-                                        .isEmpty(value);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            height: 250,
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: missionVisionController,
-                            multiLineInput: true,
-                            requiredText: true,
-                            hintText: "Business Mission & Vision",
-                            validator: (value) {
-                              return MihValidationServices().validateLength(
-                                  missionVisionController.text, 256);
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                            child: ValueListenableBuilder(
-                              valueListenable: _counter,
-                              builder: (BuildContext context, int value,
-                                  Widget? child) {
-                                return Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "$value",
-                                      style: TextStyle(
-                                        color: getMissionVisionLimitColor(256),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      "/256",
-                                      style: TextStyle(
-                                        color: getMissionVisionLimitColor(256),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: websiteController,
-                            multiLineInput: false,
-                            requiredText: false,
-                            hintText: "Business Website",
-                            validator: (value) {
-                              return MihValidationServices()
-                                  .validateWebsite(value, false);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: regController,
-                            multiLineInput: false,
-                            requiredText: false,
-                            hintText: "Registration No.",
-                            validator: (value) {
-                              // return MihValidationServices().isEmpty(value);
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: practiceNoController,
-                            multiLineInput: false,
-                            requiredText: false,
-                            hintText: "Practice Number",
-                            validator: (validateValue) {
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: vatNoController,
-                            multiLineInput: false,
-                            requiredText: false,
-                            hintText: "VAT Number",
-                            validator: (value) {
-                              // return MihValidationServices().isEmpty(value);
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Flexible(
-                                child: MihTextFormField(
-                                  fillColor: MihColors.secondary(),
-                                  inputColor: MihColors.primary(),
-                                  controller: locationController,
-                                  multiLineInput: false,
-                                  requiredText: true,
-                                  readOnly: true,
-                                  hintText: "GPS Location",
-                                ),
-                              ),
-                              const SizedBox(width: 10.0),
-                              MihButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return const Mihloadingcircle(
-                                        message: "Getting your location",
-                                      );
-                                    },
-                                  );
-                                  MIHLocationAPI()
-                                      .getGPSPosition(context)
-                                      .then((position) {
-                                    if (position != null) {
-                                      setState(() {
-                                        locationController.text =
-                                            "${position.latitude}, ${position.longitude}";
-                                      });
-                                    }
-                                    //Dismiss loading indicator
-                                    context.pop();
-                                  });
-                                },
-                                buttonColor: MihColors.secondary(),
-                                width: 100,
-                                child: Text(
-                                  "Set",
-                                  style: TextStyle(
-                                    color: MihColors.primary(),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 25),
-                          Center(
-                            child: MihButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  submitForm(mzansiProfileProvider);
-                                } else {
-                                  MihAlertServices().inputErrorAlert(context);
-                                }
-                              },
-                              buttonColor: MihColors.green(),
-                              width: 300,
+                              buttonColor: MihColors.secondary(),
+                              width: 100,
                               child: Text(
-                                "Update",
+                                "Set",
                                 style: TextStyle(
                                   color: MihColors.primary(),
                                   fontSize: 20,
@@ -542,41 +530,63 @@ class _MihUpdateBusinessDetailsWindowState
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: MihButton(
-                      onPressed: () {
-                        //Add validation here
-                        if (_formKey.currentState!.validate()) {
-                          submitForm(mzansiProfileProvider);
-                        } else {
-                          MihAlertServices().inputErrorAlert(context);
-                        }
-                      },
-                      buttonColor: MihColors.green(),
-                      width: 100,
-                      height: 25,
-                      child: Text(
-                        mzansiProfileProvider.user!.username.isEmpty
-                            ? "Setup Profile"
-                            : "Update",
-                        style: TextStyle(
-                          color: MihColors.primary(),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                          ],
                         ),
+                        const SizedBox(height: 25),
+                        Center(
+                          child: MihButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                submitForm(mzansiProfileProvider);
+                              } else {
+                                MihAlertServices().inputErrorAlert(context);
+                              }
+                            },
+                            buttonColor: MihColors.green(),
+                            width: 300,
+                            child: Text(
+                              "Update",
+                              style: TextStyle(
+                                color: MihColors.primary(),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ],
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: MihButton(
+                    onPressed: () {
+                      //Add validation here
+                      if (_formKey.currentState!.validate()) {
+                        submitForm(mzansiProfileProvider);
+                      } else {
+                        MihAlertServices().inputErrorAlert(context);
+                      }
+                    },
+                    buttonColor: MihColors.green(),
+                    width: 100,
+                    height: 25,
+                    child: Text(
+                      mzansiProfileProvider.user!.username.isEmpty
+                          ? "Setup Profile"
+                          : "Update",
+                      style: TextStyle(
+                        color: MihColors.primary(),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

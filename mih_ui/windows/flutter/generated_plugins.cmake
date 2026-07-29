@@ -4,22 +4,21 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_saver
-  file_selector_windows
-  firebase_auth
-  firebase_core
   fl_downloader
-  flutter_tts
+  flutter_secure_storage_windows
   geolocator_windows
   local_auth_windows
   printing
-  record_windows
+  qr_bar_code
   screen_brightness_windows
   share_plus
   syncfusion_pdfviewer_windows
+  text_to_speech_plus
   url_launcher_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  jni
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

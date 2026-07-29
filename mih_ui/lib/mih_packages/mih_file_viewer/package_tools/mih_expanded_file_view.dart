@@ -7,7 +7,8 @@ import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dar
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import "package:universal_html/html.dart" as html;
+import 'package:mzansi_innovation_hub/mih_helpers/mih_utils_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_utils_web.dart';
 import 'package:fl_downloader/fl_downloader.dart';
 
 class MihExpandedFileView extends StatefulWidget {
@@ -227,7 +228,7 @@ class _MihExpandedFileViewState extends State<MihExpandedFileView> {
                           padding: const EdgeInsets.all(0),
                           onPressed: () {
                             if (kIsWeb) {
-                              html.window.open(
+                              openWebWindow(
                                   fileViewerProvider.fileLink, 'download');
                             } else {
                               nativeFileDownload(

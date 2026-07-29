@@ -176,6 +176,25 @@ class _MihBusinessDetailsState extends State<MihBusinessDetails> {
                 ),
               ),
             ),
+            Positioned(
+              right: 10,
+              top: 10,
+              child: MihButton(
+                onPressed: () {
+                  editBizProfileWindow(mzansiProfileProvider, width);
+                },
+                buttonColor: MihColors.green(),
+                width: 100,
+                height: 35,
+                child: Text(
+                  "Edit Profile",
+                  style: TextStyle(
+                    color: MihColors.primary(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         );
       },

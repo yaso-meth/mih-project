@@ -6,7 +6,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mih_calendar_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/patient_manager_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_calendar_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_calendar.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
@@ -14,6 +13,7 @@ import 'package:mzansi_innovation_hub/mih_objects/appointment.dart';
 import 'package:mzansi_innovation_hub/mih_packages/calendar/builder/build_appointment_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class WaitingRoom extends StatefulWidget {
   const WaitingRoom({
@@ -41,8 +41,21 @@ class _WaitingRoomState extends State<WaitingRoom> {
   late Future<List<Appointment>> businessAppointmentResults;
   late Future<List<Appointment>> appointmentResults;
   bool inWaitingRoom = true;
-  bool isLoading = true;
   final _formKey = GlobalKey<FormState>();
+
+  Future<void> _updateSelectedDate(
+    int daysOffset,
+    MihCalendarProvider mihCalendarProvider,
+    MzansiProfileProvider mzansiProfileProvider,
+  ) async {
+    final String rawDay = mihCalendarProvider.selectedDay;
+    final DateTime currentDay = DateTime.parse(rawDay);
+    final DateTime newDate = currentDay.add(Duration(days: daysOffset));
+    final String formattedDate = newDate.toIso8601String().split('T')[0];
+    mihCalendarProvider.setSelectedDay(formattedDate);
+    mihCalendarProvider.loadCachedCalendar();
+    await mihCalendarProvider.syncWithMihServerData(mzansiProfileProvider);
+  }
 
   // Business Appointment Tool
   Widget getBusinessAppointmentsTool(double width) {
@@ -51,9 +64,9 @@ class _WaitingRoomState extends State<WaitingRoom> {
       builder: (BuildContext context,
           MzansiProfileProvider profileProvider,
           PatientManagerProvider patientManagerProvider,
-          MihCalendarProvider mihCalendarProvider,
+          MihCalendarProvider calendarProvider,
           Widget? child) {
-        if (isLoading) {
+        if (calendarProvider.businessAppointments == null) {
           return const Center(
             child: Mihloadingcircle(),
           );
@@ -63,46 +76,86 @@ class _WaitingRoomState extends State<WaitingRoom> {
             Column(
               children: [
                 MIHCalendar(
-                    calendarWidth: 500,
-                    rowHeight: 35,
-                    setDate: (value) {
-                      mihCalendarProvider.setSelectedDay(value);
-                      setState(() {
-                        selectedAppointmentDateController.text = value;
-                      });
-                    }),
-                // Divider(
-                //   color: MihColors.secondary(),
-                // ),
-                displayAppointmentList(mihCalendarProvider)
+                  calendarWidth: 500,
+                  rowHeight: 35,
+                  setDate: (value) async {
+                    calendarProvider.setSelectedDay(value);
+                    calendarProvider.loadCachedCalendar();
+                    await calendarProvider
+                        .syncWithMihServerData(profileProvider);
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                displayAppointmentList(calendarProvider)
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Align(
+                alignment: AlignmentGeometry.bottomCenter,
+                child: MihButton(
+                  borderRadius: 100,
+                  width: 65,
+                  height: 65,
+                  onPressed: () {
+                    appointmentTypeSelection(
+                      profileProvider,
+                      patientManagerProvider,
+                      calendarProvider,
+                      width,
+                    );
+                  },
+                  buttonColor: MihColors.green(),
+                  child: Center(
+                    child: Icon(
+                      Icons.add,
+                      color: MihColors.primary(),
+                      size: 45,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 10,
+              bottom: 10,
+              child: MihButton(
+                borderRadius: 100,
+                width: 65,
+                height: 65,
+                onPressed: () {
+                  _updateSelectedDate(-1, calendarProvider, profileProvider);
+                },
+                buttonColor: MihColors.green(),
+                child: Center(
+                  child: Icon(
+                    Icons.keyboard_arrow_left_rounded,
+                    color: MihColors.primary(),
+                    size: 60,
+                  ),
+                ),
+              ),
             ),
             Positioned(
               right: 10,
               bottom: 10,
-              child: MihFloatingMenu(
-                icon: Icons.add,
-                animatedIcon: AnimatedIcons.menu_close,
-                children: [
-                  SpeedDialChild(
-                    child: Icon(
-                      Icons.add,
-                      color: MihColors.primary(),
-                    ),
-                    label: "Add Appointment",
-                    labelBackgroundColor: MihColors.green(),
-                    labelStyle: TextStyle(
-                      color: MihColors.primary(),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: MihColors.green(),
-                    onTap: () {
-                      // addAppointmentWindow();
-                      appointmentTypeSelection(profileProvider,
-                          patientManagerProvider, mihCalendarProvider, width);
-                    },
-                  )
-                ],
+              child: MihButton(
+                borderRadius: 100,
+                width: 65,
+                height: 65,
+                onPressed: () {
+                  _updateSelectedDate(1, calendarProvider, profileProvider);
+                },
+                buttonColor: MihColors.green(),
+                child: Center(
+                  child: Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    color: MihColors.primary(),
+                    size: 60,
+                  ),
+                ),
               ),
             ),
           ],
@@ -288,6 +341,9 @@ class _WaitingRoomState extends State<WaitingRoom> {
 
   void addAppointmentWindow(MzansiProfileProvider profileProvider,
       MihCalendarProvider mihCalendarProvider, double width) {
+    _appointmentDateController.text = mihCalendarProvider.selectedDay;
+    _appointmentTimeController.text =
+        DateTime.now().toIso8601String().split('T')[1].substring(0, 5);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -388,35 +444,31 @@ class _WaitingRoomState extends State<WaitingRoom> {
     );
   }
 
-  Future<void> addAppointmentCall(MzansiProfileProvider profileProvider,
-      MihCalendarProvider mihCalendarProvider) async {
+  Future<void> addAppointmentCall(
+    MzansiProfileProvider profileProvider,
+    MihCalendarProvider mihCalendarProvider,
+  ) async {
     if (isAppointmentInputValid()) {
-      int statusCode;
-      statusCode = await MihMzansiCalendarApis.addBusinessAppointment(
-        profileProvider.user!,
-        profileProvider.business!,
-        profileProvider.businessUser!,
-        true,
-        _appointmentTitleController.text,
-        _appointmentDescriptionIDController.text,
-        _appointmentDateController.text,
-        _appointmentTimeController.text,
-        mihCalendarProvider,
-        context,
+      String offlineId = Uuid().v4();
+      mihCalendarProvider.addNewAppointmentLocally(
+        profileProvider,
+        Appointment(
+          idappointments: 0,
+          app_id: '',
+          business_id: profileProvider.business!.business_id,
+          date_time:
+              "${_appointmentDateController.text} ${_appointmentTimeController.text}",
+          title: _appointmentTitleController.text,
+          description: _appointmentDescriptionIDController.text,
+          offline_id: offlineId,
+        ),
       );
-
-      if (statusCode == 201) {
-        context.pop();
-        successPopUp("Successfully Added Appointment",
-            "You appointment has been successfully added to your calendar.");
-        _loadInitialAppointments();
-      } else {
-        MihAlertServices().internetConnectionAlert(context);
-      }
+      context.pop();
+      successPopUp("Successfully Added Appointment",
+          "You appointment has been successfully added to your calendar.");
     } else {
       MihAlertServices().inputErrorAlert(context);
     }
-    checkforchange();
   }
 
   void successPopUp(String title, String message) {
@@ -461,29 +513,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
     }
   }
 
-  void checkforchange() {
-    setState(() {
-      isLoading = true;
-    });
-    _loadInitialAppointments();
-  }
-
-  Future<void> _loadInitialAppointments() async {
-    MzansiProfileProvider mzansiProfileProvider =
-        context.read<MzansiProfileProvider>();
-    MihCalendarProvider mihCalendarProvider =
-        context.read<MihCalendarProvider>();
-    await MihMzansiCalendarApis.getBusinessAppointments(
-      mzansiProfileProvider.business!.business_id,
-      false,
-      mihCalendarProvider.selectedDay,
-      mihCalendarProvider,
-    );
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   void dispose() {
     selectedAppointmentDateController.dispose();
@@ -496,10 +525,6 @@ class _WaitingRoomState extends State<WaitingRoom> {
 
   @override
   void initState() {
-    selectedAppointmentDateController.addListener(checkforchange);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadInitialAppointments();
-    });
     super.initState();
   }
 

@@ -1,14 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:provider/provider.dart';
 
 class BuildBusinessAccessList extends StatefulWidget {
@@ -43,57 +48,106 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
       MihAccessControllsProvider accessProvider,
       int index,
       List<PatientAccess> filteredList) {
-    String line1 = "Business Name: ${filteredList[index].requested_by}";
+    String line1 = filteredList[index].requested_by;
     String line2 = "";
-
     line2 +=
         "Request Date: ${filteredList[index].requested_on.substring(0, 16).replaceAll("T", " ")}\n";
     line2 += "Profile Type: ${filteredList[index].type.toUpperCase()}\n";
-    //subtitle += "Business Type: ${widget.patientAccessList[index].type}\n";
     String line3 = "Status: ";
     String access = filteredList[index].status.toUpperCase();
-
     TextSpan accessWithColour;
     if (access == "APPROVED") {
       accessWithColour = TextSpan(
-          text: "$access\n", style: TextStyle(color: MihColors.green()));
+        text: "$access\n",
+        style: TextStyle(
+          color: MihColors.green(darkMode: false),
+          fontWeight: FontWeight.bold,
+        ),
+      );
     } else if (access == "PENDING") {
       accessWithColour = TextSpan(
-          text: "$access\n", style: TextStyle(color: MihColors.grey()));
-    } else {
-      accessWithColour =
-          TextSpan(text: "$access\n", style: TextStyle(color: MihColors.red()));
-    }
-
-    return ListTile(
-      title: Text(
-        line1,
+        text: "$access\n",
         style: TextStyle(
-          color: MihColors.secondary(),
+          color: MihColors.grey(darkMode: false),
+          fontWeight: FontWeight.bold,
         ),
+      );
+    } else {
+      accessWithColour = TextSpan(
+        text: "$access\n",
+        style: TextStyle(
+          color: MihColors.red(darkMode: false),
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+    Future<Business?> business = MihBusinessDetailsServices()
+        .getBusinessDetailsByBusinessId(filteredList[index].business_id);
+    return Material(
+      color: MihColors.secondary(),
+      borderRadius: BorderRadius.circular(20),
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        splashColor: Color.lerp(
+          MihColors.bluishPurple(),
+          Colors.black,
+          0.01,
+        ),
+        hoverColor: MihColors.highlight(),
+        leading: FutureBuilder<Business?>(
+          future: business,
+          builder: (context, snapshot) {
+            ImageProvider? image;
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              image = null;
+            }
+
+            if (snapshot.hasData) {
+              String? userPicUrl =
+                  MihFileApi.getMinioFileUrlV2(snapshot.data!.logo_path);
+              image = CachedNetworkImageProvider(userPicUrl);
+            }
+
+            if (snapshot.hasError) {
+              image = null;
+            }
+
+            return MihCircleAvatar(
+              imageFile: image,
+              width: 50,
+              expandable: true,
+              editable: false,
+              fileNameController: null,
+              userSelectedfile: null,
+              frameColor: MihColors.primary(),
+              backgroundColor: MihColors.secondary(),
+              onChange: null,
+            );
+          },
+        ),
+        title: Text(
+          line1,
+          style: TextStyle(
+            color: MihColors.primary(),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: RichText(
+          text: TextSpan(
+              text: line2,
+              style: TextStyle(
+                color: MihColors.primary(),
+                // fontWeight: FontWeight.bold,
+              ),
+              children: <TextSpan>[
+                TextSpan(text: line3),
+                accessWithColour,
+              ]),
+        ),
+        onTap: () {
+          viewApprovalPopUp(mzansiProfileProvider, accessProvider, index);
+        },
       ),
-      subtitle: RichText(
-        text: TextSpan(
-            text: line2,
-            style: DefaultTextStyle.of(context).style,
-            children: <TextSpan>[
-              TextSpan(text: line3),
-              accessWithColour,
-            ]),
-      ),
-      // Text(
-      //   subtitle,
-      //   style: TextStyle(
-      //     color: MihColors.secondary(),
-      //   ),
-      // ),
-      onTap: () {
-        viewApprovalPopUp(mzansiProfileProvider, accessProvider, index);
-      },
-      // trailing: Icon(
-      //   Icons.arrow_forward,
-      //   color: MihColors.secondary(),
-      // ),
     );
   }
 
@@ -135,14 +189,11 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
     subtitle +=
         "Status: ${accessProvider.accessList![index].status.toUpperCase()}";
     if (accessProvider.accessList![index].status == 'pending') {
-      //     "\nYou are about to approve an access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.\nIf you are unsure about an upcoming appointment with ${widget.patientAccessList[index].requested_by}, please contact *Add Number here* for clarification before approving this request.";
     } else {
       subtitle +=
           "\nActioned By: ${accessProvider.accessList![index].approved_by}\n";
       subtitle +=
           "Actioned On: ${accessProvider.accessList![index].approved_on.substring(0, 16).replaceAll("T", " ")}";
-      // subtitle +=
-      //     "You have approved this access request to your patient profile.\nPlease be aware that once approved, ${widget.patientAccessList[index].requested_by} will have access to your profile forever and will be able to contribute to it.";
     }
     showDialog(
       context: context,
@@ -152,9 +203,18 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
           windowTitle: "Profile Access",
           windowBody: Column(
             children: [
-              const SizedBox(
-                height: 10,
+              const SizedBox(height: 10.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "*NB: Internet connection required to approve or decline access.",
+                  style: TextStyle(
+                    color: MihColors.red(),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
+              const SizedBox(height: 5.0),
               SizedBox(
                 width: 1000,
                 child: Text(
@@ -296,27 +356,38 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                   children: [
                     MihButton(
                       onPressed: () async {
-                        print("request declined");
-                        int statusCode = await MihAccessControlsServices()
-                            .updatePatientAccessAPICall(
-                          accessProvider.accessList![index].business_id,
-                          accessProvider.accessList![index].requested_by,
-                          accessProvider.accessList![index].app_id,
-                          "declined",
-                          "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
-                          mzansiProfileProvider.user!,
-                          context,
-                        );
-                        if (statusCode == 200) {
-                          await MihAccessControlsServices()
-                              .getBusinessAccessListOfPatient(
-                            mzansiProfileProvider.user!.app_id,
-                            accessProvider,
+                        try {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Mihloadingcircle();
+                            },
                           );
+                          int statusCode = await MihAccessControlsServices()
+                              .updatePatientAccessAPICall(
+                            accessProvider.accessList![index].business_id,
+                            accessProvider.accessList![index].requested_by,
+                            accessProvider.accessList![index].app_id,
+                            "declined",
+                            "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
+                            mzansiProfileProvider.user!,
+                            context,
+                          );
+                          if (statusCode == 200) {
+                            await MihAccessControlsServices()
+                                .getBusinessAccessListOfPatient(
+                              mzansiProfileProvider.user!.app_id,
+                              accessProvider,
+                            );
+                            context.pop();
+                            successPopUp("Successfully Actioned Request",
+                                "You have successfully Declined access request");
+                          } else {
+                            context.pop();
+                            MihAlertServices().internetConnectionAlert(context);
+                          }
+                        } catch (error) {
                           context.pop();
-                          successPopUp("Successfully Actioned Request",
-                              "You have successfully Declined access request");
-                        } else {
                           MihAlertServices().internetConnectionAlert(context);
                         }
                       },
@@ -333,27 +404,35 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
                     ),
                     MihButton(
                       onPressed: () async {
-                        print("request approved");
-                        int statusCode = await MihAccessControlsServices()
-                            .updatePatientAccessAPICall(
-                          accessProvider.accessList![index].business_id,
-                          accessProvider.accessList![index].requested_by,
-                          accessProvider.accessList![index].app_id,
-                          "approved",
-                          "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
-                          mzansiProfileProvider.user!,
-                          context,
-                        );
-                        if (statusCode == 200) {
-                          await MihAccessControlsServices()
-                              .getBusinessAccessListOfPatient(
-                            mzansiProfileProvider.user!.app_id,
-                            accessProvider,
+                        try {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Mihloadingcircle();
+                            },
                           );
+                          int statusCode = await MihAccessControlsServices()
+                              .updatePatientAccessAPICall(
+                            accessProvider.accessList![index].business_id,
+                            accessProvider.accessList![index].requested_by,
+                            accessProvider.accessList![index].app_id,
+                            "approved",
+                            "${mzansiProfileProvider.user!.fname} ${mzansiProfileProvider.user!.lname}",
+                            mzansiProfileProvider.user!,
+                            context,
+                          );
+                          if (statusCode == 200) {
+                            await accessProvider
+                                .syncWithMihServerData(mzansiProfileProvider);
+                            context.pop();
+                            successPopUp("Successfully Actioned Request",
+                                "You have successfully Accepted access request");
+                          } else {
+                            context.pop();
+                            MihAlertServices().internetConnectionAlert(context);
+                          }
+                        } catch (error) {
                           context.pop();
-                          successPopUp("Successfully Actioned Request",
-                              "You have successfully Accepted access request");
-                        } else {
                           MihAlertServices().internetConnectionAlert(context);
                         }
                       },
@@ -440,21 +519,46 @@ class _BuildPatientsListState extends State<BuildBusinessAccessList> {
           MzansiProfileProvider mzansiProfileProvider,
           MihAccessControllsProvider accessProvider,
           Widget? child) {
-        return ListView.separated(
-          separatorBuilder: (BuildContext context, index) {
-            return Divider(
-              color: MihColors.secondary(),
-            );
-          },
-          itemCount: filterAccessList(accessProvider.accessList!).length,
-          itemBuilder: (context, index) {
-            //final patient = widget.patients[index].id_no.contains(widget.searchString);
-            //print(index);
-            final filteredList = filterAccessList(accessProvider.accessList!);
-            return displayQueue(
-                mzansiProfileProvider, accessProvider, index, filteredList);
-          },
-        );
+        if (accessProvider.accessList!.isNotEmpty) {
+          return ListView.separated(
+            separatorBuilder: (BuildContext context, index) {
+              return SizedBox(height: 3);
+            },
+            itemCount: filterAccessList(accessProvider.accessList!).length,
+            itemBuilder: (context, index) {
+              final filteredList = filterAccessList(accessProvider.accessList!);
+              return displayQueue(
+                  mzansiProfileProvider, accessProvider, index, filteredList);
+            },
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50),
+                Icon(
+                  MihIcons.mihAccessControls,
+                  size: 165,
+                  color: MihColors.secondary(),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "No business access available or pending",
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: MihColors.secondary(),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
       },
     );
   }

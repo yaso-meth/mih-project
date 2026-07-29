@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/builders/build_my_scoreboard_list.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_minesweeper_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
 
@@ -20,43 +17,35 @@ class MyScoreBoard extends StatefulWidget {
 class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
   TextEditingController filterController = TextEditingController();
 
-  Future<void> initialiseLeaderboard() async {
-    MzansiProfileProvider profileProvider =
-        context.read<MzansiProfileProvider>();
-    MihMineSweeperProvider mineSweeperProvider =
-        context.read<MihMineSweeperProvider>();
-    filterController.text = mineSweeperProvider.difficulty;
-    KenLogger.success("getting data");
-    await MihMinesweeperServices()
-        .getMyScoreboard(profileProvider, mineSweeperProvider);
-    KenLogger.success("${mineSweeperProvider.myScoreboard}");
-  }
-
-  void refreshLeaderBoard(
+  void refreshLeaderBoard(MzansiProfileProvider profileProvider,
       MihMineSweeperProvider mineSweeperProvider, String difficulty) {
     mineSweeperProvider.setDifficulty(difficulty);
-    mineSweeperProvider.setLeaderboard(leaderboard: null);
-    mineSweeperProvider.setMyScoreboard(myScoreboard: null);
-    initialiseLeaderboard();
+    mineSweeperProvider.syncWithMihServerData(
+        profileProvider, mineSweeperProvider);
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initialiseLeaderboard();
-    });
+    MihMineSweeperProvider mineSweeperProvider =
+        context.read<MihMineSweeperProvider>();
+    filterController.text = mineSweeperProvider.difficulty;
   }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    return Consumer<MihMineSweeperProvider>(
-      builder: (BuildContext context,
-          MihMineSweeperProvider mineSweeperProvider, Widget? child) {
+    return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MihMineSweeperProvider mineSweeperProvider,
+        Widget? child,
+      ) {
         return RefreshIndicator(
           onRefresh: () async {
-            refreshLeaderBoard(mineSweeperProvider, filterController.text);
+            refreshLeaderBoard(
+                profileProvider, mineSweeperProvider, filterController.text);
           },
           child: MihPackageToolBody(
             backgroundColor: MihColors.primary(),
@@ -117,7 +106,8 @@ class _MihMineSweeperLeaderBoardState extends State<MyScoreBoard> {
                           return MihValidationServices().isEmpty(value);
                         },
                         onSelected: (selection) {
-                          refreshLeaderBoard(mineSweeperProvider, selection!);
+                          refreshLeaderBoard(
+                              profileProvider, mineSweeperProvider, selection!);
                         },
                       ),
                     ),

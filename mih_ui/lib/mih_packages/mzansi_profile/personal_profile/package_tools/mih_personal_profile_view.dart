@@ -26,7 +26,6 @@ class MihPersonalProfileView extends StatefulWidget {
 }
 
 class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
-  late Future<String> futureImageUrl;
   late Future<List<ProfileLink>> futureLinks;
   PlatformFile? file;
 
@@ -40,8 +39,6 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedUser!.pro_pic_path);
     futureLinks = MihProfileLinksServices.getUserProfileLinksMD(
         directoryProvider, directoryProvider.selectedUser!.app_id);
   }
@@ -75,40 +72,21 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "") {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.secondary(),
-                                  backgroundColor: MihColors.primary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.secondary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.secondary(),
-                              );
-                            }
-                          }),
+                      MihCircleAvatar(
+                        imageFile: CachedNetworkImageProvider(
+                          MihFileApi.getMinioFileUrlV2(
+                            directoryProvider.selectedUser!.pro_pic_path,
+                          ),
+                        ),
+                        width: profilePictureWidth,
+                        expandable: true,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
+                        onChange: null,
+                      ),
                       FittedBox(
                         child: Text(
                           directoryProvider.selectedUser!.username.isNotEmpty
@@ -168,6 +146,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                                   ConnectionState.done &&
                               asyncSnapshot.hasData) {
                             return MihProfileLinks(
+                              displayCustomName: true,
                               links: asyncSnapshot.requireData,
                             );
                           } else {

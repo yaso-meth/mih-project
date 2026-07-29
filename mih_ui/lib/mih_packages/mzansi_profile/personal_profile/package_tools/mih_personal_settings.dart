@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
@@ -38,8 +39,14 @@ class _MihPersonalSettingsState extends State<MihPersonalSettings> {
       "This action will remove all of your data, and it cannot be recovered. We understand this is a big decision, so please take a moment to double-check.\n\nIf you're certain, please confirm below. If you've changed your mind, you can simply close this window.",
       [
         MihButton(
-          onPressed: () {
-            MihUserServices.deleteAccount(mzansiProfileProvider, context);
+          onPressed: () async {
+            try {
+              await MihUserServices.deleteAccount(
+                  mzansiProfileProvider, context);
+            } catch (error) {
+              context.pop();
+              MihAlertServices().internetConnectionAlert(ctxtd);
+            }
           },
           buttonColor: MihColors.primary(),
           width: 300,

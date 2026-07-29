@@ -29,6 +29,59 @@ class MihMinesweeperServices {
     return response.statusCode;
   }
 
+  Future<List<MinesweeperPlayerScore>> getTop20LeaderboardV2(
+    MihMineSweeperProvider mineSweeperProvider,
+  ) async {
+    try {
+      String difficulty = mineSweeperProvider.difficulty;
+      var response = await http.get(
+        Uri.parse(
+            "${AppEnviroment.baseApiUrl}/minesweeper/leaderboard/top20/$difficulty"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+      );
+      if (response.statusCode == 200) {
+        Iterable l = jsonDecode(response.body);
+        List<MinesweeperPlayerScore> leaderboard =
+            List<MinesweeperPlayerScore>.from(
+                l.map((model) => MinesweeperPlayerScore.fromJson(model)));
+        return leaderboard;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw Exception('failed to fetch minesweeper leaderboard');
+    }
+  }
+
+  Future<List<MinesweeperPlayerScore>> getMyScoreboardV2(
+    MzansiProfileProvider profileProvider,
+    MihMineSweeperProvider mineSweeperProvider,
+  ) async {
+    try {
+      String difficulty = mineSweeperProvider.difficulty;
+      var response = await http.get(
+        Uri.parse(
+            "${AppEnviroment.baseApiUrl}/minesweeper/leaderboard/top_score/$difficulty/${profileProvider.user!.app_id}"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+      );
+      if (response.statusCode == 200) {
+        Iterable l = jsonDecode(response.body);
+        List<MinesweeperPlayerScore> leaderboard =
+            List<MinesweeperPlayerScore>.from(
+                l.map((model) => MinesweeperPlayerScore.fromJson(model)));
+        return leaderboard;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      throw Exception('failed to fetch minesweeper leaderboard');
+    }
+  }
+
   Future<int> getMyScoreboard(
     MzansiProfileProvider profileProvider,
     MihMineSweeperProvider mineSweeperProvider,
@@ -51,6 +104,30 @@ class MihMinesweeperServices {
       mineSweeperProvider.setMyScoreboard(myScoreboard: null);
     }
     return response.statusCode;
+  }
+
+  Future<int?> addPlayerScoreV2(MinesweeperPlayerScore newScore) async {
+    try {
+      var response = await http
+          .post(
+            Uri.parse(
+                "${AppEnviroment.baseApiUrl}/minesweeper/leaderboard/player_score/insert/"),
+            headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: jsonEncode(<String, dynamic>{
+              "app_id": newScore.app_id,
+              "difficulty": newScore.difficulty,
+              "game_time": newScore.game_time,
+              "game_score": newScore.game_score,
+              "played_date": newScore.played_date.toString(),
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
+      return response.statusCode;
+    } catch (error) {
+      return null;
+    }
   }
 
   Future<int> addPlayerScore(

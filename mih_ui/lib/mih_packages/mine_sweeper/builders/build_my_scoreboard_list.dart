@@ -35,49 +35,56 @@ class _BuildMinesweeperLeaderboardListState
           MihMineSweeperProvider mineSweeperProvider, Widget? child) {
         return ListView.separated(
           separatorBuilder: (BuildContext context, index) {
-            return Divider(
-              color: MihColors.secondary(),
+            return SizedBox(
+              height: 3,
             );
           },
           itemCount: mineSweeperProvider.myScoreboard!.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: width / 20),
-              child: Row(
-                children: [
-                  Text(
-                    "#${index + 1}",
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: getMedalColor(index),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            return Material(
+              color: getMedalColor(index),
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width / 20),
+                child: ListTile(
+                  title: Row(
                     children: [
                       Text(
-                        "Score: ${mineSweeperProvider.myScoreboard![index].game_score}",
-                        textAlign: TextAlign.left,
+                        "#${index + 1}",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: getMedalColor(index),
+                          fontSize: 25,
+                          color: MihColors.primary(),
                         ),
                       ),
-                      Text(
-                        "Time: ${mineSweeperProvider.myScoreboard![index].game_time}",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 18,
-                          // fontWeight: FontWeight.bold,
-                          color: getMedalColor(index),
-                        ),
-                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Score: ${mineSweeperProvider.myScoreboard![index].game_score}",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: MihColors.primary(),
+                            ),
+                          ),
+                          Text(
+                            "Time: ${mineSweeperProvider.myScoreboard![index].game_time}",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.bold,
+                              color: MihColors.primary(),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             );
           },

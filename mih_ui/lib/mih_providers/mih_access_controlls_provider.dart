@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mih_access_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 
 class MihAccessControllsProvider extends ChangeNotifier {
+  final MihAccessHiveData _hiveDate;
   int toolIndex;
   List<PatientAccess>? accessList;
 
-  MihAccessControllsProvider({
+  MihAccessControllsProvider(
+    this._hiveDate, {
     this.toolIndex = 0,
   });
+
+  void loadCachedAccess() {
+    accessList = _hiveDate.getCachedAccess();
+    KenLogger.success("Access List Loaded from Cache");
+    notifyListeners();
+  }
+
+  Future<bool> syncWithMihServerData(
+    MzansiProfileProvider profileProvider,
+  ) async {
+    bool success = await _hiveDate.syncAccessWithServer(profileProvider);
+    loadCachedAccess();
+    return success;
+  }
+
+  Future<void> clearAccessCacheAndProvider() async {
+    await _hiveDate.clearAccessCache();
+    reset();
+  }
 
   void reset() {
     toolIndex = 0;

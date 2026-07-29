@@ -39,7 +39,7 @@ class _PatientSetupFormState extends State<PatientSetupForm> {
     MzansiProfileProvider profileProvider,
     PatientManagerProvider patientManagerProvider,
   ) async {
-    int statusCode = await MihPatientServices().addPatientService(
+    int statusCode = await MihPatientServices().addPatientServiceV2(
       idController.text,
       fnameController.text,
       lnameController.text,
@@ -58,6 +58,8 @@ class _PatientSetupFormState extends State<PatientSetupForm> {
     if (statusCode == 201) {
       String message =
           "${fnameController.text} ${lnameController.text} patient profile has been successfully added!\n";
+      patientManagerProvider.syncWithMihServerData(
+          profileProvider.user!.app_id, null);
       successPopUp("Successfully created Patient Profile", message);
     } else {
       MihAlertServices().internetConnectionAlert(context);
@@ -132,7 +134,18 @@ class _PatientSetupFormState extends State<PatientSetupForm> {
                       ],
                     ),
                     Divider(color: MihColors.secondary()),
-                    const SizedBox(height: 10.0),
+                    Row(
+                      children: [
+                        Text(
+                          "*NB: Internet connection required to set up patient profile.",
+                          style: TextStyle(
+                            color: MihColors.red(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
                     MihTextFormField(
                       fillColor: MihColors.secondary(),
                       inputColor: MihColors.primary(),

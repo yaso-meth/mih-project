@@ -4,7 +4,6 @@ import 'package:fl_downloader/fl_downloader.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_file_viewer_provider.dart';
@@ -18,7 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
-import "package:universal_html/html.dart" as html;
+import 'package:mzansi_innovation_hub/mih_helpers/mih_utils_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_utils_web.dart';
 
 class BuildFilesList extends StatefulWidget {
   const BuildFilesList({
@@ -37,16 +37,16 @@ class _BuildFilesListState extends State<BuildFilesList> {
   int progress = 0;
   late StreamSubscription progressStream;
 
-  Future<String> getFileUrlApiCall(String filePath) async {
-    String teporaryFileUrl = "";
-    await MihFileApi.getMinioFileUrl(
-      filePath,
-    ).then((value) {
-      teporaryFileUrl = value;
-    });
-    return teporaryFileUrl;
-  }
-
+  // Future<String> getFileUrlApiCall(String filePath) async {
+  //   String teporaryFileUrl = "";
+  //   await MihFileApi.getMinioFileUrl(
+  //     filePath,
+  //   ).then((value) {
+  //     teporaryFileUrl = value;
+  //   });
+  //   return teporaryFileUrl;
+  // }
+  //
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
     return path.split("/").last;
@@ -103,7 +103,7 @@ class _BuildFilesListState extends State<BuildFilesList> {
         backgroundColor: MihColors.green(),
         onTap: () {
           if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
-            html.window.open(url, 'download');
+            openWebWindow(url, 'download');
           } else {
             nativeFileDownload(url);
           }
@@ -206,25 +206,25 @@ class _BuildFilesListState extends State<BuildFilesList> {
         return Icon(
           Icons.picture_as_pdf,
           size: 50,
-          color: MihColors.red(),
+          color: MihColors.red(darkMode: false),
         );
       case ("jpeg"):
         return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
-          color: MihColors.green(),
+          color: MihColors.green(darkMode: false),
         );
       case ("jpg"):
         return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
-          color: MihColors.green(),
+          color: MihColors.green(darkMode: false),
         );
       case ("png"):
         return FaIcon(
           FontAwesomeIcons.image,
           size: 50,
-          color: MihColors.green(),
+          color: MihColors.green(darkMode: false),
         );
       case ("gif"):
         return FaIcon(
@@ -275,8 +275,8 @@ class _BuildFilesListState extends State<BuildFilesList> {
         if (patientManagerProvider.patientDocuments!.isNotEmpty) {
           return ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: MihColors.secondary(),
+              return SizedBox(
+                height: 3,
               );
             },
             itemCount: patientManagerProvider.patientDocuments!.length,
@@ -286,44 +286,56 @@ class _BuildFilesListState extends State<BuildFilesList> {
                   .split(".")
                   .last
                   .toLowerCase();
-              KenLogger.success(fileExtension);
-              return ListTile(
-                leading: getFileIcon(fileExtension),
-                title: Text(
-                  patientManagerProvider.patientDocuments![index].file_name,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+              return Material(
+                color: MihColors.secondary(),
+                borderRadius: BorderRadius.circular(20),
+                clipBehavior: Clip.antiAlias,
+                child: ListTile(
+                  splashColor: Color.lerp(
+                    MihColors.bluishPurple(),
+                    Colors.black,
+                    0.01,
                   ),
-                ),
-                subtitle: Text(
-                  patientManagerProvider.patientDocuments![index].insert_date,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+                  hoverColor: MihColors.highlight(),
+                  leading: getFileIcon(fileExtension),
+                  title: Text(
+                    patientManagerProvider.patientDocuments![index].file_name,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                // trailing: Icon(
-                //   Icons.arrow_forward,
-                //   color: MihColors.secondary(),
-                // ),
-                onTap: () async {
-                  MihFileViewerProvider fileViewerProvider =
-                      context.read<MihFileViewerProvider>();
-                  await getFileUrlApiCall(patientManagerProvider
-                          .patientDocuments![index].file_path)
-                      .then((urlHere) {
+                  subtitle: Text(
+                    patientManagerProvider.patientDocuments![index].insert_date,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ),
+                  // trailing: Icon(
+                  //   Icons.arrow_forward,
+                  //   color: MihColors.secondary(),
+                  // ),
+                  onTap: () async {
+                    MihFileViewerProvider fileViewerProvider =
+                        context.read<MihFileViewerProvider>();
+                    String fileUrl = MihFileApi.getMinioFileUrlV2(
+                        patientManagerProvider
+                            .patientDocuments![index].file_path);
                     //print(url);
                     fileViewerProvider.setFilePath(patientManagerProvider
                         .patientDocuments![index].file_path);
-                    fileViewerProvider.setFileLink(urlHere);
-                  });
-                  viewFilePopUp(
-                      patientManagerProvider,
-                      patientManagerProvider.patientDocuments![index].file_name,
-                      patientManagerProvider.patientDocuments![index].file_path,
-                      patientManagerProvider
-                          .patientDocuments![index].idpatient_files,
-                      fileViewerProvider.fileLink);
-                },
+                    fileViewerProvider.setFileLink(fileUrl);
+                    viewFilePopUp(
+                        patientManagerProvider,
+                        patientManagerProvider
+                            .patientDocuments![index].file_name,
+                        patientManagerProvider
+                            .patientDocuments![index].file_path,
+                        patientManagerProvider
+                            .patientDocuments![index].idpatient_files,
+                        fileViewerProvider.fileLink);
+                  },
+                ),
               );
             },
           );

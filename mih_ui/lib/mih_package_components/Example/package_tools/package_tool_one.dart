@@ -704,6 +704,7 @@ class _PackageToolOneState extends State<PackageToolOne> {
                   imageFile: imagePreview,
                   width: 300,
                   height: 200,
+                  expandable: true,
                   editable: true,
                   fileNameController: _imagefileController,
                   userSelectedfile: imageFile,

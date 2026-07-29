@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
@@ -9,7 +8,6 @@ import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mi
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mine_sweeper_game.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/mine_sweeper_quick_start_guide.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/package_tools/my_score_board.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
 import 'package:provider/provider.dart';
 
 class MihMineSweeper extends StatefulWidget {
@@ -20,28 +18,33 @@ class MihMineSweeper extends StatefulWidget {
 }
 
 class _MihMineSweeperState extends State<MihMineSweeper> {
-  bool _isLoadingInitialData = true;
   late final MineSweeperGame _mineSweeperGame;
   late final MihMineSweeperLeaderBoard _mineSweeperLeaderBoard;
   late final MyScoreBoard _myScoreBoard;
   late final MineSweeperQuickStartGuide _mineSweeperQuickStartGuide;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
+    MihMineSweeperProvider mineSweeperProvider =
+        context.read<MihMineSweeperProvider>();
     MihBannerAdProvider bannerAdProvider = context.read<MihBannerAdProvider>();
-    if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
-    }
+    mzansiProfileProvider.loadCachedProfileState();
+    mineSweeperProvider.loadCachedMSleaderboards();
     bannerAdProvider.loadBannerAd();
-    setState(() {
-      _isLoadingInitialData = false;
-    });
+    if (mzansiProfileProvider.user == null) {
+      await mzansiProfileProvider.syncWithMihServerData();
+    }
+    if (mineSweeperProvider.leaderboard == null ||
+        mineSweeperProvider.myScoreboard == null) {
+      await mineSweeperProvider.syncWithMihServerData(
+          mzansiProfileProvider, mineSweeperProvider);
+    }
+
+    if (mineSweeperProvider.isLocalModificationsPending()) {
+      mineSweeperProvider.syncWithMihServerData(
+          mzansiProfileProvider, mineSweeperProvider);
+    }
   }
 
   @override
@@ -51,15 +54,23 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
     _mineSweeperLeaderBoard = MihMineSweeperLeaderBoard();
     _myScoreBoard = MyScoreBoard();
     _mineSweeperQuickStartGuide = MineSweeperQuickStartGuide();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MihMineSweeperProvider>(
-      builder:
-          (BuildContext context, MihMineSweeperProvider value, Widget? child) {
-        if (_isLoadingInitialData) {
+    return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MihMineSweeperProvider mineSweeperProvider,
+        Widget? child,
+      ) {
+        if (profileProvider.user == null) {
           return Scaffold(
             body: Center(
               child: Mihloadingcircle(),

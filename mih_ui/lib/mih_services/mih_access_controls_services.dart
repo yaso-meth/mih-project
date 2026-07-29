@@ -18,10 +18,6 @@ class MihAccessControlsServices {
   ) async {
     final response = await http.get(Uri.parse(
         "${AppEnviroment.baseApiUrl}/access-requests/personal/patient/$app_id"));
-    // var errorCode = response.statusCode.toString();
-    // print(response.statusCode);
-    // print(response.body);
-
     if (response.statusCode == 200) {
       Iterable l = jsonDecode(response.body);
       List<PatientAccess> patientAccesses = List<PatientAccess>.from(
@@ -30,6 +26,26 @@ class MihAccessControlsServices {
         mihAccessColtrollsProvider.setAccessList(patientAccesses);
       }
       return response.statusCode;
+    } else {
+      throw Exception('failed to pull patient access List for business');
+    }
+  }
+
+  Future<List<PatientAccess>> getPatientAccessList(
+    String appId,
+  ) async {
+    final response = await http
+        .get(
+          Uri.parse(
+            "${AppEnviroment.baseApiUrl}/access-requests/personal/patient/$appId",
+          ),
+        )
+        .timeout(const Duration(seconds: 5));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
+      return patientAccesses;
     } else {
       throw Exception('failed to pull patient access List for business');
     }
@@ -160,24 +176,21 @@ class MihAccessControlsServices {
     AppUser signedInUser,
     BuildContext context,
   ) async {
-    loadingPopUp(context);
-    var response = await http.put(
-      Uri.parse(
-          "${AppEnviroment.baseApiUrl}/access-requests/update/permission/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      // business_id: str
-      // app_id: str
-      // status: str
-      // approved_by: str
-      body: jsonEncode(<String, dynamic>{
-        "business_id": business_id,
-        "app_id": app_id,
-        "status": status,
-        "approved_by": approved_by,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse(
+              "${AppEnviroment.baseApiUrl}/access-requests/update/permission/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": business_id,
+            "app_id": app_id,
+            "status": status,
+            "approved_by": approved_by,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     context.pop();
     return response.statusCode;
     // if (response.statusCode == 200) {

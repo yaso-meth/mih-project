@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
@@ -23,33 +24,7 @@ class MihEditBusnessLinkWindow extends StatefulWidget {
 
 class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
   final _formKey = GlobalKey<FormState>();
-  List<String> _dropdowOptions = [
-    "YouTube",
-    "TikTok",
-    "Twitch",
-    "Threads",
-    "WhatsApp",
-    "Instagram",
-    "X",
-    "LinkedIn",
-    "Facebook",
-    "Reddit",
-    "Discord",
-    "Git",
-    "Telegram",
-    "Pinterest",
-    "Snapchat",
-    "Messenger",
-    "Medium",
-    "Substack",
-    "Spotify",
-    "YT Music",
-    "Apple Music",
-    "Patreon",
-    "Loolio",
-    "WeChat",
-    "Other"
-  ];
+  List<String> _dropdowOptions = MihProfileLinksServices().linkOptions;
   TextEditingController _dropdownLinkNameController = TextEditingController();
   TextEditingController _linkNameController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
@@ -97,22 +72,59 @@ class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
                     : EdgeInsets.symmetric(horizontal: screenWidth * 0),
             child: Column(
               children: [
+                const SizedBox(height: 10.0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "*NB: Internet connection required to edit profile links.",
+                    style: TextStyle(
+                      color: MihColors.red(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5.0),
                 MihForm(
                   formKey: _formKey,
                   formFields: [
-                    MihDropdownField(
-                      controller: _dropdownLinkNameController,
-                      hintText: 'Site Name',
-                      dropdownOptions: _dropdowOptions,
-                      requiredText: true,
-                      editable: true,
-                      enableSearch: true,
-                      validator: (value) {
-                        return MihValidationServices().isEmpty(value);
-                      },
-                      onSelected: (value) {
-                        setState(() {});
-                      },
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (_dropdownLinkNameController.text != "")
+                          MihProfileLinks(
+                            displayCustomName: false,
+                            links: [
+                              ProfileLink(
+                                idprofile_links: 0,
+                                app_id: "",
+                                business_id: "",
+                                site_name: _dropdownLinkNameController.text,
+                                custom_name: "",
+                                destination: "",
+                                order: 0,
+                              ),
+                            ],
+                          ),
+                        if (_dropdownLinkNameController.text != "")
+                          const SizedBox(width: 10),
+                        Expanded(
+                          child: MihDropdownField(
+                            controller: _dropdownLinkNameController,
+                            hintText: 'Site Name',
+                            dropdownOptions: _dropdowOptions,
+                            requiredText: true,
+                            editable: true,
+                            enableSearch: true,
+                            validator: (value) {
+                              return MihValidationServices().isEmpty(value);
+                            },
+                            onSelected: (value) {
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     MihTextFormField(
@@ -143,27 +155,35 @@ class _MihEditBusnessLinkWindowState extends State<MihEditBusnessLinkWindow> {
                     MihButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          MihProfileLinksServices.loadingPopUp(context);
-                          int statusCode =
-                              await MihProfileLinksServices.updateProfileLink(
-                            profileProvider,
-                            widget.link.idprofile_links,
-                            "",
-                            profileProvider.business!.business_id,
-                            _dropdownLinkNameController.text,
-                            _linkNameController.text,
-                            _destinationController.text,
-                            widget.link.order,
-                            context,
-                          );
-                          context.pop();
-                          if (statusCode == 200) {
+                          try {
+                            MihProfileLinksServices.loadingPopUp(context);
+                            int statusCode =
+                                await MihProfileLinksServices.updateProfileLink(
+                              profileProvider,
+                              widget.link.idprofile_links,
+                              "",
+                              profileProvider.business!.business_id,
+                              _dropdownLinkNameController.text,
+                              _linkNameController.text,
+                              _destinationController.text,
+                              widget.link.order,
+                              context,
+                            );
+                            if (statusCode == 200) {
+                              context.pop();
+                              context.pop();
+                              profileProvider.syncWithMihServerData();
+                              successPopUp(
+                                  "Profile Link Updated",
+                                  "You have successfully update a link in your business",
+                                  0);
+                            } else {
+                              context.pop();
+                              MihAlertServices()
+                                  .internetConnectionAlert(context);
+                            }
+                          } catch (error) {
                             context.pop();
-                            successPopUp(
-                                "Profile Link Updated",
-                                "You have successfully update a link in your business",
-                                0);
-                          } else {
                             MihAlertServices().internetConnectionAlert(context);
                           }
                         } else {

@@ -305,8 +305,26 @@ class _PatientInfoState extends State<PatientInfo> {
                     userSelectedfile: null,
                     frameColor: MihColors.secondary(),
                     backgroundColor: MihColors.primary(),
-                    onChange: () {},
+                    onChange: null,
                   ),
+                  if (patientManagerProvider.personalMode)
+                    const SizedBox(height: 10),
+                  if (patientManagerProvider.personalMode)
+                    MihButton(
+                      onPressed: () {
+                        showEditPatientWindow();
+                      },
+                      buttonColor: MihColors.green(),
+                      width: 100,
+                      height: 35,
+                      child: Text(
+                        "Edit Profile",
+                        style: TextStyle(
+                          color: MihColors.primary(),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   const SizedBox(height: 10),
                   buildPatientInfoCard(patientManagerProvider),
                   const SizedBox(height: 10),
@@ -334,35 +352,6 @@ class _PatientInfoState extends State<PatientInfo> {
                       ? Icons.visibility
                       : Icons.visibility_off,
                   color: MihColors.primary(),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: patientManagerProvider.personalMode,
-              child: Positioned(
-                right: 10,
-                bottom: 10,
-                child: MihFloatingMenu(
-                  icon: Icons.add,
-                  animatedIcon: AnimatedIcons.menu_close,
-                  children: [
-                    SpeedDialChild(
-                      child: Icon(
-                        Icons.edit,
-                        color: MihColors.primary(),
-                      ),
-                      label: "Edit Profile",
-                      labelBackgroundColor: MihColors.green(),
-                      labelStyle: TextStyle(
-                        color: MihColors.primary(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      backgroundColor: MihColors.green(),
-                      onTap: () {
-                        showEditPatientWindow();
-                      },
-                    )
-                  ],
                 ),
               ),
             ),

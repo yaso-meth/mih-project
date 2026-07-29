@@ -1,8 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/builders/build_user_list.dart';
 import 'package:flutter/material.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
 
@@ -17,29 +19,42 @@ class MihBusinessUserSearch extends StatefulWidget {
 
 class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   final TextEditingController searchController = TextEditingController();
-  late Future<List<AppUser>> userSearchResults;
   final FocusNode _searchFocusNode = FocusNode();
   bool hasSearchedBefore = false;
   String userSearch = "";
   String errorCode = "";
   String errorBody = "";
 
-  Future<List<AppUser>> fetchUsers(
+  Future<void> fetchUsers(
       MzansiProfileProvider profileProvider, String search) async {
-    return MihUserServices().searchUsers(profileProvider, search, context);
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      await MihUserServices().searchUsers(profileProvider, search, context);
+      context.pop();
+    } catch (error) {
+      context.pop();
+      MihAlertServices().internetConnectionAlert(context);
+    }
   }
 
   void submitUserForm(MzansiProfileProvider profileProvider) {
     if (searchController.text != "") {
       userSearch = searchController.text;
       hasSearchedBefore = true;
-      userSearchResults = fetchUsers(profileProvider, userSearch);
+      fetchUsers(profileProvider, userSearch);
     }
   }
 
   Widget displayUserList(MzansiProfileProvider profileProvider) {
     if (profileProvider.userSearchResults.isNotEmpty) {
-      return Expanded(child: BuildUserList());
+      return Expanded(
+        child: BuildUserList(),
+      );
     }
     if (hasSearchedBefore && userSearch.isNotEmpty) {
       return Column(
@@ -100,17 +115,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
                   children: [
                     TextSpan(
                         text: "You can search using their username or email"),
-                    // WidgetSpan(
-                    //   alignment: PlaceholderAlignment.middle,
-                    //   child: Icon(
-                    //     Icons.menu,
-                    //     size: 20,
-                    //     color: MzansiInnovationHub.of(context)!
-                    //         .theme
-                    //         .secondaryColor(),
-                    //   ),
-                    // ),
-                    // TextSpan(text: " to add your first loyalty card"),
                   ],
                 ),
               ),
@@ -119,15 +123,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
         ),
       );
     }
-    // return Center(
-    //   child: Text(
-    //     "Enter Username or Email to search",
-    //     style: TextStyle(
-    //         fontSize: 25,
-    //         color: MihColors.grey()),
-    //     textAlign: TextAlign.center,
-    //   ),
-    // );
   }
 
   @override
@@ -137,7 +132,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _searchFocusNode.dispose();
   }
@@ -155,7 +149,6 @@ class _MihBusinessUserSearchState extends State<MihBusinessUserSearch> {
   }
 
   Widget getBody(double width) {
-    // dscvds
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {

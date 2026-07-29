@@ -9,9 +9,6 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profi
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_business_user_search.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_team.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tools/mih_my_business_user.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_business_employee_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
 
 class BusinesProfile extends StatefulWidget {
@@ -22,7 +19,6 @@ class BusinesProfile extends StatefulWidget {
 }
 
 class _BusinesProfileState extends State<BusinesProfile> {
-  bool _isLoadingInitialData = true;
   late final MihBusinessDetails _businessDetails;
   late final MihMyBusinessUser _businessUser;
   late final MihMyBusinessTeam _businessTeam;
@@ -32,23 +28,13 @@ class _BusinesProfileState extends State<BusinesProfile> {
   late final MihBusinessLinks _businessLinks;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
+    mzansiProfileProvider.loadCachedProfileState();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+      await mzansiProfileProvider.syncWithMihServerData();
     }
-    await MihProfileLinksServices.getBusinessProfileLinks(
-        mzansiProfileProvider, mzansiProfileProvider.business!.business_id);
-    await MihBusinessEmployeeServices()
-        .fetchEmployees(mzansiProfileProvider, context);
-    setState(() {
-      _isLoadingInitialData = false;
-    });
+    mzansiProfileProvider.syncWithMihServerData();
   }
 
   @override
@@ -61,7 +47,11 @@ class _BusinesProfileState extends State<BusinesProfile> {
     _businessReviews = MihBusinessReviews(business: null);
     _businessLinks = MihBusinessLinks(viewMode: false);
     _businessQrCode = MihBusinessQrCode(business: null);
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
   }
 
   @override
@@ -69,13 +59,13 @@ class _BusinesProfileState extends State<BusinesProfile> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context,
           MzansiProfileProvider mzansiProfileProvider, Widget? child) {
-        if (_isLoadingInitialData) {
-          return Scaffold(
-            body: Center(
-              child: Mihloadingcircle(),
-            ),
-          );
-        }
+        // if (_isLoadingInitialData) {
+        //   return Scaffold(
+        //     body: Center(
+        //       child: Mihloadingcircle(),
+        //     ),
+        //   );
+        // }
         return MihPackage(
           packageActionButton: getAction(),
           packageTools: getTools(),

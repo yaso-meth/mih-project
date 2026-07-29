@@ -10,6 +10,36 @@ import 'package:supertokens_flutter/http.dart' as http;
 
 class MihProfileLinksServices {
   final baseAPI = AppEnviroment.baseApiUrl;
+  List<String> linkOptions = [
+    "App Store",
+    "App Gallery",
+    "Play Store",
+    "YouTube",
+    "TikTok",
+    "Twitch",
+    "Threads",
+    "WhatsApp",
+    "Instagram",
+    "X",
+    "LinkedIn",
+    "Facebook",
+    "Reddit",
+    "Discord",
+    "Git",
+    "Telegram",
+    "Pinterest",
+    "Snapchat",
+    "Messenger",
+    "Medium",
+    "Substack",
+    "Spotify",
+    "YT Music",
+    "Apple Music",
+    "Patreon",
+    "Loolio",
+    "WeChat",
+    "Other"
+  ];
 
   static Future<List<ProfileLink>> getUserProfileLinksMD(
     MzansiDirectoryProvider directoryProvider,
@@ -38,6 +68,21 @@ class MihProfileLinksServices {
       List<ProfileLink> myLinks =
           List<ProfileLink>.from(l.map((model) => ProfileLink.fromJson(model)));
       profileProvider.setPersonalLinks(personalLinks: myLinks);
+    } else {
+      throw Exception('failed to fecth user profile links');
+    }
+  }
+
+  static Future<List<ProfileLink>> getUserProfileLinksV2(
+    String app_id,
+  ) async {
+    final response = await http.get(
+        Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/user/$app_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<ProfileLink> myLinks =
+          List<ProfileLink>.from(l.map((model) => ProfileLink.fromJson(model)));
+      return myLinks;
     } else {
       throw Exception('failed to fecth user profile links');
     }
@@ -74,21 +119,38 @@ class MihProfileLinksServices {
     }
   }
 
+  static Future<List<ProfileLink>> getBusinessProfileLinksV2(
+    String business_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/profile-links/business/$business_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<ProfileLink> myLinks =
+          List<ProfileLink>.from(l.map((model) => ProfileLink.fromJson(model)));
+      return myLinks;
+    } else {
+      throw Exception('failed to fecth user profile links');
+    }
+  }
+
   static Future<int> deleteProfileLink(
     MzansiProfileProvider profileProvider,
     int idprofile_links,
   ) async {
-    final response = await http.delete(
-      Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/delete/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          "idprofile_links": idprofile_links,
-        },
-      ),
-    );
+    final response = await http
+        .delete(
+          Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/delete/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(
+            <String, dynamic>{
+              "idprofile_links": idprofile_links,
+            },
+          ),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       profileProvider.deleteProfileLink(linkId: idprofile_links);
     }
@@ -104,20 +166,22 @@ class MihProfileLinksServices {
     String destination,
     int order,
   ) async {
-    var response = await http.post(
-      Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/insert/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": app_id,
-        "business_id": business_id,
-        "site_name": site_name,
-        "custom_name": custom_name,
-        "destination": destination,
-        "order": order,
-      }),
-    );
+    var response = await http
+        .post(
+          Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/insert/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "app_id": app_id,
+            "business_id": business_id,
+            "site_name": site_name,
+            "custom_name": custom_name,
+            "destination": destination,
+            "order": order,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     KenLogger.success("Response: $response.statusCode");
     // if (response.statusCode == 201) {
     //   if (app_id == "") {
@@ -140,19 +204,21 @@ class MihProfileLinksServices {
     int order,
     BuildContext context,
   ) async {
-    final response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "idprofile_links": idprofile_links,
-        "site_name": site_name,
-        "custom_name": custom_name,
-        "destination": destination,
-        "order": order,
-      }),
-    );
+    final response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/profile-links/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "idprofile_links": idprofile_links,
+            "site_name": site_name,
+            "custom_name": custom_name,
+            "destination": destination,
+            "order": order,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       profileProvider.editProfileLink(
         updatedLink: ProfileLink(

@@ -5,8 +5,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/personal_profile/package_tools/mih_personal_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
 
 class MzansiProfile extends StatefulWidget {
@@ -19,29 +17,16 @@ class MzansiProfile extends StatefulWidget {
 }
 
 class _MzansiProfileState extends State<MzansiProfile> {
-  bool _isLoadingInitialData = true;
+  // bool _isLoadingInitialData = true;
   late final MihPersonalProfile _personalProfile;
   late final MihPersonalQrCode _personalQrCode;
   late final MihPersonalSettings _personalSettings;
 
-  Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
-    MzansiProfileProvider mzansiProfileProvider =
+  Future<void> _loadData() async {
+    MzansiProfileProvider profileProvide =
         context.read<MzansiProfileProvider>();
-    if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
-    }
-    await MihProfileLinksServices.getUserProfileLinks(
-      mzansiProfileProvider,
-      mzansiProfileProvider.user!.app_id,
-    );
-    setState(() {
-      _isLoadingInitialData = false;
-    });
+    profileProvide.loadCachedProfileState();
+    profileProvide.syncWithMihServerData();
   }
 
   @override
@@ -50,7 +35,11 @@ class _MzansiProfileState extends State<MzansiProfile> {
     _personalProfile = const MihPersonalProfile();
     _personalQrCode = const MihPersonalQrCode(user: null);
     _personalSettings = const MihPersonalSettings();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadData();
+      }
+    });
   }
 
   @override
@@ -58,13 +47,6 @@ class _MzansiProfileState extends State<MzansiProfile> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {
-        if (_isLoadingInitialData) {
-          return Scaffold(
-            body: Center(
-              child: Mihloadingcircle(),
-            ),
-          );
-        }
         return MihPackage(
           packageActionButton: getAction(),
           packageTools: getTools(),
