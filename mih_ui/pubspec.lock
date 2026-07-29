@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: app_settings
-      sha256: "64d50e666fd96ae90301bf71205f05019286f940ad6f5fed3d1be19c6af7546a"
+      sha256: "5e7d6e5b60e90c40b3409d6fb33d1844497be3a2e959935da8b77bc437221db8"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "8.0.3"
   archive:
     dependency: transitive
     description:
@@ -462,6 +462,62 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.35"
+  flutter_screen_lock:
+    dependency: transitive
+    description:
+      name: flutter_screen_lock
+      sha256: "540fc2f02a5284ed6fb150b1e4c0ba0a74ed9777bc8a8208bb1a610396feb9a3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.2.2+2"
+  flutter_secure_storage:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage
+      sha256: "7686b1d6a29985dcbb808c59518226e603e3bfa7c0ddfd1a0d00e4cda77c868e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.3.1"
+  flutter_secure_storage_darwin:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_darwin
+      sha256: "82329fa5cdf343773b1b6897dea959105a29f092454259edff92f9f6637e8149"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
+  flutter_secure_storage_linux:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux
+      sha256: a5f35ddab43cf5c8215d2feb4ce1957851f28c5c37e6f04335066a0602087bf5
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
+  flutter_secure_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_platform_interface
+      sha256: "06686df417f34fe9f963ed217b7fdce250e2f637ddd6c374d7eb054549770633"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
+  flutter_secure_storage_web:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_web
+      sha256: "073a62b3aeb866ab4ce795f960413948e51e5a42a9b0c8333b6daf5bb3208a1c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
+  flutter_secure_storage_windows:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_windows
+      sha256: "471951813a97006d899db4948acc654a4f28c440083ea08178935ce20b173ec1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.2"
   flutter_speed_dial:
     dependency: "direct main"
     description:
@@ -892,10 +948,10 @@ packages:
     dependency: "direct main"
     description:
       name: mih_package_toolkit
-      sha256: f71e8558d39c6f956b1a59bb375b6bec9c5cf6756e922e49c64aa77c422cec00
+      sha256: dcf086172d012907f520c0546e35212a306d77e6fb0107d11c02bc8c62b1fba2
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "1.0.0"
   mime:
     dependency: transitive
     description:

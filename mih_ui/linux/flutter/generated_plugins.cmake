@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_saver
+  flutter_secure_storage_linux
   printing
   qr_bar_code
   syncfusion_pdfviewer_linux
