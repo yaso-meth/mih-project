@@ -32,6 +32,7 @@ import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/p
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_set_up.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 
 class MihGoRouterPaths {
   // External
@@ -75,7 +76,10 @@ class MihGoRouter {
     redirect: (BuildContext context, GoRouterState state) async {
       MzansiProfileProvider profileProvider =
           context.read<MzansiProfileProvider>();
-      final bool isUserSignedIn = profileProvider.hasLocalProfile();
+      bool isUserSignedIn = profileProvider.hasLocalProfile();
+      if (!isUserSignedIn) {
+        isUserSignedIn = await SuperTokens.doesSessionExist();
+      }
 
       final unauthenticatedPaths = [
         MihGoRouterPaths.mihAuthentication,
