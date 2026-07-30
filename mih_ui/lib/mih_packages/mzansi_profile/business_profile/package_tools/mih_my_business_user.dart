@@ -187,7 +187,7 @@ class _MihMyBusinessUserState extends State<MihMyBusinessUser> {
                             userSelectedfile: userPicFile,
                             frameColor: MihColors.secondary(),
                             backgroundColor: MihColors.primary(),
-                            onChange: (_) {},
+                            onChange: null,
                           ),
                           Positioned(
                             bottom: 5,

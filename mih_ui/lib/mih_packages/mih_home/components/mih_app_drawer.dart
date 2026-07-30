@@ -114,7 +114,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
         expandable: false,
         editable: false,
         fileNameController: proPicController,
-        onChange: (_) {},
+        onChange: null,
         userSelectedfile: null,
         frameColor: MihColors.primary(),
         backgroundColor: MihColors.secondary(),
