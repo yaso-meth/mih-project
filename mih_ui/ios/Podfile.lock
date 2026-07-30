@@ -1,91 +1,22 @@
 PODS:
-  - app_settings (6.1.2):
-    - Flutter
-  - device_info_plus (0.0.1):
-    - Flutter
   - FBAudienceNetwork (6.21.1)
-  - file_picker (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - file_saver (0.3.1):
-    - Flutter
-  - fl_downloader (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
-  - geolocator_apple (1.2.0):
+  - gma_mediation_meta (1.5.3):
     - Flutter
-    - FlutterMacOS
-  - gma_mediation_meta (1.5.2):
-    - Flutter
-    - GoogleMobileAdsMediationFacebook (~> 6.21.1.0)
-  - Google-Mobile-Ads-SDK (13.2.0):
+    - GoogleMobileAdsMediationFacebook (~> 6.21.1.1)
+  - Google-Mobile-Ads-SDK (13.7.0):
     - GoogleUserMessagingPlatform (>= 1.1)
-  - google_mobile_ads (8.0.0):
-    - Flutter
-    - Google-Mobile-Ads-SDK (~> 13.2.0)
-    - webview_flutter_wkwebview
-  - GoogleMobileAdsMediationFacebook (6.21.1.0):
+  - GoogleMobileAdsMediationFacebook (6.21.1.1.1):
     - FBAudienceNetwork (= 6.21.1)
-    - Google-Mobile-Ads-SDK (~> 13.0)
+    - Google-Mobile-Ads-SDK (~> 13.4)
   - GoogleUserMessagingPlatform (3.1.0)
-  - local_auth_darwin (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - mobile_scanner (7.0.0):
-    - Flutter
-    - FlutterMacOS
-  - package_info_plus (0.4.5):
-    - Flutter
-  - printing (1.0.0):
-    - Flutter
-  - qr_bar_code (0.0.1):
-    - Flutter
-  - quick_actions_ios (0.0.1):
-    - Flutter
-  - screen_brightness_ios (2.1.3):
-    - Flutter
-  - share_plus (0.0.1):
-    - Flutter
-  - shared_preferences_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - sqflite_darwin (0.0.4):
-    - Flutter
-    - FlutterMacOS
-  - syncfusion_flutter_pdfviewer (0.0.1):
-    - Flutter
   - text_to_speech_plus (1.0.0):
     - Flutter
-  - url_launcher_ios (0.0.1):
-    - Flutter
-  - webview_flutter_wkwebview (0.0.1):
-    - Flutter
-    - FlutterMacOS
 
 DEPENDENCIES:
-  - app_settings (from `.symlinks/plugins/app_settings/ios`)
-  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
-  - file_picker (from `.symlinks/plugins/file_picker/darwin`)
-  - file_saver (from `.symlinks/plugins/file_saver/ios`)
-  - fl_downloader (from `.symlinks/plugins/fl_downloader/ios`)
   - Flutter (from `Flutter`)
-  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - gma_mediation_meta (from `.symlinks/plugins/gma_mediation_meta/ios`)
-  - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
-  - local_auth_darwin (from `.symlinks/plugins/local_auth_darwin/darwin`)
-  - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
-  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
-  - printing (from `.symlinks/plugins/printing/ios`)
-  - qr_bar_code (from `.symlinks/plugins/qr_bar_code/ios`)
-  - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
-  - screen_brightness_ios (from `.symlinks/plugins/screen_brightness_ios/ios`)
-  - share_plus (from `.symlinks/plugins/share_plus/ios`)
-  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
-  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
-  - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
   - text_to_speech_plus (from `.symlinks/plugins/text_to_speech_plus/ios`)
-  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
-  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -95,81 +26,21 @@ SPEC REPOS:
     - GoogleUserMessagingPlatform
 
 EXTERNAL SOURCES:
-  app_settings:
-    :path: ".symlinks/plugins/app_settings/ios"
-  device_info_plus:
-    :path: ".symlinks/plugins/device_info_plus/ios"
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/darwin"
-  file_saver:
-    :path: ".symlinks/plugins/file_saver/ios"
-  fl_downloader:
-    :path: ".symlinks/plugins/fl_downloader/ios"
   Flutter:
     :path: Flutter
-  geolocator_apple:
-    :path: ".symlinks/plugins/geolocator_apple/darwin"
   gma_mediation_meta:
     :path: ".symlinks/plugins/gma_mediation_meta/ios"
-  google_mobile_ads:
-    :path: ".symlinks/plugins/google_mobile_ads/ios"
-  local_auth_darwin:
-    :path: ".symlinks/plugins/local_auth_darwin/darwin"
-  mobile_scanner:
-    :path: ".symlinks/plugins/mobile_scanner/darwin"
-  package_info_plus:
-    :path: ".symlinks/plugins/package_info_plus/ios"
-  printing:
-    :path: ".symlinks/plugins/printing/ios"
-  qr_bar_code:
-    :path: ".symlinks/plugins/qr_bar_code/ios"
-  quick_actions_ios:
-    :path: ".symlinks/plugins/quick_actions_ios/ios"
-  screen_brightness_ios:
-    :path: ".symlinks/plugins/screen_brightness_ios/ios"
-  share_plus:
-    :path: ".symlinks/plugins/share_plus/ios"
-  shared_preferences_foundation:
-    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
-  sqflite_darwin:
-    :path: ".symlinks/plugins/sqflite_darwin/darwin"
-  syncfusion_flutter_pdfviewer:
-    :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
   text_to_speech_plus:
     :path: ".symlinks/plugins/text_to_speech_plus/ios"
-  url_launcher_ios:
-    :path: ".symlinks/plugins/url_launcher_ios/ios"
-  webview_flutter_wkwebview:
-    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  app_settings: 0341ec6daa4f0c50f5a421bf0ad7c36084db6e90
-  device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   FBAudienceNetwork: 85d18a65c9e35bc426bd4664cf3ae2a1172d7b60
-  file_picker: 70164d9778c42c47218d6cd79ce435de0856b11a
-  file_saver: 33b08000e02d10789a0acf35b9decf5bce5ca9de
-  fl_downloader: 2851d270fc7c6ad00a849635234fe505ee4da76f
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
-  gma_mediation_meta: cfa5493a4d585032e7789848190d320090c71709
-  Google-Mobile-Ads-SDK: f0365e190d66539c65cea8ded43e2c367abb5477
-  google_mobile_ads: fc71399df4ee37c5637400f351898ee22543f75b
-  GoogleMobileAdsMediationFacebook: c28fe93a3e6ba02c3a7e09fa9c45682ad9b1e9c6
+  gma_mediation_meta: 4f3e70e89dfa1224f19bb7d27c0f5edd0d989e9a
+  Google-Mobile-Ads-SDK: dd0ded6717d122c6a32c69dc4afcace7d276e4e4
+  GoogleMobileAdsMediationFacebook: 4420c648e278f6821001048d1f152dd74245f759
   GoogleUserMessagingPlatform: befe603da6501006420c206222acd449bba45a9c
-  local_auth_darwin: c3ee6cce0a8d56be34c8ccb66ba31f7f180aaebb
-  mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
-  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
-  printing: a8960104e6c1a2b4bd3483a2f79c69be60830d08
-  qr_bar_code: 06b90a41f1e12410a7b9ed1fd44c00e7aa64754c
-  quick_actions_ios: 500fcc11711d9f646739093395c4ae8eec25f779
-  screen_brightness_ios: 212d950bb99c915eee971c884f4a6c87c92cd13d
-  share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
-  shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
-  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
-  syncfusion_flutter_pdfviewer: 90dc48305d2e33d4aa20681d1e98ddeda891bc14
   text_to_speech_plus: 75aca9e85036cc3c42a6b68486beca2d494a0a42
-  url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
-  webview_flutter_wkwebview: 8ebf4fded22593026f7dbff1fbff31ea98573c8d
 
 PODFILE CHECKSUM: 6eb10ddc5fe49055ba0b89d2890bc4ab00eb351e
 
