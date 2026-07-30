@@ -28,6 +28,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
   late final ChatMessagesController _chatController;
   late final ChatUser _currentUser;
   late final ChatUser _aiUser;
+  late MzansiAiProvider _aiProvider;
   final TextToSpeechPlus _tts = TextToSpeechPlus();
   final StringBuffer _fullResponse = StringBuffer();
   bool _isFirstTtsChunk = true;
@@ -351,9 +352,14 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
-    stopTTS(aiProvider);
+    stopTTS(_aiProvider);
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _aiProvider = Provider.of<MzansiAiProvider>(context, listen: false);
   }
 
   @override
