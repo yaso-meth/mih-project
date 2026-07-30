@@ -101,14 +101,54 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
               ),
               const SizedBox(height: 15.0),
               if (widget.viewMode)
-                FutureBuilder(
+                FutureBuilder<List<ProfileLink>>(
                   future: _futureLinks,
                   builder: (context, asyncSnapshot) {
-                    final isLoading =
-                        asyncSnapshot.connectionState != ConnectionState.done;
-                    final links =
-                        isLoading ? _dummyLinks : asyncSnapshot.requireData;
-                    if (!isLoading && links.isEmpty) {
+                    if (asyncSnapshot.connectionState != ConnectionState.done) {
+                      return Skeletonizer(
+                        enabled: true,
+                        enableSwitchAnimation: true,
+                        effect: ShimmerEffect(
+                          baseColor: MihColors.highlight(),
+                          highlightColor: MihColors.secondary(),
+                        ),
+                        child: MihProfileLinks(
+                          displayCustomName: true,
+                          links: _dummyLinks,
+                        ),
+                      );
+                    }
+
+                    if (asyncSnapshot.hasError) {
+                      return Column(
+                        children: [
+                          Icon(
+                            Icons.link_off,
+                            size: 150,
+                            color: MihColors.secondary(),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: SizedBox(
+                              width: 700,
+                              child: Text(
+                                "Error Getting Links",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                  color: MihColors.secondary(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+
+                    final links = asyncSnapshot.data ?? [];
+
+                    if (links.isEmpty) {
                       return Column(
                         children: [
                           Icon(
@@ -134,17 +174,10 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
                         ],
                       );
                     }
-                    return Skeletonizer(
-                      enabled: isLoading,
-                      enableSwitchAnimation: true,
-                      effect: ShimmerEffect(
-                        baseColor: MihColors.highlight(),
-                        highlightColor: MihColors.secondary(),
-                      ),
-                      child: MihProfileLinks(
-                        displayCustomName: true,
-                        links: links,
-                      ),
+
+                    return MihProfileLinks(
+                      displayCustomName: true,
+                      links: links,
                     );
                   },
                 ),

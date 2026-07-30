@@ -158,23 +158,54 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                       FutureBuilder(
                         future: futureLinks,
                         builder: (context, asyncSnapshot) {
-                          final isLoading = asyncSnapshot.connectionState !=
-                              ConnectionState.done;
-                          final links = isLoading
-                              ? _dummyLinks
-                              : asyncSnapshot.requireData;
+                          if (asyncSnapshot.connectionState !=
+                              ConnectionState.done) {
+                            return Skeletonizer(
+                              enabled: true,
+                              enableSwitchAnimation: true,
+                              effect: ShimmerEffect(
+                                baseColor: MihColors.highlight(),
+                                highlightColor: MihColors.secondary(),
+                              ),
+                              child: MihProfileLinks(
+                                displayCustomName: true,
+                                links: _dummyLinks,
+                              ),
+                            );
+                          }
 
-                          return Skeletonizer(
-                            enabled: isLoading,
-                            enableSwitchAnimation: true,
-                            effect: ShimmerEffect(
-                              baseColor: MihColors.highlight(),
-                              highlightColor: MihColors.secondary(),
-                            ),
-                            child: MihProfileLinks(
-                              displayCustomName: true,
-                              links: links,
-                            ),
+                          if (asyncSnapshot.hasError) {
+                            return Column(
+                              children: [
+                                Icon(
+                                  Icons.link_off,
+                                  size: 100,
+                                  color: MihColors.secondary(),
+                                ),
+                                const SizedBox(height: 10),
+                                Center(
+                                  child: SizedBox(
+                                    width: 700,
+                                    child: Text(
+                                      "Error Getting Links",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                        color: MihColors.secondary(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+
+                          final links = asyncSnapshot.data ?? [];
+
+                          return MihProfileLinks(
+                            displayCustomName: true,
+                            links: links,
                           );
                         },
                       ),

@@ -307,6 +307,39 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   ),
                 ],
               ),
+            Column(
+              children: [
+                MihButton(
+                  width: 70,
+                  height: 70,
+                  onPressed: () {
+                    // _makePhoneCall(widget.business.contact_no);
+                    if (!widget.viewMode) {
+                      profileProvider.setBusinessIndex(5);
+                    } else {
+                      directoryProvider.setBusinessViewIndex(2);
+                    }
+                  },
+                  buttonColor: MihColors.highlight(),
+                  child: Icon(
+                    MihIcons.link,
+                    color: MihColors.primary(),
+                    size: iconSize,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                FittedBox(
+                  child: Text(
+                    "Links",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: MihColors.secondary(),
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             FutureBuilder(
               future: _businessReviewFuture,
               builder: (context, asyncSnapshot) {
@@ -319,6 +352,9 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   ratingTitle = "Rate Us";
                 } else {
                   ratingTitle = "Edit";
+                }
+                if (asyncSnapshot.hasError) {
+                  return SizedBox.shrink();
                 }
                 return Skeletonizer(
                   enabled: isLoading,
@@ -373,6 +409,9 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                 } else {
                   bookmarkDisplayTitle = "Remove";
                 }
+                if (asyncSnapshot.hasError) {
+                  return SizedBox.shrink();
+                }
                 return Skeletonizer(
                   enabled: isLoading,
                   enableSwitchAnimation: true,
@@ -418,39 +457,6 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   ),
                 );
               },
-            ),
-            Column(
-              children: [
-                MihButton(
-                  width: 70,
-                  height: 70,
-                  onPressed: () {
-                    // _makePhoneCall(widget.business.contact_no);
-                    if (!widget.viewMode) {
-                      profileProvider.setBusinessIndex(5);
-                    } else {
-                      directoryProvider.setBusinessViewIndex(2);
-                    }
-                  },
-                  buttonColor: MihColors.highlight(),
-                  child: Icon(
-                    MihIcons.link,
-                    color: MihColors.primary(),
-                    size: iconSize,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                FittedBox(
-                  child: Text(
-                    "Links",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: MihColors.secondary(),
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         );
