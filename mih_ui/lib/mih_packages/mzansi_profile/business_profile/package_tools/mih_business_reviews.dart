@@ -9,6 +9,7 @@ import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.d
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/components/mih_review_business_window.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_user_services.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,28 @@ class MihBusinessReviews extends StatefulWidget {
 
 class _MihBusinessReviewsState extends State<MihBusinessReviews> {
   late Business business;
-  late List<BusinessReview> reviews;
+  List<BusinessReview> reviews = [];
+  bool isLoading = true;
+
+  void getBusinessReviews(Business selectedBiz) async {
+    try {
+      List<BusinessReview> fetchedReviews = await MihMzansiDirectoryServices()
+          .getAllReviewsofBusiness(selectedBiz.business_id);
+
+      if (mounted) {
+        setState(() {
+          reviews = fetchedReviews;
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -34,10 +56,11 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
         context.read<MzansiProfileProvider>();
     if (widget.business != null) {
       business = widget.business!;
-      reviews = []; //Update later
+      getBusinessReviews(business);
     } else {
       business = profileProvider.business!;
       reviews = profileProvider.businessReviews;
+      isLoading = false;
     }
   }
 
@@ -61,6 +84,14 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.sizeOf(context).width;
+    if (isLoading) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: MihColors.secondary(),
+        ),
+      );
+    }
+
     if (reviews.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
