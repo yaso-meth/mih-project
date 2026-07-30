@@ -347,12 +347,9 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                     asyncSnapshot.connectionState != ConnectionState.done;
 
                 BusinessReview? businessReview = asyncSnapshot.data;
-                String ratingTitle = "";
-                if (businessReview == null) {
-                  ratingTitle = "Rate Us";
-                } else {
-                  ratingTitle = "Edit";
-                }
+                String ratingTitle = isLoading
+                    ? "Rate Us"
+                    : (businessReview == null ? "Rate Us" : "Edit");
                 if (asyncSnapshot.hasError) {
                   return SizedBox.shrink();
                 }
@@ -403,12 +400,9 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                 final isLoading =
                     asyncSnapshot.connectionState != ConnectionState.done;
                 BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
-                String bookmarkDisplayTitle = "";
-                if (bookmarkBusiness == null) {
-                  bookmarkDisplayTitle = "Bookmark";
-                } else {
-                  bookmarkDisplayTitle = "Remove";
-                }
+                String bookmarkDisplayTitle = isLoading
+                    ? "Bookmark"
+                    : (bookmarkBusiness == null ? "Bookmark" : "Remove");
                 if (asyncSnapshot.hasError) {
                   return SizedBox.shrink();
                 }
