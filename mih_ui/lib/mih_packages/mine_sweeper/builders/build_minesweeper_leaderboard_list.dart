@@ -56,13 +56,39 @@ class _BuildMinesweeperLeaderboardListState
                 hoverColor: MihColors.highlight(),
                 title: Row(
                   children: [
-                    Text(
-                      "#${index + 1}",
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: MihColors.primary(),
+                    if (![1, 2, 3].contains(index + 1))
+                      const SizedBox(width: 20),
+                    if (![1, 2, 3].contains(index + 1))
+                      Text(
+                        "${index + 1}",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: MihColors.primary(),
+                        ),
                       ),
-                    ),
+                    if (![1, 2, 3].contains(index + 1))
+                      const SizedBox(width: 10),
+                    if ([1, 2, 3].contains(index + 1))
+                      Stack(
+                        children: [
+                          Icon(
+                            Icons.emoji_events,
+                            size: 50,
+                            color: MihColors.primary(),
+                          ),
+                          Transform.translate(
+                            offset: Offset(19, 2),
+                            child: Text(
+                              "${index + 1}",
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: getMedalColor(index),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     const SizedBox(width: 10),
                     mineSweeperProvider.leaderboard![index].proPicUrl
                                 .endsWith('/') ||

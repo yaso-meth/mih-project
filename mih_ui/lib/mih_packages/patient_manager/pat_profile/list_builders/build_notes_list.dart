@@ -227,7 +227,7 @@ class _BuildNotesListState extends State<BuildNotesList> {
                   leading: Icon(
                     Icons.note,
                     size: 50,
-                    color: MihColors.gold(darkMode: false),
+                    color: MihColors.orange(darkMode: false),
                   ),
                   title: Text(
                     "${patientManagerProvider.consultationNotes![index].note_name}\n${patientManagerProvider.consultationNotes![index].doc_office} - ${patientManagerProvider.consultationNotes![index].doctor}",

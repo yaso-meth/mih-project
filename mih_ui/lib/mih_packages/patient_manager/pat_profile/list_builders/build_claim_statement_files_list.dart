@@ -269,7 +269,7 @@ class _BuildClaimStatementFileListState
                   leading: Icon(
                     Icons.picture_as_pdf,
                     size: 50,
-                    color: MihColors.red(darkMode: true),
+                    color: MihColors.red(darkMode: false),
                   ),
                   title: Text(
                     patientManagerProvider

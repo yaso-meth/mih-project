@@ -40,7 +40,7 @@ class _BuildBusinessSearchResultsListState
               borderRadius: BorderRadius.circular(20),
               clipBehavior: Clip.antiAlias,
               child: ListTile(
-                hoverColor: MihColors.primary(),
+                hoverColor: MihColors.highlight(),
                 splashColor: Color.lerp(
                   MihColors.bluishPurple(),
                   Colors.black,
