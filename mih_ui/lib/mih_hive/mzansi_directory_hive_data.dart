@@ -75,7 +75,7 @@ class MzansiDirectoryHiveData {
 
       List<String> remoteBusinessTypes =
           await MihBusinessDetailsServices().fetchAllBusinessTypes();
-      cacheBusinessTypes(remoteBusinessTypes);
+      await cacheBusinessTypes(remoteBusinessTypes);
       return true;
     } catch (error) {
       KenLogger.warning(
