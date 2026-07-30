@@ -10,7 +10,6 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
-import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_location_services.dart';
@@ -18,7 +17,6 @@ import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart'
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
 
 class PackageToolOne extends StatefulWidget {
   final AppUser user;
@@ -328,13 +326,6 @@ class _PackageToolOneState extends State<PackageToolOne> {
                       // print(asyncSnapshot.connectionState);
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        // return MihBusinessProfilePreview(
-                        //   business: widget.business,
-                        //   myLocation: null,
-                        // ).redacted(
-                        //   context: context,
-                        //   redact: true,
-                        // );
                         return Container(
                           width: 150,
                           height: 50,
@@ -351,47 +342,9 @@ class _PackageToolOneState extends State<PackageToolOne> {
                           child: Center(child: Text("Location unavailable")),
                         );
                       } else {
-                        // final myLocation = asyncSnapshot.data
-                        //     .toString()
-                        //     .replaceAll("Latitude: ", "")
-                        //     .replaceAll("Longitude: ", "");
-                        // print("My Location is this: $myLocation");
-                        // return widget.business != null
-                        //     ? MihBusinessProfilePreview(
-                        //         business: widget.business!,
-                        //       )
                         return Text("NoBusiness Data");
                       }
                     }),
-                // const SizedBox(height: 10),
-                // Text("This text should be redacted").redacted(
-                //   context: context,
-                //   redact: true,
-                // ),
-                MihBusinessCard(
-                  business: Business(
-                    "business_id",
-                    "Name",
-                    "type",
-                    "registration_no",
-                    "logo_name",
-                    "logo_path",
-                    "+27812345679",
-                    "bus_email",
-                    "app_id",
-                    "gps_location",
-                    "practice_no",
-                    "vat_no",
-                    "website",
-                    "rating",
-                    "mission_vision",
-                  ),
-                  // startUpSearch: '',
-                  width: 300,
-                ).redacted(
-                  context: context,
-                  redact: true,
-                ),
                 const SizedBox(height: 10),
                 Divider(
                   color: MihColors.secondary(),

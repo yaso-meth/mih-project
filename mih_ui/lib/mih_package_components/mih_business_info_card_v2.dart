@@ -13,7 +13,7 @@ import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,13 +42,6 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
     setState(() {
       _isUserSignedIn = doesSessionExist;
     });
-  }
-
-  RedactedConfiguration getRedactedConfiguration() {
-    return RedactedConfiguration(
-      // redactedColor: Colors.pink,
-      redactedColor: MihColors.primary(),
-    );
   }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
@@ -317,42 +310,25 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
             FutureBuilder(
               future: _businessReviewFuture,
               builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    children: [
-                      MihButton(
-                        width: 70,
-                        height: 70,
-                        onPressed: () {},
-                        buttonColor: MihColors.grey(),
-                        child: Icon(
-                          Icons.star_rate_rounded,
-                          color: MihColors.primary(),
-                          size: iconSize,
-                        ),
-                      ).redacted(context: context, redact: true),
-                      const SizedBox(height: 2),
-                      FittedBox(
-                        child: Text(
-                          "Rate Us",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MihColors.secondary(),
-                            fontSize: 20,
-                          ),
-                        ).redacted(context: context, redact: true),
-                      ),
-                    ],
-                  );
+                final isLoading =
+                    asyncSnapshot.connectionState != ConnectionState.done ||
+                        !asyncSnapshot.hasData;
+
+                BusinessReview? businessReview = asyncSnapshot.data;
+                String ratingTitle = "";
+                if (businessReview == null) {
+                  ratingTitle = "Rate Us";
                 } else {
-                  BusinessReview? businessReview = asyncSnapshot.data;
-                  String ratingTitle = "";
-                  if (businessReview == null) {
-                    ratingTitle = "Rate Us";
-                  } else {
-                    ratingTitle = "Edit";
-                  }
-                  return Column(
+                  ratingTitle = "Edit";
+                }
+                return Skeletonizer(
+                  enabled: isLoading,
+                  enableSwitchAnimation: true,
+                  effect: ShimmerEffect(
+                    baseColor: MihColors.highlight(),
+                    highlightColor: MihColors.secondary(),
+                  ),
+                  child: Column(
                     children: [
                       MihButton(
                         width: 70,
@@ -380,49 +356,31 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                         ),
                       ),
                     ],
-                  );
-                }
+                  ),
+                );
               },
             ),
             FutureBuilder(
               future: _bookmarkedBusinessFuture,
               builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    children: [
-                      MihButton(
-                        width: 70,
-                        height: 70,
-                        onPressed: () {},
-                        buttonColor: MihColors.grey(),
-                        child: Icon(
-                          Icons.bookmark_add_rounded,
-                          color: MihColors.primary(),
-                          size: iconSize,
-                        ),
-                      ).redacted(context: context, redact: true),
-                      const SizedBox(height: 2),
-                      FittedBox(
-                        child: Text(
-                          "bookmark",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MihColors.secondary(),
-                            fontSize: 20,
-                          ),
-                        ).redacted(context: context, redact: true),
-                      ),
-                    ],
-                  );
+                final isLoading =
+                    asyncSnapshot.connectionState != ConnectionState.done ||
+                        !asyncSnapshot.hasData;
+                BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
+                String bookmarkDisplayTitle = "";
+                if (bookmarkBusiness == null) {
+                  bookmarkDisplayTitle = "Bookmark";
                 } else {
-                  BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
-                  String bookmarkDisplayTitle = "";
-                  if (bookmarkBusiness == null) {
-                    bookmarkDisplayTitle = "Bookmark";
-                  } else {
-                    bookmarkDisplayTitle = "Remove";
-                  }
-                  return Column(
+                  bookmarkDisplayTitle = "Remove";
+                }
+                return Skeletonizer(
+                  enabled: isLoading,
+                  enableSwitchAnimation: true,
+                  effect: ShimmerEffect(
+                    baseColor: MihColors.highlight(),
+                    highlightColor: MihColors.secondary(),
+                  ),
+                  child: Column(
                     children: [
                       MihButton(
                         width: 70,
@@ -455,8 +413,8 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                         ),
                       ),
                     ],
-                  );
-                }
+                  ),
+                );
               },
             ),
             Column(

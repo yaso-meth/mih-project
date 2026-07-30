@@ -8,8 +8,8 @@ import 'package:mzansi_innovation_hub/mih_packages/about_mih/components/mission_
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MihInfo extends StatefulWidget {
   const MihInfo({super.key});
@@ -27,70 +27,72 @@ class _MihInfoState extends State<MihInfo> {
   }
 
   Widget displayBusinessCount(AboutMihProvider aboutProvider) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          child: Text(
-            "${aboutProvider.businessCount}",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
+    return Skeletonizer(
+      enabled: aboutProvider.businessCount == null,
+      enableSwitchAnimation: true,
+      effect: ShimmerEffect(
+        baseColor: MihColors.highlight(),
+        highlightColor: MihColors.secondary(),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            child: Text(
+              "${aboutProvider.businessCount}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 23,
+              ),
             ),
           ),
-        ).redacted(
-          context: context,
-          redact: aboutProvider.businessCount == null,
-          configuration: RedactedConfiguration(
-            defaultBorderRadius: BorderRadius.circular(5),
-            redactedColor: MihColors.secondary(),
+          const SizedBox(width: 10),
+          Text(
+            "Businesses",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Text(
-          "Businesses",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 20,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget displayUserCount(AboutMihProvider aboutProvider) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          child: Text(
-            "${aboutProvider.userCount}",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
+    return Skeletonizer(
+      enabled: aboutProvider.userCount == null,
+      enableSwitchAnimation: true,
+      effect: ShimmerEffect(
+        baseColor: MihColors.highlight(),
+        highlightColor: MihColors.secondary(),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            child: Text(
+              "${aboutProvider.userCount}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 23,
+              ),
             ),
           ),
-        ).redacted(
-          context: context,
-          redact: aboutProvider.userCount == null,
-          configuration: RedactedConfiguration(
-            defaultBorderRadius: BorderRadius.circular(5),
-            redactedColor: MihColors.secondary(),
+          const SizedBox(width: 10),
+          Text(
+            "People",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Text(
-          "People",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 20,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

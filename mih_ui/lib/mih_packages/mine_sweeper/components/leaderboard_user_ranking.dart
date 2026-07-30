@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
-import 'package:redacted/redacted.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LeaderboardUserRanking extends StatelessWidget {
   final int index;
@@ -33,47 +33,55 @@ class LeaderboardUserRanking extends StatelessWidget {
             asyncSnapshot.connectionState == ConnectionState.waiting;
 
         KenLogger.success("URL: ${asyncSnapshot.data.toString()}");
-        return ListTile(
-          leading: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "#${index + 1}",
-                style: const TextStyle(
-                  fontSize: 25,
-                ),
-              ),
-              const SizedBox(width: 10),
-              MihCircleAvatar(
-                key: ValueKey(asyncSnapshot.data
-                    .toString()), // Use ValueKey for stable identity
-                imageFile: asyncSnapshot.data,
-                width: 60,
-                expandable: true,
-                editable: false,
-                fileNameController: null,
-                userSelectedfile: null,
-                frameColor: MihColors.secondary(),
-                backgroundColor: MihColors.primary(),
-                onChange: () {},
-              ),
-            ],
+        return Skeletonizer(
+          enabled: isLoading,
+          enableSwitchAnimation: true,
+          effect: ShimmerEffect(
+            baseColor: MihColors.highlight(),
+            highlightColor: MihColors.secondary(),
           ),
-          title: Text(
-            "$username${isCurrentUser ? " (You)" : ""}",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: MihColors.secondary(),
+          child: ListTile(
+            leading: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "#${index + 1}",
+                  style: const TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                MihCircleAvatar(
+                  key: ValueKey(asyncSnapshot.data
+                      .toString()), // Use ValueKey for stable identity
+                  imageFile: asyncSnapshot.data,
+                  width: 60,
+                  expandable: true,
+                  editable: false,
+                  fileNameController: null,
+                  userSelectedfile: null,
+                  frameColor: MihColors.secondary(),
+                  backgroundColor: MihColors.primary(),
+                  onChange: null,
+                ),
+              ],
             ),
-          ).redacted(context: context, redact: isLoading),
-          subtitle: Text(
-            "Score: $gameScore\nTime: $gameTime",
-            style: TextStyle(
-              fontSize: 18,
-              color: MihColors.secondary(),
+            title: Text(
+              "$username${isCurrentUser ? " (You)" : ""}",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: MihColors.secondary(),
+              ),
             ),
-          ).redacted(context: context, redact: isLoading),
+            subtitle: Text(
+              "Score: $gameScore\nTime: $gameTime",
+              style: TextStyle(
+                fontSize: 18,
+                color: MihColors.secondary(),
+              ),
+            ),
+          ),
         );
       },
     );

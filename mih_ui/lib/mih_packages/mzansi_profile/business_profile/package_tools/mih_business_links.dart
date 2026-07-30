@@ -9,7 +9,7 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.da
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MihBusinessLinks extends StatefulWidget {
   final bool viewMode;
@@ -24,6 +24,18 @@ class MihBusinessLinks extends StatefulWidget {
 
 class _MihBusinessLinksState extends State<MihBusinessLinks> {
   late Future<List<ProfileLink>> _futureLinks;
+  final List<ProfileLink> _dummyLinks = List.generate(
+    6,
+    (index) => ProfileLink(
+      idprofile_links: index,
+      app_id: '',
+      business_id: '',
+      site_name: '',
+      custom_name: '',
+      destination: '',
+      order: index,
+    ),
+  );
 
   void manageProfileLinksWindow() {
     showDialog(
@@ -92,38 +104,24 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
                 FutureBuilder(
                   future: _futureLinks,
                   builder: (context, asyncSnapshot) {
-                    if (asyncSnapshot.connectionState == ConnectionState.done &&
-                        asyncSnapshot.hasData) {
-                      return MihProfileLinks(
+                    final isLoading =
+                        asyncSnapshot.connectionState != ConnectionState.done ||
+                            !asyncSnapshot.hasData;
+                    final links =
+                        isLoading ? _dummyLinks : asyncSnapshot.requireData;
+
+                    return Skeletonizer(
+                      enabled: isLoading,
+                      enableSwitchAnimation: true,
+                      effect: ShimmerEffect(
+                        baseColor: MihColors.highlight(),
+                        highlightColor: MihColors.secondary(),
+                      ),
+                      child: MihProfileLinks(
                         displayCustomName: true,
-                        links: asyncSnapshot.requireData,
-                      );
-                    } else {
-                      return Wrap(
-                        alignment: WrapAlignment.center,
-                        runAlignment: WrapAlignment.center,
-                        runSpacing: 10,
-                        spacing: 10,
-                        children: [
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
-                          ),
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
-                          ),
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
-                          ),
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
-                          ),
-                        ],
-                      );
-                    }
+                        links: links,
+                      ),
+                    );
                   },
                 ),
               if (!widget.viewMode)

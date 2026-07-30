@@ -13,7 +13,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MihPersonalProfileView extends StatefulWidget {
   const MihPersonalProfileView({
@@ -27,6 +27,18 @@ class MihPersonalProfileView extends StatefulWidget {
 class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
   late Future<List<ProfileLink>> futureLinks;
   PlatformFile? file;
+  final List<ProfileLink> _dummyLinks = List.generate(
+    6,
+    (index) => ProfileLink(
+      idprofile_links: index,
+      app_id: '',
+      business_id: '',
+      site_name: '',
+      custom_name: '',
+      destination: '',
+      order: index,
+    ),
+  );
 
   @override
   void dispose() {
@@ -146,39 +158,25 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                       FutureBuilder(
                         future: futureLinks,
                         builder: (context, asyncSnapshot) {
-                          if (asyncSnapshot.connectionState ==
-                                  ConnectionState.done &&
-                              asyncSnapshot.hasData) {
-                            return MihProfileLinks(
+                          final isLoading = asyncSnapshot.connectionState !=
+                                  ConnectionState.done ||
+                              !asyncSnapshot.hasData;
+                          final links = isLoading
+                              ? _dummyLinks
+                              : asyncSnapshot.requireData;
+
+                          return Skeletonizer(
+                            enabled: isLoading,
+                            enableSwitchAnimation: true,
+                            effect: ShimmerEffect(
+                              baseColor: MihColors.highlight(),
+                              highlightColor: MihColors.secondary(),
+                            ),
+                            child: MihProfileLinks(
                               displayCustomName: true,
-                              links: asyncSnapshot.requireData,
-                            );
-                          } else {
-                            return Wrap(
-                              alignment: WrapAlignment.center,
-                              runAlignment: WrapAlignment.center,
-                              runSpacing: 10,
-                              spacing: 10,
-                              children: [
-                                SizedBox(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
-                                ),
-                                SizedBox(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
-                                ),
-                                SizedBox(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
-                                ),
-                                SizedBox(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
-                                ),
-                              ],
-                            );
-                          }
+                              links: links,
+                            ),
+                          );
                         },
                       ),
                     ],
