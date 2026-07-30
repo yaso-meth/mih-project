@@ -644,10 +644,10 @@ packages:
     dependency: "direct main"
     description:
       name: gma_mediation_meta
-      sha256: d65dd79c51f6161aaac8c9b07f9a921f73a560d275a15106f440be2016c766bc
+      sha256: "3fd41a4e6605553d906ba5983bc1bd90518d9e60d20ff656b4d16a6130fc3476"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.2"
+    version: "1.5.3"
   go_router:
     dependency: "direct main"
     description:
@@ -668,10 +668,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_mobile_ads
-      sha256: "50549f6c945d7a445d53c04f34d025b1a1723fbd02719de9e67de432e2597f40"
+      sha256: "6029f6c48bc9b6b47767ddbb4847683048a2f006d418c871bd93c5eb6a8e5c3c"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "9.0.0"
   gpt_markdown:
     dependency: transitive
     description:
