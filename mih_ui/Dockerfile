@@ -27,10 +27,17 @@ COPY --from=build-env /app/build/web /usr/share/nginx/html
 # Create the Nginx config inside the Dockerfile to handle SPA routing 
 RUN echo 'server { \
 	listen 83; \
+	include /etc/nginx/mime.types; \
+	types { \
+	text/javascript mjs; \
+	application/wasm wasm; \
+	} \
 	location / { \
 	root /usr/share/nginx/html; \
 	index index.html; \
 	try_files $uri $uri/ /index.html; \
+	add_header Cross-Origin-Opener-Policy same-origin; \
+	add_header Cross-Origin-Embedder-Policy require-corp; \
 	} \
 	}' > /etc/nginx/conf.d/default.conf
 
