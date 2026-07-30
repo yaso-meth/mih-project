@@ -7,7 +7,7 @@ services:
   #============== Cloudflare DDNS ====================================================================
   mih-ddns:
     image: favonia/cloudflare-ddns:latest
-    container_name: cloudflare-ddns
+    container_name: mih-ddns
     restart: unless-stopped
     environment:
       - CF_API_TOKEN=${CF_API_TOKEN}
