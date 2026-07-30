@@ -159,8 +159,7 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                         future: futureLinks,
                         builder: (context, asyncSnapshot) {
                           final isLoading = asyncSnapshot.connectionState !=
-                                  ConnectionState.done ||
-                              !asyncSnapshot.hasData;
+                              ConnectionState.done;
                           final links = isLoading
                               ? _dummyLinks
                               : asyncSnapshot.requireData;

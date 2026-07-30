@@ -311,8 +311,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
               future: _businessReviewFuture,
               builder: (context, asyncSnapshot) {
                 final isLoading =
-                    asyncSnapshot.connectionState != ConnectionState.done ||
-                        !asyncSnapshot.hasData;
+                    asyncSnapshot.connectionState != ConnectionState.done;
 
                 BusinessReview? businessReview = asyncSnapshot.data;
                 String ratingTitle = "";
@@ -330,18 +329,20 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   ),
                   child: Column(
                     children: [
-                      MihButton(
-                        width: 70,
-                        height: 70,
-                        onPressed: () {
-                          businessReviewRatingWindow(directoryProvider,
-                              businessReview, true, widget.width);
-                        },
-                        buttonColor: MihColors.yellow(),
-                        child: Icon(
-                          Icons.star_rate_rounded,
-                          color: MihColors.primary(),
-                          size: iconSize,
+                      Skeleton.leaf(
+                        child: MihButton(
+                          width: 70,
+                          height: 70,
+                          onPressed: () {
+                            businessReviewRatingWindow(directoryProvider,
+                                businessReview, true, widget.width);
+                          },
+                          buttonColor: MihColors.yellow(),
+                          child: Icon(
+                            Icons.star_rate_rounded,
+                            color: MihColors.primary(),
+                            size: iconSize,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -364,8 +365,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
               future: _bookmarkedBusinessFuture,
               builder: (context, asyncSnapshot) {
                 final isLoading =
-                    asyncSnapshot.connectionState != ConnectionState.done ||
-                        !asyncSnapshot.hasData;
+                    asyncSnapshot.connectionState != ConnectionState.done;
                 BookmarkedBusiness? bookmarkBusiness = asyncSnapshot.data;
                 String bookmarkDisplayTitle = "";
                 if (bookmarkBusiness == null) {
@@ -382,23 +382,25 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                   ),
                   child: Column(
                     children: [
-                      MihButton(
-                        width: 70,
-                        height: 70,
-                        onPressed: () {
-                          if (bookmarkBusiness == null) {
-                            showAddBookmarkAlert();
-                          } else {
-                            showDeleteBookmarkAlert(bookmarkBusiness);
-                          }
-                        },
-                        buttonColor: MihColors.bluishPurple(),
-                        child: Icon(
-                          bookmarkBusiness == null
-                              ? Icons.bookmark_add_rounded
-                              : Icons.bookmark_remove_rounded,
-                          color: MihColors.primary(),
-                          size: iconSize,
+                      Skeleton.leaf(
+                        child: MihButton(
+                          width: 70,
+                          height: 70,
+                          onPressed: () {
+                            if (bookmarkBusiness == null) {
+                              showAddBookmarkAlert();
+                            } else {
+                              showDeleteBookmarkAlert(bookmarkBusiness);
+                            }
+                          },
+                          buttonColor: MihColors.bluishPurple(),
+                          child: Icon(
+                            bookmarkBusiness == null
+                                ? Icons.bookmark_add_rounded
+                                : Icons.bookmark_remove_rounded,
+                            color: MihColors.primary(),
+                            size: iconSize,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -430,7 +432,7 @@ class _MihBusinessCardV2State extends State<MihBusinessCardV2> {
                       directoryProvider.setBusinessViewIndex(2);
                     }
                   },
-                  buttonColor: MihColors.secondary(),
+                  buttonColor: MihColors.highlight(),
                   child: Icon(
                     MihIcons.link,
                     color: MihColors.primary(),

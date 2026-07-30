@@ -3,6 +3,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihProfileLinks extends StatefulWidget {
@@ -149,19 +150,21 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        MihButton(
-          width: widget.buttonSize ?? 70,
-          height: widget.buttonSize ?? 70,
-          onPressed: () {
-            launchSocialUrl(Uri.parse(link.destination));
-          },
-          buttonColor: btnColor,
-          child: Icon(
-            iconData,
-            color: iconColor,
-            size: widget.buttonSize != null
-                ? widget.buttonSize! * 0.65
-                : 70 * 0.7,
+        Skeleton.leaf(
+          child: MihButton(
+            width: widget.buttonSize ?? 70,
+            height: widget.buttonSize ?? 70,
+            onPressed: () {
+              launchSocialUrl(Uri.parse(link.destination));
+            },
+            buttonColor: btnColor,
+            child: Icon(
+              iconData,
+              color: iconColor,
+              size: widget.buttonSize != null
+                  ? widget.buttonSize! * 0.65
+                  : 70 * 0.7,
+            ),
           ),
         ),
         if (widget.displayCustomName && link.custom_name != '')

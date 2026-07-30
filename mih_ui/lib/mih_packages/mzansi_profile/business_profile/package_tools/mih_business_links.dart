@@ -105,11 +105,35 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
                   future: _futureLinks,
                   builder: (context, asyncSnapshot) {
                     final isLoading =
-                        asyncSnapshot.connectionState != ConnectionState.done ||
-                            !asyncSnapshot.hasData;
+                        asyncSnapshot.connectionState != ConnectionState.done;
                     final links =
                         isLoading ? _dummyLinks : asyncSnapshot.requireData;
-
+                    if (!isLoading && links.isEmpty) {
+                      return Column(
+                        children: [
+                          Icon(
+                            Icons.link_off,
+                            size: 150,
+                            color: MihColors.secondary(),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: SizedBox(
+                              width: 700,
+                              child: Text(
+                                "No Links Available",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                  color: MihColors.secondary(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
                     return Skeletonizer(
                       enabled: isLoading,
                       enableSwitchAnimation: true,
