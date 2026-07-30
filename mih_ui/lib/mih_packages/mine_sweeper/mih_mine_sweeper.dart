@@ -33,12 +33,12 @@ class _MihMineSweeperState extends State<MihMineSweeper> {
       await mzansiProfileProvider.syncWithMihServerData();
     }
     if (mineSweeperProvider.leaderboard == null ||
-        mineSweeperProvider.myScoreboard == null) {
+        mineSweeperProvider.leaderboard!.isEmpty ||
+        mineSweeperProvider.myScoreboard == null ||
+        mineSweeperProvider.myScoreboard!.isEmpty) {
       await mineSweeperProvider.syncWithMihServerData(
           mzansiProfileProvider, mineSweeperProvider);
-    }
-
-    if (mineSweeperProvider.isLocalModificationsPending()) {
+    } else {
       mineSweeperProvider.syncWithMihServerData(
           mzansiProfileProvider, mineSweeperProvider);
     }

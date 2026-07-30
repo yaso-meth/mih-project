@@ -33,6 +33,21 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
     MihMineSweeperProvider mineSweeperProvider =
         context.read<MihMineSweeperProvider>();
     filterController.text = mineSweeperProvider.difficulty;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        mineSweeperProvider.loadCachedMSleaderboards();
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant MihMineSweeperLeaderBoard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    MihMineSweeperProvider mineSweeperProvider =
+        context.read<MihMineSweeperProvider>();
+    if (filterController.text != mineSweeperProvider.difficulty) {
+      filterController.text = mineSweeperProvider.difficulty;
+    }
   }
 
   @override
