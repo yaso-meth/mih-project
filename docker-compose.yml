@@ -134,6 +134,7 @@ services:
     container_name: mih-ux
     build:
       context: ./mih_ui
+      shm_size: "2gb"
     ports:
       - "127.0.0.1:83:83"
     networks:
