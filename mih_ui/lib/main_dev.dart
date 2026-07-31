@@ -6,6 +6,7 @@ import 'package:flutter_web_plugins/url_strategy.dart'
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mzansi_innovation_hub/main.dart';
+import 'package:mzansi_innovation_hub/mih_config/mih_deep_linking.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_go_router.dart';
 import 'package:mzansi_innovation_hub/mih_hive/hive_registrar.g.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
@@ -85,8 +86,9 @@ void main() async {
   } else {
     usePathUrlStrategy();
   }
-  final GoRouter appRouter = MihGoRouter().mihRouter;
+  final GoRouter mihRouter = MihGoRouter().mihRouter;
+  MihDeepLink.init(mihRouter);
   runApp(MzansiInnovationHub(
-    router: appRouter,
+    router: mihRouter,
   ));
 }

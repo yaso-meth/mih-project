@@ -31,7 +31,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -51,13 +51,13 @@
             </intent-filter>
             <meta-data 
                 android:name="flutter-deeplink"
-                android:value="true"
+                android:value="false"
                 />
             <!-- Shortcut Icons -->
             <meta-data
                 android:name="mih_shortcut_icons"
                 android:resource="@array/mih_shortcut_icons" />
-            <!-- New Deep Linking -->
+            <!-- Web Deep Linking -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -65,7 +65,15 @@
                 <data android:scheme="http" android:host="app.mzansi-innovation-hub.co.za" />
                 <data android:scheme="https" android:host="app.mzansi-innovation-hub.co.za" />
             </intent-filter>
+            <!-- Web Deep Linking (Custom Scheme) -->
+	    <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mih" />
+            </intent-filter>
 
+            <!-- NFC Discovery -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />

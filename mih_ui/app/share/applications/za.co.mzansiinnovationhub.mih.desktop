@@ -10,3 +10,4 @@ Terminal=false
 Categories=Utility;Office;ProjectManagement;
 Keywords=MIH;Mzansi;Innovation;Hub;Profile;Wallet;Calendar;AI;
 StartupWMClass=mih
+MimeType=x-scheme-handler/mih;x-scheme-handler/https;
