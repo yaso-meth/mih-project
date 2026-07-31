@@ -132,7 +132,7 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
                             child: SizedBox(
                               width: 700,
                               child: Text(
-                                "Error Getting Links",
+                                "Unable to get Link\nCheck internt connection",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 25,

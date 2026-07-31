@@ -28,6 +28,7 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
   late Business business;
   List<BusinessReview> reviews = [];
   bool isLoading = true;
+  bool hasError = false;
 
   void getBusinessReviews(Business selectedBiz) async {
     try {
@@ -38,12 +39,14 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
         setState(() {
           reviews = fetchedReviews;
           isLoading = false;
+          hasError = false;
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() {
           isLoading = false;
+          hasError = true;
         });
       }
     }
@@ -88,6 +91,47 @@ class _MihBusinessReviewsState extends State<MihBusinessReviews> {
       return Center(
         child: CircularProgressIndicator(
           color: MihColors.secondary(),
+        ),
+      );
+    }
+    if (hasError) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Icon(
+                    Icons.star_half_rounded,
+                    size: 165,
+                    color: MihColors.secondary(),
+                  ),
+                ),
+                Icon(
+                  Icons.star_half_rounded,
+                  size: 150,
+                  color: MihColors.secondary(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Unable to pull reviews for ${business.Name}\nCheck internt connection",
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: MihColors.secondary(),
+              ),
+            ),
+          ],
         ),
       );
     }
