@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MihProfileLinks extends StatefulWidget {
   final List<ProfileLink> links;
   final double? buttonSize;
+  final bool displayCustomName;
   const MihProfileLinks({
     super.key,
     required this.links,
+    required this.displayCustomName,
     this.buttonSize,
   });
 
@@ -126,6 +128,19 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
         iconData = MihIcons.wechat;
         btnColor = const Color(0xFFff4e6b);
         break;
+      case "play store":
+        iconData = MihIcons.playStore;
+        btnColor = const Color(0xFF01875f);
+        iconColor = const Color(0xFFe6f3ef);
+        break;
+      case "app store":
+        iconData = MihIcons.appStore;
+        btnColor = const Color(0xFF0066cc);
+        break;
+      case "app gallery":
+        iconData = MihIcons.appGallery;
+        btnColor = const Color(0xFFCF0A2C);
+        break;
       default:
         // iconData = FontAwesomeIcons.link;
         iconData = MihIcons.link;
@@ -135,46 +150,34 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        MihButton(
-          width: widget.buttonSize ?? 70,
-          height: widget.buttonSize ?? 70,
-          onPressed: () {
-            launchSocialUrl(Uri.parse(link.destination));
-          },
-          buttonColor: btnColor,
-          child: Icon(
-            iconData,
-            color: iconColor,
-            size: 50,
+        Skeleton.leaf(
+          child: MihButton(
+            width: widget.buttonSize ?? 70,
+            height: widget.buttonSize ?? 70,
+            onPressed: () {
+              launchSocialUrl(Uri.parse(link.destination));
+            },
+            buttonColor: btnColor,
+            child: Icon(
+              iconData,
+              color: iconColor,
+              size: widget.buttonSize != null
+                  ? widget.buttonSize! * 0.65
+                  : 70 * 0.7,
+            ),
           ),
         ),
-        const SizedBox(height: 2),
-        if (link.custom_name.isNotEmpty)
+        if (widget.displayCustomName && link.custom_name != '')
+          const SizedBox(height: 2),
+        if (widget.displayCustomName && link.custom_name != '')
           Text(
             link.custom_name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
-        // link.custom_name.isNotEmpty
-        //     ? Text(link.custom_name)
-        //     : Text(link.site_name),
       ],
     );
-    // return MihPackageTile(
-    //   onTap: () {
-    //     launchSocialUrl(Uri.parse(link.web_link));
-    //   },
-    //   packageName: link.destination,
-    //   packageIcon: Icon(
-    //     iconData,
-    //     color: btnColor,
-    //   ),
-    //   iconSize: 200,
-    //   textColor: Colors.black,
-    //   // MihColors.primary(
-    //   //     ),
-    // );
   }
 
   Future<void> launchSocialUrl(Uri linkUrl) async {
@@ -189,34 +192,16 @@ class _MihProfileLinksState extends State<MihProfileLinks> {
     return Consumer<MzansiProfileProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           Widget? child) {
-        // return widget.links.isEmpty
-        //     ? SizedBox(
-        //         height: 35,
-        //         child: Text(
-        //           "No Links Added",
-        //           textAlign: TextAlign.center,
-        //           style: TextStyle(
-        //             fontSize: 25,
-        //             fontWeight: FontWeight.bold,
-        //             color: MihColors.secondary(),
-        //           ),
-        //         ),
-        //       )
-        //     :
-        return Column(
-          children: [
-            Wrap(
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              runSpacing: 10,
-              spacing: 10,
-              children: widget.links.map(
-                (link) {
-                  return displayLinkButton(link);
-                },
-              ).toList(),
-            ),
-          ],
+        return Wrap(
+          alignment: WrapAlignment.center,
+          runAlignment: WrapAlignment.center,
+          runSpacing: 10,
+          spacing: 10,
+          children: widget.links.map(
+            (link) {
+              return displayLinkButton(link);
+            },
+          ).toList(),
         );
       },
     );

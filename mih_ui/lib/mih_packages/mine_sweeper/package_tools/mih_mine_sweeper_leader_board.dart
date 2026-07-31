@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/builders/build_minesweeper_leaderboard_list.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_minesweeper_services.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:provider/provider.dart';
 
@@ -19,54 +16,54 @@ class MihMineSweeperLeaderBoard extends StatefulWidget {
 
 class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
   TextEditingController filterController = TextEditingController();
-  bool isLoading = true;
-  Future<void> initialiseLeaderboard() async {
-    MihMineSweeperProvider mineSweeperProvider =
-        context.read<MihMineSweeperProvider>();
-    filterController.text = mineSweeperProvider.difficulty;
-    KenLogger.success("getting data");
-    await MihMinesweeperServices().getTop20Leaderboard(mineSweeperProvider);
-    List<Future<String>> userPicturesUrl = [];
-    Future<String> userPicUrl;
-    for (final ranking in mineSweeperProvider.leaderboard!) {
-      userPicUrl = MihFileApi.getMinioFileUrl(ranking.proPicUrl);
-      userPicturesUrl.add(userPicUrl);
-    }
-    mineSweeperProvider.setLeaderboardUserPictures(
-        leaderboardUserPicturesUrl: userPicturesUrl);
-    setState(() {
-      isLoading = false;
-    });
-  }
 
-  void refreshLeaderBoard(
-      MihMineSweeperProvider mineSweeperProvider, String difficulty) {
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> refreshLeaderBoard(
+    MzansiProfileProvider profileProvider,
+    MihMineSweeperProvider mineSweeperProvider,
+    String difficulty,
+  ) async {
     mineSweeperProvider.setDifficulty(difficulty);
-    mineSweeperProvider.setLeaderboard(leaderboard: null);
-    mineSweeperProvider.setMyScoreboard(myScoreboard: null);
-    initialiseLeaderboard();
+    mineSweeperProvider.syncWithMihServerData(
+        profileProvider, mineSweeperProvider);
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initialiseLeaderboard();
+    MihMineSweeperProvider mineSweeperProvider =
+        context.read<MihMineSweeperProvider>();
+    filterController.text = mineSweeperProvider.difficulty;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        mineSweeperProvider.loadCachedMSleaderboards();
+      }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant MihMineSweeperLeaderBoard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    MihMineSweeperProvider mineSweeperProvider =
+        context.read<MihMineSweeperProvider>();
+    if (filterController.text != mineSweeperProvider.difficulty) {
+      filterController.text = mineSweeperProvider.difficulty;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    return Consumer<MihMineSweeperProvider>(
-      builder: (BuildContext context,
-          MihMineSweeperProvider mineSweeperProvider, Widget? child) {
+    return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MihMineSweeperProvider mineSweeperProvider,
+        Widget? child,
+      ) {
         return RefreshIndicator(
           onRefresh: () async {
-            refreshLeaderBoard(mineSweeperProvider, filterController.text);
+            refreshLeaderBoard(
+                profileProvider, mineSweeperProvider, filterController.text);
           },
           child: MihPackageToolBody(
             backgroundColor: MihColors.primary(),
@@ -79,106 +76,105 @@ class _MihMineSweeperLeaderBoardState extends State<MihMineSweeperLeaderBoard> {
   }
 
   Widget getBody(double width) {
-    return Consumer<MihMineSweeperProvider>(
-      builder: (BuildContext context,
-          MihMineSweeperProvider mineSweeperProvider, Widget? child) {
-        if (isLoading) {
-          return Center(
-            child: Mihloadingcircle(),
-          );
-        } else {
-          return Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: width / 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: MihDropdownField(
-                        controller: filterController,
-                        hintText: "Leaderboards",
-                        dropdownOptions: const [
-                          "Very Easy",
-                          "Easy",
-                          "Intermediate",
-                          "Hard",
-                        ],
-                        requiredText: true,
-                        editable: true,
-                        enableSearch: false,
-                        validator: (value) {
-                          return MihValidationServices().isEmpty(value);
-                        },
-                        onSelected: (selection) {
-                          refreshLeaderBoard(mineSweeperProvider, selection!);
-                        },
-                      ),
+    return Consumer2<MzansiProfileProvider, MihMineSweeperProvider>(
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MihMineSweeperProvider mineSweeperProvider,
+        Widget? child,
+      ) {
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Flexible(
+                    child: MihDropdownField(
+                      controller: filterController,
+                      hintText: "Leaderboards",
+                      dropdownOptions: const [
+                        "Very Easy",
+                        "Easy",
+                        "Intermediate",
+                        "Hard",
+                      ],
+                      requiredText: true,
+                      editable: true,
+                      enableSearch: false,
+                      validator: (value) {
+                        return MihValidationServices().isEmpty(value);
+                      },
+                      onSelected: (selection) {
+                        refreshLeaderBoard(
+                            profileProvider, mineSweeperProvider, selection!);
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
-              !isLoading && mineSweeperProvider.leaderboard!.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 50),
-                          Icon(
-                            MihIcons.mihMinesweeper,
-                            size: 165,
+            ),
+            const SizedBox(height: 10),
+            mineSweeperProvider.leaderboard!.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 50),
+                        Icon(
+                          MihIcons.mihMinesweeper,
+                          size: 165,
+                          color: MihColors.secondary(),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Be the first on the leaderboard.",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                             color: MihColors.secondary(),
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Be the first on the leaderboard.",
+                        ),
+                        const SizedBox(height: 25),
+                        Center(
+                          child: RichText(
                             textAlign: TextAlign.center,
-                            overflow: TextOverflow.visible,
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: MihColors.secondary(),
-                            ),
-                          ),
-                          const SizedBox(height: 25),
-                          Center(
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: MihColors.secondary(),
-                                ),
-                                children: [
-                                  TextSpan(text: "Press "),
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Icon(
-                                      MihIcons.minesweeper,
-                                      size: 20,
-                                      color: MihColors.secondary(),
-                                    ),
-                                  ),
-                                  TextSpan(text: " and start a new game"),
-                                ],
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                                color: MihColors.secondary(),
                               ),
+                              children: [
+                                TextSpan(text: "Press "),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    MihIcons.minesweeper,
+                                    size: 20,
+                                    color: MihColors.secondary(),
+                                  ),
+                                ),
+                                TextSpan(text: " and start a new game"),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    )
-                  : Expanded(
-                      child: BuildMinesweeperLeaderboardList(),
+                        ),
+                      ],
                     ),
-            ],
-          );
-        }
+                  )
+                : Expanded(
+                    child: BuildMinesweeperLeaderboardList(),
+                  ),
+          ],
+        );
       },
     );
   }

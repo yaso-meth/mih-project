@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
@@ -7,6 +5,7 @@ import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_profile_links.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -14,7 +13,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MihPersonalProfileView extends StatefulWidget {
   const MihPersonalProfileView({
@@ -26,9 +25,20 @@ class MihPersonalProfileView extends StatefulWidget {
 }
 
 class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
-  late Future<String> futureImageUrl;
   late Future<List<ProfileLink>> futureLinks;
   PlatformFile? file;
+  final List<ProfileLink> _dummyLinks = List.generate(
+    6,
+    (index) => ProfileLink(
+      idprofile_links: index,
+      app_id: '',
+      business_id: '',
+      site_name: '',
+      custom_name: '',
+      destination: '',
+      order: index,
+    ),
+  );
 
   @override
   void dispose() {
@@ -40,10 +50,13 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
     super.initState();
     MzansiDirectoryProvider directoryProvider =
         context.read<MzansiDirectoryProvider>();
-    futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedUser!.pro_pic_path);
     futureLinks = MihProfileLinksServices.getUserProfileLinksMD(
         directoryProvider, directoryProvider.selectedUser!.app_id);
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
   }
 
   @override
@@ -75,40 +88,21 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "") {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.secondary(),
-                                  backgroundColor: MihColors.primary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.secondary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.secondary(),
-                              );
-                            }
-                          }),
+                      MihCircleAvatar(
+                        imageFile: CachedNetworkImageProvider(
+                          MihFileApi.getMinioFileUrlV2(
+                            directoryProvider.selectedUser!.pro_pic_path,
+                          ),
+                        ),
+                        width: profilePictureWidth,
+                        expandable: true,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
+                        onChange: null,
+                      ),
                       FittedBox(
                         child: Text(
                           directoryProvider.selectedUser!.username.isNotEmpty
@@ -164,38 +158,55 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                       FutureBuilder(
                         future: futureLinks,
                         builder: (context, asyncSnapshot) {
-                          if (asyncSnapshot.connectionState ==
-                                  ConnectionState.done &&
-                              asyncSnapshot.hasData) {
-                            return MihProfileLinks(
-                              links: asyncSnapshot.requireData,
+                          if (asyncSnapshot.connectionState !=
+                              ConnectionState.done) {
+                            return Skeletonizer(
+                              enabled: true,
+                              enableSwitchAnimation: true,
+                              effect: ShimmerEffect(
+                                baseColor: MihColors.highlight(),
+                                highlightColor: MihColors.secondary(),
+                              ),
+                              child: MihProfileLinks(
+                                displayCustomName: true,
+                                links: _dummyLinks,
+                              ),
                             );
-                          } else {
-                            return Wrap(
-                              alignment: WrapAlignment.center,
-                              runAlignment: WrapAlignment.center,
-                              runSpacing: 10,
-                              spacing: 10,
+                          }
+
+                          if (asyncSnapshot.hasError) {
+                            return Column(
                               children: [
-                                Container(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
+                                Icon(
+                                  Icons.link_off,
+                                  size: 100,
+                                  color: MihColors.secondary(),
                                 ),
-                                Container(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
-                                ),
-                                Container(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
-                                ),
-                                Container(width: 70, height: 70).redacted(
-                                  context: context,
-                                  redact: true,
+                                const SizedBox(height: 10),
+                                Center(
+                                  child: SizedBox(
+                                    width: 700,
+                                    child: Text(
+                                      "Error Getting Links",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                        color: MihColors.secondary(),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             );
                           }
+
+                          final links = asyncSnapshot.data ?? [];
+
+                          return MihProfileLinks(
+                            displayCustomName: true,
+                            links: links,
+                          );
                         },
                       ),
                     ],
@@ -203,9 +214,10 @@ class _MihPersonalProfileViewState extends State<MihPersonalProfileView> {
                 ),
               ),
             ),
-            !kIsWeb && (Platform.isAndroid || Platform.isIOS)
-                ? MihBannerAd()
-                : SizedBox(),
+            if (!kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.iOS))
+              MihBannerAd(),
             SizedBox(height: 10),
           ],
         );

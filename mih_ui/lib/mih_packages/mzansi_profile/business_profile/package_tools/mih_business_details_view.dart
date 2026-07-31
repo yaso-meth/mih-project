@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,6 +7,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_business_info_card_v2.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -24,7 +23,6 @@ class MihBusinessDetailsView extends StatefulWidget {
 }
 
 class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
-  late Future<String> futureImageUrl;
   PlatformFile? file;
 
   @override
@@ -35,10 +33,11 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
   @override
   void initState() {
     super.initState();
-    MzansiDirectoryProvider directoryProvider =
-        context.read<MzansiDirectoryProvider>();
-    futureImageUrl = MihFileApi.getMinioFileUrl(
-        directoryProvider.selectedBusiness!.logo_path);
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
   }
 
   @override
@@ -69,58 +68,20 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                       : EdgeInsets.symmetric(horizontal: width * 0),
                   child: Column(
                     children: [
-                      FutureBuilder(
-                          future: futureImageUrl,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.connectionState ==
-                                    ConnectionState.done &&
-                                asyncSnapshot.hasData) {
-                              if (asyncSnapshot.requireData != "") {
-                                return MihCircleAvatar(
-                                  imageFile: CachedNetworkImageProvider(
-                                      asyncSnapshot.requireData),
-                                  width: profilePictureWidth,
-                                  expandable: true,
-                                  editable: false,
-                                  fileNameController: TextEditingController(),
-                                  userSelectedfile: file,
-                                  frameColor: MihColors.secondary(),
-                                  backgroundColor: MihColors.primary(),
-                                  onChange: () {},
-                                );
-                              } else {
-                                return Icon(
-                                  MihIcons.mihIDontKnow,
-                                  size: profilePictureWidth,
-                                  color: MihColors.secondary(),
-                                );
-                              }
-                            } else {
-                              return Icon(
-                                MihIcons.mihRing,
-                                size: profilePictureWidth,
-                                color: MihColors.secondary(),
-                              );
-                            }
-                          }),
-                      // Center(
-                      //   child: MihCircleAvatar(
-                      //     imageFile: widget.logoImage,
-                      //     width: 150,
-                      //     editable: false,
-                      //     fileNameController: fileNameController,
-                      //     userSelectedfile: imageFile,
-                      //     frameColor:
-                      //         MihColors.secondary(),
-                      //     backgroundColor:
-                      //         MihColors.primary(),
-                      //     onChange: (selectedfile) {
-                      //       setState(() {
-                      //         imageFile = selectedfile;
-                      //       });
-                      //     },
-                      //   ),
-                      // ),
+                      MihCircleAvatar(
+                        imageFile: CachedNetworkImageProvider(
+                          MihFileApi.getMinioFileUrlV2(
+                              directoryProvider.selectedBusiness!.logo_path),
+                        ),
+                        width: profilePictureWidth,
+                        expandable: true,
+                        editable: false,
+                        fileNameController: TextEditingController(),
+                        userSelectedfile: file,
+                        frameColor: MihColors.secondary(),
+                        backgroundColor: MihColors.primary(),
+                        onChange: null,
+                      ),
                       FittedBox(
                         child: Text(
                           directoryProvider.selectedBusiness!.Name,
@@ -190,9 +151,10 @@ class _MihBusinessDetailsViewState extends State<MihBusinessDetailsView> {
                 ),
               ),
             ),
-            !kIsWeb && (Platform.isAndroid || Platform.isIOS)
-                ? MihBannerAd()
-                : SizedBox(),
+            if (!kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.iOS))
+              MihBannerAd(),
             SizedBox(height: 10),
           ],
         );

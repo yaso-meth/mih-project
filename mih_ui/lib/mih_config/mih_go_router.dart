@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mih_file_viewer/components/mih_print_prevew.dart';
 import 'package:mzansi_innovation_hub/mih_objects/arguments.dart';
@@ -29,6 +30,7 @@ import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/mih_wallet.dart
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_manager/pat_manager.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_profile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/patient_manager/pat_profile/patient_set_up.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 
@@ -72,7 +74,13 @@ class MihGoRouter {
   final GoRouter mihRouter = GoRouter(
     initialLocation: MihGoRouterPaths.mihHome,
     redirect: (BuildContext context, GoRouterState state) async {
-      final bool isUserSignedIn = await SuperTokens.doesSessionExist();
+      MzansiProfileProvider profileProvider =
+          context.read<MzansiProfileProvider>();
+      bool isUserSignedIn = profileProvider.hasLocalProfile();
+      if (!isUserSignedIn) {
+        isUserSignedIn = await SuperTokens.doesSessionExist();
+      }
+
       final unauthenticatedPaths = [
         MihGoRouterPaths.mihAuthentication,
         "${MihGoRouterPaths.mihAuthentication}/${MihGoRouterPaths.forgotPassword}",
@@ -85,6 +93,7 @@ class MihGoRouter {
       ];
       KenLogger.success(
           "Redirect Check: ${state.fullPath}, isUserSignedIn: $isUserSignedIn");
+      FlutterNativeSplash.remove();
       if (!isUserSignedIn && !unauthenticatedPaths.contains(state.fullPath)) {
         return MihGoRouterPaths.mihAuthentication;
       }
@@ -169,9 +178,7 @@ class MihGoRouter {
         path: MihGoRouterPaths.mihHome,
         builder: (BuildContext context, GoRouterState state) {
           KenLogger.success("MihGoRouter: mihHome");
-          return MihHome(
-            key: UniqueKey(),
-          );
+          return MihHome();
         },
         routes: [
           // ========================== About MIH ==================================

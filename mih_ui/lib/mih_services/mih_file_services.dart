@@ -14,55 +14,42 @@ import 'package:supertokens_flutter/supertokens.dart';
 class MihFileApi {
   final baseAPI = AppEnviroment.baseApiUrl;
 
-  static Future<String> getMinioFileUrl(
-    String filePath,
-  ) async {
-    // loadingPopUp(context);
-    // print("here");
-    // var url =
-    //     "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-    // var response = await http.get(Uri.parse(url));
-    String fileUrl = "";
-    // print(response.statusCode);
-    // if (response.statusCode == 200) {
-    //   String body = response.body;
-    //   var decodedData = jsonDecode(body);
-
-    //   fileUrl = decodedData['minioURL'];
-    // } else {
-    //   fileUrl = "";
-    // }
-    // Navigator.of(context).pop(); // Pop loading dialog
-    // return fileUrl;
+  static Future<PlatformFile?> pickImage() async {
     try {
-      var url =
-          "${AppEnviroment.baseApiUrl}/minio/pull/file/${AppEnviroment.getEnv()}/$filePath";
-      var response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        var decodedData = jsonDecode(response.body);
-        fileUrl = decodedData['minioURL'];
+      FilePickerResult? result = await FilePicker.pickFiles(
+        type: FileType.image,
+      );
+      PlatformFile selectedFile;
+      Uint8List fileBytes;
+      if (result != null && result.files.isNotEmpty) {
+        if (kIsWeb || kIsWasm) {
+          selectedFile = result.files.first;
+          fileBytes = await selectedFile.readAsBytes();
+        } else {
+          File file = File(result.files.single.path!);
+          fileBytes = await file.readAsBytes();
+          selectedFile = PlatformFile(
+            path: file.path,
+            name: file.path.split('/').last,
+            size: file.lengthSync(),
+            bytes: fileBytes, // Read file bytes
+          );
+        }
+        return selectedFile;
       } else {
-        // internetConnectionPopUp(context);
-        // KenLogger.error("Get File Error: $url");
-        // KenLogger.error("Get File Error: ${response.statusCode}");
-        // KenLogger.error("Get File Error: ${response.body}");
+        KenLogger.error("User didn't pick an image");
       }
     } catch (e) {
-      // internetConnectionPopUp(context);
-      KenLogger.error("Error getting url");
-    } finally {
-      // Navigator.of(context).pop(); // Always pop loading dialog
+      KenLogger.error("Mih Avatar error: $e");
     }
-    // KenLogger.success("File URL: $fileUrl");
-    if (AppEnviroment.getEnv() == "Dev" && kIsWeb) {
-      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isIOS) {
-      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-    } else if (AppEnviroment.getEnv() == "Dev" && Platform.isLinux) {
-      fileUrl = fileUrl.replaceAll("10.0.2.2", "127.0.0.1");
-    }
-    // KenLogger.success("File URL: $fileUrl");
-    return fileUrl;
+    return null;
+  }
+
+  static String getMinioFileUrlV2(
+    String filePath,
+  ) {
+    if (filePath.isEmpty) return "";
+    return "${AppEnviroment.baseApiUrl}/v2/minio/pull/file/$filePath";
   }
 
   static Future<int> uploadFile(
@@ -72,7 +59,7 @@ class MihFileApi {
     PlatformFile? file,
     BuildContext context,
   ) async {
-    loadingPopUp(context);
+    // loadingPopUp(context);
     var token = await SuperTokens.getAccessToken();
     var request = http2.MultipartRequest(
         'POST', Uri.parse("${AppEnviroment.baseApiUrl}/minio/upload/file/"));
@@ -82,10 +69,15 @@ class MihFileApi {
     request.fields['app_id'] = app_id;
     request.fields['env'] = env;
     request.fields['folder'] = folderName;
-    request.files.add(await http2.MultipartFile.fromBytes('file', file!.bytes!,
-        filename: file.name.replaceAll(RegExp(r' '), '-')));
+    request.files.add(
+      http2.MultipartFile.fromBytes(
+        'file',
+        await file!.readAsBytes(),
+        filename: file.name.replaceAll(RegExp(r' '), '-'),
+      ),
+    );
     var response = await request.send();
-    context.pop(); // Pop loading dialog
+    // context.pop(); // Pop loading dialog
     return response.statusCode;
   }
 

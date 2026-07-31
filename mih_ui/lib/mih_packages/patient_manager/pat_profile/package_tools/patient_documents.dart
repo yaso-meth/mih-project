@@ -1,5 +1,6 @@
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -44,7 +45,11 @@ class _PatientDocumentsState extends State<PatientDocuments> {
   Future<void> submitDocUploadForm(
       PatientManagerProvider patientManagerProvider) async {
     if (isFileFieldsFilled()) {
-      await uploadSelectedFile(patientManagerProvider, selected);
+      try {
+        await uploadSelectedFile(patientManagerProvider, selected);
+      } catch (error) {
+        MihAlertServices().internetConnectionAlert(context);
+      }
     } else {
       MihAlertServices().inputErrorAlert(context);
     }
@@ -61,12 +66,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
     int statusCode =
         await MihPatientServices().addPatientFile(file, patientManagerProvider);
     if (statusCode == 201) {
-      setState(() {
-        selectedFileController.clear();
-      });
       var fname = file!.name.replaceAll(RegExp(r' '), '-');
       // end loading circle
-      Navigator.of(context).pop();
+      context.pop();
       String message =
           "The file $fname has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
       successPopUp("Successfully Uplouded File", message);
@@ -77,6 +79,8 @@ class _PatientDocumentsState extends State<PatientDocuments> {
 
   Future<void> uploadSelectedFile(
       PatientManagerProvider patientManagerProvider, PlatformFile? file) async {
+    KenLogger.success(
+        "Patient app id: ${patientManagerProvider.selectedPatient!.app_id}");
     var response = await MihFileApi.uploadFile(
       patientManagerProvider.selectedPatient!.app_id,
       env,
@@ -84,6 +88,7 @@ class _PatientDocumentsState extends State<PatientDocuments> {
       file,
       context,
     );
+    KenLogger.success("Response code: $response");
     if (response == 200) {
       await addPatientFileLocationToDB(patientManagerProvider, file);
     } else {
@@ -93,32 +98,37 @@ class _PatientDocumentsState extends State<PatientDocuments> {
 
   Future<void> generateMedCert(MzansiProfileProvider profileProvider,
       PatientManagerProvider patientManagerProvider) async {
-    //start loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    int statusCodeCetificateGeneration =
-        await MihPatientServices().generateMedicalCertificate(
-      startDateController.text,
-      endDateTextController.text,
-      retDateTextController.text,
-      profileProvider,
-      patientManagerProvider,
-    );
-    DateTime now = DateTime.now();
-    String fileName =
-        "Med-Cert-${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}-${now.toString().substring(0, 19)}.pdf"
-            .replaceAll(RegExp(r' '), '-');
-    if (statusCodeCetificateGeneration == 200) {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      int statusCodeCetificateGeneration =
+          await MihPatientServices().generateMedicalCertificate(
+        startDateController.text,
+        endDateTextController.text,
+        retDateTextController.text,
+        profileProvider,
+        patientManagerProvider,
+      );
+      DateTime now = DateTime.now();
+      String fileName =
+          "Med-Cert-${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}-${now.toString().substring(0, 19)}.pdf"
+              .replaceAll(RegExp(r' '), '-');
+      if (statusCodeCetificateGeneration == 200) {
+        context.pop(); //Loading removal
+        String message =
+            "The medical certificate $fileName has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
+        await MihPatientServices().getPatientDocuments(patientManagerProvider);
+        successPopUp("Successfully Generated Certificate", message);
+      } else {
+        context.pop(); //Loading removal
+        MihAlertServices().internetConnectionAlert(context);
+      }
+    } catch (error) {
       context.pop(); //Loading removal
-      String message =
-          "The medical certificate $fileName has been successfully generated and added to ${patientManagerProvider.selectedPatient!.first_name} ${patientManagerProvider.selectedPatient!.last_name}'s record. You can now access and download it for their use.";
-      await MihPatientServices().getPatientDocuments(patientManagerProvider);
-      successPopUp("Successfully Generated Certificate", message);
-    } else {
       MihAlertServices().internetConnectionAlert(context);
     }
   }
@@ -164,11 +174,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
                       const SizedBox(width: 10),
                       MihButton(
                         onPressed: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
+                          FilePickerResult? result = await FilePicker.pickFiles(
                             type: FileType.custom,
                             allowedExtensions: ['jpg', 'png', 'pdf'],
-                            withData: true,
                           );
                           if (result == null) return;
                           final selectedFile = result.files.first;
@@ -239,6 +247,18 @@ class _PatientDocumentsState extends State<PatientDocuments> {
         },
         windowBody: Column(
           children: [
+            const SizedBox(height: 10.0),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "*NB: Internet connection required to generated document.",
+                style: TextStyle(
+                  color: MihColors.red(),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10.0),
             MihForm(
               formKey: _formKey2,
               formFields: [
@@ -464,6 +484,9 @@ class _PatientDocumentsState extends State<PatientDocuments> {
           onPressed: () {
             context.pop();
             context.pop();
+            setState(() {
+              selectedFileController.clear();
+            });
           },
           buttonColor: MihColors.primary(),
           elevation: 10,

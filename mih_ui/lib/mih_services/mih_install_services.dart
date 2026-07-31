@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/main.dart';
-import 'package:pwa_install/pwa_install.dart';
-// import 'package:universal_html/js.dart' as js;
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/components/mih_android_store_options.dart';
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/components/mih_linux_install_instructions.dart';
+import 'package:mzansi_innovation_hub/mih_packages/about_mih/components/mih_linux_update_instructions.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mzansi_innovation_hub/mih_helpers/mih_install_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_install_web.dart';
 
 class MihInstallServices {
   String? errorMessage;
@@ -18,11 +21,12 @@ class MihInstallServices {
     final isWebAndroid =
         kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
     final isWebIos = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS);
+    final isWebLinux =
+        kIsWeb && (defaultTargetPlatform == TargetPlatform.linux);
     if (isWebAndroid) {
-      launchSocialUrl(
-        Uri.parse(
-          "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
-        ),
+      showDialog(
+        context: context,
+        builder: (context) => MihAndroidStoreOptions(),
       );
     } else if (isWebIos) {
       //Show pop up for IOS
@@ -33,11 +37,9 @@ class MihInstallServices {
       );
     } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
         "Android") {
-      //Installed Android App
-      launchSocialUrl(
-        Uri.parse(
-          "https://play.google.com/store/apps/details?id=za.co.mzansiinnovationhub.mih",
-        ),
+      showDialog(
+        context: context,
+        builder: (context) => MihAndroidStoreOptions(),
       );
     } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "iOS") {
       launchSocialUrl(
@@ -45,20 +47,20 @@ class MihInstallServices {
           "https://apps.apple.com/za/app/mzansi-innovation-hub/id6743310890",
         ),
       );
+    } else if (isWebLinux) {
+      showDialog(
+        context: context,
+        builder: (context) => MihLinuxInstallInstructions(),
+      );
+    } else if (MzansiInnovationHub.of(context)!.theme.getPlatform() ==
+        "Linux") {
+      showDialog(
+        context: context,
+        builder: (context) => MihLinuxUpdateInstructions(),
+      );
     } else {
       //Web
-      if (PWAInstall().installPromptEnabled) {
-        try {
-          PWAInstall().promptInstall_();
-        } catch (e) {
-          errorMessage = e.toString();
-          debugPrint('Error prompting install: $e');
-        }
-      } else {
-        // Fallback for unsupported platforms
-        debugPrint('Install prompt not available for this platform.');
-      }
-      // js.context.callMethod("presentAddToHome");
+      triggerWebInstall();
     }
   }
 }

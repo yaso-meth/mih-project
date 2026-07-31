@@ -1,183 +1,181 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
 import 'package:ken_logger/ken_logger.dart';
-import 'package:ollama_dart/ollama_dart.dart';
+import 'package:ollama_dart/ollama_dart.dart' as ollama;
 import 'package:cross_file/cross_file.dart';
+import 'package:http/http.dart' as http;
 
-class OllamaProvider extends LlmProvider with ChangeNotifier {
+class OllamaProvider with ChangeNotifier {
   OllamaProvider({
-    String? baseUrl,
-    Map<String, String>? headers,
-    Map<String, dynamic>? queryParams,
+    required String baseUrl,
     required String model,
     String? systemPrompt,
     bool? think,
-  })  : _client = OllamaClient(
-          baseUrl: baseUrl,
-          headers: headers,
-          queryParams: queryParams,
+  })  : _baseUrl = baseUrl,
+        _httpClient = http.Client(),
+        _client = ollama.OllamaClient(
+          config: ollama.OllamaConfig(
+            baseUrl: baseUrl,
+          ),
         ),
         _model = model,
         _systemPrompt = systemPrompt,
         _think = think,
         _history = [];
-  final OllamaClient _client;
+  final String _baseUrl;
+  final http.Client _httpClient;
+  final ollama.OllamaClient _client;
   final String _model;
-  final List<ChatMessage> _history;
+  final List<ollama.ChatMessage> _history;
   final String? _systemPrompt;
   final bool? _think;
 
-  @override
-  Stream<String> generateStream(
-    String prompt, {
-    Iterable<Attachment> attachments = const [],
-  }) async* {
-    final messages = _mapToOllamaMessages([
-      ChatMessage.user(prompt, attachments),
-    ]);
+  Completer<void>? _abortCompleter;
+  bool get isGenerating => _abortCompleter != null;
+
+  Stream<String> generateStream(String prompt) async* {
+    final messages = [
+      ollama.ChatMessage.user(prompt),
+    ];
     yield* _generateStream(messages);
   }
 
   Stream<String> speechToText(XFile audioFile) async* {
-    KenLogger.success("Inside Custom speechToText funtion");
-    // 1. Convert the XFile to the attachment format needed for the LLM.
-    final attachments = [await FileAttachment.fromFile(audioFile)];
-    KenLogger.success("added attachment for audio file");
-
-    // 2. Define the transcription prompt, mirroring the logic from LlmChatView.
+    KenLogger.success("Inside Custom speechToText function");
+    final bytes = await audioFile.readAsBytes();
+    final base64Audio = base64Encode(bytes);
     const prompt =
         'translate the attached audio to text; provide the result of that '
-        'translation as just the text of the translation itself. be careful to '
-        'separate the background audio from the foreground audio and only '
-        'provide the result of translating the foreground audio.';
+        'translation as just the text of the translation itself.';
 
-    KenLogger.success("Created Prompt");
-    // 3. Use your existing Ollama API call to process the prompt and attachment.
-    // We are essentially running a new, one-off chat session for transcription.
-    yield* generateStream(
-      prompt,
-      attachments: attachments,
-    );
+    final messages = [
+      ollama.ChatMessage.user(prompt, images: [base64Audio]),
+    ];
+    yield* _generateStream(messages);
     KenLogger.success("done");
   }
 
-  @override
-  Stream<String> sendMessageStream(
-    String prompt, {
-    Iterable<Attachment> attachments = const [],
-  }) async* {
-    KenLogger.success("sendMessageStream called with: $prompt");
-    final userMessage = ChatMessage.user(prompt, attachments);
-    final llmMessage = ChatMessage.llm();
-    _history.addAll([userMessage, llmMessage]);
+  Stream<String> sendMessageStream(String prompt,
+      {List<String>? images}) async* {
+    final userMessage = ollama.ChatMessage.user(prompt, images: images);
+    _history.add(userMessage);
     notifyListeners();
-    KenLogger.success("History after adding messages: ${_history.length}");
-    final messages = _mapToOllamaMessages(_history);
-    final stream = _generateStream(messages);
-    yield* stream.map((chunk) {
-      llmMessage.append(chunk);
-      notifyListeners();
-      return chunk;
-    });
-    KenLogger.success("Stream completed for: $prompt");
+    final stream = _generateStream(List.from(_history));
+    final responseBuffer = StringBuffer();
+    await for (final chunk in stream) {
+      responseBuffer.write(chunk);
+      yield chunk;
+    }
+
+    _history.add(ollama.ChatMessage.assistant(responseBuffer.toString()));
     notifyListeners();
   }
 
-  @override
-  Iterable<ChatMessage> get history => _history;
+  Iterable<ollama.ChatMessage> get history => _history;
 
   void resetChat() {
     _history.clear();
     notifyListeners();
   }
 
-  @override
-  set history(Iterable<ChatMessage> history) {
+  set history(Iterable<ollama.ChatMessage> history) {
     _history.clear();
     _history.addAll(history);
     notifyListeners();
   }
 
-  Stream<String> _generateStream(List<Message> messages) async* {
-    final allMessages = <Message>[];
+  void stopGenerating() {
+    if (_abortCompleter != null && !_abortCompleter!.isCompleted) {
+      KenLogger.info("Aborting in-flight generation");
+      _abortCompleter!.complete();
+    }
+  }
+
+  Stream<String> _generateStream(List<ollama.ChatMessage> messages) async* {
+    final allMessages = <ollama.ChatMessage>[];
     if (_systemPrompt != null && _systemPrompt.isNotEmpty) {
-      KenLogger.success("Adding system prompt to the conversation");
-      allMessages.add(Message(
-        role: MessageRole.system,
-        content: _systemPrompt,
-      ));
+      allMessages.add(ollama.ChatMessage.system(_systemPrompt));
     }
     allMessages.addAll(messages);
 
-    final stream = _client.generateChatCompletionStream(
-      request: GenerateChatCompletionRequest(
-        model: _model,
-        messages: allMessages,
-        think: _think ?? false,
-      ),
+    final chatRequest = ollama.ChatRequest(
+      model: _model,
+      messages: allMessages,
+      think: ollama.ThinkValue.enabled(_think ?? false),
+      stream: true,
     );
-    // final stream = _client.generateChatCompletionStream(
-    //   request: GenerateChatCompletionRequest(
-    //     model: _model,
-    //     messages: messages,
-    //   ),
-    // );
 
-    yield* stream.map((res) => res.message.content);
-  }
+    final abortCompleter = Completer<void>();
+    _abortCompleter = abortCompleter;
 
-  List<Message> _mapToOllamaMessages(List<ChatMessage> messages) {
-    return messages.map((message) {
-      switch (message.origin) {
-        case MessageOrigin.user:
-          if (message.attachments.isEmpty) {
-            return Message(
-              role: MessageRole.user,
-              content: message.text ?? '',
-            );
-          }
-          final imageAttachments = <String>[];
-          final docAttachments = <String>[];
-          if (message.text != null && message.text!.isNotEmpty) {
-            docAttachments.add(message.text!);
-          }
-          for (final attachment in message.attachments) {
-            if (attachment is FileAttachment) {
-              final mimeType = attachment.mimeType.toLowerCase();
-              if (mimeType.startsWith('image/')) {
-                imageAttachments.add(base64Encode(attachment.bytes));
-              } else if (mimeType == 'application/pdf' ||
-                  mimeType.startsWith('text/')) {
-                throw LlmFailureException(
-                  "\n\nAww, that file is a little too advanced for us right now ($mimeType)! We're still learning, but we'll get there! Please try sending us a different file type.\n\nHint: We can handle images quite well!",
-                );
-              }
-            } else {
-              throw LlmFailureException(
-                'Unsupported attachment type: $attachment',
-              );
-            }
-          }
-          return Message(
-            role: MessageRole.user,
-            content: docAttachments.join(' '),
-            images: imageAttachments,
-          );
+    final request = http.AbortableRequest(
+      'POST',
+      Uri.parse('$_baseUrl/api/chat'),
+      abortTrigger: abortCompleter.future,
+    )
+      ..headers['Content-Type'] = 'application/json'
+      ..body = jsonEncode(chatRequest.toJson());
 
-        case MessageOrigin.llm:
-          return Message(
-            role: MessageRole.assistant,
-            content: message.text ?? '',
-          );
+    http.StreamedResponse response;
+    try {
+      response = await _httpClient.send(request);
+    } on http.ClientException catch (e) {
+      if (_abortCompleter != null && _abortCompleter!.isCompleted) {
+        KenLogger.info("Generation aborted before response: $e");
+        _abortCompleter = null;
+        return;
       }
-    }).toList(growable: false);
+
+      // Otherwise, it's a real network/server error — rethrow it!
+      KenLogger.error("Network connection error: $e");
+      _abortCompleter = null;
+      rethrow;
+    } catch (e) {
+      _abortCompleter = null;
+      rethrow;
+    }
+
+    try {
+      await for (final line in response.stream
+          .transform(utf8.decoder)
+          .transform(const LineSplitter())) {
+        if (line.trim().isEmpty) continue;
+
+        final Object? decoded;
+        try {
+          decoded = jsonDecode(line);
+        } on FormatException catch (e) {
+          KenLogger.error("Failed to decode NDJSON line: $line ($e)");
+          continue;
+        }
+
+        if (decoded is! Map<String, dynamic>) {
+          KenLogger.error("Unexpected NDJSON line (not an object): $line");
+          continue;
+        }
+
+        if (decoded['error'] != null) {
+          throw Exception('Ollama returned an error: ${decoded['error']}');
+        }
+
+        final event = ollama.ChatStreamEvent.fromJson(decoded);
+        yield event.message?.content ?? '';
+      }
+    } on http.ClientException catch (e) {
+      // Hard-stop path: abortTrigger completed mid-stream, package:http
+      // injected RequestAbortedException and closed the connection.
+      KenLogger.info("Generation stopped mid-stream: $e");
+    } finally {
+      _abortCompleter = null;
+    }
   }
 
   @override
   void dispose() {
-    _client.endSession();
+    stopGenerating();
+    _httpClient.close();
+    _client.close();
     super.dispose();
   }
 }

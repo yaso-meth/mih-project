@@ -3,6 +3,7 @@ import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/Example/package_tiles/test_package_tile.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/package_tile/mih_home_refresh_tile.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_profile/business_profile/package_tiles/mzansi_setup_business_profile_tile.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/about_mih/package_tile/about_mih_tile.dart';
@@ -138,6 +139,12 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
         packageSize: packageSize,
       )
     });
+    //=============== About MIH ===============
+    temp.add({
+      "Sync Data": MihHomeRefreshTile(
+        packageSize: packageSize,
+      )
+    });
     //=============== Dev ===============
     if (AppEnviroment.getEnv() == "Dev") {
       temp.add({
@@ -202,15 +209,6 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
   void initState() {
     super.initState();
     searchController.addListener(searchPackage);
-    MzansiProfileProvider profileProvider =
-        context.read<MzansiProfileProvider>();
-    if (profileProvider.user!.username == "") {
-      personalPackagesMap = setNerUserPersonalPackage();
-      autoNavToProfile();
-    } else {
-      personalPackagesMap = setPersonalPackagesMap(profileProvider);
-    }
-    searchPackage();
   }
 
   @override
@@ -230,10 +228,19 @@ class _MihPersonalHomeState extends State<MihPersonalHome>
     return Consumer2<MzansiProfileProvider, MzansiAiProvider>(
       builder: (BuildContext context, MzansiProfileProvider profileProvider,
           MzansiAiProvider mzansiAiProvider, Widget? child) {
+        if (profileProvider.user == null ||
+            profileProvider.user?.username == "") {
+          personalPackagesMap = setNerUserPersonalPackage();
+          autoNavToProfile();
+        } else {
+          personalPackagesMap = setPersonalPackagesMap(profileProvider);
+        }
+        searchPackage();
         return Column(
           children: [
             Visibility(
-              visible: profileProvider.user!.username != "",
+              visible: profileProvider.user != null &&
+                  profileProvider.user?.username != "",
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width / 20),
                 child: MihSearchBar(

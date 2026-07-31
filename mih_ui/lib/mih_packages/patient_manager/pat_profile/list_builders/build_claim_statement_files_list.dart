@@ -16,7 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supertokens_flutter/http.dart' as http;
 import 'package:http/http.dart' as http2;
-import "package:universal_html/html.dart" as html;
+import 'package:mzansi_innovation_hub/mih_helpers/mih_utils_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_utils_web.dart';
 
 class BuildClaimStatementFileList extends StatefulWidget {
   const BuildClaimStatementFileList({
@@ -37,16 +38,16 @@ class _BuildClaimStatementFileListState
   int progress = 0;
   late StreamSubscription progressStream;
 
-  Future<String> getFileUrlApiCall(String filePath) async {
-    String teporaryFileUrl = "";
-    await MihFileApi.getMinioFileUrl(
-      filePath,
-    ).then((value) {
-      teporaryFileUrl = value;
-    });
-    return teporaryFileUrl;
-  }
-
+  // Future<String> getFileUrlApiCall(String filePath) async {
+  //   String teporaryFileUrl = "";
+  //   await MihFileApi.getMinioFileUrl(
+  //     filePath,
+  //   ).then((value) {
+  //     teporaryFileUrl = value;
+  //   });
+  //   return teporaryFileUrl;
+  // }
+  //
   String getFileName(String path) {
     //print(pdfLink.split(".")[1]);
     return path.split("/").last;
@@ -110,7 +111,7 @@ class _BuildClaimStatementFileListState
         backgroundColor: MihColors.green(),
         onTap: () {
           if (MzansiInnovationHub.of(context)!.theme.getPlatform() == "Web") {
-            html.window.open(url, 'download');
+            openWebWindow(url, 'download');
           } else {
             nativeFileDownload(url);
           }
@@ -248,58 +249,68 @@ class _BuildClaimStatementFileListState
         if (patientManagerProvider.patientClaimsDocuments!.isNotEmpty) {
           return ListView.separated(
             separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: MihColors.secondary(),
+              return SizedBox(
+                height: 3,
               );
             },
             itemCount: patientManagerProvider.patientClaimsDocuments!.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(
-                  Icons.picture_as_pdf,
-                  size: 50,
-                  color: MihColors.red(),
-                ),
-                title: Text(
-                  patientManagerProvider
-                      .patientClaimsDocuments![index].file_name,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+              return Material(
+                color: MihColors.secondary(),
+                borderRadius: BorderRadius.circular(20),
+                clipBehavior: Clip.antiAlias,
+                child: ListTile(
+                  splashColor: Color.lerp(
+                    MihColors.bluishPurple(),
+                    Colors.black,
+                    0.01,
                   ),
-                ),
-                subtitle: Text(
-                  patientManagerProvider
-                      .patientClaimsDocuments![index].insert_date,
-                  style: TextStyle(
-                    color: MihColors.secondary(),
+                  hoverColor: MihColors.primary(),
+                  leading: Icon(
+                    Icons.picture_as_pdf,
+                    size: 50,
+                    color: MihColors.red(darkMode: false),
                   ),
-                ),
-                // trailing: Icon(
-                //   Icons.arrow_forward,
-                //   color: MihColors.secondary(),
-                // ),
-                onTap: () async {
-                  MihFileViewerProvider fileViewerProvider =
-                      context.read<MihFileViewerProvider>();
-                  await getFileUrlApiCall(patientManagerProvider
-                          .patientClaimsDocuments![index].file_path)
-                      .then((urlHere) {
+                  title: Text(
+                    patientManagerProvider
+                        .patientClaimsDocuments![index].file_name,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ),
+                  subtitle: Text(
+                    patientManagerProvider
+                        .patientClaimsDocuments![index].insert_date,
+                    style: TextStyle(
+                      color: MihColors.primary(),
+                    ),
+                  ),
+                  // trailing: Icon(
+                  //   Icons.arrow_forward,
+                  //   color: MihColors.secondary(),
+                  // ),
+                  onTap: () async {
+                    MihFileViewerProvider fileViewerProvider =
+                        context.read<MihFileViewerProvider>();
+                    String fileUrl = MihFileApi.getMinioFileUrlV2(
+                        patientManagerProvider
+                            .patientClaimsDocuments![index].file_path);
                     //print(url);
                     fileViewerProvider.setFilePath(patientManagerProvider
                         .patientClaimsDocuments![index].file_path);
-                    fileViewerProvider.setFileLink(urlHere);
-                  });
+                    fileViewerProvider.setFileLink(fileUrl);
 
-                  viewFilePopUp(
-                      patientManagerProvider,
-                      patientManagerProvider
-                          .patientClaimsDocuments![index].file_name,
-                      patientManagerProvider
-                          .patientClaimsDocuments![index].file_path,
-                      patientManagerProvider.patientClaimsDocuments![index]
-                          .idclaim_statement_file,
-                      fileViewerProvider.fileLink);
-                },
+                    viewFilePopUp(
+                        patientManagerProvider,
+                        patientManagerProvider
+                            .patientClaimsDocuments![index].file_name,
+                        patientManagerProvider
+                            .patientClaimsDocuments![index].file_path,
+                        patientManagerProvider.patientClaimsDocuments![index]
+                            .idclaim_statement_file,
+                        fileViewerProvider.fileLink);
+                  },
+                ),
               );
             },
           );
@@ -307,7 +318,7 @@ class _BuildClaimStatementFileListState
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [

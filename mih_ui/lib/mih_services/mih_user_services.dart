@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
@@ -19,8 +18,12 @@ class MihUserServices {
     String username,
     BuildContext context,
   ) async {
-    var response = await http.get(Uri.parse(
-        "${AppEnviroment.baseApiUrl}/users/validate/username/$username"));
+    var response = await http
+        .get(
+          Uri.parse(
+              "${AppEnviroment.baseApiUrl}/users/validate/username/$username"),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);
@@ -63,6 +66,7 @@ class MihUserServices {
       }),
     );
     if (response.statusCode == 201) {
+      await context.read<MzansiProfileProvider>().syncWithMihServerData();
       context.goNamed(
         'mihHome',
         extra: true,
@@ -97,6 +101,24 @@ class MihUserServices {
   Future<AppUser?> getMIHUserDetails(
     String app_id,
     BuildContext context,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
+  Future<AppUser?> getMIHUserDetailsV2(
+    String app_id,
   ) async {
     var response = await http.get(
       Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
@@ -154,6 +176,23 @@ class MihUserServices {
     }
   }
 
+  Future<AppUser?> getMyUserDetailsV2() async {
+    String app_id = await SuperTokens.getUserId();
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      return AppUser.fromJson(jsonBody);
+    } else {
+      return null;
+    }
+  }
+
   Future<int> updateUserV2(
     AppUser signedInUser,
     String firstName,
@@ -167,28 +206,28 @@ class MihUserServices {
     var fileName = profilePicture.replaceAll(RegExp(r' '), '-');
     var filePath = "${signedInUser.app_id}/profile_files/$fileName";
     String profileType;
-    KenLogger.success("is Busines User: $isBusinessUser");
     if (isBusinessUser) {
       profileType = "business";
     } else {
       profileType = "personal";
     }
-    KenLogger.success("Profile Type: $profileType");
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "idusers": signedInUser.idUser,
-        "username": username,
-        "fnam": firstName,
-        "lname": lastName,
-        "type": profileType,
-        "pro_pic_path": filePath,
-        "purpose": purpose,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/user/update/v2/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "idusers": signedInUser.idUser,
+            "username": username,
+            "fnam": firstName,
+            "lname": lastName,
+            "type": profileType,
+            "pro_pic_path": filePath,
+            "purpose": purpose,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       context.read<MzansiProfileProvider>().setUser(
             newUser: AppUser(
@@ -203,7 +242,7 @@ class MihUserServices {
               purpose,
             ),
           );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
+      String newProPicUrl = MihFileApi.getMinioFileUrlV2(filePath);
       context.read<MzansiProfileProvider>().setUserProfilePicUrl(newProPicUrl);
       return response.statusCode;
     } else {
@@ -254,16 +293,18 @@ class MihUserServices {
     BuildContext context,
   ) async {
     loadingPopUp(context);
-    var response = await http.delete(
-      Uri.parse("${AppEnviroment.baseApiUrl}/user/delete/all/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id": provider.user!.app_id,
-        "env": AppEnviroment.getEnv(),
-      }),
-    );
+    var response = await http
+        .delete(
+          Uri.parse("${AppEnviroment.baseApiUrl}/user/delete/all/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "app_id": provider.user!.app_id,
+            "env": AppEnviroment.getEnv(),
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
 
     if (response.statusCode == 200) {
       await SuperTokens.signOut(completionHandler: (error) {

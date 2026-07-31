@@ -1,7 +1,7 @@
-import 'package:mih_package_toolkit/mih_package_toolkit.dart';
-import 'package:mzansi_innovation_hub/main.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/main.dart';
 
 class SimpleCalc extends StatefulWidget {
   const SimpleCalc({super.key});
@@ -11,10 +11,9 @@ class SimpleCalc extends StatefulWidget {
 }
 
 class _SimpleCalcState extends State<SimpleCalc> {
-  var userInput = '';
-  var answer = '0';
+  String userInput = '';
+  String answer = '0';
 
-  // Array of button
   final List<String> buttons = [
     'AC',
     '(',
@@ -38,33 +37,94 @@ class _SimpleCalcState extends State<SimpleCalc> {
     '=',
   ];
 
-// function to calculate the input operation
-  void equalPressed() {
-    String finaluserinput = userInput;
-    finaluserinput = finaluserinput.replaceAll('x', '*');
-    finaluserinput = finaluserinput.replaceAll('÷', '/');
-    print(finaluserinput);
-
-    Parser p = Parser();
-    Expression exp = p.parse(finaluserinput);
-    ContextModel cm = ContextModel();
-    double eval = exp.evaluate(EvaluationType.REAL, cm);
-    if (eval.toString().length <= 1) {
-    } else if (eval
-            .toString()
-            .substring(eval.toString().length - 2, eval.toString().length) ==
-        ".0") {
-      answer = eval.toString().substring(0, eval.toString().length - 2);
-    } else {
-      answer = eval.toString();
+  void _calculateResult() {
+    if (userInput.isEmpty) {
+      answer = '0';
+      return;
     }
+
+    try {
+      String finalUserInput =
+          userInput.replaceAll('x', '*').replaceAll('÷', '/');
+      GrammarParser p = GrammarParser();
+      Expression exp = p.parse(finalUserInput);
+      ContextModel cm = ContextModel();
+      RealEvaluator evaluator = RealEvaluator(cm);
+      double eval = evaluator.evaluate(exp).toDouble();
+
+      if (eval.isNaN || eval.isInfinite) {
+        answer = 'Error';
+      } else if (eval % 1 == 0) {
+        answer = eval.toInt().toString();
+      } else {
+        answer = eval.toString();
+      }
+    } catch (_) {}
   }
 
-  bool isNumeric(String? s) {
-    if (s == null) {
-      return false;
-    }
-    return double.tryParse(s) != null;
+  /// Handles user input for buttons
+  void _onButtonPressed(String btn) {
+    setState(() {
+      switch (btn) {
+        case 'AC':
+          userInput = '';
+          answer = '0';
+          break;
+
+        case 'D':
+          if (userInput.isNotEmpty) {
+            userInput = userInput.substring(0, userInput.length - 1);
+            _calculateResult();
+          }
+          break;
+
+        case '=':
+          _calculateResult();
+          userInput = answer;
+          break;
+
+        default:
+          userInput += btn;
+          _calculateResult();
+          break;
+      }
+    });
+  }
+
+  /// Returns appropriate button color based on key category
+  Color _getButtonColor(String btn) {
+    if (btn == 'AC') return MihColors.purple();
+    if (btn == 'D') return MihColors.red();
+    if (btn == '=') return MihColors.green();
+    if (['+', '-', 'x', '÷', '(', ')'].contains(btn)) return MihColors.grey();
+    return MihColors.secondary();
+  }
+
+  /// Helper widget for building grid action buttons
+  Widget _buildButton(String btn) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: MihButton(
+        onPressed: () => _onButtonPressed(btn),
+        buttonColor: _getButtonColor(btn),
+        width: 50,
+        height: 50,
+        borderRadius: 5,
+        child: btn == 'D'
+            ? Icon(
+                Icons.backspace,
+                color: MihColors.primary(),
+              )
+            : Text(
+                btn,
+                style: TextStyle(
+                  color: MihColors.primary(),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+      ),
+    );
   }
 
   @override
@@ -73,30 +133,26 @@ class _SimpleCalcState extends State<SimpleCalc> {
       backgroundColor: MihColors.primary(),
       borderOn: false,
       innerHorizontalPadding: 10,
-      bodyItem: getBody(),
+      bodyItem: _getBody(),
     );
   }
 
-  Widget getBody() {
-    // double width = MediaQuery.sizeOf(context).width;
+  Widget _getBody() {
     double height = MediaQuery.sizeOf(context).height;
-    // var padding = MediaQuery.paddingOf(context);
-    // double newheight = height - padding.top - padding.bottom;
-    // print("width: $width");
-    // print("height: $height");
-    // print("newheight: $newheight");
     double calcWidth = 500;
-    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop") {
-      if (height < 700) {
-        calcWidth = 300;
-      }
+
+    if (MzansiInnovationHub.of(context)!.theme.screenType == "desktop" &&
+        height < 700) {
+      calcWidth = 300;
     }
+
     return MihSingleChildScroll(
       scrollbarOn: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          // User Input View
           Container(
             padding: const EdgeInsets.all(20),
             alignment: Alignment.centerRight,
@@ -112,19 +168,21 @@ class _SimpleCalcState extends State<SimpleCalc> {
               ),
             ),
           ),
+          // Output Result View
           Container(
             width: double.infinity,
-            //color: Colors.white,
             padding: const EdgeInsets.all(15),
             alignment: Alignment.centerRight,
             child: Text(
               answer,
               style: TextStyle(
-                  fontSize: 30,
-                  color: MihColors.secondary(),
-                  fontWeight: FontWeight.bold),
+                fontSize: 30,
+                color: MihColors.secondary(),
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+          // Calculator Numpad Grid
           Container(
             alignment: Alignment.centerRight,
             child: SizedBox(
@@ -132,217 +190,11 @@ class _SimpleCalcState extends State<SimpleCalc> {
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                // padding: EdgeInsets.only(
-                //   left: width / 10,
-                //   right: width / 10,
-                //   bottom: height / 15,
-                //   //top: 20,
-                // ),
-                // shrinkWrap: true,
                 itemCount: buttons.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
-                  //mainAxisExtent: 150,
                 ),
-                itemBuilder: (context, index) {
-                  // Clear Button
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          setState(() {
-                            userInput = '';
-                            answer = '0';
-                          });
-                        },
-                        buttonColor: MihColors.purple(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Text(
-                          buttons[index],
-                          style: TextStyle(
-                            color: MihColors.primary(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-
-                  // ( button
-                  else if (index == 1) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          setState(() {
-                            userInput += buttons[index];
-                          });
-                        },
-                        buttonColor: MihColors.grey(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Text(
-                          buttons[index],
-                          style: TextStyle(
-                            color: MihColors.primary(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  // ) Button
-                  else if (index == 2) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          setState(() {
-                            userInput += buttons[index];
-                          });
-                        },
-                        buttonColor: MihColors.grey(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Text(
-                          buttons[index],
-                          style: TextStyle(
-                            color: MihColors.primary(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  //  +, -, / x buttons
-                  else if (index == 3 ||
-                      index == 7 ||
-                      index == 11 ||
-                      index == 15) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          if (answer == "0") {
-                            setState(() {
-                              userInput += buttons[index];
-                            });
-                          } else {
-                            setState(() {
-                              // userInput = answer;
-                              // answer = "0";
-                              userInput += buttons[index];
-                            });
-                          }
-                        },
-                        buttonColor: MihColors.grey(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Text(
-                          buttons[index],
-                          style: TextStyle(
-                            color: MihColors.primary(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-
-                  // delete Button
-                  else if (index == 18) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          setState(() {
-                            if (userInput.length == 1) {
-                              userInput = '0';
-                            } else if (userInput.length > 1) {
-                              userInput =
-                                  userInput.substring(0, userInput.length - 1);
-                            }
-                            if (!isNumeric(userInput[userInput.length - 1])) {
-                              userInput =
-                                  userInput.substring(0, userInput.length - 1);
-                            }
-                            equalPressed();
-                          });
-                        },
-                        buttonColor: MihColors.red(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Icon(
-                          Icons.backspace,
-                          color: MihColors.primary(),
-                        ),
-                      ),
-                    );
-                  }
-                  // Equal_to Button
-                  else if (index == 19) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          setState(() {
-                            equalPressed();
-                            userInput = answer;
-                          });
-                        },
-                        buttonColor: MihColors.green(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Text(
-                          buttons[index],
-                          style: TextStyle(
-                            color: MihColors.primary(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  //  other buttons
-                  else {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: MihButton(
-                        onPressed: () {
-                          setState(() {
-                            userInput += buttons[index];
-                            equalPressed();
-                          });
-                        },
-                        buttonColor: MihColors.secondary(),
-                        width: 50,
-                        height: 50,
-                        borderRadius: 5,
-                        child: Text(
-                          buttons[index],
-                          style: TextStyle(
-                            color: MihColors.primary(),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
+                itemBuilder: (context, index) => _buildButton(buttons[index]),
               ),
             ),
           ),
@@ -351,3 +203,4 @@ class _SimpleCalcState extends State<SimpleCalc> {
     );
   }
 }
+

@@ -1,9 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_hive/about_mih_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mih_access_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mih_calendar_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/minesweeper_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_directory_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_wallet_hive_data.dart';
+import 'package:mzansi_innovation_hub/mih_hive/patient_manager_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
@@ -103,7 +109,9 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
       _initializeQuickActions();
     }
     theme = MihTheme();
@@ -121,16 +129,22 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
           create: (context) => MihAuthenticationProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => MzansiProfileProvider(),
+          create: (context) => MzansiProfileProvider(
+            MzansiProfileHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
-          create: (context) => MzansiWalletProvider(),
+          create: (context) => MzansiWalletProvider(
+            MzansiWalletHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => MzansiAiProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => MzansiDirectoryProvider(),
+          create: (context) => MzansiDirectoryProvider(
+            MzansiDirectoryHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => MihBannerAdProvider(),
@@ -139,19 +153,29 @@ class _MzansiInnovationHubState extends State<MzansiInnovationHub> {
           create: (context) => MihCalculatorProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => MihAccessControllsProvider(),
+          create: (context) => MihAccessControllsProvider(
+            MihAccessHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
-          create: (context) => MihCalendarProvider(),
+          create: (context) => MihCalendarProvider(
+            MihCalendarHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
-          create: (context) => AboutMihProvider(),
+          create: (context) => AboutMihProvider(
+            AboutMihHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
-          create: (context) => MihMineSweeperProvider(),
+          create: (context) => MihMineSweeperProvider(
+            MinesweeperHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
-          create: (context) => PatientManagerProvider(),
+          create: (context) => PatientManagerProvider(
+            PatientManagerHiveData(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => MihFileViewerProvider(),

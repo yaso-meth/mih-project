@@ -4,6 +4,19 @@ networks:
     driver: bridge
 #============== MIH Containers ====================================================================
 services:
+  #============== Cloudflare DDNS ====================================================================
+  mih-ddns:
+    image: favonia/cloudflare-ddns:latest
+    container_name: mih-ddns
+    restart: unless-stopped
+    environment:
+      - CF_API_TOKEN=${CF_API_TOKEN}
+      - DOMAINS=${DOMAINS}
+      - PROXIED=false
+      - DETECTION_MODE=internal
+      - UPDATE_CRON=@every 5m
+    networks:
+      - mih-network
   #============== Nginx Proxy Manager ====================================================================
   mih-nginx:
     container_name: mih-nginx

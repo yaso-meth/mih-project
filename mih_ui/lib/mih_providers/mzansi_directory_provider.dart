@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_directory_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 
 class MzansiDirectoryProvider extends ChangeNotifier {
+  final MzansiDirectoryHiveData _hiveData;
+
   int toolIndex;
   int personalViewIndex;
   int businessViewIndex;
@@ -13,17 +18,16 @@ class MzansiDirectoryProvider extends ChangeNotifier {
   bool personalSearch;
   List<BookmarkedBusiness> bookmarkedBusinesses = [];
   List<Business>? favouriteBusinessesList;
-  Map<String, Future<String>>? favBusImagesUrl;
   List<Business> searchedBusinesses = [];
-  Map<String, Future<String>>? busSearchImagesUrl;
+  List<String> businessTypes = [];
   Business? selectedBusiness;
   List<AppUser> searchedUsers = [];
-  Map<String, Future<String>>? userSearchImagesUrl;
   AppUser? selectedUser;
   String searchTerm;
   String businessTypeFilter;
 
-  MzansiDirectoryProvider({
+  MzansiDirectoryProvider(
+    this._hiveData, {
     this.toolIndex = 0,
     this.personalViewIndex = 0,
     this.businessViewIndex = 0,
@@ -31,7 +35,29 @@ class MzansiDirectoryProvider extends ChangeNotifier {
     this.userLocation = "Unknown Location",
     this.searchTerm = "",
     this.businessTypeFilter = "",
-  });
+  }) {
+    loadCachedDirectory();
+  }
+
+  void loadCachedDirectory() {
+    bookmarkedBusinesses = _hiveData.getBookmarkedBusinesses();
+    favouriteBusinessesList = _hiveData.getFavouriteBusinesses();
+    businessTypes = _hiveData.getBusinessTypes();
+    KenLogger.success("Mzansi Directory Loaded from Cache");
+    notifyListeners();
+  }
+
+  Future<bool> syncWithMihServerData(
+      MzansiProfileProvider profileProvider) async {
+    bool success = await _hiveData.syncDirectoryDataWithServer(profileProvider);
+    loadCachedDirectory();
+    return success;
+  }
+
+  Future<void> clearDirectoryCacheAndProvider() async {
+    await _hiveData.clearDirectoryCache();
+    reset();
+  }
 
   void reset() {
     toolIndex = 0;
@@ -88,19 +114,15 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setFavouriteBusinesses({
     required List<Business> businesses,
-    required Map<String, Future<String>> businessesImagesUrl,
   }) {
     favouriteBusinessesList = businesses;
-    favBusImagesUrl = businessesImagesUrl;
     notifyListeners();
   }
 
   void setSearchedBusinesses({
     required List<Business> searchedBusinesses,
-    required Map<String, Future<String>> businessesImagesUrl,
   }) {
     this.searchedBusinesses = searchedBusinesses;
-    busSearchImagesUrl = businessesImagesUrl;
     notifyListeners();
   }
 
@@ -111,10 +133,8 @@ class MzansiDirectoryProvider extends ChangeNotifier {
 
   void setSearchedUsers({
     required List<AppUser> searchedUsers,
-    required Map<String, Future<String>> userImagesUrl,
   }) {
     this.searchedUsers = searchedUsers;
-    this.userSearchImagesUrl = userImagesUrl;
     notifyListeners();
   }
 

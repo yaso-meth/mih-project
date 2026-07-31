@@ -1,13 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_hive/mzansi_profile_hive_data.dart';
 import 'package:mzansi_innovation_hub/mih_objects/app_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_employee.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business_review.dart';
 import 'package:mzansi_innovation_hub/mih_objects/business_user.dart';
 import 'package:mzansi_innovation_hub/mih_objects/profile_link.dart';
 import 'package:mzansi_innovation_hub/mih_objects/user_consent.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
 
 class MzansiProfileProvider extends ChangeNotifier {
+  final MzansiProfileHiveData _hiveData;
+
   bool personalHome;
   int personalIndex;
   int businessIndex;
@@ -26,13 +32,80 @@ class MzansiProfileProvider extends ChangeNotifier {
   bool hideBusinessUserDetails;
   List<ProfileLink> personalLinks = [];
   List<ProfileLink> businessLinks = [];
+  List<BusinessReview> businessReviews = [];
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
-  MzansiProfileProvider({
+  MzansiProfileProvider(
+    this._hiveData, {
     this.personalHome = true,
     this.personalIndex = 0,
     this.businessIndex = 0,
     this.hideBusinessUserDetails = true,
-  });
+  }) {
+    loadCachedProfileState();
+  }
+
+  void loadCachedProfileState() {
+    user = _hiveData.getCachedUser();
+    userConsent = _hiveData.getCachedConsent();
+    business = _hiveData.getCachedBusiness();
+    businessUser = _hiveData.getCachedBusinessUser();
+    if (user != null && user!.pro_pic_path.isNotEmpty) {
+      userProfilePicUrl = MihFileApi.getMinioFileUrlV2(user!.pro_pic_path);
+      userProfilePicture = CachedNetworkImageProvider(userProfilePicUrl!);
+    }
+    if (business != null && business!.logo_path.isNotEmpty) {
+      businessProfilePicUrl = MihFileApi.getMinioFileUrlV2(business!.logo_path);
+      businessProfilePicture =
+          CachedNetworkImageProvider(businessProfilePicUrl!);
+    }
+    if (businessUser != null && businessUser!.sig_path.isNotEmpty) {
+      businessUserSignatureUrl =
+          MihFileApi.getMinioFileUrlV2(businessUser!.sig_path);
+      businessUserSignature =
+          CachedNetworkImageProvider(businessUserSignatureUrl!);
+    }
+    employeeList = _hiveData.getCachedBusinessEmployees();
+    personalLinks = _hiveData.getCachedPersonalProfileLinks();
+    businessLinks = _hiveData.getCachedBusinessProfileLinks();
+    businessReviews = _hiveData.getCachedBusinessReviews();
+    KenLogger.success("Mzansi Profile Loaded from Cache");
+    notifyListeners();
+  }
+
+  Future<bool> syncWithMihServerData() async {
+    await _hiveData.processModificationsQueue();
+    bool success = await _hiveData.syncProfileDataWithServer();
+    loadCachedProfileState();
+    return success;
+  }
+
+  void triggerRefresh() {
+    refreshIndicatorKey.currentState?.show();
+  }
+
+  bool isLocalModificationsPending() {
+    return _hiveData.isModificationsNotEmpty();
+  }
+
+  bool hasLocalProfile() {
+    return _hiveData.hasCachedProfile();
+  }
+
+  Future<bool> addUserConsent(UserConsent newConsent) async {
+    bool success = await _hiveData.addUserConsentLocally(newConsent);
+    await _hiveData.queuAddConsentModification(newConsent);
+    await _hiveData.processModificationsQueue();
+    await _hiveData.syncProfileDataWithServer();
+    loadCachedProfileState();
+    return success;
+  }
+
+  Future<void> clearProfileCacheAndProvider() async {
+    await _hiveData.clearProfileCache();
+    reset();
+  }
 
   void reset() {
     personalHome = true;
@@ -48,6 +121,10 @@ class MzansiProfileProvider extends ChangeNotifier {
     businessUserSignatureUrl = null;
     businessUserSignature = null;
     userConsent = null;
+    employeeList = null;
+    userSearchResults = [];
+    personalLinks = [];
+    businessLinks = [];
     notifyListeners();
   }
 
@@ -185,18 +262,12 @@ class MzansiProfileProvider extends ChangeNotifier {
   }
 
   void reorderPersonalLinks({required int oldIndex, required int newIndex}) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final ProfileLink link = personalLinks.removeAt(oldIndex);
     personalLinks.insert(newIndex, link);
     notifyListeners();
   }
 
   void reorderBusinessLinks({required int oldIndex, required int newIndex}) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final ProfileLink link = businessLinks.removeAt(oldIndex);
     businessLinks.insert(newIndex, link);
     notifyListeners();

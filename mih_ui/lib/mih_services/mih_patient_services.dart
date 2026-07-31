@@ -22,12 +22,31 @@ class MihPatientServices {
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8"
       },
-    );
+    ).timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       String body = response.body;
       var jsonBody = jsonDecode(body);
       Patient patient = Patient.fromJson(jsonBody);
       patientManagerProvider.setSelectedPatient(selectedPatient: patient);
+      return patient;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Patient?> getPatientDetailsV2(
+    String appId,
+  ) async {
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/patients/$appId"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      String body = response.body;
+      var jsonBody = jsonDecode(body);
+      Patient patient = Patient.fromJson(jsonBody);
       return patient;
     } else {
       return null;
@@ -92,25 +111,47 @@ class MihPatientServices {
     if (response.statusCode == 201) {
       await getPatientDetails(
           profileProvider.user!.app_id, patientManagerProvider);
-      // patientManagerProvider.setSelectedPatient(
-      //   selectedPatient: Patient(
-      //     idpatients: 0,
-      //     id_no: id_no,
-      //     first_name: fname,
-      //     last_name: lname,
-      //     email: email,
-      //     cell_no: cell,
-      //     medical_aid: medAid,
-      //     medical_aid_name: medName,
-      //     medical_aid_no: medNo,
-      //     medical_aid_main_member: medMainMem,
-      //     medical_aid_code: medAidCode,
-      //     medical_aid_scheme: medScheme,
-      //     address: address,
-      //     app_id: profileProvider.user!.app_id,
-      //   ),
-      // );
     }
+    return response.statusCode;
+  }
+
+  Future<int> addPatientServiceV2(
+    String id_no,
+    String fname,
+    String lname,
+    String email,
+    String cell,
+    String medAid,
+    String medMainMem,
+    String medNo,
+    String medAidCode,
+    String medName,
+    String medScheme,
+    String address,
+    MzansiProfileProvider profileProvider,
+    PatientManagerProvider patientManagerProvider,
+  ) async {
+    var response = await http.post(
+      Uri.parse("$baseAPI/patients/insert/"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "id_no": id_no,
+        "first_name": fname,
+        "last_name": lname,
+        "email": email,
+        "cell_no": cell,
+        "medical_aid": medAid,
+        "medical_aid_main_member": medMainMem,
+        "medical_aid_no": medNo,
+        "medical_aid_code": medAidCode,
+        "medical_aid_name": medName,
+        "medical_aid_scheme": medScheme,
+        "address": address,
+        "app_id": profileProvider.user!.app_id,
+      }),
+    );
     return response.statusCode;
   }
 
@@ -130,27 +171,29 @@ class MihPatientServices {
     String address,
     PatientManagerProvider patientManagerProvider,
   ) async {
-    var response = await http.put(
-      Uri.parse("$baseAPI/patients/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "id_no": id_no,
-        "first_name": fname,
-        "last_name": lname,
-        "email": email,
-        "cell_no": cell,
-        "medical_aid": medAid,
-        "medical_aid_main_member": medMainMem,
-        "medical_aid_no": medNo,
-        "medical_aid_code": medAidCode,
-        "medical_aid_name": medName,
-        "medical_aid_scheme": medScheme,
-        "address": address,
-        "app_id": app_id,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse("$baseAPI/patients/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "id_no": id_no,
+            "first_name": fname,
+            "last_name": lname,
+            "email": email,
+            "cell_no": cell,
+            "medical_aid": medAid,
+            "medical_aid_main_member": medMainMem,
+            "medical_aid_no": medNo,
+            "medical_aid_code": medAidCode,
+            "medical_aid_name": medName,
+            "medical_aid_scheme": medScheme,
+            "address": address,
+            "app_id": app_id,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       await getPatientDetails(app_id, patientManagerProvider);
     }
@@ -168,6 +211,21 @@ class MihPatientServices {
       patientManagerProvider.setConsultationNotes(consultationNotes: notes);
     }
     return response.statusCode;
+  }
+
+  Future<List<Note>> getPatientConsultationNotesV2(
+    String appId,
+  ) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/notes/patients/$appId"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<Note> notes =
+          List<Note>.from(l.map((model) => Note.fromJson(model)));
+      return notes;
+    } else {
+      throw Exception('failed to fatch patient notes');
+    }
   }
 
   Future<int> addPatientNoteAPICall(
@@ -225,6 +283,19 @@ class MihPatientServices {
           patientDocuments: patientDocuments);
     }
     return response.statusCode;
+  }
+
+  Future<List<PFile>> getPatientDocumentsV2(String appId) async {
+    final response = await http
+        .get(Uri.parse("${AppEnviroment.baseApiUrl}/patient_files/get/$appId"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PFile> patientDocuments =
+          List<PFile>.from(l.map((model) => PFile.fromJson(model)));
+      return patientDocuments;
+    } else {
+      throw Exception('failed to fatch patient files with api');
+    }
   }
 
   Future<int> addPatientFile(
@@ -318,6 +389,21 @@ class MihPatientServices {
       List<PatientAccess> patientAccesses = List<PatientAccess>.from(
           l.map((model) => PatientAccess.fromJson(model)));
       patientManagerProvider.setMyPatientList(myPaitentList: patientAccesses);
+      return patientAccesses;
+    } else {
+      throw Exception('failed to pull patient access List for business');
+    }
+  }
+
+  Future<List<PatientAccess>> getPatientAccessListOfBusinessV2(
+    String business_id,
+  ) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/access-requests/business/patient/$business_id"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<PatientAccess> patientAccesses = List<PatientAccess>.from(
+          l.map((model) => PatientAccess.fromJson(model)));
       return patientAccesses;
     } else {
       throw Exception('failed to pull patient access List for business');

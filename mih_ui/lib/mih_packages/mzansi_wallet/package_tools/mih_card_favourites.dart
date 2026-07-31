@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart';
-import 'package:mzansi_innovation_hub/mih_objects/loyalty_card.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/builder/build_loyalty_card_list.dart';
 import 'package:provider/provider.dart';
 
@@ -15,33 +14,28 @@ class MihCardFavourites extends StatefulWidget {
 }
 
 class _MihCardFavouritesState extends State<MihCardFavourites> {
-  late Future<List<MIHLoyaltyCard>> cardList;
-  List<MIHLoyaltyCard> listOfCards = [];
-
-  void getFavouriteLoyaltyCards(BuildContext context) async {
-    setState(() {
-      listOfCards = context.read<MzansiWalletProvider>().favouriteCards;
-    });
-  }
-
   @override
   void initState() {
-    getFavouriteLoyaltyCards(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MihPackageToolBody(
-      backgroundColor: MihColors.primary(),
-      borderOn: false,
-      bodyItem: getBody(),
+    return Consumer<MzansiWalletProvider>(
+      builder: (BuildContext context, MzansiWalletProvider walletProvider,
+          Widget? child) {
+        return MihPackageToolBody(
+          backgroundColor: MihColors.primary(),
+          borderOn: false,
+          bodyItem: getBody(walletProvider),
+        );
+      },
     );
   }
 
-  Widget getBody() {
+  Widget getBody(MzansiWalletProvider walletProvider) {
     return BuildLoyaltyCardList(
-      cardList: listOfCards,
+      cardList: walletProvider.favouriteCards,
       navIndex: 0,
       favouritesMode: true,
       searchText: TextEditingController(),

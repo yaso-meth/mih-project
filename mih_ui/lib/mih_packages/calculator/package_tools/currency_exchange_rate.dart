@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_calculator_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_currency_exchange_rate_services.dart';
@@ -40,8 +39,6 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
     double exchangeValue =
         double.parse(_fromAmountController.text) * exchangeRate;
 
-    print(
-        "Date: ${dateValue[0]}\n${_fromAmountController.text} | $fromCurrencyCode\n$exchangeValue | $toCurrencyCode");
     displayResult(dateValue[0], _fromAmountController.text, fromCurrencyCode,
         exchangeValue, toCurrencyCode);
   }
@@ -143,7 +140,9 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
             ),
             SizedBox(height: 10),
             Consumer(builder: (context, bannerAdDisplay, child) {
-              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+              if (!kIsWeb &&
+                  (defaultTargetPlatform == TargetPlatform.android ||
+                      defaultTargetPlatform == TargetPlatform.iOS)) {
                 return MihBannerAd();
               } else {
                 return const SizedBox(height: 0);
@@ -259,6 +258,11 @@ class _CurrencyExchangeRateState extends State<CurrencyExchangeRate> {
   @override
   void initState() {
     super.initState();
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
   }
 
   @override

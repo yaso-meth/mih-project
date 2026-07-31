@@ -21,6 +21,19 @@ class MihUserConsentServices {
     }
   }
 
+  Future<UserConsent?> getUserConsentStatusV2() async {
+    var app_id = await SuperTokens.getUserId();
+    final response = await http.get(
+        Uri.parse("${AppEnviroment.baseApiUrl}/user-consent/user/$app_id"));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> userMap = jsonDecode(response.body);
+      UserConsent userConsent = UserConsent.fromJson(userMap);
+      return userConsent;
+    } else {
+      return null;
+    }
+  }
+
   Future<int> insertUserConsentStatus(
     String latestPrivacyPolicyDate,
     String latestTermOfServiceDate,
@@ -39,6 +52,23 @@ class MihUserConsentServices {
     );
     provider.setUserConsent(userConsent);
     return response.statusCode;
+  }
+
+  Future<int?> insertUserConsentStatusV2(
+    UserConsent userConsent,
+  ) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse("${AppEnviroment.baseApiUrl}/user-consent/insert/"),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(userConsent.toJson()),
+          )
+          .timeout(const Duration(seconds: 5));
+      return response.statusCode;
+    } catch (error) {
+      return null;
+    }
   }
 
   Future<int> updateUserConsentStatus(

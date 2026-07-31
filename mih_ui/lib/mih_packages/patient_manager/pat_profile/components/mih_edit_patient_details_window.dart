@@ -39,33 +39,37 @@ class _MihEditPatientDetailsWindowState
 
   Future<void> updatePatientApiCall(
       PatientManagerProvider patientManagerProvider) async {
-    var statusCode = await MihPatientServices().updatePatientService(
-      patientManagerProvider.selectedPatient!.app_id,
-      idController.text,
-      fnameController.text,
-      lnameController.text,
-      emailController.text,
-      cellController.text,
-      medAidController.text,
-      medMainMemController.text,
-      medNoController.text,
-      medAidCodeController.text,
-      medNameController.text,
-      medSchemeController.text,
-      addressController.text,
-      patientManagerProvider,
-    );
-    if (statusCode == 200) {
-      successPopUp(
-        "Successfully Updated Profile!",
-        "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.",
+    try {
+      var statusCode = await MihPatientServices().updatePatientService(
+        patientManagerProvider.selectedPatient!.app_id,
+        idController.text,
+        fnameController.text,
+        lnameController.text,
+        emailController.text,
+        cellController.text,
+        medAidController.text,
+        medMainMemController.text,
+        medNoController.text,
+        medAidCodeController.text,
+        medNameController.text,
+        medSchemeController.text,
+        addressController.text,
+        patientManagerProvider,
       );
-    } else {
-      MihAlertServices().errorBasicAlert(
-        "Error Updating Profile",
-        "There was an error updating your profile. Please try again later.",
-        context,
-      );
+      if (statusCode == 200) {
+        successPopUp(
+          "Successfully Updated Profile!",
+          "${fnameController.text} ${lnameController.text}'s information has been updated successfully! Their medical records and details are now current.",
+        );
+      } else {
+        MihAlertServices().errorBasicAlert(
+          "Error Updating Profile",
+          "There was an error updating your profile. Please try again later.",
+          context,
+        );
+      }
+    } catch (error) {
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -123,6 +127,17 @@ class _MihEditPatientDetailsWindowState
                   ],
                 ),
                 Divider(color: MihColors.secondary()),
+                const SizedBox(height: 10.0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "*NB: Internet connection required to update profile.",
+                    style: TextStyle(
+                      color: MihColors.red(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 10.0),
                 MihTextFormField(
                   fillColor: MihColors.secondary(),

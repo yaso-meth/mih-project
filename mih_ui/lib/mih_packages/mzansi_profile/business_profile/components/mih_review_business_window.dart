@@ -135,65 +135,70 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
     MzansiProfileProvider profileProvider,
     MzansiDirectoryProvider directoryProvider,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    if (widget.businessReview != null) {
-      await MihMzansiDirectoryServices()
-          .updateBusinessReview(
-        widget.businessReview!.idbusiness_ratings,
-        widget.businessReview!.business_id,
-        _reviewTitleController.text,
-        _reviewDescriptionController.text,
-        _reviewScoreController.text,
-        widget.businessReview!.rating_score,
-        widget.business.rating,
-      )
-          .then((statusCode) async {
-        context.pop(); //Remove loading dialog
-        if (statusCode == 200) {
-          await refreshBusiness(directoryProvider);
-          successPopUp(
-            "Successfully Updated Review!",
-            "Your review has successfully been updated and will now appear under the business.",
-          );
-        } else {
-          MihAlertServices().errorBasicAlert(
-            "Error Updating Review",
-            "There was an error updating your review. Please try again later.",
-            context,
-          );
-        }
-      });
-    } else {
-      await MihMzansiDirectoryServices()
-          .addBusinessReview(
-        profileProvider.user!.app_id,
-        widget.business.business_id,
-        _reviewTitleController.text,
-        _reviewDescriptionController.text,
-        _reviewScoreController.text,
-        widget.business.rating.isEmpty ? "0.0" : widget.business.rating,
-      )
-          .then((statusCode) async {
-        context.pop(); //Remove loading dialog
-        if (statusCode == 201) {
-          await refreshBusiness(directoryProvider);
-          successPopUp(
-            "Successfully Added Review!",
-            "Your review has successfully been added and will now appear under the business.",
-          );
-        } else {
-          MihAlertServices().errorBasicAlert(
-            "Error Adding Review",
-            "There was an error adding your review. Please try again later.",
-            context,
-          );
-        }
-      });
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Mihloadingcircle();
+        },
+      );
+      if (widget.businessReview != null) {
+        await MihMzansiDirectoryServices()
+            .updateBusinessReview(
+          widget.businessReview!.idbusiness_ratings,
+          widget.businessReview!.business_id,
+          _reviewTitleController.text,
+          _reviewDescriptionController.text,
+          _reviewScoreController.text,
+          widget.businessReview!.rating_score,
+          widget.business.rating,
+        )
+            .then((statusCode) async {
+          context.pop(); //Remove loading dialog
+          if (statusCode == 200) {
+            await refreshBusiness(directoryProvider);
+            successPopUp(
+              "Successfully Updated Review!",
+              "Your review has successfully been updated and will now appear under the business.",
+            );
+          } else {
+            MihAlertServices().errorBasicAlert(
+              "Error Updating Review",
+              "There was an error updating your review. Please try again later.",
+              context,
+            );
+          }
+        });
+      } else {
+        await MihMzansiDirectoryServices()
+            .addBusinessReview(
+          profileProvider.user!.app_id,
+          widget.business.business_id,
+          _reviewTitleController.text,
+          _reviewDescriptionController.text,
+          _reviewScoreController.text,
+          widget.business.rating.isEmpty ? "0.0" : widget.business.rating,
+        )
+            .then((statusCode) async {
+          context.pop(); //Remove loading dialog
+          if (statusCode == 201) {
+            await refreshBusiness(directoryProvider);
+            successPopUp(
+              "Successfully Added Review!",
+              "Your review has successfully been added and will now appear under the business.",
+            );
+          } else {
+            MihAlertServices().errorBasicAlert(
+              "Error Adding Review",
+              "There was an error adding your review. Please try again later.",
+              context,
+            );
+          }
+        });
+      }
+    } catch (error) {
+      context.pop(); //Remove loading dialog
+      MihAlertServices().internetConnectionAlert(context);
     }
   }
 
@@ -307,6 +312,18 @@ class _MihReviewBusinessWindowState extends State<MihReviewBusinessWindow> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "*NB: Internet connection required to review business.",
+                      style: TextStyle(
+                        color: MihColors.red(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   MihForm(
                     formKey: _formKey,
                     formFields: [

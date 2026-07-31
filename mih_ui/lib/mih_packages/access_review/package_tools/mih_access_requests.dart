@@ -1,11 +1,9 @@
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_objects/patient_access.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_config/mih_env.dart';
 import 'package:mzansi_innovation_hub/mih_packages/access_review/builder/build_business_access_list.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_access_controls_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +19,7 @@ class MihAccessRequest extends StatefulWidget {
 
 class _MihAccessRequestState extends State<MihAccessRequest> {
   TextEditingController filterController = TextEditingController();
-  bool isLoading = true;
+  bool isLoading = false;
   String baseUrl = AppEnviroment.baseApiUrl;
 
   String errorCode = "";
@@ -45,28 +43,18 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
     return templist;
   }
 
-  void refreshList() {
-    MzansiProfileProvider mzansiProfileProvider =
+  void refreshList() async {
+    MzansiProfileProvider profileProvider =
         context.read<MzansiProfileProvider>();
     MihAccessControllsProvider accessProvider =
         context.read<MihAccessControllsProvider>();
-    if (forceRefresh == true) {
-      MihAccessControlsServices().getBusinessAccessListOfPatient(
-        mzansiProfileProvider.user!.app_id,
-        accessProvider,
-      );
-      setState(() {
-        forceRefresh = false;
-      });
-    } else if (selectedDropdown != filterController.text) {
-      MihAccessControlsServices().getBusinessAccessListOfPatient(
-        mzansiProfileProvider.user!.app_id,
-        accessProvider,
-      );
-      setState(() {
-        selectedDropdown = filterController.text;
-      });
-    }
+    setState(() {
+      forceRefresh = true;
+    });
+    await accessProvider.syncWithMihServerData(profileProvider);
+    setState(() {
+      forceRefresh = false;
+    });
   }
 
   Widget getBody() {
@@ -100,7 +88,7 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                     ],
                     requiredText: true,
                     editable: true,
-                    enableSearch: true,
+                    enableSearch: false,
                     validator: (value) {
                       return MihValidationServices().isEmpty(value);
                     },
@@ -109,10 +97,6 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
                 IconButton(
                   iconSize: 35,
                   onPressed: () {
-                    setState(() {
-                      forceRefresh = true;
-                    });
-                    KenLogger.warning("Refreshing Access List");
                     refreshList();
                   },
                   icon: const Icon(
@@ -126,9 +110,6 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
               child: BuildBusinessAccessList(
                 filterText: filterController.text,
                 onSuccessUpate: () {
-                  setState(() {
-                    forceRefresh = true;
-                  });
                   refreshList();
                 },
               ),
@@ -139,23 +120,6 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
     );
   }
 
-  Future<void> initiasizeAccessList() async {
-    MzansiProfileProvider mzansiProfileProvider =
-        context.read<MzansiProfileProvider>();
-    MihAccessControllsProvider accessProvider =
-        context.read<MihAccessControllsProvider>();
-    setState(() {
-      isLoading = true;
-    });
-    await MihAccessControlsServices().getBusinessAccessListOfPatient(
-      mzansiProfileProvider.user!.app_id,
-      accessProvider,
-    );
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   void dispose() {
     filterController.dispose();
@@ -164,13 +128,10 @@ class _MihAccessRequestState extends State<MihAccessRequest> {
 
   @override
   void initState() {
+    super.initState();
     selectedDropdown = "All";
     filterController.text = "All";
     filterController.addListener(refreshList);
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initiasizeAccessList();
-    });
-    super.initState();
   }
 
   @override

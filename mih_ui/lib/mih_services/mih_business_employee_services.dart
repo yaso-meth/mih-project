@@ -25,6 +25,19 @@ class MihBusinessEmployeeServices {
     return response.statusCode;
   }
 
+  Future<List<BusinessEmployee>> fetchEmployeesV2(String business_id) async {
+    final response = await http.get(Uri.parse(
+        "${AppEnviroment.baseApiUrl}/business-user/employees/${business_id}"));
+    if (response.statusCode == 200) {
+      Iterable l = jsonDecode(response.body);
+      List<BusinessEmployee> employeeList = List<BusinessEmployee>.from(
+          l.map((model) => BusinessEmployee.fromJson(model)));
+      return employeeList;
+    } else {
+      throw Exception('failed to load employees');
+    }
+  }
+
   Future<int> addEmployee(
     MzansiProfileProvider provider,
     AppUser newEmployee,
@@ -76,24 +89,21 @@ class MihBusinessEmployeeServices {
       String newTitle,
       String newAccess,
       BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/employees/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": employee.business_id,
-        "app_id": employee.app_id,
-        "title": newTitle,
-        "access": newAccess,
-      }),
-    );
+    var response = await http
+        .put(
+          Uri.parse(
+              "${AppEnviroment.baseApiUrl}/business-user/employees/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": employee.business_id,
+            "app_id": employee.app_id,
+            "title": newTitle,
+            "access": newAccess,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       provider.updateEmplyeeDetails(
         updatedEmployee: BusinessEmployee(
@@ -108,7 +118,6 @@ class MihBusinessEmployeeServices {
         ),
       );
     }
-    context.pop();
     return response.statusCode;
   }
 
@@ -117,12 +126,6 @@ class MihBusinessEmployeeServices {
     BusinessEmployee employee,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     var response = await http.delete(
       Uri.parse("${AppEnviroment.baseApiUrl}/business-user/employees/delete/"),
       headers: <String, String>{
@@ -136,7 +139,6 @@ class MihBusinessEmployeeServices {
     if (response.statusCode == 200) {
       provider.deleteEmplyee(deletedEmployee: employee);
     }
-    context.pop();
     return response.statusCode;
   }
 }

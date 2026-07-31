@@ -1,0 +1,86 @@
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
+import 'package:ken_logger/ken_logger.dart';
+import 'package:mzansi_innovation_hub/mih_objects/bookmarked_business.dart';
+import 'package:mzansi_innovation_hub/mih_objects/business.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_business_details_services.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_directory_services.dart';
+
+class MzansiDirectoryHiveData {
+  final Box<BookmarkedBusiness> _bookmarkedBusinessBox =
+      Hive.box<BookmarkedBusiness>('bookmarked_business_box');
+  final Box<Business> _favouriteBusinessBox =
+      Hive.box<Business>('favourite_business_box');
+  final Box<String> _businessTypesBox = Hive.box<String>('business_types_box');
+
+  Future<void> clearDirectoryCache() async {
+    try {
+      _bookmarkedBusinessBox.clear();
+      _favouriteBusinessBox.clear();
+      _businessTypesBox.clear();
+      KenLogger.success("Cleared Local Directory Cache.");
+    } catch (e) {
+      KenLogger.success("Failed to Clear Local Directory Cache.");
+    }
+  }
+
+  List<BookmarkedBusiness> getBookmarkedBusinesses() {
+    return _bookmarkedBusinessBox.values.toList();
+  }
+
+  List<Business> getFavouriteBusinesses() {
+    return _favouriteBusinessBox.values.toList();
+  }
+
+  List<String> getBusinessTypes() {
+    return _businessTypesBox.values.toList();
+  }
+
+  Future<void> cacheBookmarkedBusinesses(
+      List<BookmarkedBusiness> remoteBookmarkedBusinesses) async {
+    await _bookmarkedBusinessBox.clear();
+    await _bookmarkedBusinessBox.addAll(remoteBookmarkedBusinesses);
+    KenLogger.success("Bookmarked Businesses Cached");
+  }
+
+  Future<void> cacheFavouriteBusinesses(
+      List<Business> remoteFavouriteBusinesses) async {
+    await _favouriteBusinessBox.clear();
+    await _favouriteBusinessBox.addAll(remoteFavouriteBusinesses);
+    KenLogger.success("Favourite Businesses Cached");
+  }
+
+  Future<void> cacheBusinessTypes(List<String> remoteBusinessTypes) async {
+    await _businessTypesBox.clear();
+    await _businessTypesBox.addAll(remoteBusinessTypes);
+    KenLogger.success("Bookmarked Business Types Cached");
+  }
+
+  Future<bool> syncDirectoryDataWithServer(
+      MzansiProfileProvider profileProvider) async {
+    try {
+      List<BookmarkedBusiness> remoteBookmarkedBusinesses =
+          await MihMzansiDirectoryServices()
+              .getAllUserBookmarkedBusinessV2(profileProvider.user!.app_id);
+      await cacheBookmarkedBusinesses(remoteBookmarkedBusinesses);
+      List<Business> remoteFavouriteBusinesses = [];
+      for (var bus in _bookmarkedBusinessBox.values.toList()) {
+        await MihBusinessDetailsServices()
+            .getBusinessDetailsByBusinessId(bus.business_id)
+            .then((business) {
+          remoteFavouriteBusinesses.add(business!);
+        });
+      }
+      await cacheFavouriteBusinesses(remoteFavouriteBusinesses);
+
+      List<String> remoteBusinessTypes =
+          await MihBusinessDetailsServices().fetchAllBusinessTypes();
+      await cacheBusinessTypes(remoteBusinessTypes);
+      return true;
+    } catch (error) {
+      KenLogger.warning(
+          "Mzansi Directory: MIH App Operating in Offline Mode. Sync Paused");
+      return false;
+    }
+  }
+}

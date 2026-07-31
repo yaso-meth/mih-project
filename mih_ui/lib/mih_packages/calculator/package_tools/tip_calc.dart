@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_alert_services.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_validation_services.dart';
 import 'package:flutter/material.dart';
@@ -212,7 +211,9 @@ class _TipCalcState extends State<TipCalc> {
               ),
             SizedBox(height: 10),
             Consumer(builder: (context, bannerAdDisplay, child) {
-              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+              if (!kIsWeb &&
+                  (defaultTargetPlatform == TargetPlatform.android ||
+                      defaultTargetPlatform == TargetPlatform.iOS)) {
                 return MihBannerAd();
               } else {
                 return const SizedBox(height: 0);
@@ -232,6 +233,11 @@ class _TipCalcState extends State<TipCalc> {
     noPeopleController.text = "2";
     splitPosition = false;
     splitBillController.addListener(splitSelected);
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
   }
 
   @override

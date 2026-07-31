@@ -5,8 +5,6 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_wallet_provider.dart'
 import 'package:flutter/material.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_card_favourites.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mzansi_wallet/package_tools/mih_cards.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_data_helper_services.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_mzansi_wallet_services.dart';
 import 'package:provider/provider.dart';
 
 class MihWallet extends StatefulWidget {
@@ -20,50 +18,33 @@ class MihWallet extends StatefulWidget {
 
 class _MihWalletState extends State<MihWallet> {
   bool _isLoadingInitialData = true;
-  late final MihCards _cards;
-  late final MihCardFavourites _cardFavourites;
 
   Future<void> _loadInitialData() async {
-    setState(() {
-      _isLoadingInitialData = true;
-    });
     MzansiProfileProvider mzansiProfileProvider =
         context.read<MzansiProfileProvider>();
+    mzansiProfileProvider.loadCachedProfileState();
     MzansiWalletProvider walletProvider = context.read<MzansiWalletProvider>();
+    walletProvider.loadCachedWallet();
     if (mzansiProfileProvider.user == null) {
-      await MihDataHelperServices().loadUserDataWithBusinessesData(
-        mzansiProfileProvider,
-      );
+      await mzansiProfileProvider.syncWithMihServerData();
     }
-    await setLoyaltyCards(mzansiProfileProvider, walletProvider);
-    await setFavouritesCards(mzansiProfileProvider, walletProvider);
+    if (walletProvider.loyaltyCards.isEmpty ||
+        walletProvider.isLocalModificationsPending()) {
+      walletProvider.syncWithMihServerData(mzansiProfileProvider);
+    }
     setState(() {
       _isLoadingInitialData = false;
     });
   }
 
-  Future<void> setLoyaltyCards(
-    MzansiProfileProvider mzansiProfileProvider,
-    MzansiWalletProvider walletProvider,
-  ) async {
-    await MIHMzansiWalletApis.getLoyaltyCards(
-        walletProvider, mzansiProfileProvider.user!.app_id, context);
-  }
-
-  Future<void> setFavouritesCards(
-    MzansiProfileProvider mzansiProfileProvider,
-    MzansiWalletProvider walletProvider,
-  ) async {
-    await MIHMzansiWalletApis.getFavouriteLoyaltyCards(
-        walletProvider, mzansiProfileProvider.user!.app_id, context);
-  }
-
   @override
   void initState() {
     super.initState();
-    _cards = MihCards();
-    _cardFavourites = MihCardFavourites();
-    _loadInitialData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadInitialData();
+      }
+    });
   }
 
   @override
@@ -122,8 +103,8 @@ class _MihWalletState extends State<MihWallet> {
 
   List<Widget> getToolBody() {
     return [
-      _cards,
-      _cardFavourites,
+      MihCards(),
+      MihCardFavourites(),
     ];
   }
 

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,14 +15,14 @@ class MIHLocationAPI {
   ///if user has granted permission (while in use), function will return Position object.
   Future<Position?> getGPSPosition(BuildContext context) async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled && !kIsWeb && Platform.isLinux) {
+    if (!serviceEnabled &&
+        !kIsWeb &&
+        defaultTargetPlatform == TargetPlatform.linux) {
       // Direct the user to their System Settings
       MihAlertServices().locationPermissionAlert(context);
       return null;
     }
-    print("Before checkPermission"); // Debug
     LocationPermission permission = await Geolocator.checkPermission();
-    print("After checkPermission: $permission"); // Debug
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {

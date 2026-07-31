@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
+import 'package:mzansi_innovation_hub/mih_packages/mih_home/components/mih_sign_out_warning.dart';
 import 'package:mzansi_innovation_hub/mih_providers/about_mih_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_access_controlls_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_authentication_provider.dart';
@@ -30,25 +31,59 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
   final proPicController = TextEditingController();
   late Widget profilePictureLoaded;
 
-  void resetProviders() {
-    context.read<AboutMihProvider>().reset();
-    context.read<MihAccessControllsProvider>().reset();
+  Future<void> clearCacheAndProviders() async {
     context.read<MihAuthenticationProvider>().reset();
     context.read<MihBannerAdProvider>().reset();
     context.read<MihCalculatorProvider>().reset();
-    context.read<MihCalendarProvider>().reset();
-    context.read<MihMineSweeperProvider>().reset();
     context.read<MzansiAiProvider>().reset();
-    context.read<MzansiDirectoryProvider>().reset();
-    context.read<MzansiWalletProvider>().reset();
-    context.read<PatientManagerProvider>().reset();
+    await context.read<AboutMihProvider>().clearAboutMihCacheAndProvider();
+    await context.read<MzansiWalletProvider>().clearWalletCacheAndProvider();
+    await context
+        .read<MzansiDirectoryProvider>()
+        .clearDirectoryCacheAndProvider();
+    await context
+        .read<MihMineSweeperProvider>()
+        .clearMinesweeperCacheAndProvider();
+    await context.read<MihCalendarProvider>().clearCalendarCacheAndProvider();
+    await context
+        .read<PatientManagerProvider>()
+        .clearPatientManagerCacheAndProvider();
+    context.read<MihAccessControllsProvider>().clearAccessCacheAndProvider();
+    //last clear is always the profile provider
+    await context.read<MzansiProfileProvider>().clearProfileCacheAndProvider();
   }
 
-  Future<bool> signOut() async {
-    await SuperTokens.signOut(completionHandler: (error) {
-      // handle error if any
-    });
-    return true;
+  Future<void> signOut() async {
+    if (!context.mounted) return;
+    final bool continueSignOut = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => const MihSignOutWarning(),
+        ) ??
+        false;
+    if (!continueSignOut) {
+      if (context.mounted) {
+        context.pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          MihSnackBar(
+            child: const Text("Sign Out Cancelled"),
+          ),
+        );
+      }
+      return; // Stop execution here; local data remains safe
+    } else {
+      await SuperTokens.signOut(completionHandler: (error) {
+        print(error);
+      });
+      if (await SuperTokens.doesSessionExist() == false) {
+        await clearCacheAndProviders();
+        if (context.mounted) {
+          context.goNamed(
+            'mihHome',
+          );
+        }
+      }
+    }
   }
 
   Widget displayProPic(MzansiProfileProvider mzansiProfileProvider) {
@@ -79,7 +114,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
         expandable: false,
         editable: false,
         fileNameController: proPicController,
-        onChange: (_) {},
+        onChange: null,
         userSelectedfile: null,
         frameColor: MihColors.primary(),
         backgroundColor: MihColors.secondary(),
@@ -187,32 +222,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                             ),
                           ),
                         ),
-                        // ListTile(
-                        //   title: Row(
-                        //     mainAxisSize: MainAxisSize.max,
-                        //     children: [
-                        //       Icon(
-                        //         Icons.home_outlined,
-                        //         color:
-                        //             MihColors.secondary(),
-                        //       ),
-                        //       const SizedBox(width: 25.0),
-                        //       Text(
-                        //         "Home",
-                        //         style: TextStyle(
-                        //           //fontWeight: FontWeight.bold,
-                        //           color: MzansiInnovationHub.of(context)!
-                        //               .theme
-                        //               .secondaryColor(),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   onTap: () {
-                        //     Navigator.of(context)
-                        //         .pushNamedAndRemoveUntil('/', (route) => false);
-                        //   },
-                        // ),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -285,20 +294,7 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                                   ],
                                 ),
                                 onTap: () async {
-                                  await SuperTokens.signOut(
-                                      completionHandler: (error) {
-                                    print(error);
-                                  });
-                                  if (await SuperTokens.doesSessionExist() ==
-                                      false) {
-                                    resetProviders();
-                                    await Future.delayed(Duration.zero);
-                                    if (context.mounted) {
-                                      context.goNamed(
-                                        'mihHome',
-                                      );
-                                    }
-                                  }
+                                  signOut();
                                 },
                               ),
                             ],
@@ -313,21 +309,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                       height: 30,
                       child: InkWell(
                         onTap: () {
-                          // setState(() {
-                          //   if (MzansiInnovationHub.of(context)?.theme.mode ==
-                          //       "Dark") {
-                          //     //darkm = !darkm;
-                          //     MzansiInnovationHub.of(context)!
-                          //         .changeTheme(ThemeMode.light);
-                          //     //print("Dark Mode: $darkm");
-                          //   } else {
-                          //     //darkm = !darkm;
-                          //     MzansiInnovationHub.of(context)!
-                          //         .changeTheme(ThemeMode.dark);
-                          //     //print("Dark Mode: $darkm");
-                          //   }
-                          //   // Navigator.of(context).popAndPushNamed('/',);
-                          // });
                           context.goNamed("aboutMih");
                         },
                         child: Icon(
@@ -335,27 +316,6 @@ class _MIHAppDrawerState extends State<MIHAppDrawer> {
                           color: MihColors.primary(),
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     setState(() {
-                      //       if (MzansiInnovationHub.of(context)?.theme.mode == "Dark") {
-                      //         //darkm = !darkm;
-                      //         MzansiInnovationHub.of(context)!.changeTheme(ThemeMode.light);
-                      //         //print("Dark Mode: $darkm");
-                      //       } else {
-                      //         //darkm = !darkm;
-                      //         MzansiInnovationHub.of(context)!.changeTheme(ThemeMode.dark);
-                      //         //print("Dark Mode: $darkm");
-                      //       }
-                      //       Navigator.of(context).popAndPushNamed('/');
-                      //     });
-                      //   },
-                      //   icon: Icon(
-                      //     Icons.light_mode,
-                      //     color: MihColors.primary(),
-                      //     size: 35,
-                      //   ),
-                      // ),
                     ),
                   ],
                 );

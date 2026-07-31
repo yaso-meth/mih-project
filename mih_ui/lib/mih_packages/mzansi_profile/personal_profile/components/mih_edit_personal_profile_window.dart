@@ -1,7 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
 import 'package:mzansi_innovation_hub/main.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_circle_avatar.dart';
@@ -57,23 +56,26 @@ class _MihEditPersonalProfileWindowState
   }
 
   Future<void> submitForm(MzansiProfileProvider mzansiProfileProvider) async {
-    if (mzansiProfileProvider.user!.username != usernameController.text) {
-      bool isUsernameUnique = await MihUserServices.isUsernameUnique(
-          usernameController.text, context);
-      if (isUsernameUnique == false) {
-        notUniqueAlert();
-        return;
+    try {
+      if (mzansiProfileProvider.user!.username != usernameController.text) {
+        bool isUsernameUnique = await MihUserServices.isUsernameUnique(
+            usernameController.text, context);
+        if (isUsernameUnique == false) {
+          notUniqueAlert();
+          return;
+        }
       }
+      if (oldProPicName != proPicController.text) {
+        await uploadSelectedFile(mzansiProfileProvider, newSelectedProPic);
+      }
+      await updateUserApiCall(mzansiProfileProvider);
+    } catch (erro) {
+      MihAlertServices().internetConnectionAlert(context);
     }
-    if (oldProPicName != proPicController.text) {
-      await uploadSelectedFile(mzansiProfileProvider, newSelectedProPic);
-    }
-    await updateUserApiCall(mzansiProfileProvider);
   }
 
   Future<void> updateUserApiCall(
       MzansiProfileProvider mzansiProfileProvider) async {
-    KenLogger.success("businessUser: $businessUser");
     int responseCode = await MihUserServices().updateUserV2(
       mzansiProfileProvider.user!,
       fnameController.text,
@@ -86,12 +88,9 @@ class _MihEditPersonalProfileWindowState
     );
     if (responseCode == 200) {
       setState(() {
-        setProfileVariables(mzansiProfileProvider);
         newSelectedProPic = null;
       });
-      // if (originalProfileTypeIsBusiness == false && businessUser == true) {
-      //   stayOnPersonalSide = false;
-      // }
+      mzansiProfileProvider.syncWithMihServerData();
       String message = "Your information has been updated successfully!";
       successPopUp(
         mzansiProfileProvider,
@@ -341,6 +340,17 @@ class _MihEditPersonalProfileWindowState
                             requiredText: true,
                             readOnly: true,
                             hintText: "Selected File Name",
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "*NB: Internet connection required to update profile.",
+                            style: TextStyle(
+                              color: MihColors.red(),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10.0),

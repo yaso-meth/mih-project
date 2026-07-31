@@ -32,6 +32,24 @@ class MihMyBusinessUserServices {
     }
   }
 
+  Future<BusinessUser?> getBusinessUserV2() async {
+    String app_id = await SuperTokens.getUserId();
+    var response = await http.get(
+      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/$app_id"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    );
+    if (response.statusCode == 200) {
+      // KenLogger.success(response.body);
+      BusinessUser? businessUser =
+          BusinessUser.fromJson(jsonDecode(response.body));
+      return businessUser;
+    } else {
+      return null;
+    }
+  }
+
   Future<int> createBusinessUser(
     String business_id,
     String app_id,
@@ -41,12 +59,6 @@ class MihMyBusinessUserServices {
     MzansiProfileProvider provider,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     String filename = signatureFilename.replaceAll(RegExp(r' '), '-');
     String sigPath = "$business_id/business_files/$signatureFilename";
     var response = await http.post(
@@ -63,7 +75,6 @@ class MihMyBusinessUserServices {
         "access": access,
       }),
     );
-    context.pop();
     if (response.statusCode == 201) {
       provider.setBusinessUser(
         newBusinessUser: BusinessUser(
@@ -86,30 +97,25 @@ class MihMyBusinessUserServices {
     MzansiProfileProvider provider,
     BuildContext context,
   ) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Mihloadingcircle();
-      },
-    );
     var filename = signatureFileName.replaceAll(RegExp(r' '), '-');
     var filePath =
         "$app_id/business_files/${signatureFileName.replaceAll(RegExp(r' '), '-')}";
-    var response = await http.put(
-      Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
-      headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: jsonEncode(<String, dynamic>{
-        "business_id": business_id,
-        "app_id": app_id,
-        "signature": filename,
-        "sig_path": filePath,
-        "title": bUserTitle,
-        "access": bUserAccess,
-      }),
-    );
-    context.pop();
+    var response = await http
+        .put(
+          Uri.parse("${AppEnviroment.baseApiUrl}/business-user/update/"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "business_id": business_id,
+            "app_id": app_id,
+            "signature": filename,
+            "sig_path": filePath,
+            "title": bUserTitle,
+            "access": bUserAccess,
+          }),
+        )
+        .timeout(const Duration(seconds: 5));
     if (response.statusCode == 200) {
       provider.setBusinessUser(
         newBusinessUser: BusinessUser(
@@ -122,7 +128,7 @@ class MihMyBusinessUserServices {
           bUserAccess,
         ),
       );
-      String newProPicUrl = await MihFileApi.getMinioFileUrl(filePath);
+      String newProPicUrl = MihFileApi.getMinioFileUrlV2(filePath);
       provider.setBusinessUserSignatureUrl(newProPicUrl);
       return 200;
     } else {

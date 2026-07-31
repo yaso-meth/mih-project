@@ -1,19 +1,19 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_objects/minesweeper_player_score.dart';
 import 'package:mzansi_innovation_hub/mih_package_components/mih_banner_ad.dart';
+import 'package:mzansi_innovation_hub/mih_providers/mih_banner_ad_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mih_mine_sweeper_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/board_square.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/mih_mine_sweeper_start_game_window.dart';
 import 'package:mzansi_innovation_hub/mih_packages/mine_sweeper/components/mine_tile.dart';
-import 'package:mzansi_innovation_hub/mih_services/mih_minesweeper_services.dart';
 import 'package:provider/provider.dart';
 
 class MineSweeperGame extends StatefulWidget {
@@ -47,7 +47,7 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
           (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 100);
       return totalSeconds;
     } catch (e) {
-      print("Error parsing time string: $e");
+      KenLogger.error("Error parsing time string: $e");
       return 0.0;
     }
   }
@@ -279,15 +279,15 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   // --- GAME ACTION LOGIC ---
   Future<void> _checkWinCondition(
     MzansiProfileProvider profileProvider,
-    MihMineSweeperProvider mihMineSweeperProvider,
+    MihMineSweeperProvider mineSweeperProvider,
   ) async {
     // Game is won if all non-mine squares are opened.
-    if (squaresLeft <= mihMineSweeperProvider.totalMines) {
+    if (squaresLeft <= mineSweeperProvider.totalMines) {
       stopTimer();
       isGameWon = true;
       isGameOver = true;
       // win alert
-      winAlert(mihMineSweeperProvider);
+      winAlert(mineSweeperProvider);
       showDialog(
           context: context,
           builder: (context) {
@@ -295,11 +295,25 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
               message: "Uploading your score",
             );
           });
-      await MihMinesweeperServices().addPlayerScore(
+      // await MihMinesweeperServices().addPlayerScore(
+      //   profileProvider,
+      //   mihMineSweeperProvider,
+      //   _formatTime().replaceAll("00:", ""),
+      //   calculateGameScore(mihMineSweeperProvider),
+      // );
+      DateTime now = DateTime.now();
+      mineSweeperProvider.addNewScoreLocally(
         profileProvider,
-        mihMineSweeperProvider,
-        _formatTime().replaceAll("00:", ""),
-        calculateGameScore(mihMineSweeperProvider),
+        mineSweeperProvider,
+        MinesweeperPlayerScore(
+          app_id: profileProvider.user!.app_id,
+          username: profileProvider.user!.username,
+          proPicUrl: profileProvider.user!.pro_pic_path,
+          difficulty: mineSweeperProvider.difficulty,
+          game_time: _formatTime().replaceAll("00:", ""),
+          game_score: calculateGameScore(mineSweeperProvider),
+          played_date: now,
+        ),
       );
       context.pop();
     }
@@ -528,7 +542,6 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                   ),
                   MihButton(
                     onPressed: () {
-                      mihMineSweeperProvider.setLeaderboard(leaderboard: null);
                       context.pop();
                       mihMineSweeperProvider.setToolIndex(1);
                     },
@@ -562,6 +575,11 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
   void initState() {
     // UBongani was here during the MIH Live
     super.initState();
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      context.read<MihBannerAdProvider>().loadBannerAd();
+    }
   }
 
   @override
@@ -777,9 +795,11 @@ class _MineSweeperGameState extends State<MineSweeperGame> {
                 ],
               ),
             ),
-            _timer != null && !kIsWeb && (Platform.isAndroid || Platform.isIOS)
-                ? MihBannerAd()
-                : SizedBox(),
+            if (_timer != null &&
+                !kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.iOS))
+              MihBannerAd(),
             SizedBox(height: 10),
           ],
         );

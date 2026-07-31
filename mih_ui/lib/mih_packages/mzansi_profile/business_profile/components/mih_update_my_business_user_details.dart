@@ -76,31 +76,45 @@ class _MihUpdateMyBusinessUserDetailsState
 
   Future<void> submitForm(MzansiProfileProvider mzansiProfileProvider) async {
     if (isFormFilled()) {
-      bool successfullyUploadedFile = await uploadFile(mzansiProfileProvider);
-      if (!mounted) return;
-      if (successfullyUploadedFile) {
-        int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
-          mzansiProfileProvider.user!.app_id,
-          mzansiProfileProvider.businessUser!.business_id,
-          titleTextController.text,
-          accessController.text,
-          signtureController.text,
-          mzansiProfileProvider,
-          context,
+      try {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return const Mihloadingcircle();
+          },
         );
+        bool successfullyUploadedFile = await uploadFile(mzansiProfileProvider);
         if (!mounted) return;
-        if (statusCode == 200) {
-          String message = "Business details updated successfully";
-          context.pop();
-          successPopUp(message, false);
-        } else {
-          MihAlertServices().errorBasicAlert(
-            "Error Updating Business User Details",
-            "An error occurred while updating the business User details. Please check internet connection and try again.",
+        if (successfullyUploadedFile) {
+          int statusCode = await MihMyBusinessUserServices().updateBusinessUser(
+            mzansiProfileProvider.user!.app_id,
+            mzansiProfileProvider.businessUser!.business_id,
+            titleTextController.text,
+            accessController.text,
+            signtureController.text,
+            mzansiProfileProvider,
             context,
           );
+          if (!mounted) return;
+          if (statusCode == 200) {
+            String message = "Business details updated successfully";
+            context.pop();
+            context.pop();
+            successPopUp(message, false);
+          } else {
+            context.pop();
+            MihAlertServices().errorBasicAlert(
+              "Error Updating Business User Details",
+              "An error occurred while updating the business User details. Please check internet connection and try again.",
+              context,
+            );
+          }
+        } else {
+          context.pop();
+          MihAlertServices().internetConnectionAlert(context);
         }
-      } else {
+      } catch (error) {
+        context.pop();
         MihAlertServices().internetConnectionAlert(context);
       }
     } else {
@@ -125,8 +139,8 @@ class _MihUpdateMyBusinessUserDetailsState
           child: Padding(
             padding:
                 MzansiInnovationHub.of(context)!.theme.screenType == "desktop"
-                    ? EdgeInsets.symmetric(horizontal: width * 0.2)
-                    : EdgeInsets.symmetric(horizontal: width * 0.075),
+                    ? EdgeInsets.symmetric(horizontal: width * 0.05)
+                    : EdgeInsets.symmetric(horizontal: width * 0),
             child: Stack(
               children: [
                 Column(
@@ -134,33 +148,17 @@ class _MihUpdateMyBusinessUserDetailsState
                     MihForm(
                       formKey: _formKey,
                       formFields: [
-                        // Center(
-                        //   child: MihCircleAvatar(
-                        //     imageFile: mzansiProfileProvider.userProfilePicture,
-                        //     width: 150,
-                        //     editable: false,
-                        //     fileNameController: fileNameController,
-                        //     userSelectedfile: userPicFile,
-                        //     frameColor: MihColors.secondary(
-                        //         MzansiInnovationHub.of(context)!.theme.mode ==
-                        //             "Dark"),
-                        //     backgroundColor: MihColors.primary(
-                        //         MzansiInnovationHub.of(context)!.theme.mode ==
-                        //             "Dark"),
-                        //     onChange: (_) {},
-                        //   ),
-                        // ),
-                        Visibility(
-                          visible: false,
-                          child: MihTextFormField(
-                            fillColor: MihColors.secondary(),
-                            inputColor: MihColors.primary(),
-                            controller: fileNameController,
-                            multiLineInput: false,
-                            requiredText: true,
-                            readOnly: true,
-                            hintText: "Selected File Name",
-                          ),
+                        const SizedBox(height: 20.0),
+                        Row(
+                          children: [
+                            Text(
+                              "*NB: Internet connection required to update business user.",
+                              style: TextStyle(
+                                color: MihColors.red(),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10),
                         MihTextFormField(
@@ -231,9 +229,10 @@ class _MihUpdateMyBusinessUserDetailsState
                             imageFile: newSelectedSignaturePic != null
                                 ? MemoryImage(newSelectedSignaturePic!.bytes!)
                                 : mzansiProfileProvider.businessUserSignature,
-                            width: 300,
                             height: 200,
+                            expandable: true,
                             editable: true,
+                            blur: mzansiProfileProvider.hideBusinessUserDetails,
                             fileNameController: signtureController,
                             userSelectedfile: newSelectedSignaturePic,
                             onChange: (selectedFile) {

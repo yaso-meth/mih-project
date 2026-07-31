@@ -1,17 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:ai_response_cleaner/ai_response_cleaner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
+import 'package:flutter_gen_ai_chat_ui/flutter_gen_ai_chat_ui.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:intl/intl.dart';
 import 'package:ken_logger/ken_logger.dart';
 import 'package:mih_package_toolkit/mih_package_toolkit.dart';
+import 'package:mzansi_innovation_hub/mih_helpers/mih_tts_stub.dart'
+    if (dart.library.js_interop) 'package:mzansi_innovation_hub/mih_helpers/mih_tts_web.dart';
+import 'package:mzansi_innovation_hub/mih_package_components/mih_image_display.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_ai_provider.dart';
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
+import 'package:mzansi_innovation_hub/mih_services/mih_file_services.dart';
+import 'package:ollama_dart/ollama_dart.dart' as ollama;
 import 'package:provider/provider.dart';
+import 'package:text_to_speech_plus/text_to_speech_plus.dart';
 
 class MihAiChat extends StatefulWidget {
   const MihAiChat({super.key});
@@ -21,233 +25,144 @@ class MihAiChat extends StatefulWidget {
 }
 
 class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
-  final FlutterTts _flutterTts = FlutterTts();
-  bool _isKeyboardVisible = false;
+  late final ChatMessagesController _chatController;
+  late final ChatUser _currentUser;
+  late final ChatUser _aiUser;
+  late MzansiAiProvider _aiProvider;
+  final TextToSpeechPlus _tts = TextToSpeechPlus();
+  final StringBuffer _fullResponse = StringBuffer();
+  bool _isFirstTtsChunk = true;
+  Uint8List? _pendingBase64Image;
+  bool _isLoading = false;
+  bool _isTalking = false;
 
-  Widget noMessagescDisplay() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 50),
-            Icon(
-              MihIcons.mzansiAi,
-              size: 165,
-              color: MihColors.secondary(),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Mzansi AI is here to help",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: MihColors.secondary(),
-              ),
-            ),
-            const SizedBox(height: 25),
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: MihColors.secondary(),
-                  ),
-                  children: [
-                    TextSpan(
-                        text:
-                            "Send us a message and we'll try our best to assist you"),
-                  ],
-                ),
-              ),
-            ),
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: MihColors.secondary(),
-                  ),
-                  children: [
-                    TextSpan(text: "Press "),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.menu,
-                        size: 20,
-                        color: MihColors.secondary(),
-                      ),
-                    ),
-                    TextSpan(text: " to start a new chat or read last message"),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+  void initialiseControllers(MzansiProfileProvider profileProvider) {
+    _chatController = ChatMessagesController();
+    _currentUser = ChatUser(
+      id: profileProvider.user!.app_id,
+      firstName: profileProvider.user!.username,
+    );
+    _aiUser = ChatUser(
+      id: 'mzansi_ai',
+      firstName: 'Mzansi AI',
     );
   }
 
+  void _loadExistingHistory(MzansiAiProvider aiProvider) {
+    final history = aiProvider.ollamaProvider.history;
+    for (final msg in history) {
+      KenLogger.info(msg.content);
+      final isUser = msg.role == ollama.MessageRole.user;
+      final chatMessage = ChatMessage(
+        text: msg.content,
+        createdAt: DateTime.now(),
+        user: isUser ? _currentUser : _aiUser,
+      );
+      _chatController.addMessage(chatMessage);
+    }
+  }
+
   void resetChat(MzansiAiProvider aiProvider) {
+    stopTTS(aiProvider);
+    _chatController.clearMessages();
+    _chatController.showWelcomeMessage = true;
     aiProvider.ollamaProvider.resetChat();
   }
 
-  void speakLastMessage(MzansiAiProvider aiProvider) {
-    final history = aiProvider.ollamaProvider.history;
-    if (history.isEmpty) return;
-
-    final historyList = history.toList();
-    String? textToSpeak;
-
-    // Find the last LLM message
-    for (int i = historyList.length - 1; i >= 0; i--) {
-      if (historyList[i].origin == MessageOrigin.llm &&
-          historyList[i].text != null &&
-          historyList[i].text!.isNotEmpty) {
-        textToSpeak = historyList[i].text!;
-        break;
+  Future<void> _speakText(String text, {bool enqueue = false}) async {
+    if (text.trim().isEmpty) return;
+    if (kIsWasm) {
+      try {
+        speakOnWeb(AiResponseCleaner.clean(text), enqueue: enqueue);
+      } catch (error) {
+        KenLogger.error("WASM TTS Error: $error");
       }
-    }
-
-    if (textToSpeak != null) {
-      if (!kIsWeb && Platform.isLinux) {
-        // Linux Workaround: Use Speech Dispatcher (standard on most distros)
-        // '-t female1' is optional for voice variety
-        Process.run('spd-say', [textToSpeak]);
-
-        // Since spd-say doesn't have an easy "completion handler" via CLI,
-        // we manually toggle the UI state or just leave it off.
-        aiProvider.setTTSstate(true);
-        Future.delayed(
-            Duration(seconds: 5), () => aiProvider.setTTSstate(false));
-      } else {
-        // Your existing mobile/web logic
-        _flutterTts.speak(textToSpeak);
+    } else if (!kIsWeb && Platform.isLinux) {
+      final args = [
+        '-o',
+        'espeak-ng',
+        '-y',
+        'en+f3',
+        '-r',
+        '0',
+        '-p',
+        '12',
+        if (enqueue) '-e',
+        AiResponseCleaner.clean(text),
+      ];
+      try {
+        await Process.run('spd-say', args).timeout(
+          const Duration(seconds: 2),
+          onTimeout: () => ProcessResult(-1, -1, '', 'spd-say timed out'),
+        );
+      } catch (e) {
+        KenLogger.error("Linux TTS error: $e");
       }
-    }
-  }
-
-  void saveHistory(
-      MzansiProfileProvider profileProvider, MzansiAiProvider aiProvider) {
-    final history = aiProvider.ollamaProvider.history.toList();
-    DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
-    String formattedDateTimeNow = formatter.format(now);
-
-    // 1. Build the list of message Maps
-    List<Map<String, dynamic>> messages = [];
-    for (int i = 0; i < history.length; i++) {
-      final map = history[i].toJson();
-      map["order"] = i; // Add the order field
-      messages.add(map);
-    }
-
-    // 2. Build the main history Map (the root JSON object)
-    final historyMap = <String, dynamic>{
-      "conversation_id": "1234-asdf-5678-qwert",
-      "app_id": profileProvider.user!.app_id,
-      "modified_date": formattedDateTimeNow,
-      "messages": messages, // The list of messages is included here
-    };
-
-    // 3. Use JsonEncoder to convert the entire Map to a formatted JSON string
-    const encoder = JsonEncoder.withIndent(' ');
-    String jsonHistory = encoder.convert(historyMap);
-
-    // The output string will now be a correctly formatted and escaped JSON object.
-    debugPrint("History: $jsonHistory");
-  }
-
-  // void saveHistory(
-  //     MzansiProfileProvider profileProvider, MzansiAiProvider aiProvider) {
-  //   final history = aiProvider.ollamaProvider.history.toList();
-  //   DateTime now = DateTime.now();
-  //   DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
-  //   String formattedDateTimeNow = formatter.format(now);
-  //   String jsonHistory = '{"conversation_id":"1234-asdf-5678-qwert",\n';
-  //   jsonHistory += '"app_id":"${profileProvider.user!.app_id}",\n';
-  //   jsonHistory += '"modified_date":"$formattedDateTimeNow",\n';
-  //   jsonHistory += '"messages":[\n';
-  //   KenLogger.success("History Length: ${history.length}");
-  //   for (int i = 0; i != history.length; i++) {
-  //     final map = history[i].toJson();
-  //     map["order"] = i;
-  //     final json = JsonEncoder.withIndent(' ').convert(map);
-  //     jsonHistory += json;
-  //     if (i != history.length - 1) {
-  //       KenLogger.success("i: $i");
-  //       jsonHistory += ",";
-  //     }
-  //     jsonHistory += "\n";
-  //   }
-  //   jsonHistory += ']}';
-  //   debugPrint("History: $jsonHistory");
-  // }
-
-  void stopTTS(MzansiAiProvider aiProvider) {
-    if (!kIsWeb && Platform.isLinux) {
-      Process.run('spd-say', ['-S']); // The -S flag stops current speech
     } else {
-      _flutterTts.stop();
+      await _tts.speak(text, enqueue: enqueue);
+    }
+  }
+
+  void stopTTS(MzansiAiProvider aiProvider) async {
+    if (kIsWasm) {
+      stopOnWeb();
+    } else if (!kIsWeb && Platform.isLinux) {
+      try {
+        await Process.run('spd-say', ['-C']).timeout(
+          const Duration(seconds: 1),
+          onTimeout: () => ProcessResult(-1, -1, '', 'spd-say timed out'),
+        );
+      } catch (e) {
+        KenLogger.error("Failed to stop Linux TTS: $e");
+      }
+    } else {
+      _tts.stop();
     }
     aiProvider.setTTSstate(false);
   }
 
-  Future<void> initTts(MzansiAiProvider aiProvider) async {
-    if (!kIsWeb && Platform.isLinux) return;
-    try {
-      await _flutterTts.setSpeechRate(!kIsWeb ? 0.55 : 1);
-      // await _flutterTts.setLanguage("en-US");
-
-      // Safer voice selection with error handling
-      _flutterTts.getVoices.then((data) {
-        try {
-          final voices = List<Map>.from(data);
-          final englishVoices = voices.where((voice) {
-            final name = voice["name"]?.toString().toLowerCase() ?? '';
-            final locale = voice["locale"]?.toString().toLowerCase() ?? '';
-            return name.contains("en-us") || locale.contains("en_us");
-          }).toList();
-
-          if (englishVoices.isNotEmpty) {
-            // Use the first available English voice
-            _flutterTts.setVoice({"name": englishVoices.first["name"]});
+  void toggleTTS(MzansiAiProvider aiProvider) {
+    unlockWebAudio();
+    if (aiProvider.ttsOn) {
+      stopTTS(aiProvider);
+    } else {
+      aiProvider.setTTSstate(true);
+      _isFirstTtsChunk = false;
+      if (_isLoading && _fullResponse.isNotEmpty) {
+        _speakText(_fullResponse.toString(), enqueue: false);
+      } else {
+        final history = aiProvider.ollamaProvider.history;
+        if (history.isNotEmpty) {
+          final aiMessages =
+              history.where((msg) => msg.role != ollama.MessageRole.user);
+          if (aiMessages.isNotEmpty) {
+            final lastAiMessage = aiMessages.last;
+            if (lastAiMessage.content.isNotEmpty) {
+              _speakText(lastAiMessage.content, enqueue: false);
+            }
           }
-          // If no voices found, use default
-        } catch (e) {
-          KenLogger.error("Error setting TTS voice: $e");
         }
-      });
-    } catch (e) {
-      KenLogger.error("Error initializing TTS: $e");
+      }
     }
+  }
 
-    _flutterTts.setStartHandler(() {
-      if (mounted) {
-        aiProvider.setTTSstate(true);
+  Future<void> initTts(MzansiAiProvider aiProvider) async {
+    if (!kIsWeb && Platform.isLinux) {
+      return;
+    } else {
+      List<dynamic>? allVoices = await _tts.voices;
+      KenLogger.info("Voices: ${allVoices!.length}");
+      var myVoices = allVoices
+          .where((v) =>
+              v['locale'] == 'en-US' &&
+              v['gender'] == 'female' &&
+              v['is_neural'] == '1')
+          .toList();
+      KenLogger.info("My Voices: ${myVoices.length}");
+      if (myVoices.isNotEmpty) {
+        await _tts.setVoice(Map<String, String>.from(myVoices.first));
       }
-    });
-
-    _flutterTts.setCompletionHandler(() {
-      if (mounted) {
-        aiProvider.setTTSstate(false);
-      }
-    });
-
-    _flutterTts.setErrorHandler((message) {
-      if (mounted) {
-        aiProvider.setTTSstate(false);
-      }
-    });
+    }
   }
 
   void initStartQuestion() {
@@ -263,83 +178,244 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
     });
   }
 
+  Future<void> _handleSendMessage(ChatMessage message) async {
+    setState(() => _isLoading = true);
+    _chatController.addMessage(message);
+
+    final aiMessageId = DateTime.now().millisecondsSinceEpoch.toString();
+    final aiMessage = ChatMessage(
+      text: '',
+      createdAt: DateTime.now(),
+      user: _aiUser,
+      isMarkdown: true,
+      customProperties: {
+        'id': aiMessageId,
+        'isStreaming': true,
+      },
+    );
+
+    _chatController.addStreamingMessage(aiMessage);
+    final List<String>? images = _pendingBase64Image != null
+        ? [base64Encode(_pendingBase64Image!)]
+        : null;
+    setState(() {
+      _pendingBase64Image = null;
+    });
+    _fullResponse.clear();
+    _isFirstTtsChunk = true;
+    try {
+      MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
+      final stream = aiProvider.ollamaProvider.sendMessageStream(
+        message.text,
+        images: images,
+      );
+      await for (final chunk in stream) {
+        if (!_isTalking) {
+          setState(() {
+            _isTalking = true;
+          });
+        }
+        _fullResponse.write(chunk);
+        if (aiProvider.ttsOn && chunk.isNotEmpty) {
+          if (_isFirstTtsChunk) {
+            _speakText(chunk, enqueue: false);
+            _isFirstTtsChunk = false;
+          } else {
+            _speakText(chunk, enqueue: true);
+          }
+        }
+        _chatController.updateMessage(
+          ChatMessage(
+            text: _fullResponse.toString(),
+            createdAt: DateTime.now(),
+            user: _aiUser,
+            isMarkdown: true,
+            customProperties: {
+              'id': aiMessageId,
+              'isStreaming': true,
+            },
+          ),
+        );
+      }
+      String response = _fullResponse.isNotEmpty
+          ? _fullResponse.toString()
+          : "Please bear with us as we are still learning and do not have all the answers.";
+      _chatController.updateMessage(
+        ChatMessage(
+          text: response,
+          createdAt: DateTime.now(),
+          user: _aiUser,
+          isMarkdown: true,
+          customProperties: {
+            'id': aiMessageId,
+            'isStreaming': false,
+          },
+        ),
+      );
+      _chatController.stopStreamingMessage(aiMessageId);
+    } catch (e) {
+      KenLogger.error("Error generating stream: $e");
+      _chatController.stopStreamingMessage(aiMessageId);
+      _chatController.updateMessage(
+        ChatMessage(
+          text:
+              "Connection failed. Please check your internet connection or try again later.",
+          createdAt: DateTime.now(),
+          user: _aiUser,
+          isMarkdown: true,
+          customProperties: {
+            'id': aiMessageId,
+            'isStreaming': false,
+          },
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+        _isTalking = false;
+      });
+    }
+  }
+
+  void _stopGenerating() {
+    final aiProvider = context.read<MzansiAiProvider>();
+    aiProvider.ollamaProvider.stopGenerating();
+  }
+
+  Widget imagePreview() {
+    if (_pendingBase64Image == null) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+      child: Row(
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              MihImageDisplay(
+                imageFile: MemoryImage(_pendingBase64Image!),
+                height: 100,
+                expandable: true,
+                editable: false,
+                blur: false,
+              ),
+              Positioned(
+                top: -6,
+                right: -6,
+                child: GestureDetector(
+                  onTap: () => setState(() => _pendingBase64Image = null),
+                  child: CircleAvatar(
+                    radius: 12,
+                    backgroundColor: MihColors.secondary(),
+                    child: const Icon(Icons.close, size: 14),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget fileUploadButton() {
+    return IconButton(
+      icon: Icon(
+        Icons.attach_file_rounded,
+        color: MihColors.secondary(),
+      ),
+      tooltip: 'Attach Image',
+      onPressed: () async {
+        final platformFile = await MihFileApi.pickImage();
+        if (platformFile != null) {
+          final bytes = await platformFile.readAsBytes();
+          setState(() {
+            _pendingBase64Image = bytes;
+          });
+        }
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     MzansiAiProvider aiProvider = context.read<MzansiAiProvider>();
+    MzansiProfileProvider profileProvider =
+        context.read<MzansiProfileProvider>();
+    initialiseControllers(profileProvider);
+    _loadExistingHistory(aiProvider);
     initTts(aiProvider);
     initStartQuestion();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    if (!kIsWeb && !Platform.isLinux) {
-      _flutterTts.stop();
-    }
-    WidgetsBinding.instance.removeObserver(this);
+    stopTTS(_aiProvider);
     super.dispose();
   }
 
   @override
-  void didChangeMetrics() {
-    final bottomInset = WidgetsBinding
-        .instance.platformDispatcher.views.first.viewInsets.bottom;
-    setState(() {
-      _isKeyboardVisible = bottomInset > 0;
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _aiProvider = Provider.of<MzansiAiProvider>(context, listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<MzansiProfileProvider, MzansiAiProvider>(
-      builder: (BuildContext context, MzansiProfileProvider profileProvider,
-          MzansiAiProvider aiProvider, Widget? child) {
-        bool hasHistory = aiProvider.ollamaProvider.history.isNotEmpty;
-        String? lastMessage;
-        if (hasHistory) {
-          final histroyList = aiProvider.ollamaProvider.history.toList();
-          lastMessage = histroyList[histroyList.length - 1].text;
-        }
-
+      builder: (
+        BuildContext context,
+        MzansiProfileProvider profileProvider,
+        MzansiAiProvider aiProvider,
+        Widget? child,
+      ) {
+        double width = MediaQuery.sizeOf(context).width;
+        final history = aiProvider.ollamaProvider.history;
         return Stack(
           children: [
-            LlmChatView(
-              provider: aiProvider.ollamaProvider,
-              messageSender: aiProvider.ollamaProvider.sendMessageStream,
-              speechToText: aiProvider.ollamaProvider.speechToText,
-              // welcomeMessage:
-              //     "Mzansi AI is here to help. Send us a messahe and we'll try our best to assist you.",
-              autofocus: false,
-              enableAttachments: true,
-              enableVoiceNotes: false,
-              style: aiProvider.getChatStyle(context),
-              suggestions: [
-                "What is MIH all about?",
-                "What are the features of MIH?"
+            AiChatWidget(
+              currentUser: _currentUser,
+              aiUser: _aiUser,
+              controller: _chatController,
+              onSendMessage: _handleSendMessage,
+              onCancelGenerating: _stopGenerating,
+              loadingConfig: aiProvider.getLoadingConfig(
+                _isLoading,
+                _isTalking,
+              ),
+              exampleQuestions: [
+                ExampleQuestion(
+                  question: "What is MIH all about?",
+                  config: aiProvider.getExampleQuestionCOnfig(),
+                ),
+                ExampleQuestion(
+                  question: "What are the features of MIH?",
+                  config: aiProvider.getExampleQuestionCOnfig(),
+                ),
               ],
+              welcomeMessageConfig: aiProvider.getWelcomeMessageConfig(
+                profileProvider.user!.fname,
+                width,
+                context,
+              ),
+              inputOptions: aiProvider.getInputOptions(
+                attachmentPreviewBuilder: (context) {
+                  return imagePreview();
+                },
+              ),
+              messageOptions: aiProvider.getMessageOptions(context),
+              scrollToBottomOptions: aiProvider.getScrollToBottomOptions(),
+              fileUploadOptions: FileUploadOptions(
+                enabled: true,
+                maxFilesPerMessage: 1,
+                customUploadButtonBuilder: (context, defaultOnPressed) {
+                  return fileUploadButton();
+                },
+              ),
             ),
-            // Positioned(
-            //   top: 10,
-            //   left: 10,
-            //   child: MihButton(
-            //     width: 200,
-            //     height: 30,
-            //     onPressed: () {
-            //       saveHistory(profileProvider, aiProvider);
-            //     },
-            //     buttonColor: MihColors.green(
-            //         ),
-            //     child: Text(
-            //       "View History as json",
-            //       style: TextStyle(
-            //         color: MihColors.primary(
-            //             ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            if (hasHistory && lastMessage != null)
+            if (history.isNotEmpty)
               Positioned(
                 bottom: 80,
                 left: 10,
@@ -347,11 +423,7 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                   width: 35,
                   height: 35,
                   onPressed: () {
-                    if (!aiProvider.ttsOn) {
-                      speakLastMessage(aiProvider);
-                    } else {
-                      stopTTS(aiProvider);
-                    }
+                    toggleTTS(aiProvider);
                   },
                   buttonColor:
                       !aiProvider.ttsOn ? MihColors.green() : MihColors.red(),
@@ -361,32 +433,32 @@ class _MihAiChatState extends State<MihAiChat> with WidgetsBindingObserver {
                   ),
                 ),
               ),
-            Positioned(
-              right: 10,
-              bottom: 80,
-              child: MihFloatingMenu(
-                animatedIcon: AnimatedIcons.menu_close,
-                children: [
-                  SpeedDialChild(
-                    child: Icon(
-                      Icons.refresh,
-                      color: MihColors.primary(),
+            if (history.isNotEmpty)
+              Positioned(
+                right: 10,
+                bottom: 80,
+                child: MihFloatingMenu(
+                  animatedIcon: AnimatedIcons.menu_close,
+                  children: [
+                    SpeedDialChild(
+                      child: Icon(
+                        Icons.refresh,
+                        color: MihColors.primary(),
+                      ),
+                      label: "New Chat",
+                      labelBackgroundColor: MihColors.green(),
+                      labelStyle: TextStyle(
+                        color: MihColors.primary(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      backgroundColor: MihColors.green(),
+                      onTap: () {
+                        resetChat(aiProvider);
+                      },
                     ),
-                    label: "New Chat",
-                    labelBackgroundColor: MihColors.green(),
-                    labelStyle: TextStyle(
-                      color: MihColors.primary(),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: MihColors.green(),
-                    onTap: () {
-                      resetChat(aiProvider);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (!hasHistory && !_isKeyboardVisible) noMessagescDisplay(),
           ],
         );
       },

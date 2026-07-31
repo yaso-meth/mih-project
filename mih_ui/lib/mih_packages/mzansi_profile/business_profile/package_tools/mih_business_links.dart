@@ -9,7 +9,7 @@ import 'package:mzansi_innovation_hub/mih_providers/mzansi_directory_provider.da
 import 'package:mzansi_innovation_hub/mih_providers/mzansi_profile_provider.dart';
 import 'package:mzansi_innovation_hub/mih_services/mih_profile_links_service.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MihBusinessLinks extends StatefulWidget {
   final bool viewMode;
@@ -24,6 +24,18 @@ class MihBusinessLinks extends StatefulWidget {
 
 class _MihBusinessLinksState extends State<MihBusinessLinks> {
   late Future<List<ProfileLink>> _futureLinks;
+  final List<ProfileLink> _dummyLinks = List.generate(
+    6,
+    (index) => ProfileLink(
+      idprofile_links: index,
+      app_id: '',
+      business_id: '',
+      site_name: '',
+      custom_name: '',
+      destination: '',
+      order: index,
+    ),
+  );
 
   void manageProfileLinksWindow() {
     showDialog(
@@ -89,46 +101,91 @@ class _MihBusinessLinksState extends State<MihBusinessLinks> {
               ),
               const SizedBox(height: 15.0),
               if (widget.viewMode)
-                FutureBuilder(
+                FutureBuilder<List<ProfileLink>>(
                   future: _futureLinks,
                   builder: (context, asyncSnapshot) {
-                    if (asyncSnapshot.connectionState == ConnectionState.done &&
-                        asyncSnapshot.hasData) {
-                      return MihProfileLinks(
-                        links: asyncSnapshot.requireData,
+                    if (asyncSnapshot.connectionState != ConnectionState.done) {
+                      return Skeletonizer(
+                        enabled: true,
+                        enableSwitchAnimation: true,
+                        effect: ShimmerEffect(
+                          baseColor: MihColors.highlight(),
+                          highlightColor: MihColors.secondary(),
+                        ),
+                        child: MihProfileLinks(
+                          displayCustomName: true,
+                          links: _dummyLinks,
+                        ),
                       );
-                    } else {
-                      return Wrap(
-                        alignment: WrapAlignment.center,
-                        runAlignment: WrapAlignment.center,
-                        runSpacing: 10,
-                        spacing: 10,
+                    }
+
+                    if (asyncSnapshot.hasError) {
+                      return Column(
                         children: [
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
+                          Icon(
+                            Icons.link_off,
+                            size: 150,
+                            color: MihColors.secondary(),
                           ),
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
-                          ),
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
-                          ),
-                          Container(width: 70, height: 70).redacted(
-                            context: context,
-                            redact: true,
+                          const SizedBox(height: 10),
+                          Center(
+                            child: SizedBox(
+                              width: 700,
+                              child: Text(
+                                "Unable to get Link\nCheck internt connection",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                  color: MihColors.secondary(),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       );
                     }
+
+                    final links = asyncSnapshot.data ?? [];
+
+                    if (links.isEmpty) {
+                      return Column(
+                        children: [
+                          Icon(
+                            Icons.link_off,
+                            size: 150,
+                            color: MihColors.secondary(),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: SizedBox(
+                              width: 700,
+                              child: Text(
+                                "No Links Available",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                  color: MihColors.secondary(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+
+                    return MihProfileLinks(
+                      displayCustomName: true,
+                      links: links,
+                    );
                   },
                 ),
               if (!widget.viewMode)
                 Column(
                   children: [
                     MihProfileLinks(
+                      displayCustomName: true,
                       links: profileProvider.businessLinks,
                     ),
                     const SizedBox(height: 8.0),
