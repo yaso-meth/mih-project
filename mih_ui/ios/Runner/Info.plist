@@ -53,21 +53,21 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
+	<string>We use your camera to scan QR codes for store redemptions and to capture profile photos.</string>
 	<key>NSDownloadsFolderUsageDescription</key>
-	<string>This app needs to access your downloads folder to select files from there.</string>
+	<string>We need access in order to download a QR code sticker to users system</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Why is my app authenticating using face id?</string>
+	<string>We need access to face id in order for users to unlock secure mih packages</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to your location at all times to provide [Explain your specific, complete reason here, e.g., real-time tracking, background updates, etc.].</string>
+	<string>We need access to users location in order to show distances from businesses</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>We need access to users location in order to show distances from businesses</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to your microphone to enable voice input for the chat.</string>
+	<string>We need access to microphone to use speech to text in ai chat</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs to access your photo library to select images.</string>
+	<string>We need access to the gallery to select picture for profile pictures and AI chat.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app uses speech recognition to convert your voice messages into text.</string>
+	<string>We need access to use speech to text conversion.</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
