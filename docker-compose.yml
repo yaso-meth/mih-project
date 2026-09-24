@@ -33,7 +33,7 @@ services:
       - mih-network
   #============== FORGEJO ====================================================================
   mih-forgejo:
-    image: codeberg.org/forgejo/forgejo:11
+    image: codeberg.org/forgejo/forgejo:16
     container_name: mih-forgejo
     environment:
       - USER_UID=1000
