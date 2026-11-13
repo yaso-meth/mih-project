@@ -48,7 +48,7 @@ WP_SQL_USER_PW=*WP_SQL_USER_PW*
   <pre><code>sudo docker compose up -d --build</code></pre>
   <li>Check the status of the new MIH server using Portainer. <code>https://localhost:9443/</code> (Change Local Host to IP if necessary).</li>
   <ol>
-    <li>If all containers are running without errors, proceed to step 5<br>(<b>NOTE:</b> certbot container will stop after running successfully).</li>
+    <li>If all containers are running without errors, proceed to step 7<br></li>
     <li>If MIH-Minio did not start correctly, run <code>sudo chown 1001 File_Storage/</code> in the project directory, stop MIH Server (see details below), then start MIH Server again. <pre><code>sudo chown 1001 File_Storage</code></pre></li>
   </ol>
   <li>Set Up MIH-Minio config</li>
