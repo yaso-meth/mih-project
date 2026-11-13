@@ -1,5 +1,5 @@
-<h1>The MIH Project</h1>
-learn how to create your own flavour of the MIH Server.
+<h1>The MIH Stack</h1>
+Open source stack to build MIH apps
 <h2>Prerequisite:-</h2>
 <ol>
   <li>Ubuntu Server OS installed (24.04 tested)</li>
