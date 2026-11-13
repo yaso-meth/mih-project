@@ -55,7 +55,7 @@ WP_SQL_USER_PW=*WP_SQL_USER_PW*
   <ol>
     <li>Access MIH-Minio using <code>https://localhost:9001/login</code> (Change Localhost to IP if necessary).</li>
     <li>Add/ Generate access key to MIH-Minio.</li>
-    <li>Create a bucket called mih.</li>
+    <li>Create a bucket called mih-stack.</li>
     <li>Non-Prod: make the mih bucket public.</li>
     <li>Prod: keep the mih bucket private.</li>
   </ol>
